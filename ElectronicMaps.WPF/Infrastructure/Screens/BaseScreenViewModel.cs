@@ -1,5 +1,5 @@
-﻿using ElectronicMaps.Application.Common.Navigation;
-using ElectronicMaps.WPF.ViewModels;
+﻿using ElectronicMaps.WPF.ViewModels;
+using Navigation.Core.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +12,12 @@ namespace ElectronicMaps.WPF.Infrastructure.Screens
     /// Базовый класс для всех экранов.
     /// Shell будет держать CurrentScreen типа BaseScreenViewModel.
     /// </summary>
-    public abstract class BaseScreenViewModel : ViewModelBase
+    public abstract class BaseScreenViewModel : ViewModelBase, IScreen
     {
         public string Title { get; }
 
-        protected BaseScreenViewModel(string title)
+        protected BaseScreenViewModel()
         {
-            Title = title;
         }
 
         public virtual Task OnEnterAsync(object? parameter) => Task.CompletedTask;

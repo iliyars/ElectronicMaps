@@ -1,7 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronicMaps.Application.Common.Navigation;
-using ElectronicMaps.WPF.Infrastructure.Navigation;
 using ElectronicMaps.WPF.Infrastructure.Screens;
 using System;
 using System.Collections.Generic;

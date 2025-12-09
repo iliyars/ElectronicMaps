@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ElectronicMaps.WPF.Views
 {
     /// <summary>
-    /// Interaction logic for MainViewModel.xaml
+    /// Interaction logic for WorkspaceView.xaml
     /// </summary>
-    public partial class MainViewModel : UserControl
+    public partial class WorkspaceView : UserControl
     {
-        public MainViewModel()
+        public WorkspaceView()
         {
             InitializeComponent();
         }

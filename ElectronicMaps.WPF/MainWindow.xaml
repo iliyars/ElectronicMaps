@@ -34,6 +34,7 @@
                                              Margin="0,0,4,0" />
                     <TextBlock Text="Тёмная тема"
                                VerticalAlignment="Center" />
+                    
                 </StackPanel>
             </ToggleButton>
 
@@ -44,6 +45,10 @@
             <TextBlock Text="{Binding ProjectSummary}"
                        Margin="12,0,0,0"
                        VerticalAlignment="Center" />
+            <TextBlock Text="{Binding CurrentScreenText}"
+                       Margin="0,0,0,8"
+                       FontWeight="Bold"
+                       Foreground="Red" />
         </ToolBar>
 
 
@@ -79,7 +84,7 @@
 
             <!-- Content area: ContentControl показывает текущую страницу (ViewModel -> View mapping) -->
             <ContentControl Grid.Column="1"
-                            Content="{Binding CurrentScreen}" />
+                            Content="{Binding CurrentScreen, UpdateSourceTrigger=PropertyChanged}" />
 
             <!-- Right details (slide-in). Visibility bound to IsDetailsOpen -->
             <Border Grid.Column="2"

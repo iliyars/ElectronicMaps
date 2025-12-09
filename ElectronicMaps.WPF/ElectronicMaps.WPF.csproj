@@ -30,6 +30,7 @@
     <ProjectReference Include="..\ElectronicMaps.Application\ElectronicMaps.Application.csproj" />
     <ProjectReference Include="..\ElectronicMaps.Domain\ElectronicMaps.Domain.csproj" />
     <ProjectReference Include="..\ElectronicMaps.Infrastructure\ElectronicMaps.Infrastructure.csproj" />
+    <ProjectReference Include="..\Navigation.Core\Navigation.Core.csproj" />
 
   </ItemGroup>
 

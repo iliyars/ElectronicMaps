@@ -1,17 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using ElectronicMaps.Application.Common.Navigation;
 using ElectronicMaps.Application.DTO;
 using ElectronicMaps.Application.Services;
 using ElectronicMaps.Application.Stores;
 using ElectronicMaps.Domain.DTO;
+using ElectronicMaps.WPF.Features.Welcome;
 using ElectronicMaps.WPF.Infrastructure.Commands;
-using ElectronicMaps.WPF.Infrastructure.Navigation;
 using ElectronicMaps.WPF.Infrastructure.Screens;
 using ElectronicMaps.WPF.Services.Dialogs;
 using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
+using Navigation.Core.Abstractions;
+using Navigation.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,14 +30,9 @@ namespace ElectronicMaps.WPF.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigation;
         private readonly IAppCommands _commands;
-        private INavigationService _navigationService;
-        private BaseScreenViewModel? _currentScreen;
-        public BaseScreenViewModel? CurrentScreen
-        {
-            get => _currentScreen;
-            private set => SetProperty(ref _currentScreen, value);
-        }
+        
         private bool _disposed = false;
 
         private bool _isDarkTheme;
@@ -51,18 +47,29 @@ namespace ElectronicMaps.WPF.ViewModels
                 }
             }
         }
+        public BaseScreenViewModel? CurrentScreen =>
+        _navigation.CurrentScreen as BaseScreenViewModel;
+
+        public bool CanGoBack => _navigation.CanGoBack;
+        public bool CanGoForward => _navigation.CanGoForward;
 
         public IAsyncRelayCommand OpenXmlCommand => _commands.Xml.OpenXml;
         public ICommand GoBackCommand { get; }
         public ICommand GoForwardCommand { get; }
-
+        private string _currentScreenText;
+        public string CurrentScreenText
+        {
+            get => _currentScreenText;
+            set
+            {
+                SetProperty(ref _currentScreenText, value);
+            }
+        }
         public MainViewModel( INavigationService navigationService, IAppCommands appCommands)
         {
-            _navigationService = navigationService;
+            _navigation = navigationService;
             _commands = appCommands;
-            _navigationService.CurrentScreenChanged += OnCurrentScreenChanged;
-
-            CurrentScreen = _navigationService.CurrentScreen;
+            _navigation.CurrentScreenChanged += OnCurrentScreenChanged;
 
             InitThemeFromResources();
         }
@@ -132,7 +139,9 @@ namespace ElectronicMaps.WPF.ViewModels
 
         private void OnCurrentScreenChanged(object? sender, NavigationChangedEventArgs e)
         {
-            CurrentScreen = e.NewScreen;
+
+            System.Diagnostics.Debug.WriteLine(
+        $"[NavigateInternalAsync] Thread: {Environment.CurrentManagedThreadId}");
 
             // если используешь AsyncRelayCommand из MVVM Toolkit —
             // можно дернуть NotifyCanExecuteChanged для Back/Forward
@@ -141,6 +150,11 @@ namespace ElectronicMaps.WPF.ViewModels
 
             if (GoForwardCommand is IRelayCommand forwardRelay)
                 forwardRelay.NotifyCanExecuteChanged();
+            OnPropertyChanged(nameof(CurrentScreen));
+            CurrentScreenText = CurrentScreen.GetType().ToString();
+            OnPropertyChanged(nameof(CanGoBack));
+            OnPropertyChanged(nameof(CanGoForward));
+            OnPropertyChanged(nameof(CurrentScreenText));
         }
 
         public ObservableCollection<string> NavigationItems { get; } = new()
@@ -176,7 +190,7 @@ namespace ElectronicMaps.WPF.ViewModels
         {
             if(CurrentScreen is null)
             {
-                await _navigationService.NavigateAsync(ScreenKeys.Welcome);
+                await _navigation.NavigateAsync<WelcomeViewModel>();
             }
         }
     }

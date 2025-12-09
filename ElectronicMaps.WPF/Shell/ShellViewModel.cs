@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using ElectronicMaps.Application.Common.Navigation;
-using ElectronicMaps.WPF.Infrastructure.Navigation;
 using ElectronicMaps.WPF.Infrastructure.Screens;
 using ElectronicMaps.WPF.ViewModels;
+using Navigation.Core.Abstractions;
+using Navigation.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,22 +65,7 @@ namespace ElectronicMaps.WPF.Shell
             //_undoRedoService = undoRedoService;
             //_capabilities = capabilities;
 
-            // Подписываемся на смену экрана
-            _navigationService.CurrentScreenChanged += OnCurrentScreenChanged;
-
-            // Инициализируем текущие значения
-            CurrentScreen = _navigationService.CurrentScreen;
-            UpdateWindowTitle(_navigationService.CurrentDescriptor);
-
-            // Команды навигации
-            NavigateToComponentsCommand = new AsyncRelayCommand(
-                () => _navigationService.NavigateAsync(ScreenKeys.ComponentsWorkspace),
-                () => _navigationService.CanNavigate(ScreenKeys.ComponentsWorkspace));
-
-            NavigateToFormsCommand = new AsyncRelayCommand(
-                () => _navigationService.NavigateAsync(ScreenKeys.FormsWorkspace),
-                () => _navigationService.CanNavigate(ScreenKeys.FormsWorkspace));
-
+           
             GoBackCommand = new AsyncRelayCommand(
                 () => _navigationService.GoBackAsync(),
                 () => _navigationService.CanGoBack);
@@ -96,24 +81,12 @@ namespace ElectronicMaps.WPF.Shell
 
         private void OnCurrentScreenChanged(object? sender, NavigationChangedEventArgs e)
         {
-            CurrentScreen = e.NewScreen;
-            UpdateWindowTitle(e.NewDescriptor);
+
 
 
         }
 
-        private void UpdateWindowTitle(WpfScreenDescriptor? descriptor)
-        {
-            if (descriptor is null)
-            {
-                WindowTitle = "ElectronicMaps";
-            }
-            else
-            {
-                WindowTitle = $"ElectronicMaps — {descriptor.Title}";
-            }
-        }
-
+       
         /// <summary>
         /// Вызывается при старте приложения, чтобы открыть экран по умолчанию.
         /// Можно звать из App.xaml.cs.
@@ -123,7 +96,6 @@ namespace ElectronicMaps.WPF.Shell
             // Например, перейти на экран компонентов, если ничего не выбрано.
             if (CurrentScreen is null)
             {
-                await _navigationService.NavigateAsync(ScreenKeys.ComponentsWorkspace);
             }
         }
     }

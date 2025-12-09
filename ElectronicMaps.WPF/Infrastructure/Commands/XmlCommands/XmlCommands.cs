@@ -1,12 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using ElectronicMaps.Application.Common.Navigation;
 using ElectronicMaps.Application.Project;
 using ElectronicMaps.Application.Services;
 using ElectronicMaps.Application.Stores;
-using ElectronicMaps.WPF.Infrastructure.Navigation;
 using ElectronicMaps.WPF.Services.Dialogs;
 using ElectronicMaps.WPF.Services.Project;
+using ElectronicMaps.WPF.ViewModels;
+using ElectronicMaps.WPF.ViewModels.Components;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Navigation.Core.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,33 +37,31 @@ namespace ElectronicMaps.WPF.Infrastructure.Commands.XmlCommands
             OpenXml = new AsyncRelayCommand(OpenXmlAsync);
         }
 
-
-
-
         public async Task OpenXmlAsync()
         {
             try
             {
-                // 1. проверка на несохранённые данные
-                if (HasUnsavedChanges() && !await HandleUnsavedChangesAsync())
-                    return;
+                //// 1. проверка на несохранённые данные
+                //if (HasUnsavedChanges() && !await HandleUnsavedChangesAsync())
+                //    return;
 
-                // 2. диалог выбора файла
-                var filePath = _dialogService.ShowOpenFileDialog(
-                    "XML files (*.xml)|*.xml|AVS XML files (*.PE.XML)|*.PE.XML|All files (*.*)|*.*",
-                    "Открыть файл компонентов");
+                //// 2. диалог выбора файла
+                //var filePath = _dialogService.ShowOpenFileDialog(
+                //    "XML files (*.xml)|*.xml|AVS XML files (*.PE.XML)|*.PE.XML|All files (*.*)|*.*",
+                //    "Открыть файл компонентов");
 
-                // пользователь нажал Cancel → выходим
-                if (string.IsNullOrWhiteSpace(filePath))
-                    return;
+                //// пользователь нажал Cancel → выходим
+                //if (string.IsNullOrWhiteSpace(filePath))
+                //    return;
 
                 // 3. чтение файла
-                await using var stream = File.OpenRead(filePath);
+               // await using var stream = File.OpenRead(filePath);
 
                 // 4. обработка XML
-                await ProcessXmlFileAsync(stream);
+            //    await ProcessXmlFileAsync(stream);
 
-                await _navigationService.NavigateAsync(ScreenKeys.ComponentsWorkspace);
+                await _navigationService.NavigateAsync<WorkspaceViewModel>();
+
             }
             catch (Exception ex)
             {

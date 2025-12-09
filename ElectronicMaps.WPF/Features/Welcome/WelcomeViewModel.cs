@@ -1,9 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using ElectronicMaps.Application.Common.Navigation;
 using ElectronicMaps.Application.Stores;
 using ElectronicMaps.WPF.Infrastructure.Commands;
-using ElectronicMaps.WPF.Infrastructure.Navigation;
 using ElectronicMaps.WPF.Infrastructure.Screens;
+using Navigation.Core.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,18 +12,13 @@ using System.Windows.Input;
 
 namespace ElectronicMaps.WPF.Features.Welcome
 {
-    [Screen(ScreenKeys.Welcome, "Добро пожаловать", isDefault: true, iconKey: "Icon.Welcome")]
     public class WelcomeViewModel : BaseScreenViewModel
     {
-        private readonly INavigationService _navigationService;
-        //private readonly IComponentImportService _importService;
         private readonly IComponentStore _componentStore;
         private readonly IAppCommands _commands;
 
-        public WelcomeViewModel(INavigationService navigationService, IComponentStore componentStore, IAppCommands commands) : base("descriptor")
+        public WelcomeViewModel(IAppCommands commands)
         {
-            _navigationService = navigationService;
-            _componentStore = componentStore;
             _commands = commands;
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicMaps.WPF.Infrastructure.Screens;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,7 @@ using System.Threading.Tasks;
 
 namespace ElectronicMaps.WPF.ViewModels
 {
-    public abstract class PageViewModelBase : ViewModelBase
+    public class TestViewModel : BaseScreenViewModel
     {
-        public virtual string Title => string.Empty;
-
     }
 }
