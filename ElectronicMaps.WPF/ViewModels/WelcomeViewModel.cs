@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace ElectronicMaps.WPF.Features.Welcome
+namespace ElectronicMaps.WPF.ViewModels
 {
     public class WelcomeViewModel : BaseScreenViewModel
     {

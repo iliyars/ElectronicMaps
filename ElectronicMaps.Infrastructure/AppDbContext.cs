@@ -37,7 +37,7 @@ namespace ElectronicMaps.Infrastructure
             ConfigureParameterDefinition(modelBuilder);
             ConfigureParameterValue(modelBuilder);
 
-            SeedInitialForms(modelBuilder); // сюда добавим три формы (Resistor, Chip, 64)
+            SeedInitialForms(modelBuilder); 
         }
 
         private void ConfigureAppUser(ModelBuilder modelBuilder)
@@ -175,20 +175,28 @@ namespace ElectronicMaps.Infrastructure
 
         private static void SeedInitialForms(ModelBuilder modelBuilder)
         {
-            const int formResistorId = 1;
-            const int formChipId = 2;
-            const int form64Id = 3;
+            const int formResistorId = 68;
+            const int formFamilyId = 4;
 
             modelBuilder.Entity<FormType>().HasData(
-                new FormType { Id = formResistorId, Code = "FORM_RESISTOR", DisplayName = "Форма резистора", Scope = FormScope.Component },
-                new FormType { Id = formChipId, Code = "FORM_CHIP", DisplayName = "Форма микросхемы", Scope = FormScope.Component },
-                new FormType { Id = form64Id, Code = "FORM_64", DisplayName = "Форма 64", Scope = FormScope.Component }
+                new FormType
+                {
+                    Id = formResistorId,
+                    Code = "FORM_68",
+                    DisplayName = "Форма 68",
+                },
+                new FormType
+                {
+                    Id = formFamilyId,
+                    Code = "FORM_4",
+                    DisplayName = "Форма 4",
+                }
             );
 
             var defs = new List<ParameterDefinition>();
             var id = 1;
 
-            // ========= ФОРМА РЕЗИСТОРА =========
+            // ========= FORM_68 — КОНКРЕТНЫЙ РЕЗИСТОР =========
             defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "DcVoltage", DisplayName = "Постоянное напряжение", Unit = "В", ValueKind = ParameterValueKind.Double, Order = 1 });
             defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "AcVoltage", DisplayName = "Переменное напряжение", Unit = "В", ValueKind = ParameterValueKind.Double, Order = 2 });
             defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "ImpulseVoltage", DisplayName = "Импульсное напряжение", Unit = "В", ValueKind = ParameterValueKind.Double, Order = 3 });
@@ -197,7 +205,7 @@ namespace ElectronicMaps.Infrastructure
             defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "ImpulseDuration", DisplayName = "Длительность импульса", Unit = null, ValueKind = ParameterValueKind.Double, Order = 6 });
             defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "ImpulsePower", DisplayName = "Импульсная мощность", Unit = null, ValueKind = ParameterValueKind.Double, Order = 7 });
             defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "MeanPower", DisplayName = "Средняя мощность", Unit = null, ValueKind = ParameterValueKind.Double, Order = 8 });
-            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "LoadKoeffImpulse", DisplayName = "Коэффициент нагрузки (импульс)", Unit = null, ValueKind = ParameterValueKind.Double, Order = 9 });
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "LoadKoeffImpulse", DisplayName = "Коэффициент нагрузки (импульсный режим)", Unit = null, ValueKind = ParameterValueKind.Double, Order = 9 });
             defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "CurrentMovingContact", DisplayName = "Ток через подвижный контакт", Unit = "А", ValueKind = ParameterValueKind.Double, Order = 10 });
             defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "AmbientTemperature", DisplayName = "Температура окружающей среды", Unit = "°C", ValueKind = ParameterValueKind.Int, Order = 11 });
             defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "SuperHeatTemperature", DisplayName = "Температура перегрева", Unit = "°C", ValueKind = ParameterValueKind.Double, Order = 12 });
@@ -205,80 +213,131 @@ namespace ElectronicMaps.Infrastructure
             defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "AmbientTemperatureCase", DisplayName = "Температура корпуса", Unit = "°C", ValueKind = ParameterValueKind.Int, Order = 14 });
             defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "LoadKoeff", DisplayName = "Коэффициент нагрузки", Unit = null, ValueKind = ParameterValueKind.String, Order = 15 });
 
-            // ========= ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ ДЛЯ WithPins =========
-            void AddWithPinsParam(int formId, string code, string displayName, string? unit, int order)
-            {
-                defs.Add(new ParameterDefinition
-                {
-                    Id = id++,
-                    FormTypeId = formId,
-                    Code = code,
-                    DisplayName = displayName,
-                    Unit = unit,
-                    ValueKind = ParameterValueKind.WithPins,
-                    Order = order
-                });
-            }
-
-            // ========= ФОРМА CHIP =========
-            AddWithPinsParam(formChipId, "SupplayVoltage", "Напряжение питания", "В", 1);
-            AddWithPinsParam(formChipId, "SupplyOrder", "Порядок подачи напряжения питания", null, 2);
-            AddWithPinsParam(formChipId, "LowLevelVolatge", "Напряжение низкого уровня", "В", 3);
-            AddWithPinsParam(formChipId, "HighLevelVolatge", "Напряжение высокого уровня", "В", 4);
-            AddWithPinsParam(formChipId, "ImpulseDuration", "Длительность импульса", "нс", 5);
-            AddWithPinsParam(formChipId, "TurnOnTrasnsition", "Время перехода при включении", "нс", 6);
-            AddWithPinsParam(formChipId, "TurnOffTransition", "Время перехода при выключении", "нс", 7);
-            AddWithPinsParam(formChipId, "Frequency", "Частота", "МГц", 8);
-            AddWithPinsParam(formChipId, "Timet1", "Время t1", "нс", 9);
-            AddWithPinsParam(formChipId, "Timet2", "Время t2", "нс", 10);
-            AddWithPinsParam(formChipId, "OutCurrentLowLevel", "Выходной ток низкого уровня", "мА", 11);
-            AddWithPinsParam(formChipId, "OutCurrentHighLevel", "Выходной ток высокого уровня", "мА", 12);
-            AddWithPinsParam(formChipId, "CapacityLoad", "Ёмкость нагрузки", "пФ", 13);
-            AddWithPinsParam(formChipId, "PowerDissipation", "Мощность рассеивания", "мВт", 14);
-            AddWithPinsParam(formChipId, "PosName", "Позиционное обозначение и номера выводов", null, 15);
-
-            defs.Add(new ParameterDefinition
-            {
-                Id = id++,
-                FormTypeId = formChipId,
-                Code = "AmbientTemperatureCase",
-                DisplayName = "Температура корпуса",
-                Unit = "°C",
-                ValueKind = ParameterValueKind.Int,
-                Order = 16
-            });
-
-            defs.Add(new ParameterDefinition
-            {
-                Id = id++,
-                FormTypeId = formChipId,
-                Code = "LoadKoeff",
-                DisplayName = "Коэффициент нагрузки",
-                Unit = null,
-                ValueKind = ParameterValueKind.String,
-                Order = 17
-            });
-
-            // ========= ФОРМА 64 (все параметры WithPins) =========
-            AddWithPinsParam(form64Id, "SupplayVoltage", "Напряжение питания", "В", 1);
-            AddWithPinsParam(form64Id, "SupplyOrder", "Порядок подачи напряжения питания", null, 2);
-            AddWithPinsParam(form64Id, "LowLevelVolatge", "Напряжение низкого уровня", "В", 3);
-            AddWithPinsParam(form64Id, "HighLevelVolatge", "Напряжение высокого уровня", "В", 4);
-            AddWithPinsParam(form64Id, "ImpulseDuration", "Длительность импульса", "нс", 5);
-            AddWithPinsParam(form64Id, "TurnOnTrasnsition", "Время перехода при включении", "нс", 6);
-            AddWithPinsParam(form64Id, "TurnOffTransition", "Время перехода при выключении", "нс", 7);
-            AddWithPinsParam(form64Id, "Frequency", "Частота", "МГц", 8);
-            AddWithPinsParam(form64Id, "Timet1", "Время t1", "нс", 9);
-            AddWithPinsParam(form64Id, "Timet2", "Время t2", "нс", 10);
-            AddWithPinsParam(form64Id, "OutCurrentLowLevel", "Выходной ток низкого уровня", "мА", 11);
-            AddWithPinsParam(form64Id, "OutCurrentHighLevel", "Выходной ток высокого уровня", "мА", 12);
-            AddWithPinsParam(form64Id, "CapacityLoad", "Ёмкость нагрузки", "пФ", 13);
-            AddWithPinsParam(form64Id, "PowerDissipation", "Мощность рассеивания", "мВт", 14);
-            AddWithPinsParam(form64Id, "AmbientTemperatureCase", "Температура корпуса", "°C", 15);
-            AddWithPinsParam(form64Id, "PosName", "Позиционное обозначение и номера выводов", null, 16);
-            AddWithPinsParam(form64Id, "LoadKoeff", "Коэффициент нагрузки", null, 17);
+            // ========= FORM_4 — ОБЩИЕ ПАРАМЕТРЫ СЕМЕЙСТВА =========
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formFamilyId, Code = "InListTTZ", DisplayName = "Наличие в перечнях при утверждении ТТЗ", Unit = null, ValueKind = ParameterValueKind.String, Order = 1 });
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formFamilyId, Code = "LastEditions", DisplayName = "Наличие в перечнях последних редакций", Unit = null, ValueKind = ParameterValueKind.String, Order = 2 });
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formFamilyId, Code = "ResourceHours", DisplayName = "Показатель ресурса, ч", Unit = "ч", ValueKind = ParameterValueKind.String, Order = 3 });
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formFamilyId, Code = "LifeTimeYears", DisplayName = "Показатель срока службы, лет", Unit = "лет", ValueKind = ParameterValueKind.String, Order = 4 });
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formFamilyId, Code = "PreservationYears", DisplayName = "Показатель сохраняемости, лет", Unit = "лет", ValueKind = ParameterValueKind.String, Order = 5 });
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formFamilyId, Code = "FrequencyRange", DisplayName = "Диапазон частот, Гц", Unit = "Гц", ValueKind = ParameterValueKind.String, Order = 6 });
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formFamilyId, Code = "SoundPressure", DisplayName = "Уровень звукового давления, дБ", Unit = "дБ", ValueKind = ParameterValueKind.String, Order = 7 });
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formFamilyId, Code = "LineAcceleration", DisplayName = "Линейное ускорение, м·с⁻² (G)", Unit = null, ValueKind = ParameterValueKind.String, Order = 8 });
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formFamilyId, Code = "LowPressure", DisplayName = "Давление окр. среды пониженное", Unit = null, ValueKind = ParameterValueKind.String, Order = 9 });
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formFamilyId, Code = "HighPressure", DisplayName = "Давление окр. среды повышенное", Unit = null, ValueKind = ParameterValueKind.String, Order = 10 });
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formFamilyId, Code = "LowTemperature", DisplayName = "Предельная температура пониженная, °C", Unit = "°C", ValueKind = ParameterValueKind.String, Order = 11 });
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formFamilyId, Code = "HighTemperature", DisplayName = "Предельная температура повышенная, °C", Unit = "°C", ValueKind = ParameterValueKind.String, Order = 12 });
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formFamilyId, Code = "HumidityPercent", DisplayName = "Относительная влажность, %", Unit = "%", ValueKind = ParameterValueKind.String, Order = 13 });
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formFamilyId, Code = "HumidityCelcius", DisplayName = "Температура при заданной влажности, °C", Unit = "°C", ValueKind = ParameterValueKind.String, Order = 14 });
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formFamilyId, Code = "Dew", DisplayName = "Роса, иней", Unit = null, ValueKind = ParameterValueKind.String, Order = 15 });
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formFamilyId, Code = "SpecialFactors", DisplayName = "Стойкость к ВССФ", Unit = null, ValueKind = ParameterValueKind.String, Order = 16 });
+            defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formFamilyId, Code = "Note", DisplayName = "Примечание", Unit = null, ValueKind = ParameterValueKind.String, Order = 17 });
 
             modelBuilder.Entity<ParameterDefinition>().HasData(defs);
+
+            //const int formResistorId = 1;
+            //const int formChipId = 2;
+            //const int form64Id = 3;
+
+            //modelBuilder.Entity<FormType>().HasData(
+            //    new FormType { Id = formResistorId, Code = "FORM_RESISTOR", DisplayName = "Форма резистора", Scope = FormScope.Component },
+            //    new FormType { Id = formChipId, Code = "FORM_CHIP", DisplayName = "Форма микросхемы", Scope = FormScope.Component },
+            //    new FormType { Id = form64Id, Code = "FORM_64", DisplayName = "Форма 64", Scope = FormScope.Component }
+            //);
+
+            //var defs = new List<ParameterDefinition>();
+            //var id = 1;
+
+            //// ========= ФОРМА РЕЗИСТОРА =========
+            //defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "DcVoltage", DisplayName = "Постоянное напряжение", Unit = "В", ValueKind = ParameterValueKind.Double, Order = 1 });
+            //defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "AcVoltage", DisplayName = "Переменное напряжение", Unit = "В", ValueKind = ParameterValueKind.Double, Order = 2 });
+            //defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "ImpulseVoltage", DisplayName = "Импульсное напряжение", Unit = "В", ValueKind = ParameterValueKind.Double, Order = 3 });
+            //defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "SumVoltage", DisplayName = "Суммарное напряжение", Unit = "В", ValueKind = ParameterValueKind.Double, Order = 4 });
+            //defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "Frequancy", DisplayName = "Частота", Unit = "Гц", ValueKind = ParameterValueKind.Int, Order = 5 });
+            //defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "ImpulseDuration", DisplayName = "Длительность импульса", Unit = null, ValueKind = ParameterValueKind.Double, Order = 6 });
+            //defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "ImpulsePower", DisplayName = "Импульсная мощность", Unit = null, ValueKind = ParameterValueKind.Double, Order = 7 });
+            //defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "MeanPower", DisplayName = "Средняя мощность", Unit = null, ValueKind = ParameterValueKind.Double, Order = 8 });
+            //defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "LoadKoeffImpulse", DisplayName = "Коэффициент нагрузки (импульс)", Unit = null, ValueKind = ParameterValueKind.Double, Order = 9 });
+            //defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "CurrentMovingContact", DisplayName = "Ток через подвижный контакт", Unit = "А", ValueKind = ParameterValueKind.Double, Order = 10 });
+            //defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "AmbientTemperature", DisplayName = "Температура окружающей среды", Unit = "°C", ValueKind = ParameterValueKind.Int, Order = 11 });
+            //defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "SuperHeatTemperature", DisplayName = "Температура перегрева", Unit = "°C", ValueKind = ParameterValueKind.Double, Order = 12 });
+            //defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "SumPower", DisplayName = "Суммарная мощность", Unit = null, ValueKind = ParameterValueKind.Double, Order = 13 });
+            //defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "AmbientTemperatureCase", DisplayName = "Температура корпуса", Unit = "°C", ValueKind = ParameterValueKind.Int, Order = 14 });
+            //defs.Add(new ParameterDefinition { Id = id++, FormTypeId = formResistorId, Code = "LoadKoeff", DisplayName = "Коэффициент нагрузки", Unit = null, ValueKind = ParameterValueKind.String, Order = 15 });
+
+            //// ========= ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ ДЛЯ WithPins =========
+            //void AddWithPinsParam(int formId, string code, string displayName, string? unit, int order)
+            //{
+            //    defs.Add(new ParameterDefinition
+            //    {
+            //        Id = id++,
+            //        FormTypeId = formId,
+            //        Code = code,
+            //        DisplayName = displayName,
+            //        Unit = unit,
+            //        ValueKind = ParameterValueKind.WithPins,
+            //        Order = order
+            //    });
+            //}
+
+            //// ========= ФОРМА CHIP =========
+            //AddWithPinsParam(formChipId, "SupplayVoltage", "Напряжение питания", "В", 1);
+            //AddWithPinsParam(formChipId, "SupplyOrder", "Порядок подачи напряжения питания", null, 2);
+            //AddWithPinsParam(formChipId, "LowLevelVolatge", "Напряжение низкого уровня", "В", 3);
+            //AddWithPinsParam(formChipId, "HighLevelVolatge", "Напряжение высокого уровня", "В", 4);
+            //AddWithPinsParam(formChipId, "ImpulseDuration", "Длительность импульса", "нс", 5);
+            //AddWithPinsParam(formChipId, "TurnOnTrasnsition", "Время перехода при включении", "нс", 6);
+            //AddWithPinsParam(formChipId, "TurnOffTransition", "Время перехода при выключении", "нс", 7);
+            //AddWithPinsParam(formChipId, "Frequency", "Частота", "МГц", 8);
+            //AddWithPinsParam(formChipId, "Timet1", "Время t1", "нс", 9);
+            //AddWithPinsParam(formChipId, "Timet2", "Время t2", "нс", 10);
+            //AddWithPinsParam(formChipId, "OutCurrentLowLevel", "Выходной ток низкого уровня", "мА", 11);
+            //AddWithPinsParam(formChipId, "OutCurrentHighLevel", "Выходной ток высокого уровня", "мА", 12);
+            //AddWithPinsParam(formChipId, "CapacityLoad", "Ёмкость нагрузки", "пФ", 13);
+            //AddWithPinsParam(formChipId, "PowerDissipation", "Мощность рассеивания", "мВт", 14);
+            //AddWithPinsParam(formChipId, "PosName", "Позиционное обозначение и номера выводов", null, 15);
+
+            //defs.Add(new ParameterDefinition
+            //{
+            //    Id = id++,
+            //    FormTypeId = formChipId,
+            //    Code = "AmbientTemperatureCase",
+            //    DisplayName = "Температура корпуса",
+            //    Unit = "°C",
+            //    ValueKind = ParameterValueKind.Int,
+            //    Order = 16
+            //});
+
+            //defs.Add(new ParameterDefinition
+            //{
+            //    Id = id++,
+            //    FormTypeId = formChipId,
+            //    Code = "LoadKoeff",
+            //    DisplayName = "Коэффициент нагрузки",
+            //    Unit = null,
+            //    ValueKind = ParameterValueKind.String,
+            //    Order = 17
+            //});
+
+            //// ========= ФОРМА 64 (все параметры WithPins) =========
+            //AddWithPinsParam(form64Id, "SupplayVoltage", "Напряжение питания", "В", 1);
+            //AddWithPinsParam(form64Id, "SupplyOrder", "Порядок подачи напряжения питания", null, 2);
+            //AddWithPinsParam(form64Id, "LowLevelVolatge", "Напряжение низкого уровня", "В", 3);
+            //AddWithPinsParam(form64Id, "HighLevelVolatge", "Напряжение высокого уровня", "В", 4);
+            //AddWithPinsParam(form64Id, "ImpulseDuration", "Длительность импульса", "нс", 5);
+            //AddWithPinsParam(form64Id, "TurnOnTrasnsition", "Время перехода при включении", "нс", 6);
+            //AddWithPinsParam(form64Id, "TurnOffTransition", "Время перехода при выключении", "нс", 7);
+            //AddWithPinsParam(form64Id, "Frequency", "Частота", "МГц", 8);
+            //AddWithPinsParam(form64Id, "Timet1", "Время t1", "нс", 9);
+            //AddWithPinsParam(form64Id, "Timet2", "Время t2", "нс", 10);
+            //AddWithPinsParam(form64Id, "OutCurrentLowLevel", "Выходной ток низкого уровня", "мА", 11);
+            //AddWithPinsParam(form64Id, "OutCurrentHighLevel", "Выходной ток высокого уровня", "мА", 12);
+            //AddWithPinsParam(form64Id, "CapacityLoad", "Ёмкость нагрузки", "пФ", 13);
+            //AddWithPinsParam(form64Id, "PowerDissipation", "Мощность рассеивания", "мВт", 14);
+            //AddWithPinsParam(form64Id, "AmbientTemperatureCase", "Температура корпуса", "°C", 15);
+            //AddWithPinsParam(form64Id, "PosName", "Позиционное обозначение и номера выводов", null, 16);
+            //AddWithPinsParam(form64Id, "LoadKoeff", "Коэффициент нагрузки", null, 17);
+
+            //modelBuilder.Entity<ParameterDefinition>().HasData(defs);
         }
 
 

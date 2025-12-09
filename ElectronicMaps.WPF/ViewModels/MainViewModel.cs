@@ -5,7 +5,6 @@ using ElectronicMaps.Application.DTO;
 using ElectronicMaps.Application.Services;
 using ElectronicMaps.Application.Stores;
 using ElectronicMaps.Domain.DTO;
-using ElectronicMaps.WPF.Features.Welcome;
 using ElectronicMaps.WPF.Infrastructure.Commands;
 using ElectronicMaps.WPF.Infrastructure.Screens;
 using ElectronicMaps.WPF.Services.Dialogs;
@@ -28,7 +27,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace ElectronicMaps.WPF.ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : ObservableObject
     {
         private readonly INavigationService _navigation;
         private readonly IAppCommands _commands;
@@ -70,7 +69,8 @@ namespace ElectronicMaps.WPF.ViewModels
             _navigation = navigationService;
             _commands = appCommands;
             _navigation.CurrentScreenChanged += OnCurrentScreenChanged;
-
+            System.Diagnostics.Debug.WriteLine(
+        $"MainViewModel created: {GetHashCode()}");
             InitThemeFromResources();
         }
         private void InitThemeFromResources()
@@ -157,22 +157,7 @@ namespace ElectronicMaps.WPF.ViewModels
             OnPropertyChanged(nameof(CurrentScreenText));
         }
 
-        public ObservableCollection<string> NavigationItems { get; } = new()
-        {
-            "Project", "Components", "Forms", "Merge", "Settings"
-        };
-        
-        private string _selectedNavigationItem;
-        public string SelectedNavigationItem
-        {
-            get => _selectedNavigationItem;
-            set
-            {
-                if (SetProperty(ref _selectedNavigationItem, value))
-                    return;
-                //OnNavigateChanged(value);
-            }
-        }
+       
 
         private bool _isDetailsOpen;
         public bool IsDetailsOpen

@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:ElectronicMaps.WPF"
-             xmlns:welc="clr-namespace:ElectronicMaps.WPF.Features.Welcome"
-             xmlns:comp="clr-namespace:ElectronicMaps.WPF.ViewModels.Components"
              xmlns:views="clr-namespace:ElectronicMaps.WPF.Views"
              xmlns:vm="clr-namespace:ElectronicMaps.WPF.ViewModels"
              xmlns:converters="clr-namespace:ElectronicMaps.WPF.Helpers.Converters">
@@ -19,14 +17,13 @@
                 <ResourceDictionary Source="Resources/ThemeResources.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
-
-            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <converters:ItemIndexConverter x:Key="ItemIndexConverter" />
 
             <!-- Welcome screen -->
-            <DataTemplate DataType="{x:Type welc:WelcomeViewModel}">
-                <welc:WelcomeView />
+            <DataTemplate DataType="{x:Type vm:WelcomeViewModel}">
+                <views:WelcomeView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type comp:WorkspaceViewModel}">
+            <DataTemplate DataType="{x:Type vm:WorkspaceViewModel}">
                 <views:WorkspaceView />
             </DataTemplate>
 

@@ -84,17 +84,8 @@
 
             <!-- Content area: ContentControl показывает текущую страницу (ViewModel -> View mapping) -->
             <ContentControl Grid.Column="1"
-                            Content="{Binding CurrentScreen, UpdateSourceTrigger=PropertyChanged}" />
+                            Content="{Binding CurrentScreen}" />
 
-            <!-- Right details (slide-in). Visibility bound to IsDetailsOpen -->
-            <Border Grid.Column="2"
-                    Background="WhiteSmoke"
-                    BorderBrush="#DDD"
-                    BorderThickness="1"
-                    Padding="8"
-                    Visibility="{Binding IsDetailsOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <ContentControl Content="{Binding DetailViewModel}" />
-            </Border>
         </Grid>
         
         <!-- Status bar -->

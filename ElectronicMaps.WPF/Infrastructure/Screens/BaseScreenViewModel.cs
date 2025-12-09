@@ -1,4 +1,5 @@
-﻿using ElectronicMaps.WPF.ViewModels;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using ElectronicMaps.WPF.ViewModels;
 using Navigation.Core.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace ElectronicMaps.WPF.Infrastructure.Screens
     /// Базовый класс для всех экранов.
     /// Shell будет держать CurrentScreen типа BaseScreenViewModel.
     /// </summary>
-    public abstract class BaseScreenViewModel : ViewModelBase, IScreen
+    public abstract class BaseScreenViewModel : ObservableObject, IScreen
     {
         public string Title { get; }
 

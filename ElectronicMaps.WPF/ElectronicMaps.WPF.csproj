@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Folder Include="Assets\" />
+    <Folder Include="Features\Welcome\" />
     <Folder Include="Styles\" />
   </ItemGroup>
 
