@@ -11,11 +11,7 @@ namespace ElectronicMaps.Domain.Entities
     public class ComponentFamily : DomainObject
     {
         public string Name { get; set; }
-
-        public ComponentKind Kind {get;set;}
-        
-        public string? FamilyFormCode { get; set; }
-
+        public string? FamilyFormCode { get; set; } 
         public ICollection<Component> Components { get; set; } = new List<Component>();
         public ICollection<ParameterValue> ParameterValues { get;set; } = new List<ParameterValue>();
 

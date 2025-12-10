@@ -28,8 +28,4 @@
     <ProjectReference Include="..\ElectronicMaps.Domain\ElectronicMaps.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

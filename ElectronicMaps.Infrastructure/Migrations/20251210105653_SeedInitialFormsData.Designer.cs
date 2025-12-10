@@ -11,14 +11,44 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElectronicMaps.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251124201737_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251210105653_SeedInitialFormsData")]
+    partial class SeedInitialFormsData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.22");
+
+            modelBuilder.Entity("ElectronicMaps.Domain.Entities.AppUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("WindowsIdentity")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WindowsIdentity")
+                        .IsUnique();
+
+                    b.ToTable("Users", (string)null);
+                });
 
             modelBuilder.Entity("ElectronicMaps.Domain.Entities.Component", b =>
                 {
@@ -110,24 +140,17 @@ namespace ElectronicMaps.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            Code = "FORM_RESISTOR",
-                            DisplayName = "Форма резистора",
-                            Scope = 1
+                            Id = 68,
+                            Code = "FORM_68",
+                            DisplayName = "Форма 68",
+                            Scope = 0
                         },
                         new
                         {
-                            Id = 2,
-                            Code = "FORM_CHIP",
-                            DisplayName = "Форма микросхемы",
-                            Scope = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Code = "FORM_64",
-                            DisplayName = "Форма 64",
-                            Scope = 1
+                            Id = 4,
+                            Code = "FORM_4",
+                            DisplayName = "Форма 4",
+                            Scope = 0
                         });
                 });
 
@@ -176,7 +199,7 @@ namespace ElectronicMaps.Infrastructure.Migrations
                             Id = 1,
                             Code = "DcVoltage",
                             DisplayName = "Постоянное напряжение",
-                            FormTypeId = 1,
+                            FormTypeId = 68,
                             Order = 1,
                             Unit = "В",
                             ValueKind = 3
@@ -186,7 +209,7 @@ namespace ElectronicMaps.Infrastructure.Migrations
                             Id = 2,
                             Code = "AcVoltage",
                             DisplayName = "Переменное напряжение",
-                            FormTypeId = 1,
+                            FormTypeId = 68,
                             Order = 2,
                             Unit = "В",
                             ValueKind = 3
@@ -196,7 +219,7 @@ namespace ElectronicMaps.Infrastructure.Migrations
                             Id = 3,
                             Code = "ImpulseVoltage",
                             DisplayName = "Импульсное напряжение",
-                            FormTypeId = 1,
+                            FormTypeId = 68,
                             Order = 3,
                             Unit = "В",
                             ValueKind = 3
@@ -206,7 +229,7 @@ namespace ElectronicMaps.Infrastructure.Migrations
                             Id = 4,
                             Code = "SumVoltage",
                             DisplayName = "Суммарное напряжение",
-                            FormTypeId = 1,
+                            FormTypeId = 68,
                             Order = 4,
                             Unit = "В",
                             ValueKind = 3
@@ -216,7 +239,7 @@ namespace ElectronicMaps.Infrastructure.Migrations
                             Id = 5,
                             Code = "Frequancy",
                             DisplayName = "Частота",
-                            FormTypeId = 1,
+                            FormTypeId = 68,
                             Order = 5,
                             Unit = "Гц",
                             ValueKind = 2
@@ -226,7 +249,7 @@ namespace ElectronicMaps.Infrastructure.Migrations
                             Id = 6,
                             Code = "ImpulseDuration",
                             DisplayName = "Длительность импульса",
-                            FormTypeId = 1,
+                            FormTypeId = 68,
                             Order = 6,
                             ValueKind = 3
                         },
@@ -235,7 +258,7 @@ namespace ElectronicMaps.Infrastructure.Migrations
                             Id = 7,
                             Code = "ImpulsePower",
                             DisplayName = "Импульсная мощность",
-                            FormTypeId = 1,
+                            FormTypeId = 68,
                             Order = 7,
                             ValueKind = 3
                         },
@@ -244,7 +267,7 @@ namespace ElectronicMaps.Infrastructure.Migrations
                             Id = 8,
                             Code = "MeanPower",
                             DisplayName = "Средняя мощность",
-                            FormTypeId = 1,
+                            FormTypeId = 68,
                             Order = 8,
                             ValueKind = 3
                         },
@@ -252,8 +275,8 @@ namespace ElectronicMaps.Infrastructure.Migrations
                         {
                             Id = 9,
                             Code = "LoadKoeffImpulse",
-                            DisplayName = "Коэффициент нагрузки (импульс)",
-                            FormTypeId = 1,
+                            DisplayName = "Коэффициент нагрузки (импульсный режим)",
+                            FormTypeId = 68,
                             Order = 9,
                             ValueKind = 3
                         },
@@ -262,7 +285,7 @@ namespace ElectronicMaps.Infrastructure.Migrations
                             Id = 10,
                             Code = "CurrentMovingContact",
                             DisplayName = "Ток через подвижный контакт",
-                            FormTypeId = 1,
+                            FormTypeId = 68,
                             Order = 10,
                             Unit = "А",
                             ValueKind = 3
@@ -272,7 +295,7 @@ namespace ElectronicMaps.Infrastructure.Migrations
                             Id = 11,
                             Code = "AmbientTemperature",
                             DisplayName = "Температура окружающей среды",
-                            FormTypeId = 1,
+                            FormTypeId = 68,
                             Order = 11,
                             Unit = "°C",
                             ValueKind = 2
@@ -282,7 +305,7 @@ namespace ElectronicMaps.Infrastructure.Migrations
                             Id = 12,
                             Code = "SuperHeatTemperature",
                             DisplayName = "Температура перегрева",
-                            FormTypeId = 1,
+                            FormTypeId = 68,
                             Order = 12,
                             Unit = "°C",
                             ValueKind = 3
@@ -292,7 +315,7 @@ namespace ElectronicMaps.Infrastructure.Migrations
                             Id = 13,
                             Code = "SumPower",
                             DisplayName = "Суммарная мощность",
-                            FormTypeId = 1,
+                            FormTypeId = 68,
                             Order = 13,
                             ValueKind = 3
                         },
@@ -301,7 +324,7 @@ namespace ElectronicMaps.Infrastructure.Migrations
                             Id = 14,
                             Code = "AmbientTemperatureCase",
                             DisplayName = "Температура корпуса",
-                            FormTypeId = 1,
+                            FormTypeId = 68,
                             Order = 14,
                             Unit = "°C",
                             ValueKind = 2
@@ -311,343 +334,171 @@ namespace ElectronicMaps.Infrastructure.Migrations
                             Id = 15,
                             Code = "LoadKoeff",
                             DisplayName = "Коэффициент нагрузки",
-                            FormTypeId = 1,
+                            FormTypeId = 68,
                             Order = 15,
                             ValueKind = 1
                         },
                         new
                         {
                             Id = 16,
-                            Code = "SupplayVoltage",
-                            DisplayName = "Напряжение питания",
-                            FormTypeId = 2,
+                            Code = "InListTTZ",
+                            DisplayName = "Наличие в перечнях при утверждении ТТЗ",
+                            FormTypeId = 4,
                             Order = 1,
-                            Unit = "В",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 17,
-                            Code = "SupplyOrder",
-                            DisplayName = "Порядок подачи напряжения питания",
-                            FormTypeId = 2,
-                            Order = 2,
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 18,
-                            Code = "LowLevelVolatge",
-                            DisplayName = "Напряжение низкого уровня",
-                            FormTypeId = 2,
-                            Order = 3,
-                            Unit = "В",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 19,
-                            Code = "HighLevelVolatge",
-                            DisplayName = "Напряжение высокого уровня",
-                            FormTypeId = 2,
-                            Order = 4,
-                            Unit = "В",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 20,
-                            Code = "ImpulseDuration",
-                            DisplayName = "Длительность импульса",
-                            FormTypeId = 2,
-                            Order = 5,
-                            Unit = "нс",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 21,
-                            Code = "TurnOnTrasnsition",
-                            DisplayName = "Время перехода при включении",
-                            FormTypeId = 2,
-                            Order = 6,
-                            Unit = "нс",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 22,
-                            Code = "TurnOffTransition",
-                            DisplayName = "Время перехода при выключении",
-                            FormTypeId = 2,
-                            Order = 7,
-                            Unit = "нс",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 23,
-                            Code = "Frequency",
-                            DisplayName = "Частота",
-                            FormTypeId = 2,
-                            Order = 8,
-                            Unit = "МГц",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 24,
-                            Code = "Timet1",
-                            DisplayName = "Время t1",
-                            FormTypeId = 2,
-                            Order = 9,
-                            Unit = "нс",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 25,
-                            Code = "Timet2",
-                            DisplayName = "Время t2",
-                            FormTypeId = 2,
-                            Order = 10,
-                            Unit = "нс",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 26,
-                            Code = "OutCurrentLowLevel",
-                            DisplayName = "Выходной ток низкого уровня",
-                            FormTypeId = 2,
-                            Order = 11,
-                            Unit = "мА",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 27,
-                            Code = "OutCurrentHighLevel",
-                            DisplayName = "Выходной ток высокого уровня",
-                            FormTypeId = 2,
-                            Order = 12,
-                            Unit = "мА",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 28,
-                            Code = "CapacityLoad",
-                            DisplayName = "Ёмкость нагрузки",
-                            FormTypeId = 2,
-                            Order = 13,
-                            Unit = "пФ",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 29,
-                            Code = "PowerDissipation",
-                            DisplayName = "Мощность рассеивания",
-                            FormTypeId = 2,
-                            Order = 14,
-                            Unit = "мВт",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 30,
-                            Code = "PosName",
-                            DisplayName = "Позиционное обозначение и номера выводов",
-                            FormTypeId = 2,
-                            Order = 15,
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 31,
-                            Code = "AmbientTemperatureCase",
-                            DisplayName = "Температура корпуса",
-                            FormTypeId = 2,
-                            Order = 16,
-                            Unit = "°C",
-                            ValueKind = 2
-                        },
-                        new
-                        {
-                            Id = 32,
-                            Code = "LoadKoeff",
-                            DisplayName = "Коэффициент нагрузки",
-                            FormTypeId = 2,
-                            Order = 17,
                             ValueKind = 1
                         },
                         new
                         {
-                            Id = 33,
-                            Code = "SupplayVoltage",
-                            DisplayName = "Напряжение питания",
-                            FormTypeId = 3,
-                            Order = 1,
-                            Unit = "В",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 34,
-                            Code = "SupplyOrder",
-                            DisplayName = "Порядок подачи напряжения питания",
-                            FormTypeId = 3,
+                            Id = 17,
+                            Code = "LastEditions",
+                            DisplayName = "Наличие в перечнях последних редакций",
+                            FormTypeId = 4,
                             Order = 2,
-                            ValueKind = 4
+                            ValueKind = 1
                         },
                         new
                         {
-                            Id = 35,
-                            Code = "LowLevelVolatge",
-                            DisplayName = "Напряжение низкого уровня",
-                            FormTypeId = 3,
+                            Id = 18,
+                            Code = "ResourceHours",
+                            DisplayName = "Показатель ресурса, ч",
+                            FormTypeId = 4,
                             Order = 3,
-                            Unit = "В",
-                            ValueKind = 4
+                            Unit = "ч",
+                            ValueKind = 1
                         },
                         new
                         {
-                            Id = 36,
-                            Code = "HighLevelVolatge",
-                            DisplayName = "Напряжение высокого уровня",
-                            FormTypeId = 3,
+                            Id = 19,
+                            Code = "LifeTimeYears",
+                            DisplayName = "Показатель срока службы, лет",
+                            FormTypeId = 4,
                             Order = 4,
-                            Unit = "В",
-                            ValueKind = 4
+                            Unit = "лет",
+                            ValueKind = 1
                         },
                         new
                         {
-                            Id = 37,
-                            Code = "ImpulseDuration",
-                            DisplayName = "Длительность импульса",
-                            FormTypeId = 3,
+                            Id = 20,
+                            Code = "PreservationYears",
+                            DisplayName = "Показатель сохраняемости, лет",
+                            FormTypeId = 4,
                             Order = 5,
-                            Unit = "нс",
-                            ValueKind = 4
+                            Unit = "лет",
+                            ValueKind = 1
                         },
                         new
                         {
-                            Id = 38,
-                            Code = "TurnOnTrasnsition",
-                            DisplayName = "Время перехода при включении",
-                            FormTypeId = 3,
+                            Id = 21,
+                            Code = "FrequencyRange",
+                            DisplayName = "Диапазон частот, Гц",
+                            FormTypeId = 4,
                             Order = 6,
-                            Unit = "нс",
-                            ValueKind = 4
+                            Unit = "Гц",
+                            ValueKind = 1
                         },
                         new
                         {
-                            Id = 39,
-                            Code = "TurnOffTransition",
-                            DisplayName = "Время перехода при выключении",
-                            FormTypeId = 3,
+                            Id = 22,
+                            Code = "SoundPressure",
+                            DisplayName = "Уровень звукового давления, дБ",
+                            FormTypeId = 4,
                             Order = 7,
-                            Unit = "нс",
-                            ValueKind = 4
+                            Unit = "дБ",
+                            ValueKind = 1
                         },
                         new
                         {
-                            Id = 40,
-                            Code = "Frequency",
-                            DisplayName = "Частота",
-                            FormTypeId = 3,
+                            Id = 23,
+                            Code = "LineAcceleration",
+                            DisplayName = "Линейное ускорение, м·с⁻² (G)",
+                            FormTypeId = 4,
                             Order = 8,
-                            Unit = "МГц",
-                            ValueKind = 4
+                            ValueKind = 1
                         },
                         new
                         {
-                            Id = 41,
-                            Code = "Timet1",
-                            DisplayName = "Время t1",
-                            FormTypeId = 3,
+                            Id = 24,
+                            Code = "LowPressure",
+                            DisplayName = "Давление окр. среды пониженное",
+                            FormTypeId = 4,
                             Order = 9,
-                            Unit = "нс",
-                            ValueKind = 4
+                            ValueKind = 1
                         },
                         new
                         {
-                            Id = 42,
-                            Code = "Timet2",
-                            DisplayName = "Время t2",
-                            FormTypeId = 3,
+                            Id = 25,
+                            Code = "HighPressure",
+                            DisplayName = "Давление окр. среды повышенное",
+                            FormTypeId = 4,
                             Order = 10,
-                            Unit = "нс",
-                            ValueKind = 4
+                            ValueKind = 1
                         },
                         new
                         {
-                            Id = 43,
-                            Code = "OutCurrentLowLevel",
-                            DisplayName = "Выходной ток низкого уровня",
-                            FormTypeId = 3,
+                            Id = 26,
+                            Code = "LowTemperature",
+                            DisplayName = "Предельная температура пониженная, °C",
+                            FormTypeId = 4,
                             Order = 11,
-                            Unit = "мА",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 44,
-                            Code = "OutCurrentHighLevel",
-                            DisplayName = "Выходной ток высокого уровня",
-                            FormTypeId = 3,
-                            Order = 12,
-                            Unit = "мА",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 45,
-                            Code = "CapacityLoad",
-                            DisplayName = "Ёмкость нагрузки",
-                            FormTypeId = 3,
-                            Order = 13,
-                            Unit = "пФ",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 46,
-                            Code = "PowerDissipation",
-                            DisplayName = "Мощность рассеивания",
-                            FormTypeId = 3,
-                            Order = 14,
-                            Unit = "мВт",
-                            ValueKind = 4
-                        },
-                        new
-                        {
-                            Id = 47,
-                            Code = "AmbientTemperatureCase",
-                            DisplayName = "Температура корпуса",
-                            FormTypeId = 3,
-                            Order = 15,
                             Unit = "°C",
-                            ValueKind = 4
+                            ValueKind = 1
                         },
                         new
                         {
-                            Id = 48,
-                            Code = "PosName",
-                            DisplayName = "Позиционное обозначение и номера выводов",
-                            FormTypeId = 3,
+                            Id = 27,
+                            Code = "HighTemperature",
+                            DisplayName = "Предельная температура повышенная, °C",
+                            FormTypeId = 4,
+                            Order = 12,
+                            Unit = "°C",
+                            ValueKind = 1
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Code = "HumidityPercent",
+                            DisplayName = "Относительная влажность, %",
+                            FormTypeId = 4,
+                            Order = 13,
+                            Unit = "%",
+                            ValueKind = 1
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Code = "HumidityCelcius",
+                            DisplayName = "Температура при заданной влажности, °C",
+                            FormTypeId = 4,
+                            Order = 14,
+                            Unit = "°C",
+                            ValueKind = 1
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Code = "Dew",
+                            DisplayName = "Роса, иней",
+                            FormTypeId = 4,
+                            Order = 15,
+                            ValueKind = 1
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Code = "SpecialFactors",
+                            DisplayName = "Стойкость к ВССФ",
+                            FormTypeId = 4,
                             Order = 16,
-                            ValueKind = 4
+                            ValueKind = 1
                         },
                         new
                         {
-                            Id = 49,
-                            Code = "LoadKoeff",
-                            DisplayName = "Коэффициент нагрузки",
-                            FormTypeId = 3,
+                            Id = 32,
+                            Code = "Note",
+                            DisplayName = "Примечание",
+                            FormTypeId = 4,
                             Order = 17,
-                            ValueKind = 4
+                            ValueKind = 1
                         });
                 });
 

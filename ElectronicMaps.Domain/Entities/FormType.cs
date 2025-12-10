@@ -16,9 +16,6 @@ namespace ElectronicMaps.Domain.Entities
         /// <summary>Отображаемое имя: "Форма резистора", "Форма микросхемы" и т.п.</summary>
         public string DisplayName { get; set; } = "";
 
-        /// <summary>Уровень, на котором задаются значения: семейство или компонент.</summary>
-        public FormScope Scope { get; set; }
-
         /// <summary>Ключ/путь к Word-шаблону (если будет использоваться).</summary>
         public string? TemplateKey { get; set; }
 

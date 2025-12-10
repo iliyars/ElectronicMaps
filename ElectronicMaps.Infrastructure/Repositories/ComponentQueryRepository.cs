@@ -49,6 +49,16 @@ namespace ElectronicMaps.Infrastructure.Repositories
         public Task<ComponentFamily?> GetFamilyByNameAsync(string name, CancellationToken ct) =>
             _db.ComponentFamilies.FirstOrDefaultAsync(f => f.Name == name, ct);
 
+        public Task<List<ComponentFamily>> GetFamiliesByNamesAsync(IEnumerable<string> familyNames,CancellationToken ct = default)
+        {
+            var names = familyNames
+                .Where(n => !string.IsNullOrWhiteSpace(n))
+                .ToArray();
+
+            return _db.ComponentFamilies
+                .Where(f=>names.Contains(f.Name))
+                .ToListAsync(ct);
+        }
         public Task<Component?> GetByIdAsync(int id, CancellationToken ct)
         {
             return _db.Components.FirstOrDefaultAsync(c => c.Id == id, ct);

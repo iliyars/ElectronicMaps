@@ -7,7 +7,7 @@
 namespace ElectronicMaps.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class SeedInitialFormsData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -41,6 +41,22 @@ namespace ElectronicMaps.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FormTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    WindowsIdentity = table.Column<string>(type: "TEXT", maxLength: 256, nullable: false),
+                    DisplayName = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    Role = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -132,9 +148,8 @@ namespace ElectronicMaps.Infrastructure.Migrations
                 columns: new[] { "Id", "Code", "DisplayName", "Scope", "TemplateKey" },
                 values: new object[,]
                 {
-                    { 1, "FORM_RESISTOR", "Форма резистора", 1, null },
-                    { 2, "FORM_CHIP", "Форма микросхемы", 1, null },
-                    { 3, "FORM_64", "Форма 64", 1, null }
+                    { 4, "FORM_4", "Форма 4", 0, null },
+                    { 68, "FORM_68", "Форма 68", 0, null }
                 });
 
             migrationBuilder.InsertData(
@@ -142,55 +157,38 @@ namespace ElectronicMaps.Infrastructure.Migrations
                 columns: new[] { "Id", "Code", "DisplayName", "FormTypeId", "Group", "Order", "Unit", "ValueKind" },
                 values: new object[,]
                 {
-                    { 1, "DcVoltage", "Постоянное напряжение", 1, null, 1, "В", 3 },
-                    { 2, "AcVoltage", "Переменное напряжение", 1, null, 2, "В", 3 },
-                    { 3, "ImpulseVoltage", "Импульсное напряжение", 1, null, 3, "В", 3 },
-                    { 4, "SumVoltage", "Суммарное напряжение", 1, null, 4, "В", 3 },
-                    { 5, "Frequancy", "Частота", 1, null, 5, "Гц", 2 },
-                    { 6, "ImpulseDuration", "Длительность импульса", 1, null, 6, null, 3 },
-                    { 7, "ImpulsePower", "Импульсная мощность", 1, null, 7, null, 3 },
-                    { 8, "MeanPower", "Средняя мощность", 1, null, 8, null, 3 },
-                    { 9, "LoadKoeffImpulse", "Коэффициент нагрузки (импульс)", 1, null, 9, null, 3 },
-                    { 10, "CurrentMovingContact", "Ток через подвижный контакт", 1, null, 10, "А", 3 },
-                    { 11, "AmbientTemperature", "Температура окружающей среды", 1, null, 11, "°C", 2 },
-                    { 12, "SuperHeatTemperature", "Температура перегрева", 1, null, 12, "°C", 3 },
-                    { 13, "SumPower", "Суммарная мощность", 1, null, 13, null, 3 },
-                    { 14, "AmbientTemperatureCase", "Температура корпуса", 1, null, 14, "°C", 2 },
-                    { 15, "LoadKoeff", "Коэффициент нагрузки", 1, null, 15, null, 1 },
-                    { 16, "SupplayVoltage", "Напряжение питания", 2, null, 1, "В", 4 },
-                    { 17, "SupplyOrder", "Порядок подачи напряжения питания", 2, null, 2, null, 4 },
-                    { 18, "LowLevelVolatge", "Напряжение низкого уровня", 2, null, 3, "В", 4 },
-                    { 19, "HighLevelVolatge", "Напряжение высокого уровня", 2, null, 4, "В", 4 },
-                    { 20, "ImpulseDuration", "Длительность импульса", 2, null, 5, "нс", 4 },
-                    { 21, "TurnOnTrasnsition", "Время перехода при включении", 2, null, 6, "нс", 4 },
-                    { 22, "TurnOffTransition", "Время перехода при выключении", 2, null, 7, "нс", 4 },
-                    { 23, "Frequency", "Частота", 2, null, 8, "МГц", 4 },
-                    { 24, "Timet1", "Время t1", 2, null, 9, "нс", 4 },
-                    { 25, "Timet2", "Время t2", 2, null, 10, "нс", 4 },
-                    { 26, "OutCurrentLowLevel", "Выходной ток низкого уровня", 2, null, 11, "мА", 4 },
-                    { 27, "OutCurrentHighLevel", "Выходной ток высокого уровня", 2, null, 12, "мА", 4 },
-                    { 28, "CapacityLoad", "Ёмкость нагрузки", 2, null, 13, "пФ", 4 },
-                    { 29, "PowerDissipation", "Мощность рассеивания", 2, null, 14, "мВт", 4 },
-                    { 30, "PosName", "Позиционное обозначение и номера выводов", 2, null, 15, null, 4 },
-                    { 31, "AmbientTemperatureCase", "Температура корпуса", 2, null, 16, "°C", 2 },
-                    { 32, "LoadKoeff", "Коэффициент нагрузки", 2, null, 17, null, 1 },
-                    { 33, "SupplayVoltage", "Напряжение питания", 3, null, 1, "В", 4 },
-                    { 34, "SupplyOrder", "Порядок подачи напряжения питания", 3, null, 2, null, 4 },
-                    { 35, "LowLevelVolatge", "Напряжение низкого уровня", 3, null, 3, "В", 4 },
-                    { 36, "HighLevelVolatge", "Напряжение высокого уровня", 3, null, 4, "В", 4 },
-                    { 37, "ImpulseDuration", "Длительность импульса", 3, null, 5, "нс", 4 },
-                    { 38, "TurnOnTrasnsition", "Время перехода при включении", 3, null, 6, "нс", 4 },
-                    { 39, "TurnOffTransition", "Время перехода при выключении", 3, null, 7, "нс", 4 },
-                    { 40, "Frequency", "Частота", 3, null, 8, "МГц", 4 },
-                    { 41, "Timet1", "Время t1", 3, null, 9, "нс", 4 },
-                    { 42, "Timet2", "Время t2", 3, null, 10, "нс", 4 },
-                    { 43, "OutCurrentLowLevel", "Выходной ток низкого уровня", 3, null, 11, "мА", 4 },
-                    { 44, "OutCurrentHighLevel", "Выходной ток высокого уровня", 3, null, 12, "мА", 4 },
-                    { 45, "CapacityLoad", "Ёмкость нагрузки", 3, null, 13, "пФ", 4 },
-                    { 46, "PowerDissipation", "Мощность рассеивания", 3, null, 14, "мВт", 4 },
-                    { 47, "AmbientTemperatureCase", "Температура корпуса", 3, null, 15, "°C", 4 },
-                    { 48, "PosName", "Позиционное обозначение и номера выводов", 3, null, 16, null, 4 },
-                    { 49, "LoadKoeff", "Коэффициент нагрузки", 3, null, 17, null, 4 }
+                    { 1, "DcVoltage", "Постоянное напряжение", 68, null, 1, "В", 3 },
+                    { 2, "AcVoltage", "Переменное напряжение", 68, null, 2, "В", 3 },
+                    { 3, "ImpulseVoltage", "Импульсное напряжение", 68, null, 3, "В", 3 },
+                    { 4, "SumVoltage", "Суммарное напряжение", 68, null, 4, "В", 3 },
+                    { 5, "Frequancy", "Частота", 68, null, 5, "Гц", 2 },
+                    { 6, "ImpulseDuration", "Длительность импульса", 68, null, 6, null, 3 },
+                    { 7, "ImpulsePower", "Импульсная мощность", 68, null, 7, null, 3 },
+                    { 8, "MeanPower", "Средняя мощность", 68, null, 8, null, 3 },
+                    { 9, "LoadKoeffImpulse", "Коэффициент нагрузки (импульсный режим)", 68, null, 9, null, 3 },
+                    { 10, "CurrentMovingContact", "Ток через подвижный контакт", 68, null, 10, "А", 3 },
+                    { 11, "AmbientTemperature", "Температура окружающей среды", 68, null, 11, "°C", 2 },
+                    { 12, "SuperHeatTemperature", "Температура перегрева", 68, null, 12, "°C", 3 },
+                    { 13, "SumPower", "Суммарная мощность", 68, null, 13, null, 3 },
+                    { 14, "AmbientTemperatureCase", "Температура корпуса", 68, null, 14, "°C", 2 },
+                    { 15, "LoadKoeff", "Коэффициент нагрузки", 68, null, 15, null, 1 },
+                    { 16, "InListTTZ", "Наличие в перечнях при утверждении ТТЗ", 4, null, 1, null, 1 },
+                    { 17, "LastEditions", "Наличие в перечнях последних редакций", 4, null, 2, null, 1 },
+                    { 18, "ResourceHours", "Показатель ресурса, ч", 4, null, 3, "ч", 1 },
+                    { 19, "LifeTimeYears", "Показатель срока службы, лет", 4, null, 4, "лет", 1 },
+                    { 20, "PreservationYears", "Показатель сохраняемости, лет", 4, null, 5, "лет", 1 },
+                    { 21, "FrequencyRange", "Диапазон частот, Гц", 4, null, 6, "Гц", 1 },
+                    { 22, "SoundPressure", "Уровень звукового давления, дБ", 4, null, 7, "дБ", 1 },
+                    { 23, "LineAcceleration", "Линейное ускорение, м·с⁻² (G)", 4, null, 8, null, 1 },
+                    { 24, "LowPressure", "Давление окр. среды пониженное", 4, null, 9, null, 1 },
+                    { 25, "HighPressure", "Давление окр. среды повышенное", 4, null, 10, null, 1 },
+                    { 26, "LowTemperature", "Предельная температура пониженная, °C", 4, null, 11, "°C", 1 },
+                    { 27, "HighTemperature", "Предельная температура повышенная, °C", 4, null, 12, "°C", 1 },
+                    { 28, "HumidityPercent", "Относительная влажность, %", 4, null, 13, "%", 1 },
+                    { 29, "HumidityCelcius", "Температура при заданной влажности, °C", 4, null, 14, "°C", 1 },
+                    { 30, "Dew", "Роса, иней", 4, null, 15, null, 1 },
+                    { 31, "SpecialFactors", "Стойкость к ВССФ", 4, null, 16, null, 1 },
+                    { 32, "Note", "Примечание", 4, null, 17, null, 1 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -233,6 +231,12 @@ namespace ElectronicMaps.Infrastructure.Migrations
                 name: "IX_ParameterValues_ParameterDefinitionId",
                 table: "ParameterValues",
                 column: "ParameterDefinitionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_WindowsIdentity",
+                table: "Users",
+                column: "WindowsIdentity",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -240,6 +244,9 @@ namespace ElectronicMaps.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ParameterValues");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Components");

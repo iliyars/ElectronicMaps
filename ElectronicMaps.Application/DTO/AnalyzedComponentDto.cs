@@ -31,6 +31,7 @@ namespace ElectronicMaps.Application.DTO
         public string? ComponentFormCode { get; init; }
         public int? DatabaseFamilyId { get; init; }
         public string? DatabaseFamilyFormCode { get; init; }
+        public bool FamilyExistsInDatabase { get; init; }
 
 
 

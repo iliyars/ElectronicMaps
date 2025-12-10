@@ -14,7 +14,10 @@ namespace ElectronicMaps.Domain.Repositories
         Task<Component?> GetByNameAsync(string name, CancellationToken ct);
         Task<ComponentFamily> GetFamilyByIdAsync(int id, CancellationToken ct);
         Task<ComponentFamily?> GetFamilyByNameAsync(string name, CancellationToken ct);
-
+        // ...
+        Task<List<ComponentFamily>> GetFamiliesByNamesAsync(
+            IEnumerable<string> familyNames,
+            CancellationToken ct = default);
         Task<FormType?> GetFormTypeByCodeAsync(string code, CancellationToken ct);
         Task<IReadOnlyList<ParameterValue>> GetParameterValuesAsync(int componentId, CancellationToken ct);
         Task<IReadOnlyList<ParameterValue>> GetFamilyParameterValuesAsync(int familyId, CancellationToken ct = default);
