@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Transactions;
+using System.Net.WebSockets;
 
 namespace ElectronicMaps.Application.Services
 {
@@ -21,130 +22,160 @@ namespace ElectronicMaps.Application.Services
         private readonly IComponentSourceReader _sourceReader;
         private readonly IComponentQueryRepository _query;
 
+
         public ComponentAnalysisService(IComponentSourceReader sourceReader, IComponentQueryRepository query)
         {
             _sourceReader = sourceReader;
             _query = query;
         }
 
-
+        //TODO: N+1 запросов. Получать Component и Family для компонента одним запросом.
         public async Task<IReadOnlyList<AnalyzedComponentDto>> AnalyzeAsync(Stream stream, CancellationToken ct = default)
         {
+            // Читаем исходные данные из XML.
             var source = await _sourceReader.ReadAsync(stream, ct);
-            // Собираем все именя компонентов из xml.
-            var canonicalNames = source.Components
-                .Select(c => c.CleanName)
-                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            var now = DateTimeOffset.UtcNow;
 
-            // Загружаем из БД компоненты по имени.
-            var existingComponents = await _query.GetByNamesAsync(canonicalNames, ct);
 
-            // Строим словарь существующих компонентов по CanonicalName
-            // для быстрого поиска: CanonicalName → Component
-            var componentByName = existingComponents
-                .Where(c => !string.IsNullOrWhiteSpace(c.CanonicalName))
-                .ToDictionary(c => c.CanonicalName!,c => c,StringComparer.OrdinalIgnoreCase);
+            // Готовим словари по данным из БД.
+            var componentLookUp = await BuildComponentLookUp(source, ct);
+            var familyLookUp = await BuildFamilyLookUp(source, ct);
 
-            // Собираем имена семейств из xml
-            var familyNames = source.Components
-                .Select(c => c.Family)
-                .Where(f => !string.IsNullOrWhiteSpace(f))
-                .ToHashSet(StringComparer.OrdinalIgnoreCase);
-
-            var existingFamilies = await _query.GetFamiliesByNamesAsync(familyNames, ct);
-
-            // Строим словарь существующих семейств по Name
-            // для быстрого поиска: CanonicalName → Component.
-            var familyByName = existingFamilies
-                .ToDictionary(f=>f.Name, StringComparer.OrdinalIgnoreCase);
-
-            var result = new List<AnalyzedComponentDto>(source.Components.Count); 
-
-            //Проверяем наличие компонента в БД.
-            foreach (var srcComp in source.Components)
+            // Анализируем каждый компонент из XML.
+            var result = new List<AnalyzedComponentDto>(source.Components.Count);
+            foreach(var srcComponent in source.Components)
             {
-
                 ct.ThrowIfCancellationRequested();
 
-                var name = srcComp.CleanName;
+                var analyzed = await AnalyzedSingleComponent(
+                    srcComponent,
+                    componentLookUp,
+                    familyLookUp,
+                    now,
+                    ct);
 
-                componentByName.TryGetValue(name, out var dbComponent);
+                result.Add(analyzed);
+            }
 
-                // Определяем семейство: либо от компонента, либо по имени из xml
-                ComponentFamily? dbFamily = null;
+            return result;
+        }
 
-                if (dbComponent != null)
+        private async Task<AnalyzedComponentDto> AnalyzedSingleComponent(SourceComponentDto srcComponent, Dictionary<string, Component> componentLookUp, Dictionary<string, ComponentFamily> familyLookUp, DateTimeOffset now, CancellationToken ct)
+        {
+            var name = srcComponent.CleanName ?? string.Empty;
+
+            componentLookUp.TryGetValue(name, out var dbComponent);
+
+            // Определяем семейство либо от компонента из БД либо ро имени из XML.
+            ComponentFamily? dbFamily = null;
+            if (dbComponent != null)
+            {
+                dbFamily = dbComponent.ComponentFamily;
+            }
+            else if(!string.IsNullOrWhiteSpace(srcComponent.Family))
+            {
+                familyLookUp.TryGetValue(srcComponent.Family, out dbFamily);
+            }
+
+            // Вариант 1: компонента в БД нет.
+            if(dbComponent is null)
+            {
+                return new AnalyzedComponentDto
                 {
-                    dbFamily = dbComponent.ComponentFamily;
-                }
-                else if (!string.IsNullOrWhiteSpace(srcComp.Family))
-                {
-                    familyByName.TryGetValue(srcComp.Family, out dbFamily);
-                }
+                    RawName = srcComponent.RawName,
+                    Type = srcComponent.Type,
+                    Family = srcComponent.Family,
+                    CleanName = srcComponent.CleanName,
+                    Quantity = srcComponent.Quantity,
+                    Designators = srcComponent.Designators,
 
-                // === Вариант 1: компонента в базе нет ===
-                if (dbComponent is null)
-                {
-                    result.Add(new AnalyzedComponentDto
-                    {
-                        RawName = srcComp.RawName,
-                        Type = srcComp.Type,
-                        Family = srcComp.Family,
-                        CleanName = srcComp.CleanName,
-                        Quantity = srcComp.Quantity,
-                        Designators = srcComp.Designators,
-
-                        ExistsInDatabase = false,
-                        ExistingComponentId = null,
-                        DatabaseName = null,
-
-                        FamilyExistsInDatabase = dbFamily != null,
-                        DatabaseFamilyId = dbFamily?.Id,
-                        DatabaseFamilyFormCode = dbFamily?.FamilyFormCode,
-
-                        ComponentFormCode = string.Empty,
-                        Parameters = Array.Empty<ParameterDto>(),
-                        SchematicParameters = Array.Empty<ParameterDto>(),
-                        LastUpdatedUtc = DateTimeOffset.UtcNow
-                    });
-
-                    continue;
-                }
-
-                // === Вариант 2: компонент в базе есть ===
-                var values = await _query.GetParameterValuesAsync(dbComponent.Id, ct);
-                var formType = await _query.GetFormTypeByCodeAsync(dbComponent.FormCode, ct)
-                    ?? throw new InvalidOperationException($"Форма с кодом '{dbComponent.FormCode}' не найдена.");
-
-                var paramDtos = BuildParameterDtos(formType, values);
-
-                dbFamily ??= dbComponent.ComponentFamily;
-
-                result.Add(new AnalyzedComponentDto
-                {
-                    RawName = srcComp.RawName,
-                    Type = srcComp.Type,
-                    Family = dbFamily?.Name ?? srcComp.Family,
-                    CleanName = srcComp.CleanName,
-                    Quantity = srcComp.Quantity,
-                    Designators = srcComp.Designators,
-
-                    ExistsInDatabase = true,
-                    ExistingComponentId = dbComponent.Id,
-                    DatabaseName = dbComponent.Name,
+                    ExistsInDatabase = false,
+                    ExistingComponentId = null,
+                    DatabaseName = null,
 
                     FamilyExistsInDatabase = dbFamily != null,
                     DatabaseFamilyId = dbFamily?.Id,
                     DatabaseFamilyFormCode = dbFamily?.FamilyFormCode,
 
-                    ComponentFormCode = dbComponent.FormCode,
-                    Parameters = paramDtos,
+                    ComponentFormCode = string.Empty,
+                    Parameters = Array.Empty<ParameterDto>(),
                     SchematicParameters = Array.Empty<ParameterDto>(),
-                    LastUpdatedUtc = DateTimeOffset.UtcNow
-                });
+                    LastUpdatedUtc = now
+                };
             }
+
+            // Вариант 2: компонент в БД есть.
+
+            // Загружаем значения параметров
+            var values = await _query.GetParameterValuesAsync(dbComponent.Id, ct);
+
+            var formType = await _query.GetFormTypeByCodeAsync(dbComponent.FormCode, ct)
+                  ?? throw new InvalidOperationException(
+                      $"Форма с кодом '{dbComponent.FormCode}' не найдена.");
+
+            var paramDtos = BuildParameterDtos(formType, values);
+
+            dbFamily ??= dbComponent.ComponentFamily;
+
+            return new AnalyzedComponentDto
+            {
+                RawName = srcComponent.RawName,
+                Type = srcComponent.Type,
+                Family = dbFamily?.Name ?? srcComponent.Family,
+                CleanName = srcComponent.CleanName,
+                Quantity = srcComponent.Quantity,
+                Designators = srcComponent.Designators,
+
+                ExistsInDatabase = true,
+                ExistingComponentId = dbComponent.Id,
+                DatabaseName = dbComponent.Name,
+
+                FamilyExistsInDatabase = dbFamily != null,
+                DatabaseFamilyId = dbFamily?.Id,
+                DatabaseFamilyFormCode = dbFamily?.FamilyFormCode,
+
+                ComponentFormCode = dbComponent.FormCode,
+                Parameters = paramDtos,
+                SchematicParameters = Array.Empty<ParameterDto>(),
+                LastUpdatedUtc = now
+            };
         }
 
+        private async Task<Dictionary<string, Component>> BuildComponentLookUp(ComponentSourceFileDto source, CancellationToken ct)
+        {
+            // Собираем все имена компонентов из XML.
+            var names = source.Components
+                .Select(c => c.CleanName)
+                .Where(n => !string.IsNullOrWhiteSpace(n))
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            
+            // Загружаем компоненты из БД
+            var existingComponents = await _query.GetByNamesAsync(names, ct);
+
+            // Строим словарь существующих компонентов по CanonicalName:
+            // CanonicalName → Component
+            var componentLookUp = existingComponents
+                .Where(c => !string.IsNullOrWhiteSpace(c.Name))
+                .ToDictionary(c => c.Name, c => c, StringComparer.OrdinalIgnoreCase);
+
+            return componentLookUp;
+        }
+
+        private async Task<Dictionary<string, ComponentFamily>> BuildFamilyLookUp(ComponentSourceFileDto source, CancellationToken ct)
+        {
+            // Собираем все имена семейств из XML.
+            var familyNames = source.Components
+                .Select(c => c.Family)
+                .Where(f => !string.IsNullOrWhiteSpace(f))
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            //Загружаем существующие семейства из БД.
+            var existingFamilies = await _query.GetFamiliesByNamesAsync(familyNames, ct);
+
+            var familyLookUp = existingFamilies.ToDictionary(f=>f.Name, f=>f, StringComparer.OrdinalIgnoreCase);
+
+            return familyLookUp;
+        }
 
         private static IReadOnlyList<ParameterDto> BuildParameterDtos(FormType formType,IReadOnlyList<ParameterValue> values)
         {
@@ -175,6 +206,5 @@ namespace ElectronicMaps.Application.Services
 
             return result;
         }
-
     }
 }
