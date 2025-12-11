@@ -20,9 +20,22 @@ namespace ElectronicMaps.WPF.ViewModels
         private readonly IComponentStore _componentStore;
 
         public ObservableCollection<AnalyzedComponentDto> Components { get; } = new();
-        public ObservableCollection<AnalyzedComponentDto> FiltredComponent { get; } = new();
-        
+        public ObservableCollection<AnalyzedComponentDto> FiltredComponents { get; } = new();
         public ObservableCollection<FormFilterItem> FormFilters { get; } = new();
+
+        private FormFilterItem? _selectedForm;
+        public FormFilterItem? SelectedForm
+        {
+            get => _selectedForm;
+            set 
+            {
+                if (SetProperty(ref _selectedForm, value))
+                {
+                    ApplyForm();
+                }
+
+            }
+        }
 
         private AnalyzedComponentDto? _selectedComponent;
         public AnalyzedComponentDto? SelectedComponent
@@ -30,14 +43,10 @@ namespace ElectronicMaps.WPF.ViewModels
             get => _selectedComponent;
             set => SetProperty(ref _selectedComponent, value);
         }
-
-
         public WorkspaceViewModel(IComponentStore componentStore) 
         {
             _componentStore = componentStore;
             _componentStore.Changed += OnComponentStoreChanged;
-
-            
         }
 
         private void OnComponentStoreChanged(object? sender, StoreChangedEventArgs e)
@@ -47,20 +56,28 @@ namespace ElectronicMaps.WPF.ViewModels
 
         public Task OnNavigatedToAsync(object? parameter, CancellationToken cancellationToken = default)
         {
+            GetAllItemsFromStore();
+
+            InitFormFilters();
+
+            return Task.CompletedTask;
+        }
+        /// <summary>
+        /// Получает все компоненты из хранилища.
+        /// </summary>
+        private void GetAllItemsFromStore()
+        {
             var snapshot = _componentStore.GetAll();
             Components.Clear();
-            
+
             foreach (var component in snapshot)
             {
                 Components.Add(component);
             }
 
             SelectedComponent = null;
-
-            InitFormFilters();
-
-            return Task.CompletedTask;
         }
+
         /// <summary>
         /// Заполняем список испульзуемы форм для компонентов для checkbox'a
         /// </summary>
@@ -100,19 +117,30 @@ namespace ElectronicMaps.WPF.ViewModels
         {
             const string familyFormCode = "FORM_4";
 
+            FiltredComponents.Clear();
 
-            FiltredComponent.Clear();
+            string selectedCode = SelectedForm.Code;
 
-            var selectedCodes = FormFilters
-                .Where(f => f.IsSelected)
-                .Select(f => f.Code)
-                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            if (selectedCode.Equals(familyFormCode, StringComparison.OrdinalIgnoreCase))
+            {
+                var families = Components
+                    .Where(c => c.FamilyFormTypeCode == familyFormCode)
+                    .ToList();
 
-            if (selectedCodes.Count == 0)
+                foreach (var family in families)
+                    FiltredComponents.Add(family);
+
                 return;
+            }
 
-           // if(selectedCodes.Co)
+           var components = Components
+                .Where(c => c.ComponentFormTypeCode == selectedCode)
+                .ToList();
 
+            foreach (var component in components)
+            {
+                FiltredComponents.Add(component);
+            }
         }
     }
 }

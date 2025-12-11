@@ -16,8 +16,17 @@ namespace ElectronicMaps.WPF.ViewModels.Components
         public bool IsSelected
         {
             get => _isSelected;
-            set => SetProperty(ref _isSelected, value);
+            set
+            {
+                if(SetProperty(ref _isSelected, value))
+                {
+                    OnSelectionChanged?.Invoke(this);
+                }
+
+            }
         }
+
+        public Action<FormFilterItem> OnSelectionChanged { get; set; }
 
         public FormFilterItem(string code, string displayName)
         {

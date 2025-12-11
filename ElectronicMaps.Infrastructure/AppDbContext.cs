@@ -20,11 +20,7 @@ namespace ElectronicMaps.Infrastructure
         public DbSet<FormType> FormTypes => Set<FormType>();
         public DbSet<ParameterDefinition> ParameterDefinitions => Set<ParameterDefinition>();
         public DbSet<ParameterValue> ParameterValues => Set<ParameterValue>();
-
         public DbSet<AppUser> Users => Set<AppUser>();
-
-
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -178,7 +174,6 @@ namespace ElectronicMaps.Infrastructure
                     "OR ([ComponentId] IS NULL AND [ComponentFamilyId] IS NOT NULL))");
             });
         }
-
 
         private static void SeedInitialForms(ModelBuilder modelBuilder)
         {
@@ -346,7 +341,6 @@ namespace ElectronicMaps.Infrastructure
 
             //modelBuilder.Entity<ParameterDefinition>().HasData(defs);
         }
-
 
     }
 }

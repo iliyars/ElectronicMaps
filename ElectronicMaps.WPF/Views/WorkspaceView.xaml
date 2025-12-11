@@ -45,8 +45,8 @@
         <!-- Основная область: таблица + детали -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
 
             <!-- Таблица компонентов -->
@@ -85,6 +85,37 @@
                 </DataGrid.Columns>
             </DataGrid>
 
+            <Grid Grid.Column="1"
+                  Margin="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" /> <!-- Фильтр -->
+                    <RowDefinition Height="*" />    <!-- Таблицв -->
+                    <RowDefinition Height="Auto" /> <!-- детали -->
+                </Grid.RowDefinitions>
+                
+                <!-- Фильтр по фореме -->
+                <StackPanel Grid.Row="0"
+                            Orientation="Horizontal"
+                            Margin="0,0,0,8">
+                    <TextBlock Text="Форма:"
+                               VerticalAlignment="Center"
+                               Margin="0,0,8,0" />
+                    <ComboBox ItemsSource="{Binding FormFilters}"
+                              SelectedItem="{Binding SelectedForm, Mode=TwoWay}"
+                              DisplayMemberPath="DisplayName"
+                              Width="180" />
+                </StackPanel>
+                
+               <!-- Таблица сортированных компонентов -->
+                <DataGrid ItemsSource="{Binding FiltredComponents}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          Margin="0,0,0,8">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header=""
+                </DataGrid>
+            </Grid>
+            
             <!-- Панель деталей выбранного компонента -->
             <Border Grid.Column="1"
                     Margin="4"
