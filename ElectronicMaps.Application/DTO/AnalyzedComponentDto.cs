@@ -10,38 +10,41 @@ namespace ElectronicMaps.Application.DTO
     public class AnalyzedComponentDto
     {
         public string RawName { get; init; } = default!; // строка из XML
-        public string Type { get; init; } = default!;         // "Резистор", "Конденсатор", "Микросхема"...
-        public string Family { get; init; } = default!;       // "К10-79", "ОСМ 1594ТЛ2Т" и т.п.
         public string CleanName { get; init; } = default!;         // полное наименование без ТУ
-        public string CanonicalName { get; init; } = default!; // нормализованный ключ
+        public string? Family { get; init; } = default!;       // "К10-79", "ОСМ 1594ТЛ2Т" и т.п.
+        public string Type { get; init; } = default!;         // "Резистор", "Конденсатор", "Микросхема"...
         public int Quantity { get; init; }
-        public string? Designators { get; set; }
-
-        // результат анализа/резолва
-        public string ResolvedFamily { get; init; } = default!;      // нормализованное семейство
-        public string? ResolvedFormCode { get; init; }               // форма компонента ИЛИ null
-        public bool FormResolved => ResolvedFormCode is not null;    // удобный флаг
+        public string? Designator { get; set; }
+        public IReadOnlyList<string> Designators { get; init; } = Array.Empty<string>();
 
 
 
         // связь с БД
-        public bool ExistsInDatabase { get; init; }
+        public bool ComponentExistsInDatabase { get; init; }
         public int? ExistingComponentId { get; init; }
-        public string? DatabaseName { get; init; }
-        public string? ComponentFormCode { get; init; }
-        public int? DatabaseFamilyId { get; init; }
-        public string? DatabaseFamilyFormCode { get; init; }
+        public string? DatabaseComponentName { get; init; }
+
         public bool FamilyExistsInDatabase { get; init; }
+        public int? DatabaseFamilyId { get; init; }
+        public string? DatabaseFamilyName { get; init; }
 
+        // Информация о формах
+        // Форма для семейства
+        public int? FamilyFormTypeId { get; init; }
+        public string? FamilyFormTypeCode { get; init; }
+        public string? FamilyFormDisplayName { get; init; }
 
+        // Форма для компонента
+        public int? ComponentFormTypeId { get; init; }
+        public string? ComponentFormTypeCode { get; init; }
+        public string? ComponentFormDisplayName { get; init; }
 
-        public IReadOnlyList<ParameterDto> Parameters { get; set; } = Array.Empty<ParameterDto>();
-
-        public IReadOnlyList<ParameterDto> SchematicParameters { get; set; } = Array.Empty<ParameterDto>();
-
+        //Параметры
         public IReadOnlyList<ParameterDto> FamilyParameters { get; init; } = Array.Empty<ParameterDto>();
-        public IReadOnlyList<ParameterDto> FamilySchematickParameters { get; init; } = Array.Empty<ParameterDto>();
+        public IReadOnlyList<ParameterDto> ComponentParameters { get; init; } = Array.Empty<ParameterDto>();
+        public IReadOnlyList<ParameterDto> SchematicComponentParameters { get; init; } = Array.Empty<ParameterDto>();
 
+        // Для UI
         public bool IsEdited { get; set; } = false;
         public bool IsDirty { get; set; } = false;
         public bool IsSelectedForImport { get; set; } = false;

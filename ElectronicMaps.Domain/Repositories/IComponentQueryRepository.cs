@@ -25,9 +25,9 @@ namespace ElectronicMaps.Domain.Repositories
         public Task<List<Component>> GetByNamesAsync(IEnumerable<string> canonicalNames,CancellationToken ct = default);
         Task<bool> ExistsAsync(string canonicalName, CancellationToken ct = default);
 
+        Task<ComponentFamily?> GetFamilyByIdWithFormAsync(int familyId, CancellationToken ct);
 
-
-
+        Task<Component?> GetComponentByIdWithFormAsync(int componentId, CancellationToken ct);
 
     }
 }

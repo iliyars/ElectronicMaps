@@ -47,7 +47,7 @@ namespace ElectronicMaps.Application.Services
             {
                 ct.ThrowIfCancellationRequested();
 
-                var analyzed = await AnalyzedSingleComponent(
+                var analyzed = AnalyzeSingleComponent(
                     srcComponent,
                     componentLookUp,
                     familyLookUp,
@@ -60,7 +60,7 @@ namespace ElectronicMaps.Application.Services
             return result;
         }
 
-        private async Task<AnalyzedComponentDto> AnalyzedSingleComponent(SourceComponentDto srcComponent, Dictionary<string, Component> componentLookUp, Dictionary<string, ComponentFamily> familyLookUp, DateTimeOffset now, CancellationToken ct)
+        private AnalyzedComponentDto AnalyzeSingleComponent(SourceComponentDto srcComponent, Dictionary<string, Component> componentLookUp, Dictionary<string, ComponentFamily> familyLookUp, DateTimeOffset now, CancellationToken ct)
         {
             var name = srcComponent.CleanName ?? string.Empty;
 
@@ -77,68 +77,44 @@ namespace ElectronicMaps.Application.Services
                 familyLookUp.TryGetValue(srcComponent.Family, out dbFamily);
             }
 
-            // Вариант 1: компонента в БД нет.
-            if(dbComponent is null)
+            var familyFormType = dbFamily?.FamilyFormType;
+            var componentFormType = dbComponent?.FormType;
+
+            var dto = new AnalyzedComponentDto
             {
-                return new AnalyzedComponentDto
-                {
-                    RawName = srcComponent.RawName,
-                    Type = srcComponent.Type,
-                    Family = srcComponent.Family,
-                    CleanName = srcComponent.CleanName,
-                    Quantity = srcComponent.Quantity,
-                    Designators = srcComponent.Designators,
-
-                    ExistsInDatabase = false,
-                    ExistingComponentId = null,
-                    DatabaseName = null,
-
-                    FamilyExistsInDatabase = dbFamily != null,
-                    DatabaseFamilyId = dbFamily?.Id,
-                    DatabaseFamilyFormCode = dbFamily?.FamilyFormCode,
-
-                    ComponentFormCode = string.Empty,
-                    Parameters = Array.Empty<ParameterDto>(),
-                    SchematicParameters = Array.Empty<ParameterDto>(),
-                    LastUpdatedUtc = now
-                };
-            }
-
-            // Вариант 2: компонент в БД есть.
-
-            // Загружаем значения параметров
-            var values = await _query.GetParameterValuesAsync(dbComponent.Id, ct);
-
-            var formType = await _query.GetFormTypeByCodeAsync(dbComponent.FormCode, ct)
-                  ?? throw new InvalidOperationException(
-                      $"Форма с кодом '{dbComponent.FormCode}' не найдена.");
-
-            var paramDtos = BuildParameterDtos(formType, values);
-
-            dbFamily ??= dbComponent.ComponentFamily;
-
-            return new AnalyzedComponentDto
-            {
+                // --- XML ---
                 RawName = srcComponent.RawName,
-                Type = srcComponent.Type,
-                Family = dbFamily?.Name ?? srcComponent.Family,
                 CleanName = srcComponent.CleanName,
+                Family = dbFamily?.Name ?? srcComponent.Family,
+                Type = srcComponent.Type,
                 Quantity = srcComponent.Quantity,
-                Designators = srcComponent.Designators,
+                Designator = srcComponent.Designators,
 
-                ExistsInDatabase = true,
-                ExistingComponentId = dbComponent.Id,
-                DatabaseName = dbComponent.Name,
+                // --- Компонент в БД ---
+                ComponentExistsInDatabase = dbComponent != null,
+                ExistingComponentId = dbComponent?.Id,
+                DatabaseComponentName = dbComponent?.Name,
 
+                // --- Семейство в БД ---
                 FamilyExistsInDatabase = dbFamily != null,
                 DatabaseFamilyId = dbFamily?.Id,
-                DatabaseFamilyFormCode = dbFamily?.FamilyFormCode,
+                DatabaseFamilyName = dbFamily?.Name,
 
-                ComponentFormCode = dbComponent.FormCode,
-                Parameters = paramDtos,
-                SchematicParameters = Array.Empty<ParameterDto>(),
+                // --- Форма семейства ---
+                FamilyFormTypeId = dbFamily?.FamilyFormTypeId,
+                FamilyFormTypeCode = familyFormType?.Code,
+                FamilyFormDisplayName = familyFormType?.DisplayName,
+
+                // --- Форма компонента ---
+                ComponentFormTypeId = dbComponent?.FormTypeId,
+                ComponentFormTypeCode = componentFormType?.Code,
+                ComponentFormDisplayName = componentFormType?.DisplayName,
+
                 LastUpdatedUtc = now
             };
+
+            return dto;
+            
         }
 
         private async Task<Dictionary<string, Component>> BuildComponentLookUp(ComponentSourceFileDto source, CancellationToken ct)

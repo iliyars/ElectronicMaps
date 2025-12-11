@@ -25,12 +25,10 @@ namespace ElectronicMaps.Infrastructure.Repositories
                 .Include(c => c.ComponentFamily)
                 .FirstOrDefaultAsync(c => c.Name == canonicalName, ct);
 
-
         public Task<FormType?> GetFormTypeByCodeAsync(string code, CancellationToken ct) =>
             _db.FormTypes
                 .Include(ft => ft.Parameters)
                 .FirstOrDefaultAsync(ft => ft.Code == code, ct);
-
 
         public async Task<IReadOnlyList<ParameterValue>> GetParameterValuesAsync(int componentId, CancellationToken ct)
         {
@@ -59,6 +57,7 @@ namespace ElectronicMaps.Infrastructure.Repositories
                 .Where(f=>names.Contains(f.Name))
                 .ToListAsync(ct);
         }
+        
         public Task<Component?> GetByIdAsync(int id, CancellationToken ct)
         {
             return _db.Components.FirstOrDefaultAsync(c => c.Id == id, ct);
@@ -72,12 +71,29 @@ namespace ElectronicMaps.Infrastructure.Repositories
                 .ToListAsync(ct);
         }
 
-        public Task<List<Component>> GetByNamesAsync(IEnumerable<string> canonicalNames,CancellationToken ct = default)
+        public  Task<List<Component>> GetByNamesAsync(IEnumerable<string> canonicalNames,CancellationToken ct = default)
         {
-            return _db.Components
+            return  _db.Components
                 .Where(c => canonicalNames.Contains(c.CanonicalName))
                 .Include(c => c.ComponentFamily)
                 .ToListAsync(ct);
+        }
+
+        public Task<ComponentFamily?> GetFamilyByIdWithFormAsync(int familyId, CancellationToken ct)
+        {
+            return  _db.ComponentFamilies
+                .Include(f => f.FamilyFormType)
+                .ThenInclude(ft => ft.Parameters)
+                .FirstOrDefaultAsync(f => f.Id == familyId, ct);
+        }
+
+        public  Task<Component?> GetComponentByIdWithFormAsync(int componentId, CancellationToken ct)
+        {
+            return _db.Components
+                .Include(c => c.FormType)
+                .ThenInclude(ft => ft.Parameters)
+                .Include(c => c.ComponentFamily)
+                .FirstOrDefaultAsync(c => c.Id == componentId, ct);
         }
     }
 }

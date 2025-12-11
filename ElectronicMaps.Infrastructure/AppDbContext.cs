@@ -74,8 +74,10 @@ namespace ElectronicMaps.Infrastructure
                 .IsRequired()
                 .HasMaxLength(200);
 
-            b.Property(x => x.FamilyFormCode)
-                .HasMaxLength(50);
+            b.HasOne(x => x.FamilyFormType)
+                .WithMany()
+                .HasForeignKey(x => x.FamilyFormTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         private void ConfigureComponent(ModelBuilder modelBuilder)
@@ -87,21 +89,17 @@ namespace ElectronicMaps.Infrastructure
             b.Property(x => x.Name)
                 .IsRequired()
                 .HasMaxLength(200);
-
-            b.Property(x => x.FormCode)
-                .IsRequired()
-                .HasMaxLength(50);
-
-            b.Property(x => x.CanonicalName)
-                .HasMaxLength(200);
-
-            b.HasIndex(x => x.Name);
-            b.HasIndex(x => x.CanonicalName);
-
+            // Свзяь с семейством
             b.HasOne(x => x.ComponentFamily)
                 .WithMany(f => f.Components)
                 .HasForeignKey(x => x.ComponentFamilyId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            //Связь с фомой компонента
+            b.HasOne(x => x.FormType)
+                .WithMany()
+                .HasForeignKey(x => x.FormTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         private void ConfigureFormType(ModelBuilder modelBuilder)
@@ -170,6 +168,15 @@ namespace ElectronicMaps.Infrastructure
                 .WithMany(c => c.ParameterValues)
                 .HasForeignKey(x => x.ComponentId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Гарантируем, что либо ComponentId, либо ComponentFamilyId, но не оба сразу
+            b.ToTable(t =>
+            {
+                t.HasCheckConstraint(
+                    "CK_ParameterValues_Target",
+                    "(([ComponentId] IS NOT NULL AND [ComponentFamilyId] IS NULL) " +
+                    "OR ([ComponentId] IS NULL AND [ComponentFamilyId] IS NOT NULL))");
+            });
         }
 
 
