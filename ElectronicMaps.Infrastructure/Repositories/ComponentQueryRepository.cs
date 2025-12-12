@@ -95,5 +95,10 @@ namespace ElectronicMaps.Infrastructure.Repositories
                 .Include(c => c.ComponentFamily)
                 .FirstOrDefaultAsync(c => c.Id == componentId, ct);
         }
+
+        public Task<List<ParameterValue>> GetFamilyParameterValuesAsync_List(int familyId, CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -90,9 +90,9 @@ namespace ElectronicMaps.WPF.ViewModels
             FormFilters.Add(new FormFilterItem(familyFormCode, "Форма 4"));
 
             var componentFormItems = Components
-                .Where(c => !string.IsNullOrWhiteSpace(c.ComponentFormTypeCode))
+                .Where(c => !string.IsNullOrWhiteSpace(c.ComponentFormCode))
                 .GroupBy(
-                    c => c.ComponentFormTypeCode!.Trim(),                  // ключ = код формы
+                    c => c.ComponentFormCode!.Trim(),                  // ключ = код формы
                     StringComparer.OrdinalIgnoreCase)
                 .Select(g =>
                 {
@@ -134,7 +134,7 @@ namespace ElectronicMaps.WPF.ViewModels
             }
 
            var components = Components
-                .Where(c => c.ComponentFormTypeCode == selectedCode)
+                .Where(c => c.ComponentFormCode == selectedCode)
                 .ToList();
 
             foreach (var component in components)

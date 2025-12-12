@@ -17,10 +17,8 @@ namespace ElectronicMaps.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddScoped<IFileImportService, FileImportService>();
-            services.AddScoped<IComponentFormBatchService, ComponentFormBatchService>();
-            services.AddScoped<IFormQueryService, FormQueryService>();
-            services.AddScoped<IComponentCreationService, ComponentCreationService>();
             services.AddScoped<IComponentAnalysisService, ComponentAnalysisService>();
+
 
             services.AddSingleton<IComponentStore, ComponentStore>();
             services.AddSingleton<IComponentStoreSerializer, JsonComponentStoreSerializer>();

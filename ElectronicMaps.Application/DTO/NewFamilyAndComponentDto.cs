@@ -16,11 +16,12 @@ namespace ElectronicMaps.Application.DTO
     {
         public string FamilyName { get; set; } = null!;
 
-        public int FamilyFormTypeId { get; set; }
+        public int FamilyFormId { get; set; }
+        public string FamilyFormCode { get; set; } = "FORM_4";
 
         public string ComponentName { get; set; }
-
-        public int ComponentFormTypeId { get; set; }
+        public int ComponentFormId { get; set; }
+        public string ComponentFormCode { get; set; }
 
 
         // Параметры — по коду/ID definitions + значения
@@ -41,10 +42,10 @@ namespace ElectronicMaps.Application.DTO
             IReadOnlyList<ParameterDto> familyParameters,
             IReadOnlyList<ParameterDto> componentParameters)
         {
-            if (analyzed.FamilyFormTypeId is null)
+            if (analyzed.FamilyFormId is null)
                 throw new InvalidOperationException("FamilyFormTypeId должен быть задан для создания семейства.");
 
-            if (analyzed.ComponentFormTypeId is null)
+            if (analyzed.ComponentFormId is null)
                 throw new InvalidOperationException("ComponentFormTypeId должен быть задан для создания компонента.");
 
             // Имя семейства: либо из анализа (Family), либо из DatabaseFamilyName, если оно есть.
@@ -55,15 +56,15 @@ namespace ElectronicMaps.Application.DTO
             return new NewFamilyAndComponentDto
             {
                 FamilyName = familyName,
-                FamilyFormTypeId = analyzed.FamilyFormTypeId.Value,
+                FamilyFormId = analyzed.FamilyFormId.Value,
 
                 ComponentName = analyzed.CleanName,
 
-                ComponentFormTypeId = analyzed.ComponentFormTypeId.Value,
+                ComponentFormId = analyzed.ComponentFormId.Value,
 
                 FamilyParameters = familyParameters,
                 ComponentParameters = componentParameters,
-
+                s
                 Source = analyzed
             };
 

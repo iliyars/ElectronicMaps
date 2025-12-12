@@ -30,13 +30,13 @@ namespace ElectronicMaps.Application.DTO
 
         // Информация о формах
         // Форма для семейства
-        public int? FamilyFormTypeId { get; init; }
+        public int? FamilyFormId { get; init; }
         public string? FamilyFormTypeCode { get; init; }
         public string? FamilyFormDisplayName { get; init; }
 
         // Форма для компонента
-        public int? ComponentFormTypeId { get; init; }
-        public string? ComponentFormTypeCode { get; init; }
+        public int? ComponentFormId { get; init; }
+        public string? ComponentFormCode { get; init; }
         public string? ComponentFormDisplayName { get; init; }
 
         //Параметры

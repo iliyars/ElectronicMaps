@@ -1,5 +1,7 @@
-﻿using ElectronicMaps.Domain.Repositories;
+﻿using ElectronicMaps.Application.Services;
+using ElectronicMaps.Domain.Repositories;
 using ElectronicMaps.Domain.Services;
+using ElectronicMaps.Infrastructure.Persistance;
 using ElectronicMaps.Infrastructure.Repositories;
 using ElectronicMaps.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +32,8 @@ namespace ElectronicMaps.Infrastructure
             services.AddScoped<IComponentQueryRepository, ComponentQueryRepository>();
             services.AddScoped<IComponentCommandRepository, ComponentCommandRepository>();
             services.AddScoped<IAppUserRepository, AppUserRepository>();
+            services.AddScoped<IUnitOfWork, EfUnitOfWork>();
+
 
             services.AddSingleton<IComponentNameParser, ComponentNameParser>();
             services.AddScoped<IComponentSourceReader, AvsXmlComponentSourceReader>();

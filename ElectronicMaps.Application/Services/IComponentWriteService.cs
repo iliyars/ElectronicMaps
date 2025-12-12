@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicMaps.Application.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace ElectronicMaps.Application.Services
     {
         Task<int> CreateFamilyAndComponentAsync(NewFamilyAndComponentDto dto, CancellationToken ct);
 
-        Task<int> CreateComponentInExistingFamilyAsync(NewComponentDto dto, CancellationToken ct);
+        Task<int> CreateComponentInExistingFamilyAsync(NewComponentInFamilyDto dto, CancellationToken ct);
 
     }
 }

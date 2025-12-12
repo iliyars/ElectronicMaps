@@ -29,5 +29,8 @@ namespace ElectronicMaps.Domain.Repositories
 
         Task<Component?> GetComponentByIdWithFormAsync(int componentId, CancellationToken ct);
 
+        // для обновления семейных значений (если ты это включаешь)
+        Task<List<ParameterValue>> GetFamilyParameterValuesAsync_List(int familyId, CancellationToken ct);
+
     }
 }

@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ElectronicMaps.Application\ElectronicMaps.Application.csproj" />
     <ProjectReference Include="..\ElectronicMaps.Domain\ElectronicMaps.Domain.csproj" />
   </ItemGroup>
 

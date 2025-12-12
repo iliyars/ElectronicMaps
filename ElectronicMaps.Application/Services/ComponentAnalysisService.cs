@@ -101,13 +101,13 @@ namespace ElectronicMaps.Application.Services
                 DatabaseFamilyName = dbFamily?.Name,
 
                 // --- Форма семейства ---
-                FamilyFormTypeId = dbFamily?.FamilyFormTypeId,
+                FamilyFormId = dbFamily?.FamilyFormTypeId,
                 FamilyFormTypeCode = familyFormType?.Code,
                 FamilyFormDisplayName = familyFormType?.DisplayName,
 
                 // --- Форма компонента ---
-                ComponentFormTypeId = dbComponent?.FormTypeId,
-                ComponentFormTypeCode = componentFormType?.Code,
+                ComponentFormId = dbComponent?.FormTypeId,
+                ComponentFormCode = componentFormType?.Code,
                 ComponentFormDisplayName = componentFormType?.DisplayName,
 
                 LastUpdatedUtc = now
