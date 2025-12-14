@@ -1,0 +1,58 @@
+﻿using ElectronicMaps.Application.Abstractons.Queries;
+using ElectronicMaps.Application.DTO.Families;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ElectronicMaps.Infrastructure.Queries
+{
+    public class EfComponentFamilyReadRepository : IComponentFamilyReadRepository
+    {
+        private readonly AppDbContext _db;
+
+        public EfComponentFamilyReadRepository(AppDbContext db)
+        {
+            _db = db;
+        }
+
+        public Task<ComponentFamilyLookupDto?> GetByIdAsync(int id, CancellationToken ct)
+        {
+            return _db.ComponentFamilies.AsNoTracking().Where(f => f.Id == id).Select(f => new ComponentFamilyLookupDto(
+                f.Id,
+                f.Name,
+                f.FamilyFormTypeId,
+                f.FamilyFormType.Code
+                ))
+                .FirstOrDefaultAsync(ct);
+        }
+
+        public Task<ComponentFamilyLookupDto?> GetByNameAsync(string name, CancellationToken ct)
+        {
+            return _db.ComponentFamilies.AsNoTracking().Where(f => f.Name == name)
+                .Select(f => new ComponentFamilyLookupDto(
+                    f.Id,
+                    f.Name,
+                    f.FamilyFormTypeId,
+                    f.FamilyFormType.Code
+                    ))
+                .FirstOrDefaultAsync(ct);
+        }
+
+        public Task<IReadOnlyList<ComponentFamilyLookupDto>> GetLookupByNamesAsync(IEnumerable<string> names, CancellationToken ct)
+        {
+            var arr = names.Distinct().ToArray();
+            return _db.ComponentFamilies.AsNoTracking()
+                .Where(f => arr.Contains(f.Name))
+                .Select(f => new ComponentFamilyLookupDto(
+                    f.Id,
+                    f.Name,
+                    f.FamilyFormTypeId,
+                    f.FamilyFormType.Code
+                    ))
+                .ToListAsync(ct).ContinueWith(t => (IReadOnlyList<ComponentFamilyLookupDto>)t.Result, ct);
+        }
+    }
+}

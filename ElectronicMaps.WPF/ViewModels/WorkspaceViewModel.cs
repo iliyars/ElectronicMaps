@@ -1,5 +1,5 @@
-﻿using ElectronicMaps.Application.DTO;
-using ElectronicMaps.Application.Stores;
+﻿using ElectronicMaps.Application.Stores;
+using ElectronicMaps.Application.WorkspaceProject.Models;
 using ElectronicMaps.Domain.Services;
 using ElectronicMaps.WPF.Infrastructure.Screens;
 using ElectronicMaps.WPF.ViewModels.Components;
@@ -19,8 +19,8 @@ namespace ElectronicMaps.WPF.ViewModels
     {
         private readonly IComponentStore _componentStore;
 
-        public ObservableCollection<AnalyzedComponentDto> Components { get; } = new();
-        public ObservableCollection<AnalyzedComponentDto> FiltredComponents { get; } = new();
+        public ObservableCollection<ImportedRow> Components { get; } = new();
+        public ObservableCollection<ImportedRow> FiltredComponents { get; } = new();
         public ObservableCollection<FormFilterItem> FormFilters { get; } = new();
 
         private FormFilterItem? _selectedForm;
@@ -37,8 +37,8 @@ namespace ElectronicMaps.WPF.ViewModels
             }
         }
 
-        private AnalyzedComponentDto? _selectedComponent;
-        public AnalyzedComponentDto? SelectedComponent
+        private ImportedRow? _selectedComponent;
+        public ImportedRow? SelectedComponent
         {
             get => _selectedComponent;
             set => SetProperty(ref _selectedComponent, value);
@@ -67,7 +67,7 @@ namespace ElectronicMaps.WPF.ViewModels
         /// </summary>
         private void GetAllItemsFromStore()
         {
-            var snapshot = _componentStore.GetAll();
+            var snapshot = _componentStore.GetAllImported();
             Components.Clear();
 
             foreach (var component in snapshot)

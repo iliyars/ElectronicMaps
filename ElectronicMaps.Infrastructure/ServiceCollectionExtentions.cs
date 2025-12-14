@@ -1,7 +1,9 @@
-﻿using ElectronicMaps.Application.Services;
+﻿using ElectronicMaps.Application.Abstractons.Queries;
+using ElectronicMaps.Application.Services;
 using ElectronicMaps.Domain.Repositories;
 using ElectronicMaps.Domain.Services;
 using ElectronicMaps.Infrastructure.Persistance;
+using ElectronicMaps.Infrastructure.Queries;
 using ElectronicMaps.Infrastructure.Repositories;
 using ElectronicMaps.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
@@ -29,10 +31,22 @@ namespace ElectronicMaps.Infrastructure
             });
 
 
-            services.AddScoped<IComponentQueryRepository, ComponentQueryRepository>();
-            services.AddScoped<IComponentCommandRepository, ComponentCommandRepository>();
             services.AddScoped<IAppUserRepository, AppUserRepository>();
             services.AddScoped<IUnitOfWork, EfUnitOfWork>();
+
+            // Write repositories
+            services.AddScoped<IComponentRepository, EfComponentRepository>();
+            services.AddScoped<IComponentFamilyRepository, EfComponentFamilyRepository>();
+
+
+            services.AddScoped<IComponentReadRepository, EfComponentReadRepository>();
+            services.AddScoped<IComponentFamilyReadRepository, EfComponentFamilyReadRepository>();
+            services.AddScoped<IFormTypeReadRepository, EfFormTypeReadRepository>();
+            services.AddScoped<IParameterDefinitionReadRepository, EfParameterDefinitionReadRepository>();
+            services.AddScoped<IParameterValueReadRepository, EfParameterValueReadRepository>();
+
+            services.AddScoped<IWorkspaceQuery, EfWorkspaceQuery>();
+            services.AddScoped<IComponentDetailsQuery, EfComponentDetailsQuery>();
 
 
             services.AddSingleton<IComponentNameParser, ComponentNameParser>();

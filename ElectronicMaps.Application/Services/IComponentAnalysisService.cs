@@ -1,4 +1,4 @@
-﻿using ElectronicMaps.Application.DTO;
+﻿using ElectronicMaps.Application.WorkspaceProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace ElectronicMaps.Application.Services
 {
     public interface IComponentAnalysisService
     {
-        Task<IReadOnlyList<AnalyzedComponentDto>> AnalyzeAsync(
+        Task<IReadOnlyList<ImportedRow>> AnalyzeAsync(
             Stream stream, CancellationToken ct = default);
     }
 }

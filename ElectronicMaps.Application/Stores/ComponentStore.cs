@@ -1,338 +1,422 @@
-﻿using ElectronicMaps.Application.DTO;
+﻿using ElectronicMaps.Application.WorkspaceProject;
+using ElectronicMaps.Application.WorkspaceProject.Models;
 using ElectronicMaps.Domain.DTO;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ElectronicMaps.Application.Stores
 {
     public sealed class ComponentStore : IComponentStore
     {
-        private readonly ConcurrentDictionary<string, List<AnalyzedComponentDto>> _map = new(StringComparer.OrdinalIgnoreCase);
-
         private readonly ReaderWriterLockSlim _lock = new();
+        private readonly IWorkspaceProjectSerializer _serializer;
 
-        private readonly IComponentStoreSerializer _serializer;
-
-        private readonly string _defaultPath;
-
+        private WorkspaceProject.Models.WorkspaceProject _current;
+        private Dictionary<Guid, byte[]> _documentBinaries = new();
         private bool _hasUnsavedChanges;
-        public bool HasUnsavedChanges => _hasUnsavedChanges;
 
-        // Используется только для Clone
-        private static readonly JsonSerializerOptions _jsonOptions = new(JsonSerializerDefaults.Web)
-        {
-            WriteIndented = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        };
-        /// <inheritdoc />
         public event EventHandler<StoreChangedEventArgs>? Changed;
 
-        /// <summary>
-        /// Создаёт экземпляр хранилища компонентов.
-        /// </summary>
-        /// <param name="serializer">
-        /// Сериализатор для сохранения/загрузки данных в файл.
-        /// </param>
-        public ComponentStore(IComponentStoreSerializer serializer)
+        public bool HasUnsavedChanges => _hasUnsavedChanges;
+
+        public WorkspaceProject.Models.WorkspaceProject Current
         {
-            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
-            _defaultPath = Path.Combine(Path.GetTempPath(), "components.json");
-            _hasUnsavedChanges = false;
-        }
-        ///<inheritdoc/>
-        public IReadOnlyList<AnalyzedComponentDto> GetAll()
-        {
-            _lock.EnterReadLock();
-
-
-            try
+            get
             {
-                if (_map.TryGetValue("ALL", out var list))
-                    return list.Select(Clone).ToList();
-
-                return Array.Empty<AnalyzedComponentDto>();
-            }
-            finally
-            {
-                _lock.ExitReadLock();
-            }
-
-        }
-
-        ///<inheritdoc/>
-        public IReadOnlyList<AnalyzedComponentDto> GetByComponentForm(string formCode)
-        {
-            if (string.IsNullOrWhiteSpace(formCode))
-            {
-                return Array.Empty<AnalyzedComponentDto>();
-            }
-
-            _lock.EnterReadLock();
-            try
-            {
-                if (_map.TryGetValue(formCode, out var list))
-                    return list.Select(Clone).ToList();
-
-                return Array.Empty<AnalyzedComponentDto>();
-            }
-            finally
-            {
-                _lock.ExitReadLock();
-            }
-        }
-
-        ///<inheritdoc/>
-        public void ReplaceAll(IEnumerable<AnalyzedComponentDto> components)
-        {
-            if (components is null)
-                throw new ArgumentNullException(nameof(components));
-
-            _lock.EnterWriteLock();
-            try
-            {
-                _map.Clear();
-
-                var all = components
-                    .Where(c => c is not null && !string.IsNullOrWhiteSpace(c.CleanName))
-                    .Select(Clone)
-                    .ToList();
-
-                _map["ALL"] = all;
-
-                OnChanged(StoreChangeKind.Replaced, "ALL");
-            }
-            finally
-            {
-                _lock.ExitWriteLock();
-            }
-        }
-
-        //<inheritdoc/>
-        public void ReplaceForm(string formCode, IEnumerable<AnalyzedComponentDto> components)
-        {
-            if (string.IsNullOrWhiteSpace(formCode))
-                throw new ArgumentException("Код формы не должен быть пустым.", nameof(formCode));
-
-            if (components is null)
-                throw new ArgumentNullException(nameof(components));
-
-            var list = components
-                .Where(c => c is not null && !string.IsNullOrWhiteSpace(c.CleanName))
-                .Select(Clone)
-                .ToList();
-
-            _lock.EnterWriteLock();
-            try
-            {
-                _map[formCode] = list;
-                OnChanged(StoreChangeKind.Replaced, formCode);
-            }
-            finally
-            {
-                _lock.ExitWriteLock();
-            }
-
-        }
-        ///<inheritdoc/>
-        public void AddToForm(string formCode, AnalyzedComponentDto component)
-        {
-            if (string.IsNullOrWhiteSpace(formCode))
-                throw new ArgumentException("Код формы не должен быть пустым.", nameof(formCode));
-
-            if (component is null)
-                throw new ArgumentNullException(nameof(component));
-
-            var clone = Clone(component);
-
-            _lock.EnterWriteLock();
-            try
-            {
-                var list = _map.GetOrAdd(formCode, _ => new List<AnalyzedComponentDto>());
-                list.Add(clone);
-
-                OnChanged(StoreChangeKind.Upserted, formCode);
-            }
-            finally
-            {
-                _lock.ExitWriteLock();
-            }
-        }
-
-        ///<inheritdoc/>
-        public void RemoveFromForm(string formCode, string cleanName)
-        {
-            if (string.IsNullOrWhiteSpace(formCode))
-                throw new ArgumentException("Код формы не должен быть пустым.", nameof(formCode));
-
-            if (string.IsNullOrWhiteSpace(cleanName))
-                return;
-
-            _lock.EnterWriteLock();
-            try
-            {
-                if (_map.TryGetValue(formCode, out var list))
+                _lock.EnterReadLock();
+                try
                 {
-                    var before = list.Count;
-                    list.RemoveAll(c =>
-                        c.CleanName.Equals(cleanName, StringComparison.OrdinalIgnoreCase));
-
-                    if (list.Count != before)
-                        OnChanged(StoreChangeKind.Removed, formCode);
+                    return _current;
+                }
+                finally
+                {
+                    _lock.ExitReadLock();
                 }
             }
-            finally
-            {
-                _lock.ExitWriteLock();
-            }
         }
 
-        ///<inheritdoc/>
-        public bool Remove(string key)
+        public ComponentStore(IWorkspaceProjectSerializer serializer)
+        {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            _current = WorkspaceProject.Models.WorkspaceProject.Empty();
+            _hasUnsavedChanges = false;
+        }
+
+
+        // ---------------- Import (ALL) ----------------
+        public IReadOnlyList<ImportedRow> GetAllImported()
+        {
+            _lock.EnterReadLock();
+            try { return _current.ImportedRows; }
+            finally { _lock.ExitReadLock(); }
+        }
+
+        public void ReplaceImport(IEnumerable<ImportedRow> importedRows)
+        {
+            if(importedRows is null) throw new ArgumentNullException(nameof(importedRows));
+
+            var list = importedRows
+                .Where(r => r is not null && r.RowId != Guid.Empty && !string.IsNullOrWhiteSpace(r.CleanName))
+            .ToList();
+
+            _lock.EnterWriteLock();
+            try
+            {
+                _current = _current with
+                {
+                    ImportedRows = list,
+                    ViewsByKey = new Dictionary<string, List<Guid>>(StringComparer.OrdinalIgnoreCase),
+                    WorkingComponents = new Dictionary<Guid, ComponentDraft>() // рабочий слой тоже обычно пересобирается
+                };
+                MarkDirty_NoLock();
+                OnChanged(StoreChangeKind.Replaced, "ALL");
+            }
+            finally { _lock.ExitWriteLock(); }
+        }
+
+        // ---- Views --- // 
+        public IReadOnlyList<string> GetViewKeys()
+        {
+            _lock.EnterReadLock();
+            try { return _current.ViewsByKey.Keys.OrderBy(x => x).ToList(); }
+            finally { _lock.ExitReadLock(); }
+        }
+
+        /// <summary>
+        /// возвращает рабочие компоненты (<see cref="ComponentDraft"/>) для указанного <paramref name="key"/>
+        /// 
+        /// View представляет собой список идентификаторов рабочих компонентов
+        /// (<see cref="ComponentDraft.Id"/>), сгруппированных, например,
+        /// по форме (форма 4, форма 64 и т.п.).
+        /// 
+        /// Метод не работает с результатами импорта (<see cref="ImportedRow"/>),
+        /// (<see cref="WorkspaceProject.WorkingComponents"/>).
+        /// 
+        /// <param name="key">
+        /// Ключ представления (например, "FORM_4", "FORM64").
+        /// </param>
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Список рабочих компонентов, принадлежащих данному представлению.
+        /// Если представление не существует или пусто, возвращается пустой список.
+        /// </returns>
+        public IReadOnlyList<ComponentDraft> GetWorkingForView(string key)
+        {
+            if(string.IsNullOrWhiteSpace(key))
+                return Array.Empty<ComponentDraft>();
+
+            _lock.EnterReadLock();
+            try
+            {
+                if (!_current.ViewsByKey.TryGetValue(key, out var ids) || ids.Count == 0)
+                    return Array.Empty<ComponentDraft>();
+
+                var dict = _current.WorkingComponents;
+
+                var result = new List<ComponentDraft>(ids.Count);
+                foreach(var id in ids)
+                {
+                    if(dict.TryGetValue(id, out var comp))
+                        result.Add(comp);
+                }
+                return result;
+            }
+            finally { _lock.ExitReadLock(); }
+        }
+
+        public void SaveView(string key, IEnumerable<Guid> importedRowIds)
+        {
+            if(string.IsNullOrWhiteSpace(key))
+                throw new ArgumentException("View key must not be empty.", nameof(key));
+            if(importedRowIds == null)
+                throw new ArgumentNullException(nameof(importedRowIds));
+
+            _lock.EnterWriteLock();
+            try
+            {
+                var existingIds = _current.ImportedRows.Select(x => x.RowId).ToHashSet();
+
+                var ids = importedRowIds
+                    .Where(id => id != Guid.Empty && existingIds.Contains(id))
+                    .Distinct()
+                    .ToList();
+
+                var newViews = new Dictionary<string, List<Guid>>(_current.ViewsByKey, StringComparer.OrdinalIgnoreCase)
+                {
+                    [key] = ids
+                };
+
+                _current = _current with { ViewsByKey = newViews };
+
+                MarkDirty_NoLock();
+                OnChanged(StoreChangeKind.Replaced, key);
+            }
+            finally { _lock.ExitWriteLock(); }
+        }
+
+        public bool RemoveView(string key)
         {
             if (string.IsNullOrWhiteSpace(key))
                 return false;
 
-            bool removed = false;
+            _lock.EnterWriteLock();
+            try
+            {
+                if (!_current.ViewsByKey.ContainsKey(key))
+                    return false;
+
+                var newViews = new Dictionary<string, List<Guid>>(_current.ViewsByKey, StringComparer.OrdinalIgnoreCase);
+                var removed = newViews.Remove(key);
+                if (!removed) return false;
+
+                _current = _current with { ViewsByKey = newViews };
+
+                MarkDirty_NoLock();
+                OnChanged(StoreChangeKind.Removed, key);
+                return true;
+            }
+            finally { _lock.ExitWriteLock(); }
+        }
+
+        // ---------------- Working components ----------------
+        public IReadOnlyList<ComponentDraft> GetAllWorking()
+        {
+            _lock.EnterReadLock();
+            try { return _current.WorkingComponents.Values.ToList(); }
+            finally { _lock.ExitReadLock(); }
+        }
+
+        public void ReplaceWorking(IEnumerable<ComponentDraft> components)
+        {
+            if (components is null) throw new ArgumentNullException(nameof(components));
+
+            var dict = components
+                .Where(c => c.Id != Guid.Empty)
+                .ToDictionary(c => c.Id, c => c);
 
             _lock.EnterWriteLock();
             try
             {
-                foreach (var kv in _map)
-                {
-                    var list = kv.Value;
-                    var before = list.Count;
+                _current = _current with { WorkingComponents = dict };
+                MarkDirty_NoLock();
+                OnChanged(StoreChangeKind.Replaced, "WORKING");
+            }
+            finally { _lock.ExitWriteLock(); }
+        }
 
-                    list.RemoveAll(c =>
-                        c.CleanName.Equals(key, StringComparison.OrdinalIgnoreCase));
+        public void UpsertWorking(ComponentDraft component)
+        {
+            if (component.Id == Guid.Empty)
+                throw new ArgumentException("ComponentDraft.Id is empty.", nameof(component));
 
-                    if (list.Count != before)
-                        removed = true;
-                }
+            _lock.EnterWriteLock();
+            try
+            {
+                var dict = new Dictionary<Guid, ComponentDraft>(_current.WorkingComponents);
+                dict[component.Id] = component;
 
+                _current = _current with { WorkingComponents = dict };
+
+                MarkDirty_NoLock();
+                OnChanged(StoreChangeKind.Upserted, component.Id.ToString());
+            }
+            finally { _lock.ExitWriteLock(); }
+        }
+
+        public bool RemoveWorking(Guid id)
+        {
+            if (id == Guid.Empty)
+                return false;
+
+            _lock.EnterWriteLock();
+            try
+            {
+                if (!_current.WorkingComponents.ContainsKey(id))
+                    return false;
+
+                var dict = new Dictionary<Guid, ComponentDraft>(_current.WorkingComponents);
+                var removed = dict.Remove(id);
+                if (!removed) return false;
+
+                _current = _current with { WorkingComponents = dict };
+
+                MarkDirty_NoLock();
+                OnChanged(StoreChangeKind.Removed, id.ToString());
+                return true;
+            }
+            finally { _lock.ExitWriteLock(); }
+        }
+
+        // ---------------- Documents ----------------
+
+        public IReadOnlyList<WordDocumentInfo> GetDocuments()
+        {
+            _lock.EnterReadLock();
+            try { return _current.Documents; }
+            finally { _lock.ExitReadLock(); }
+        }
+
+        public void AddDocument(WordDocumentInfo doc)
+        {
+            if (doc.DocumentId == Guid.Empty)
+                throw new ArgumentException("DocumentId is empty.", nameof(doc));
+
+            _lock.EnterWriteLock();
+            try
+            {
+                var list = _current.Documents.ToList();
+                list.Add(doc);
+
+                _current = _current with { Documents = list };
+
+                MarkDirty_NoLock();
+                OnChanged(StoreChangeKind.Upserted, doc.DocumentId.ToString());
+            }
+            finally { _lock.ExitWriteLock(); }
+        }
+
+        public bool RemoveDocument(Guid documentId)
+        {
+            if (documentId == Guid.Empty)
+                return false;
+
+            _lock.EnterWriteLock();
+            try
+            {
+                var list = _current.Documents.ToList();
+                var removed = list.RemoveAll(d => d.DocumentId == documentId) > 0;
+                if (!removed) return false;
+
+                _current = _current with { Documents = list };
+
+                _documentBinaries.Remove(documentId);
+                MarkDirty_NoLock();
+                OnChanged(StoreChangeKind.Removed, documentId.ToString());
+                return true;
+            }
+            finally { _lock.ExitWriteLock(); }
+        }
+
+        public void AddOrReplaceDocumentBinary(Guid documentId, byte[] content)
+        {
+            if (documentId == Guid.Empty) throw new ArgumentException("DocumentId is empty.", nameof(documentId));
+            if (content is null || content.Length == 0) throw new ArgumentException("Content is empty.", nameof(content));
+
+            _lock.EnterWriteLock();
+            try
+            {
+                _documentBinaries[documentId] = content;
+                MarkDirty_NoLock();
+                OnChanged(StoreChangeKind.Upserted, documentId.ToString());
+            }
+            finally { _lock.ExitWriteLock(); }
+        }
+
+        public bool RemoveDocumentBinary(Guid documentId)
+        {
+            if (documentId == Guid.Empty) return false;
+
+            _lock.EnterWriteLock();
+            try
+            {
+                var removed = _documentBinaries.Remove(documentId);
                 if (removed)
-                    OnChanged(StoreChangeKind.Removed, key);
-
+                {
+                    MarkDirty_NoLock();
+                    OnChanged(StoreChangeKind.Removed, documentId.ToString());
+                }
                 return removed;
             }
-            finally
-            {
-                _lock.ExitWriteLock();
-            }
+            finally { _lock.ExitWriteLock(); }
         }
-        /// <inheritdoc />
+
+        public byte[]? GetDocumentBinary(Guid documentId)
+        {
+            _lock.EnterReadLock();
+            try
+            {
+                return _documentBinaries.TryGetValue(documentId, out var bytes) ? bytes : null;
+            }
+            finally { _lock.ExitReadLock(); }
+        }
+
+        // ---------------- Project I/O ----------------
+
+        public async Task SaveProjectAsync(string filePath, CancellationToken ct = default)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+                throw new ArgumentException("File path is empty.", nameof(filePath));
+
+            WorkspaceProject.Models.WorkspaceProject snapshot;
+            IReadOnlyCollection<WordDocumentBinary> docs;
+
+            _lock.EnterReadLock();
+            try 
+            {
+                snapshot = _current;
+                docs = _documentBinaries.Select(kv => new WordDocumentBinary(kv.Key, kv.Value)).ToList();
+            }
+            finally { _lock.ExitReadLock(); }
+            // docsBytes берём из отдельного хранилища документов
+            await _serializer.SaveAsync(filePath, snapshot, docs, ct);
+
+            _hasUnsavedChanges = false;
+            OnChanged(StoreChangeKind.Saved, null);
+        }
+
+        public async Task LoadProjectAsync(string filePath, CancellationToken ct = default)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+                throw new ArgumentException("File path is empty.", nameof(filePath));
+
+            var loaded = await _serializer.LoadAsync(filePath, ct);
+
+            _lock.EnterWriteLock();
+            try
+            {
+                _current = loaded.Project;
+
+                _documentBinaries = loaded.Documents.GroupBy(d => d.DocumentId).ToDictionary(g => g.Key, g => g.Last().Content);
+
+                _hasUnsavedChanges = false;
+                OnChanged(StoreChangeKind.Loaded, null);
+            }
+            finally { _lock.ExitWriteLock(); }
+        }
+
         public void Clear()
         {
             _lock.EnterWriteLock();
             try
             {
-                _map.Clear();
+                _current = WorkspaceProject.Models.WorkspaceProject.Empty();
+                MarkDirty_NoLock();
                 OnChanged(StoreChangeKind.Cleared, null);
             }
-            finally
-            {
-                _lock.ExitWriteLock();
-            }
+            finally { _lock.ExitWriteLock(); }
         }
 
-        public void MarkClean()
-        {
-            _hasUnsavedChanges = false;
-        }
+        public void MarkClean() => _hasUnsavedChanges = false;
 
-        ///<inheritdoc/>
-        public async Task SaveAsync(string? path = null, CancellationToken ct = default)
-        {
-            path ??= _defaultPath;
+        public void Dispose() => _lock.Dispose();
 
-            Dictionary<string, List<AnalyzedComponentDto>> snapshot;
-
-            _lock.EnterReadLock();
-            try
-            {
-                snapshot = _map
-                .ToDictionary(
-                    kv => kv.Key,
-                    kv => kv.Value.Select(Clone).ToList(),
-                    StringComparer.OrdinalIgnoreCase);
-            }
-            finally
-            {
-                _lock.ExitReadLock();
-            }
-
-            Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-
-            await using var stream = File.Create(path);
-            await _serializer.SerializeAsync(stream, snapshot, ct);
-
-            OnChanged(StoreChangeKind.Saved, null);
-        }
-
-        ///<inheritdoc/>
-        public async Task LoadAsync(string? path = null, CancellationToken ct = default)
-        {
-            path ??= _defaultPath;
-
-            if (!File.Exists(path))
-                return;
-
-            await using var stream = File.OpenRead(path);
-            var loaded = await _serializer.DeserializeAsync(stream, ct);
-
-            _lock.EnterWriteLock();
-            try
-            {
-                _map.Clear();
-                foreach (var kv in loaded)
-                {
-                    _map[kv.Key] = kv.Value
-                        ?.Where(x => x != null && !string.IsNullOrWhiteSpace(x.CleanName))
-                        .Select(Clone)
-                        .ToList()
-                        ?? new List<AnalyzedComponentDto>();
-                }
-
-                OnChanged(StoreChangeKind.Loaded, null);
-            }
-            finally
-            {
-                _lock.ExitWriteLock();
-            }
-        }
-
-
-        public void Dispose()
-        {
-            _lock.Dispose();
-        }
-
-        private static AnalyzedComponentDto Clone(AnalyzedComponentDto source)
-        {
-            var json = JsonSerializer.Serialize(source, _jsonOptions);
-            return JsonSerializer.Deserialize<AnalyzedComponentDto>(json, _jsonOptions)
-                   ?? throw new InvalidOperationException("Не удалось клонировать AnalyzedComponentDto.");
-        }
+        private void MarkDirty_NoLock() => _hasUnsavedChanges = true;
 
         private void OnChanged(StoreChangeKind kind, string? key)
-        {
+            => Changed?.Invoke(this, new StoreChangedEventArgs(kind, key, _current.ImportedRows.Count));
 
-            var handler = Changed;
-            if (handler is null)
-            {
-                return;
-            }
-
-            var count = _map.Count;
-            var args = new StoreChangedEventArgs(kind, key, count);
-            handler(this, args);
-        }
+       
     }
 }
+

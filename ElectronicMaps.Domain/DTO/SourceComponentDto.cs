@@ -9,16 +9,14 @@ namespace ElectronicMaps.Domain.DTO
     /// <summary>
     /// Represents a single component entry loaded from an external source. (XML, Excel ...)
     /// </summary>
-    public class SourceComponentDto
-    {
-        public string RawName { get; set; } = default!;
-        public string CleanName { get; set; } = default!;
-        public string Type { get; set; } = default!;
-        public string Family { get; set; } = default!;
+    public record SourceComponentDto
+    (
+        string RawName,
+        string CleanName,
+        string Type,
+        string Family,
 
-        public int Quantity { get; set; }
-        public string? Designators { get; set; }
-
-
-    }
+        int Quantity,
+        string? Designators
+    );
 }

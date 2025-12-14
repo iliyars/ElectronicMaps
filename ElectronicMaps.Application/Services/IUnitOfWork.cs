@@ -11,5 +11,7 @@ namespace ElectronicMaps.Application.Services
         Task ExecuteInTransactionAsync(
            Func<CancellationToken, Task> action,
            CancellationToken ct);
+
+        Task SaveChangesAsync(CancellationToken ct);
     }
 }

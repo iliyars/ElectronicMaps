@@ -17,7 +17,7 @@ namespace ElectronicMaps.Domain.Entities
         public ComponentFamily? ComponentFamily { get; set; }
 
         /// <summary>Если значение относится к конкретному компоненту (FormScope.Component).</summary>
-        public int? ComponentId { get; set; }
+        public int ComponentId { get; set; }
         public Component? Component { get; set; }
 
         // Универсальное хранение значения:

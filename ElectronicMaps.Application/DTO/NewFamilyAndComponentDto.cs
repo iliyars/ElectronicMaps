@@ -1,4 +1,5 @@
-﻿using ElectronicMaps.Domain.DTO;
+﻿using ElectronicMaps.Application.WorkspaceProject.Models;
+using ElectronicMaps.Domain.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,13 +33,13 @@ namespace ElectronicMaps.Application.DTO
         /// Опционально: исходный анализированный компонент, чтобы при необходимости
         /// логировать/связывать с исходными данными из XML.
         /// </summary>
-        public AnalyzedComponentDto? Source { get; init; }
+        public ImportedRow? Source { get; init; }
 
         /// <summary>
         /// Удобный фабричный метод: собирает DTO из результата анализа и заполненных параметров.
         /// </summary>
         public static NewFamilyAndComponentDto FromAnalyzed(
-            AnalyzedComponentDto analyzed,
+            ImportedRow analyzed,
             IReadOnlyList<ParameterDto> familyParameters,
             IReadOnlyList<ParameterDto> componentParameters)
         {

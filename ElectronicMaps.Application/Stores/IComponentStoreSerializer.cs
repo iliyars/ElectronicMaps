@@ -1,4 +1,4 @@
-﻿using ElectronicMaps.Application.DTO;
+﻿using ElectronicMaps.Application.WorkspaceProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +12,11 @@ namespace ElectronicMaps.Application.Stores
         /// <summary>Сериализует набор компонентов в поток.</summary>
         Task SerializeAsync(
             Stream stream,
-            IReadOnlyDictionary<string, List<AnalyzedComponentDto>> map,
+            IReadOnlyDictionary<string, List<ImportedRow>> map,
             CancellationToken ct = default);
 
         /// <summary>Десериализует набор компонентов из потока.</summary>
-        Task<Dictionary<string, List<AnalyzedComponentDto>>> DeserializeAsync(
+        Task<Dictionary<string, List<ImportedRow>>> DeserializeAsync(
             Stream stream,
             CancellationToken ct = default);
     }

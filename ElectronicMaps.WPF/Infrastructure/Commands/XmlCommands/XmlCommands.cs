@@ -99,18 +99,9 @@ namespace ElectronicMaps.WPF.Infrastructure.Commands.XmlCommands
 
         private async Task ProcessXmlFileAsync(Stream stream)
         {
-            var analyzedComponents = await _componentAnalysisService.AnalyzeAsync(stream);
+            var importedRows = await _componentAnalysisService.AnalyzeAsync(stream);
 
-            var enrichedComponents = analyzedComponents.Select(component =>
-            {
-                component.IsSelectedForImport = false;
-                component.IsEdited = false;
-                component.IsDirty = false;
-                component.LastUpdatedUtc = DateTimeOffset.UtcNow;
-                return component;
-            }).ToList();
-
-            _componentStore.ReplaceAll(enrichedComponents);
+            _componentStore.ReplaceImport(importedRows);
         }
     }
 }

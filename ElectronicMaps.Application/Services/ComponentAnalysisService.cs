@@ -1,5 +1,4 @@
-﻿using ElectronicMaps.Application.DTO;
-using ElectronicMaps.Application.Stores;
+﻿using ElectronicMaps.Application.Stores;
 using ElectronicMaps.Application.Utils;
 using ElectronicMaps.Domain.DTO;
 using ElectronicMaps.Domain.Entities;
@@ -14,23 +13,31 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Transactions;
 using System.Net.WebSockets;
+using ElectronicMaps.Application.Abstractons.Queries;
+using ElectronicMaps.Application.DTO.Families;
+using ElectronicMaps.Application.DTO.Components;
+using ElectronicMaps.Application.WorkspaceProject.Models;
 
 namespace ElectronicMaps.Application.Services
 {
     public class ComponentAnalysisService : IComponentAnalysisService
     {
         private readonly IComponentSourceReader _sourceReader;
-        private readonly IComponentQueryRepository _query;
+        private readonly IComponentReadRepository _components;
+        private readonly IComponentFamilyReadRepository _families;
 
-
-        public ComponentAnalysisService(IComponentSourceReader sourceReader, IComponentQueryRepository query)
+        public ComponentAnalysisService(IComponentSourceReader sourceReader, IComponentReadRepository components, IComponentFamilyReadRepository families)
         {
             _sourceReader = sourceReader;
-            _query = query;
+            _components = components;
+            _families = families;
         }
 
+
+
+
         //TODO: N+1 запросов. Получать Component и Family для компонента одним запросом.
-        public async Task<IReadOnlyList<AnalyzedComponentDto>> AnalyzeAsync(Stream stream, CancellationToken ct = default)
+        public async Task<IReadOnlyList<ImportedRow>> AnalyzeAsync(Stream stream, CancellationToken ct = default)
         {
             // Читаем исходные данные из XML.
             var source = await _sourceReader.ReadAsync(stream, ct);
@@ -42,7 +49,7 @@ namespace ElectronicMaps.Application.Services
             var familyLookUp = await BuildFamilyLookUp(source, ct);
 
             // Анализируем каждый компонент из XML.
-            var result = new List<AnalyzedComponentDto>(source.Components.Count);
+            var result = new List<ImportedRow>(source.Components.Count);
             foreach(var srcComponent in source.Components)
             {
                 ct.ThrowIfCancellationRequested();
@@ -60,64 +67,65 @@ namespace ElectronicMaps.Application.Services
             return result;
         }
 
-        private AnalyzedComponentDto AnalyzeSingleComponent(SourceComponentDto srcComponent, Dictionary<string, Component> componentLookUp, Dictionary<string, ComponentFamily> familyLookUp, DateTimeOffset now, CancellationToken ct)
+        private ImportedRow AnalyzeSingleComponent(SourceComponentDto srcComponent, Dictionary<string, ComponentLookUpDto> componentLookUp, Dictionary<string, ComponentFamilyLookupDto> familyLookUp, DateTimeOffset now, CancellationToken ct)
         {
-            var name = srcComponent.CleanName ?? string.Empty;
-
-            componentLookUp.TryGetValue(name, out var dbComponent);
+            var name = (srcComponent.CleanName ?? string.Empty).Trim();
 
             // Определяем семейство либо от компонента из БД либо ро имени из XML.
-            ComponentFamily? dbFamily = null;
-            if (dbComponent != null)
+            componentLookUp.TryGetValue(name, out var dbComponent);
+
+            ComponentFamilyLookupDto? dbFamily = null;
+
+            // Если компонент найден - семейство берём из компонента
+            if (dbComponent is not null && !string.IsNullOrWhiteSpace(dbComponent.FamilyName))
             {
-                dbFamily = dbComponent.ComponentFamily;
+                familyLookUp.TryGetValue(dbComponent.FamilyName, out dbFamily);
             }
+            // иначе находим по family из xml
             else if(!string.IsNullOrWhiteSpace(srcComponent.Family))
             {
                 familyLookUp.TryGetValue(srcComponent.Family, out dbFamily);
             }
 
-            var familyFormType = dbFamily?.FamilyFormType;
-            var componentFormType = dbComponent?.FormType;
+            var designatorsList = SplitDesignators(srcComponent.Designators);
 
-            var dto = new AnalyzedComponentDto
-            {
-                // --- XML ---
-                RawName = srcComponent.RawName,
-                CleanName = srcComponent.CleanName,
-                Family = dbFamily?.Name ?? srcComponent.Family,
-                Type = srcComponent.Type,
-                Quantity = srcComponent.Quantity,
-                Designator = srcComponent.Designators,
+                var analyzed = new ImportedRow(
+                    RowId: Guid.NewGuid(),
+                    // --- XML --- //
+                    RawName: srcComponent.RawName,
+                    CleanName: srcComponent.CleanName,
+                    Family: dbFamily?.Name ?? srcComponent.Family,
+                    Type: srcComponent.Type,
+                    Quantity: srcComponent.Quantity,
+                    Designator: srcComponent.Designators,
+                    Designators: designatorsList,
 
-                // --- Компонент в БД ---
-                ComponentExistsInDatabase = dbComponent != null,
-                ExistingComponentId = dbComponent?.Id,
-                DatabaseComponentName = dbComponent?.Name,
+                    // --- DB --- //
+                    ComponentExistsInDatabase: dbComponent is not null,
+                    ExistingComponentId: dbComponent?.Id,
+                    DatabaseComponentName: dbComponent?.Name,
 
-                // --- Семейство в БД ---
-                FamilyExistsInDatabase = dbFamily != null,
-                DatabaseFamilyId = dbFamily?.Id,
-                DatabaseFamilyName = dbFamily?.Name,
+                    // --- Family --- //
+                    FamilyExistsInDatabase: dbFamily is not null,
+                    DatabaseFamilyId: dbFamily?.Id,
+                    DatabaseFamilyName: dbFamily?.Name,
 
-                // --- Форма семейства ---
-                FamilyFormId = dbFamily?.FamilyFormTypeId,
-                FamilyFormTypeCode = familyFormType?.Code,
-                FamilyFormDisplayName = familyFormType?.DisplayName,
+                    // --- Family form --- //
+                    FamilyFormId: dbFamily?.FormTypeId,
+                    FamilyFormTypeCode: dbFamily?.FormCode,
+                    FamilyFormDisplayName: dbFamily?.Name,
 
-                // --- Форма компонента ---
-                ComponentFormId = dbComponent?.FormTypeId,
-                ComponentFormCode = componentFormType?.Code,
-                ComponentFormDisplayName = componentFormType?.DisplayName,
+                    // --- Component form --- //
+                    ComponentFormId: dbComponent?.FormTypeId,
+                    ComponentFormCode: dbComponent?.FormCode,
+                    ComponentFormDisplayName: dbComponent.FormName,
 
-                LastUpdatedUtc = now
-            };
-
-            return dto;
-            
+                    LastUpdatedUtc: now
+                    );
+            return analyzed;
         }
 
-        private async Task<Dictionary<string, Component>> BuildComponentLookUp(ComponentSourceFileDto source, CancellationToken ct)
+        private async Task<Dictionary<string, ComponentLookUpDto>> BuildComponentLookUp(ComponentSourceFileDto source, CancellationToken ct)
         {
             // Собираем все имена компонентов из XML.
             var names = source.Components
@@ -126,7 +134,7 @@ namespace ElectronicMaps.Application.Services
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
             
             // Загружаем компоненты из БД
-            var existingComponents = await _query.GetByNamesAsync(names, ct);
+            var existingComponents = await _components.GetLookupByNamesAsync(names!, ct);
 
             // Строим словарь существующих компонентов по CanonicalName:
             // CanonicalName → Component
@@ -137,7 +145,7 @@ namespace ElectronicMaps.Application.Services
             return componentLookUp;
         }
 
-        private async Task<Dictionary<string, ComponentFamily>> BuildFamilyLookUp(ComponentSourceFileDto source, CancellationToken ct)
+        private async Task<Dictionary<string, ComponentFamilyLookupDto>> BuildFamilyLookUp(ComponentSourceFileDto source, CancellationToken ct)
         {
             // Собираем все имена семейств из XML.
             var familyNames = source.Components
@@ -146,41 +154,21 @@ namespace ElectronicMaps.Application.Services
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
             //Загружаем существующие семейства из БД.
-            var existingFamilies = await _query.GetFamiliesByNamesAsync(familyNames, ct);
+            var existingFamilies = await _families.GetLookupByNamesAsync(familyNames, ct);
 
             var familyLookUp = existingFamilies.ToDictionary(f=>f.Name, f=>f, StringComparer.OrdinalIgnoreCase);
 
             return familyLookUp;
         }
-
-        private static IReadOnlyList<ParameterDto> BuildParameterDtos(FormType formType,IReadOnlyList<ParameterValue> values)
+        //TODO: Разделение компонентов по "," и "-"
+        private IReadOnlyList<string> SplitDesignators(string? designators)
         {
-            // Быстрое сопоставление ParameterDefinition → ParameterValue
-            var valuesByDefId = values.ToDictionary(v => v.ParameterDefinitionId);
+            if(string.IsNullOrWhiteSpace(designators))
+                return Array.Empty<string>();
 
-            var result = new List<ParameterDto>(formType.Parameters.Count);
-
-            // Проходим по параметрам формы в правильном порядке
-            foreach (var def in formType.Parameters.OrderBy(p => p.Order))
-            {
-                // пробуем найти соответствующее значение в БД
-                valuesByDefId.TryGetValue(def.Id, out var val);
-
-                // создаём DTO
-                result.Add(new ParameterDto
-                {
-                    Code = def.Code,
-                    DisplayName = def.DisplayName,
-                    Unit = def.Unit,
-
-                    StringValue = val?.StringValue,
-                    DoubleValue = val?.DoubleValue,
-                    IntValue = val?.IntValue,
-                    Pins = val?.Pins
-                });
-            }
-
-            return result;
+            return designators
+            .Split(new[] { ',', ';', ' ' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .ToArray();
         }
     }
 }

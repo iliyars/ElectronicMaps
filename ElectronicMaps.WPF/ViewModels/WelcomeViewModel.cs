@@ -31,6 +31,6 @@ namespace ElectronicMaps.WPF.ViewModels
         public ICommand OpenFormsCommand { get; }
         public ICommand OpenSettingsCommand { get; }
 
-        public bool HasComponents => _componentStore.GetAll().Any(); // или Count > 0
+        public bool HasComponents => _componentStore.GetAllImported().Any(); // или Count > 0
     }
 }

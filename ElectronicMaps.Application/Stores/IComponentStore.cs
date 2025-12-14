@@ -1,4 +1,4 @@
-﻿using ElectronicMaps.Application.DTO;
+﻿using ElectronicMaps.Application.WorkspaceProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +16,6 @@ namespace ElectronicMaps.Application.Stores
     /// </summary>
     public interface IComponentStore : IDisposable
     {
-
-        bool HasUnsavedChanges { get; }
         /// <summary>
         /// Собитие, возникающее при любых изменениях в хранилище.
         /// Вызывается после операций добавления, удаления, замены, загрузки и сохранения.
@@ -25,6 +23,9 @@ namespace ElectronicMaps.Application.Stores
         /// и текущее общее количество компонентов во всех группах.
         /// </summary>
         event EventHandler<StoreChangedEventArgs>? Changed;
+        bool HasUnsavedChanges { get; }
+
+        WorkspaceProject.Models.WorkspaceProject Current { get; }
 
         /// <summary>
         /// Возвращает все компоненты из хранилища, независимо от группировки.
@@ -32,21 +33,7 @@ namespace ElectronicMaps.Application.Stores
         /// Реализация возвращает копию списка. Изменения возвращаемого списка не влияют на хранилище.
         /// </summary>
         /// <returns>Список компонентов. Может быть пустым но никогда не null</returns>
-        IReadOnlyList<AnalyzedComponentDto> GetAll();
-
-        /// <summary>
-        /// Возвращает компоненты, относящиеся к указанному коду формы.
-        /// 
-        /// Код формы трактуется как ключ группировки (например "FORM_4", "FORM_64").
-        /// </summary>
-        /// <param name="formCode">
-        /// Код формы (строковый ключ группы компонентов). 
-        /// </param>
-        /// <returns>
-        /// Список компонентов соответсвующей формы. Может быть пустым но никогда не null
-        /// Возвращаются копии компонентов из хранилища (изменения возвращаемого списка не влияют на хранилище).
-        /// </returns>
-        IReadOnlyList<AnalyzedComponentDto> GetByComponentForm(string formCode);
+        IReadOnlyList<ImportedRow> GetAllImported();
         /// <summary>
         /// Полностью заменяет содержимое хранилища новым набором компонентов.
         /// 
@@ -57,118 +44,49 @@ namespace ElectronicMaps.Application.Stores
         /// </summary>
         /// <param name="components">
         /// Последовательность компонентов, которая должна стать единственным
-        /// содержимым хранилища. Значения с пустым <see cref="AnalyzedComponentDto.CleanName"/>
+        /// содержимым хранилища. Значения с пустым <see cref="ImportedRow.CleanName"/>
         /// могут игнорироваться реализацией.
         /// </param>
-        void ReplaceAll(IEnumerable<AnalyzedComponentDto> components);
+        void ReplaceImport(IEnumerable<ImportedRow> components);
 
+        // --- Views (сохранённые сортировки) ---
+        void RebuildViewsByForms();
+        IReadOnlyList<string> GetViewKeys();
+        IReadOnlyList<ComponentDraft> GetWorkingForView(string key);
+        void SaveView(string key, IEnumerable<Guid> importedRowIds);
+        bool RemoveView(string key);
+
+        // --- Working components (editable) ---
         /// <summary>
-        /// Заменяет список компонентов для конкретной формы (группы).
+        /// Инициализирует рабочие компоненты (<see cref="ComponentDraft"/>)
+        /// на основе импортированных строк (<see cref="ImportedRow"/>),
+        /// создавая по одному Draft'у для каждой поддерживаемой формы
+        /// например, форма 4 и форма 64).
         /// 
-        /// Остальные формы (другие ключи) не затрагиваются. Метод удобно использовать
-        /// при операциях редактирования, объединения и разбиения компонентов в рамках одной формы,
-        /// а также при реализации Undo/Redo на уровне списка формы.
+        /// Метод используется при первичной инициализации Workspace
+        /// после импорта XML и не выполняет дробление компонентов.
         /// </summary>
-        /// <param name="formCode">
-        /// Код формы (строковый ключ группы), для которой требуется заменить список компонентов.
-        /// Не должен быть пустой.
-        /// </param>
-        /// <param name="components">
-        /// Новый набор компонентов для указанной формы. Старый список для этой формы
-        /// полностью заменяется. Значения с пустым <see cref="AnalyzedComponentDto.CleanName"/>
-        /// могут игнорироваться реализацией.
-        /// </param>
-        void ReplaceForm(string formCode, IEnumerable<AnalyzedComponentDto> components);
-        /// <summary>
-        /// Добавляет один компонент в список указанной формы (группы).
-        /// Если для данного кода формы ещё нет списка, он будет создан.
-        /// Сам <paramref name="component"/> может содержать или не содержать свой
-        /// <see cref="AnalyzedComponentDto.ComponentFormCode"/> — реализация может
-        /// проигнорировать его и использовать только параметр <paramref name="formCode"/>
-        /// как ключ.
-        /// </summary>
-        /// <param name="formCode">
-        /// Код формы (строковый ключ группы), в список которой нужно добавить компонент.
-        /// Не должен быть пустой или состоять только из пробелов.
-        /// </param>
-        /// <param name="component">
-        /// Добавляемый компонент. Не должен быть <c>null</c>.</param>
-        void AddToForm(string formCode, AnalyzedComponentDto component); 
+        void InitializeWorkingDrafts();
+        IReadOnlyList<ComponentDraft> GetAllWorking();
+        void ReplaceWorking(IEnumerable<ComponentDraft> components);
+        void UpsertWorking(ComponentDraft component);
+        bool RemoveWorking(Guid id);
 
+        // --- Documents metadata ---
+        IReadOnlyList<WordDocumentInfo> GetDocuments();
+        void AddDocument(WordDocumentInfo doc);
+        bool RemoveDocument(Guid documentId);
 
-        /// <summary>
-        /// Удаляет компоненты с указанным <paramref name="cleanName"/> ТОЛЬКО из заданной формы.
-        /// 
-        /// В отличие от метода <see cref="Remove(string)"/>, затрагивает только одну группу
-        /// (один код формы) и не влияет на остальные.
-        /// </summary>
-        /// <param name="formCode">
-        /// Код формы (строковый ключ группы), из которой нужно удалить компоненты.
-        /// </param>
-        /// <param name="cleanName">
-        /// Значение <see cref="AnalyzedComponentDto.CleanName"/>, по которому
-        /// выполняется поиск и удаление. Сравнение, как правило, регистронезависимое.
-        /// Если строка пустая или состоит из пробелов, метод ничего не делает.
-        /// </param>
-        void RemoveFromForm(string formCode, string name);
+        public bool RemoveDocumentBinary(Guid documentId);
 
-        /// <summary>
-        /// Удаляет компоненты с заданным <paramref name="key"/> (обычно CleanName)
-        /// из всех групп/форм в хранилище.
-        /// 
-        /// Если требуется удалить компонент только из одной формы, используйте
-        /// <see cref="RemoveFromForm(string, string)"/>.
-        /// </summary>
-        /// <param name="key">
-        /// Значение <see cref="AnalyzedComponentDto.CleanName"/>, по которому выполняется удаление.
-        /// Сравнение, как правило, регистронезависимое. Если строка пустая, удаление не выполняется.
-        /// </param>
-        /// <returns>
-        /// <c>true</c>, если хотя бы один компонент был удалён; иначе <c>false</c>.
-        /// </returns>
-        /// <summary>
-        /// Удалить компонент по ключу
-        /// </summary>
-        /// <param name="key"></param>
-        bool Remove(string key);
+        public byte[]? GetDocumentBinary(Guid documentId);
 
-        /// <summary>
-        /// Полностью очищает хранилище, удаляя компоненты всех форм (включая общий список).
-        /// </summary>
+        // --- Project I/O ---
+        Task SaveProjectAsync(string filePath, CancellationToken ct = default);
+        Task LoadProjectAsync(string filePath, CancellationToken ct = default);
+
         void Clear();
-
         void MarkClean();
-
-        /// <summary>
-        /// Асинхронно сохраняет текущие компоненты хранилища в JSON-файл.
-        /// 
-        /// Как правило, сохраняется плоский список компонентов без группировки,
-        /// а при последующей загрузке реализация сама распределяет их по внутренним ключам.
-        /// </summary>
-        /// <param name="path">
-        /// Путь к файлу. Если <c>null</c>, используется путь по умолчанию,
-        /// заданный реализацией (например, во временной директории).
-        /// </param>
-        /// <param name="ct">
-        /// Токен отмены операции.
-        /// </param>
-        Task SaveAsync(string? path = null, CancellationToken ct = default);
-
-        /// <summary>
-        /// Асинхронно загружает компоненты из JSON-файла в хранилище.
-        /// 
-        /// Текущее содержимое хранилища очищается и заменяется загруженными данными.
-        /// Если файл по указанному пути отсутствует, метод тихо завершается
-        /// без изменений состояния хранилища.
-        /// </summary>
-        /// <param name="path">
-        /// Путь к файлу. Если <c>null</c>, используется путь по умолчанию,
-        /// заданный реализацией (например, во временной директории).
-        /// </param>
-        /// <param name="ct">
-        /// Токен отмены операции.
-        /// </param>
-        Task LoadAsync(string? path = null, CancellationToken ct = default);
 
 
 
