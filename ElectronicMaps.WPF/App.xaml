@@ -23,9 +23,7 @@
             <DataTemplate DataType="{x:Type vm:WelcomeViewModel}">
                 <views:WelcomeView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type vm:WorkspaceViewModel}">
-                <views:WorkspaceView />
-            </DataTemplate>
+
 
             <DataTemplate DataType="{x:Type vm:TestViewModel}">
                 <views:TestView />

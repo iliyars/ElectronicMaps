@@ -16,7 +16,7 @@ namespace ElectronicMaps.Application.WorkspaceProject
             WriteIndented = true
         };
 
-        public async Task SaveAsync(string filePath, WorkspaceProject project, IReadOnlyCollection<WordDocumentBinary> docs, CancellationToken ct)
+        public async Task SaveAsync(string filePath, WorkspaceProject.Models.WorkspaceProject project, IReadOnlyCollection<WordDocumentBinary> docs, CancellationToken ct)
         {
             if(File.Exists(filePath))
             {
@@ -27,27 +27,27 @@ namespace ElectronicMaps.Application.WorkspaceProject
             using var zip = new ZipArchive(fs, ZipArchiveMode.Create);
 
             //mainfest.json
-            await WriteJson(zip, "mainfest.json", project.Meta, ct);
+            //await WriteJson(zip, "mainfest.json", project.Meta, ct);
 
-            //components.json
-            await WriteJson(zip, "components/components.json", new
-            {
-                project.Components,
-                project.Forms,
-                project.WordDocuments
-            }, ct);
+            ////components.json
+            //await WriteJson(zip, "components/components.json", new
+            //{
+            //    project.Components,
+            //    project.Forms,
+            //    project.WordDocuments
+            //}, ct);
 
-            // docs/index.json 
-            await WriteJson(zip, "docs/index.json", project.WordDocuments, ct);
+            //// docs/index.json 
+            //await WriteJson(zip, "docs/index.json", project.WordDocuments, ct);
 
-            // docks binaries
-            foreach(var doc in docs)
-            {
-                ct.ThrowIfCancellationRequested();
-                var enrty = zip.CreateEntry($"docs/{doc.DocumentId}.docx", CompressionLevel.Optimal);
-                await using var entryStream = enrty.Open();
-                await entryStream.WriteAsync(doc.Content, ct);
-            }
+            //// docks binaries
+            //foreach(var doc in docs)
+            //{
+            //    ct.ThrowIfCancellationRequested();
+            //    var enrty = zip.CreateEntry($"docs/{doc.DocumentId}.docx", CompressionLevel.Optimal);
+            //    await using var entryStream = enrty.Open();
+            //    await entryStream.WriteAsync(doc.Content, ct);
+            //}
 
                 
         }
@@ -55,38 +55,39 @@ namespace ElectronicMaps.Application.WorkspaceProject
 
         public async Task<WorkspaceProjectLoadResult> LoadAsync(string filePath, CancellationToken ct)
         {
-            using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-            using var zip = new ZipArchive(fs, ZipArchiveMode.Read);
+            //using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            //using var zip = new ZipArchive(fs, ZipArchiveMode.Read);
 
-            var meta = await ReadJson<ProjectMeta>(zip, "mainfest.json", ct);
+            //var meta = await ReadJson<ProjectMeta>(zip, "mainfest.json", ct);
 
-            // читаем components/comonents.json
-            var payload = await ReadJson<ProjectPayLoad>(zip, "components/components.json", ct);
+            //// читаем components/comonents.json
+            //var payload = await ReadJson<ProjectPayLoad>(zip, "components/components.json", ct);
 
-            var project = new WorkspaceProject(
-                Meta: meta,
-                Components: payload.Components,
-                Forms: payload.Forms,
-                WordDocuments: payload.WordDocuments
-            );
+            //var project = new WorkspaceProject.Models.WorkspaceProject(
+            //    Meta: meta,
+            //    Components: payload.Components,
+            //    Forms: payload.Forms,
+            //    WordDocuments: payload.WordDocuments
+            //);
 
-            // читаем docs/index.json
-            var docs = new List<WordDocumentBinary>();
-            foreach(var docRef in project.WordDocuments)
-            {
-                var entry = zip.GetEntry(docRef.PackagePath);
-                if(entry is null)
-                {
-                    continue;
-                }
+            //// читаем docs/index.json
+            //var docs = new List<WordDocumentBinary>();
+            //foreach(var docRef in project.WordDocuments)
+            //{
+            //    var entry = zip.GetEntry(docRef.PackagePath);
+            //    if(entry is null)
+            //    {
+            //        continue;
+            //    }
 
-                await using var s = entry.Open();
-                using var ms = new MemoryStream();
-                await s.CopyToAsync(ms, ct);
-                docs.Add(new WordDocumentBinary(docRef.DocumentId, ms.ToArray()));
-            }
+            //    await using var s = entry.Open();
+            //    using var ms = new MemoryStream();
+            //    await s.CopyToAsync(ms, ct);
+            //    docs.Add(new WordDocumentBinary(docRef.DocumentId, ms.ToArray()));
+            //}
 
-            return new WorkspaceProjectLoadResult(project, docs);
+           // return new WorkspaceProjectLoadResult(project, docs);
+           throw new NotImplementedException();
         }
 
 
@@ -106,9 +107,9 @@ namespace ElectronicMaps.Application.WorkspaceProject
         }
 
         private sealed record ProjectPayload(
-        IReadOnlyList<ComponentDraft> Components,
-        IReadOnlyDictionary<string, FormViewState> Forms,
-        IReadOnlyList<WordDocumentRef> WordDocuments
+      //  IReadOnlyList<ComponentDraft> Components,
+      //  IReadOnlyDictionary<string, FormViewState> Forms,
+      //  IReadOnlyList<WordDocumentRef> WordDocuments
     );
 
     }

@@ -30,7 +30,7 @@ namespace ElectronicMaps.Infrastructure.Queries
 
         public Task<IReadOnlyList<ComponentListItemDto>> GetComponentsByFormAsync(string formCode, CancellationToken ct)
         {
-            _db.Components.AsNoTracking()
+            return _db.Components.AsNoTracking()
                 .Where(c => c.FormType.Code == formCode)
                 .OrderBy(c => c.Id)
                 .Select(c => new ComponentListItemDto(

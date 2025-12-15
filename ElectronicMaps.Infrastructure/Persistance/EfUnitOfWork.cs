@@ -25,5 +25,10 @@ namespace ElectronicMaps.Infrastructure.Persistance
 
             await tx.CommitAsync();
         }
+
+        public Task SaveChangesAsync(CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

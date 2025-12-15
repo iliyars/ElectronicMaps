@@ -25,6 +25,8 @@ namespace ElectronicMaps.Application.WorkspaceProject.Models
     // Обозначения (R1–R5 и т.п.)
     IReadOnlyList<string> Designators,
 
+    IReadOnlyList<int> SelectedRemarksIds,
+
     // Параметры (ключ — ParameterDefinitionId)
     IReadOnlyDictionary<int, ParameterValueDraft> NdtParametersOverrides,
 

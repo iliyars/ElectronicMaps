@@ -13,26 +13,27 @@ namespace ElectronicMaps.Application.Services
     public class ComponentParametersService : IComponentParametersService
     {
 
-        private readonly IComponentQueryRepository _query;
+        
 
-        public ComponentParametersService(IComponentQueryRepository query)
+        public ComponentParametersService()
         {
-            _query = query;
+            
         }
 
         ///<inheritdoc/>
         public async Task<IReadOnlyCollection<ParameterDto>> GetComponentParametersAsync(int componentId, CancellationToken ct)
         {
-            var component =  await _query.GetComponentByIdWithFormAsync(componentId, ct);
+            //var component =  await _query.GetComponentByIdWithFormAsync(componentId, ct);
 
-            if(component is null) 
-                return Array.Empty<ParameterDto>();
+            //if(component is null) 
+            //    return Array.Empty<ParameterDto>();
 
-            var definitions = component.FormType.Parameters;
+            //var definitions = component.FormType.Parameters;
 
-            var values = await _query.GetParameterValuesAsync(componentId, ct);
+            //var values = await _query.GetParameterValuesAsync(componentId, ct);
 
-            return BuildParameterDtos(definitions, values);
+            //return BuildParameterDtos(definitions, values);
+            throw new NotImplementedException();
 
 
 
@@ -40,17 +41,18 @@ namespace ElectronicMaps.Application.Services
         ///<inheritdoc/>
         public async Task<IReadOnlyCollection<ParameterDto>> GetFamilyParametersAsync(int familyId, CancellationToken ct)
         {
-            var family = await _query.GetFamilyByIdWithFormAsync(familyId, ct) 
-                ?? throw new InvalidOperationException($"Family {familyId} not found");
+            //var family = await _query.GetFamilyByIdWithFormAsync(familyId, ct) 
+            //    ?? throw new InvalidOperationException($"Family {familyId} not found");
 
-            if (family.FamilyFormType is null)
-                return Array.Empty<ParameterDto>();
+            //if (family.FamilyFormType is null)
+            //    return Array.Empty<ParameterDto>();
 
-            var definitions = family.FamilyFormType.Parameters;
+            //var definitions = family.FamilyFormType.Parameters;
 
-            var values = await _query.GetFamilyParameterValuesAsync(familyId, ct);
+            //var values = await _query.GetFamilyParameterValuesAsync(familyId, ct);
 
-            return BuildParameterDtos(definitions, values);
+            //return BuildParameterDtos(definitions, values);
+            throw new NotImplementedException();
         }
 
         private static IReadOnlyList<ParameterDto> BuildParameterDtos(

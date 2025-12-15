@@ -32,8 +32,22 @@ namespace ElectronicMaps.Infrastructure
             ConfigureFormType(modelBuilder);
             ConfigureParameterDefinition(modelBuilder);
             ConfigureParameterValue(modelBuilder);
-
+            ConfigureRemarks(modelBuilder);
             SeedInitialForms(modelBuilder); 
+        }
+
+        private void ConfigureRemarks(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Remark>()
+                .HasIndex(x => x.Text)
+                .IsUnique();
+
+            modelBuilder.Entity<ComponentRemark>()
+                .HasKey(x => new { x.ComponentId, x.RemarkId });
+
+            modelBuilder.Entity<ComponentFamilyRemark>()
+                .HasKey(x => new { x.ComponentFamilyId, x.RemarkId });
+
         }
 
         private void ConfigureAppUser(ModelBuilder modelBuilder)

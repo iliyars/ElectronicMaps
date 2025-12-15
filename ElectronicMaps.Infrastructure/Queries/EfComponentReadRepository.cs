@@ -31,7 +31,7 @@ namespace ElectronicMaps.Infrastructure.Queries
                     c.Name,
                     c.FormType.Code,
                     c.ComponentFamily != null ? c.ComponentFamily.Name : null
-                    )).ToListAsync(ct).ContinueWith(t => (IReadOnlyList<ComponentListItemDto>)t.Result, ct);
+                    )).ToListAsync(ct).ContinueWith(t => (IReadOnlyList<ComponentLookUpDto>)t.Result, ct);
         }
 
         public Task<IReadOnlyList<ComponentLookUpDto>> GetByFormCodeAsync(string formCode, CancellationToken ct)
@@ -43,7 +43,7 @@ namespace ElectronicMaps.Infrastructure.Queries
                     c.Name,
                     c.FormType.Code,
                     c.ComponentFamily != null ? c.ComponentFamily.Name : null))
-                .ToListAsync(ct).ContinueWith(t => (IReadOnlyList<ComponentListItemDto>)t.Result, ct);
+                .ToListAsync(ct).ContinueWith(t => (IReadOnlyList<ComponentLookUpDto>)t.Result, ct);
         }
 
         public Task<ComponentLookUpDto?> GetByIdAsync(int id, CancellationToken ct)
@@ -54,7 +54,9 @@ namespace ElectronicMaps.Infrastructure.Queries
                 c.Name,
                 c.FormTypeId,
                 c.FormType.Code,
-                c.ComponentFamilyId
+                c.FormType.DisplayName,
+                c.ComponentFamilyId,
+                c.ComponentFamily.Name
                 )).FirstOrDefaultAsync(ct);
         }
 
@@ -66,7 +68,9 @@ namespace ElectronicMaps.Infrastructure.Queries
                     c.Name,
                     c.FormTypeId,
                     c.FormType.Code,
-                    c.ComponentFamilyId
+                    c.FormType.DisplayName,
+                    c.ComponentFamilyId,
+                    c.ComponentFamily.Name
                 )).FirstOrDefaultAsync(ct);
         }
 

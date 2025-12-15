@@ -64,8 +64,6 @@ namespace ElectronicMaps.WPF
 
                     services.AddScoped<IComponentNameParser, ComponentNameParser>();
                     services.AddScoped<IFileImportService, FileImportService>();
-                    services.AddScoped<IComponentFormBatchService, ComponentFormBatchService>();
-                    services.AddScoped<IFormQueryService, FormQueryService>();
                     services.AddSingleton<IXmlCommands, XmlCommands>();
                     services.AddSingleton<IAppCommands, AppCommands>();
 

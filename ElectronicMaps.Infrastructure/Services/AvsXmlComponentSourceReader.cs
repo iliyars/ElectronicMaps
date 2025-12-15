@@ -106,15 +106,14 @@ namespace ElectronicMaps.Infrastructure.Services
 
             var parsed = _nameParser.Parse(name);
 
-            list.Add(new SourceComponentDto
-            {
-                RawName = name,
-                Type = parsed.Type,
-                Family = parsed.Family,
-                CleanName = parsed.Name,
-                Quantity = qty,
-                Designators = design?.Trim()
-            });
+            list.Add(new SourceComponentDto(
+                RawName: name,
+                Type: parsed.Type,
+                Family: parsed.Family,
+                CleanName: parsed.Name,
+                Quantity: qty,
+                Designators: design?.Trim()
+            ));
         }
     }
 }

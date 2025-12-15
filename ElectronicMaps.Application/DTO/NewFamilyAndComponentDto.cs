@@ -65,7 +65,6 @@ namespace ElectronicMaps.Application.DTO
 
                 FamilyParameters = familyParameters,
                 ComponentParameters = componentParameters,
-                s
                 Source = analyzed
             };
 

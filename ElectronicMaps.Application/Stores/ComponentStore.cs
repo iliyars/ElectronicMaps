@@ -548,7 +548,7 @@ namespace ElectronicMaps.Application.Stores
                 Family: row.Family,
                 FormCode: formCode,
                 Quantity: row.Quantity,
-                
+                SelectedRemarksIds: new List<int>(),
                 Designators: designators,
                 NdtParametersOverrides: emptyParams,
                 SchematicParameters: emptyParams);
