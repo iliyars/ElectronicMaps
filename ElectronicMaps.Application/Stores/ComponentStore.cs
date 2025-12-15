@@ -1,4 +1,5 @@
-﻿using ElectronicMaps.Application.WorkspaceProject;
+﻿using ElectronicMaps.Application.DTO.Parameters;
+using ElectronicMaps.Application.WorkspaceProject;
 using ElectronicMaps.Application.WorkspaceProject.Models;
 using ElectronicMaps.Domain.DTO;
 using System;
@@ -415,8 +416,143 @@ namespace ElectronicMaps.Application.Stores
 
         private void OnChanged(StoreChangeKind kind, string? key)
             => Changed?.Invoke(this, new StoreChangedEventArgs(kind, key, _current.ImportedRows.Count));
+        /// <summary>
+        /// Перестраивает представления (<see cref="WorkspaceProject.ViewsByKey"/>) по формам
+        /// на основе текущих рабочих компонентов (<see cref="WorkspaceProject.WorkingComponents"/>).
+        ///
+        /// Для каждой формы создаётся view с ключом вида "FORM_CODE", содержащий список идентификаторов
+        /// рабочих компонентов (<see cref="ComponentDraft.Id"/>), относящихся к этой форме.
+        /// </summary>
+        public void RebuildViewsByForms()
+        {
+            _lock.EnterWriteLock();
+            try
+            {
+                var working = _current.WorkingComponents;
+                if(working is null || working.Count == 0)
+                {
+                    _current = _current with
+                    {
+                        ViewsByKey = new Dictionary<string, List<Guid>>(StringComparer.OrdinalIgnoreCase)
+                    };
+
+                    MarkDirty_NoLock();
+                    OnChanged(StoreChangeKind.Replaced, "VIEWS");
+                    return;
+                }
+
+                // Группировка рабочие компоненты по коду формы
+                var grouped = working.Values
+                    .Where(d => d is not null && !string.IsNullOrWhiteSpace(d.FormCode))
+                    .GroupBy(d => d.FormCode, StringComparer.OrdinalIgnoreCase);
+
+                var views = new Dictionary<string, List<Guid>>(StringComparer.OrdinalIgnoreCase);
+
+                foreach(var g in grouped)
+                {
+                    var formCode = g.Key;
+                    var key = formCode;
+
+                    var ids = g.OrderBy(d => d.SourceRowId)
+                                .ThenBy(d => d.Name, StringComparer.OrdinalIgnoreCase)
+                                .Select(d => d.Id)
+                                .ToList();
+
+                    views[key] = ids;
+                }
+
+                _current = _current with
+                {
+                    ViewsByKey = views
+                };
+
+                MarkDirty_NoLock();
+                OnChanged(StoreChangeKind.Replaced, "VIEWS");
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
+        }
 
        
+
+        /// <summary>
+        /// Инициализирует рабочие компоненты (<see cref="ComponentDraft"/>) на основе импортированных строк
+        /// (<see cref="ImportedRow"/>), создавая по одному Draft'у на каждую применимую форму:
+        /// форму семейства (например "4") и форму типа компонента (например "64").
+        /// 
+        /// Метод пересобирает <see cref="WorkspaceProject.WorkingComponents"/> "с нуля".
+        /// Параметры не подгружаются здесь и инициализируются пустыми — их загрузка выполняется отдельным шагом.
+        /// </summary>
+        public void InitializeWorkingDrafts()
+        {
+            _lock.EnterWriteLock();
+            try
+            {
+                var imported = _current.ImportedRows;
+                if(imported is null || imported.Count == 0)
+                {
+                    _current = _current with { WorkingComponents = new Dictionary<Guid, ComponentDraft>() };
+                    MarkDirty_NoLock();
+                    OnChanged(StoreChangeKind.Replaced, "WORKING");
+                    return;
+                }
+
+                var working = new Dictionary<Guid, ComponentDraft>();
+
+                foreach(var row in imported)
+                {
+                    if (row is null) continue;
+                    if (row.RowId == Guid.Empty) continue;
+
+                    // Драфт формы семейства
+                    var familyFormCode = row.FamilyFormTypeCode;
+                    if(!string.IsNullOrEmpty(familyFormCode))
+                    {
+                        var draft = CreateDraftFromImportedRow(row, familyFormCode);
+                        working[draft.Id] = draft;
+                    }
+
+                    //Драфт формы типа компонента
+                    var componentFormCode = row.ComponentFormCode;
+                    if(!string.IsNullOrWhiteSpace(componentFormCode))
+                    {
+                        var draft = CreateDraftFromImportedRow(row, componentFormCode);
+                        working[draft.Id] = draft;
+                    }
+                }
+
+                _current = _current with { WorkingComponents = working };
+
+                MarkDirty_NoLock();
+                OnChanged(StoreChangeKind.Replaced, "WORKING");
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
+        }
+
+        private ComponentDraft CreateDraftFromImportedRow(ImportedRow row, string formCode)
+        {
+            var emptyParams = new Dictionary<int, ParameterValueDraft>();
+            var designators = row.Designators ?? Array.Empty<string>();
+
+            return new ComponentDraft(
+                Id: Guid.NewGuid(),
+                SourceRowId: row.RowId,
+                Name: row.CleanName,
+                DBComponentId: row.ExistingComponentId,
+                DbFamilyId: row.DatabaseFamilyId,
+                Family: row.Family,
+                FormCode: formCode,
+                Quantity: row.Quantity,
+                
+                Designators: designators,
+                NdtParametersOverrides: emptyParams,
+                SchematicParameters: emptyParams);
+        }
     }
 }
 
