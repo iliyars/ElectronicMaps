@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
+namespace ElectronicMaps.WPF.Features.Workspace.ViewModels.GridRows
 {
     public class ImportedRowViewModel : ObservableObject
     {
-        public ImportedRow Row { get;}
+        private ImportedRow Row { get;}
 
         public Guid RowId => Row.RowId;
 
@@ -19,6 +19,9 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
         public string? Family => Row.Family;
         public string Type => Row.Type;
         public int Quantity => Row.Quantity;
+
+        public bool ComponentExistsInDatabase => Row.ComponentExistsInDatabase;
+        public bool FamilyExistsInDatabase => Row.FamilyExistsInDatabase;
 
         private bool _isSelected;
         public bool IsSelected

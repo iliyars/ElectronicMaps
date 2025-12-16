@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ElectronicMaps.WPF.Features.Workspace.ViewModels.FormCards
 {
-    public class FamilyCardsViewModel : FormCardViewModelBase
+    public class FamilyCardsViewModel : CardViewModelBase
     {
     }
 }
