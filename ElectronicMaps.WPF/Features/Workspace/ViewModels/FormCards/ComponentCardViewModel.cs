@@ -1,4 +1,5 @@
-﻿using ElectronicMaps.WPF.Features.Workspace.ViewModels.GridRows;
+﻿using ElectronicMaps.Application.WorkspaceProject.Models;
+using ElectronicMaps.WPF.Features.Workspace.ViewModels.GridRows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +11,8 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels.FormCards
 {
     public class ComponentCardViewModel : CardViewModelBase
     {
-        public ComponentCardViewModel(string formCode, string formName, int number, ObservableCollection<CardItemViewModel> items) : base(formCode, formName, number, items)
+        public ComponentCardViewModel(string formCode, string formName, int number, ComponentDraft item) 
+            : base(formCode,formName,number, item)
         {
         }
     }

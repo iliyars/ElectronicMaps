@@ -20,6 +20,7 @@ namespace ElectronicMaps.Application.WorkspaceProject.Models
     int? DbFamilyId,
     // Форма, по которой он сейчас классифицирован
     string FormCode,
+    string FormName,
     int Quantity,
     //string Designator,
     // Обозначения (R1–R5 и т.п.)

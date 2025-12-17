@@ -19,16 +19,35 @@ namespace ElectronicMaps.Application.Stores
         /// </summary>
         public string? Key { get; }
 
+        public IReadOnlyList<Guid> DraftIds { get; }
+
+        public int TotalWorkingCount { get; }
+
         /// <summary>
         /// Текущее количество элементов в Store после изменения.
         /// </summary>
         public int Count { get; }
 
-        public StoreChangedEventArgs(StoreChangeKind kind, string? key, int count)
+        public StoreChangedEventArgs(StoreChangeKind kind, int totalWorkingCount, IReadOnlyList<Guid>? draftIds, string? key)
         {
             Kind = kind;
+            TotalWorkingCount = totalWorkingCount;
+            DraftIds = draftIds ?? Array.Empty<Guid>();
             Key = key;
-            Count = count;
         }
+
+        public static StoreChangedEventArgs ForSingleDraft(
+           StoreChangeKind kind,
+           int totalWorkingCount,
+           Guid draftId,
+           string? Key = null)
+           => new(kind, totalWorkingCount, new[] { draftId }, Key);
+
+        public static StoreChangedEventArgs ForDrafts(
+           StoreChangeKind kind,
+           int totalWorkingCount,
+           IReadOnlyList<Guid> draftIds,
+           string? Key = null)
+           => new(kind, totalWorkingCount, draftIds, Key);
     }
 }

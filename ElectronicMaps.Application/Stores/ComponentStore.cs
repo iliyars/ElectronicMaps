@@ -1,4 +1,5 @@
-﻿using ElectronicMaps.Application.DTO.Parameters;
+﻿using ElectronicMaps.Application.Abstractons.Queries;
+using ElectronicMaps.Application.DTO.Parameters;
 using ElectronicMaps.Application.WorkspaceProject;
 using ElectronicMaps.Application.WorkspaceProject.Models;
 using ElectronicMaps.Domain.DTO;
@@ -19,7 +20,7 @@ namespace ElectronicMaps.Application.Stores
 {
     public sealed class ComponentStore : IComponentStore
     {
-        private readonly ReaderWriterLockSlim _lock = new();
+        private readonly ReaderWriterLockSlim _lock = new(LockRecursionPolicy.NoRecursion);
         private readonly IWorkspaceProjectSerializer _serializer;
 
         private WorkspaceProject.Models.WorkspaceProject _current;
@@ -54,7 +55,7 @@ namespace ElectronicMaps.Application.Stores
         }
 
 
-        // ---------------- Import (ALL) ----------------
+        // ---------------- Import ----------------
         public IReadOnlyList<ImportedRow> GetAllImported()
         {
             _lock.EnterReadLock();
@@ -68,7 +69,9 @@ namespace ElectronicMaps.Application.Stores
 
             var list = importedRows
                 .Where(r => r is not null && r.RowId != Guid.Empty && !string.IsNullOrWhiteSpace(r.CleanName))
-            .ToList();
+                .ToList();
+
+            StoreChangedEventArgs args;
 
             _lock.EnterWriteLock();
             try
@@ -79,11 +82,17 @@ namespace ElectronicMaps.Application.Stores
                     ViewsByKey = new Dictionary<string, List<Guid>>(StringComparer.OrdinalIgnoreCase),
                     WorkingComponents = new Dictionary<Guid, ComponentDraft>() // рабочий слой тоже обычно пересобирается
                 };
+
                 MarkDirty_NoLock();
-                OnChanged(StoreChangeKind.Replaced, "ALL");
+
+                args = BuildArgs_NoLock(StoreChangeKind.ImportReplaced, key: "ALL", draftIds: null);
             }
             finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
         }
+
+
 
         // ---- Views --- // 
         public IReadOnlyList<string> GetViewKeys()
@@ -124,6 +133,7 @@ namespace ElectronicMaps.Application.Stores
                     return Array.Empty<ComponentDraft>();
 
                 var dict = _current.WorkingComponents;
+                if (dict.Count == 0) return Array.Empty<ComponentDraft>();
 
                 var result = new List<ComponentDraft>(ids.Count);
                 foreach(var id in ids)
@@ -143,6 +153,8 @@ namespace ElectronicMaps.Application.Stores
             if(importedRowIds == null)
                 throw new ArgumentNullException(nameof(importedRowIds));
 
+            StoreChangedEventArgs args;
+
             _lock.EnterWriteLock();
             try
             {
@@ -161,15 +173,21 @@ namespace ElectronicMaps.Application.Stores
                 _current = _current with { ViewsByKey = newViews };
 
                 MarkDirty_NoLock();
-                OnChanged(StoreChangeKind.Replaced, key);
+
+                args = BuildArgs_NoLock(StoreChangeKind.ViewSaved, key:key, draftIds: null);
             }
             finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
         }
 
         public bool RemoveView(string key)
         {
             if (string.IsNullOrWhiteSpace(key))
                 return false;
+
+            StoreChangedEventArgs? args = null;
+            var removed = false;
 
             _lock.EnterWriteLock();
             try
@@ -178,19 +196,101 @@ namespace ElectronicMaps.Application.Stores
                     return false;
 
                 var newViews = new Dictionary<string, List<Guid>>(_current.ViewsByKey, StringComparer.OrdinalIgnoreCase);
-                var removed = newViews.Remove(key);
+                removed = newViews.Remove(key);
                 if (!removed) return false;
 
                 _current = _current with { ViewsByKey = newViews };
 
                 MarkDirty_NoLock();
-                OnChanged(StoreChangeKind.Removed, key);
-                return true;
+
+                args = BuildArgs_NoLock(StoreChangeKind.ViewRemoved, key: key, draftIds: null);
             }
             finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
+            return removed;
+
+        }
+
+        public void RebuidViewsByForms()
+        {
+            StoreChangedEventArgs args;
+
+            _lock.EnterWriteLock();
+
+            try
+            {
+                var working = _current.WorkingComponents;
+                var views = new Dictionary<string, List<Guid>>(StringComparer.OrdinalIgnoreCase);
+
+                if(working is not null && working.Count > 0)
+                {
+                    var grouped = working.Values
+                        .Where(d => d is not null && !string.IsNullOrWhiteSpace(d.FormCode))
+                        .GroupBy(d => d.FormCode, StringComparer.OrdinalIgnoreCase);
+
+                    foreach(var g in grouped)
+                    {
+                        var ids = g.OrderBy(d => d.SourceRowId)
+                                    .ThenBy(d => d.Name, StringComparer.OrdinalIgnoreCase)
+                                    .Select(d => d.Id)
+                                    .ToList();
+
+                        views[g.Key] = ids;
+                    }
+                }
+
+                _current = _current with { ViewsByKey = views };
+
+                MarkDirty_NoLock();
+
+                args = BuildArgs_NoLock(StoreChangeKind.ViewsRebuilt, key: "VIEWS", draftIds: null);
+            }
+            finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
         }
 
         // ---------------- Working components ----------------
+        public void InitializeWorkingDrafts()
+        {
+            StoreChangedEventArgs args;
+
+            _lock.EnterWriteLock();
+
+            try
+            {
+                var imported = _current.ImportedRows;
+                var working = new Dictionary<Guid, ComponentDraft>();
+
+                if(imported is not null && imported.Count > 0)
+                {
+                    foreach(var row in imported)
+                    {
+                        //TODO: Перед созданием необходимо сложить все компоненты одного семейства
+                        //Draft формы семейства
+                        var familyFormCode = row.FamilyFormTypeCode;
+                        var draft = CreateDraftFromImportedRow(row, familyFormCode);
+                        working[draft.Id] = draft;
+
+                        //Draft типа компонента
+                        var componentFormCode = row.ComponentFormCode;
+                        var draf = CreateDraftFromImportedRow(row, componentFormCode);
+                        working[draf.Id] = draf;
+                    }
+                }
+
+                _current = _current with { WorkingComponents = working };
+
+                MarkDirty_NoLock();
+
+                args = BuildArgs_NoLock(StoreChangeKind.WorkingInitialized, key: "WORKING", draftIds: null);
+            }
+            finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
+        }
+
         public IReadOnlyList<ComponentDraft> GetAllWorking()
         {
             _lock.EnterReadLock();
@@ -206,14 +306,19 @@ namespace ElectronicMaps.Application.Stores
                 .Where(c => c.Id != Guid.Empty)
                 .ToDictionary(c => c.Id, c => c);
 
+            StoreChangedEventArgs args;
+
             _lock.EnterWriteLock();
             try
             {
                 _current = _current with { WorkingComponents = dict };
                 MarkDirty_NoLock();
-                OnChanged(StoreChangeKind.Replaced, "WORKING");
+
+                args = BuildArgs_NoLock(StoreChangeKind.WorkingReplaced, key: "WORKING", draftIds: null);
             }
             finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
         }
 
         public void UpsertWorking(ComponentDraft component)
@@ -221,42 +326,51 @@ namespace ElectronicMaps.Application.Stores
             if (component.Id == Guid.Empty)
                 throw new ArgumentException("ComponentDraft.Id is empty.", nameof(component));
 
+            StoreChangedEventArgs? args;
             _lock.EnterWriteLock();
             try
             {
                 var dict = new Dictionary<Guid, ComponentDraft>(_current.WorkingComponents);
                 dict[component.Id] = component;
-
                 _current = _current with { WorkingComponents = dict };
 
                 MarkDirty_NoLock();
-                OnChanged(StoreChangeKind.Upserted, component.Id.ToString());
+
+                args = BuildArgs_NoLock(StoreChangeKind.WorkingUpserted, key: "WORKING", draftIds: new[] { component.Id });
+
             }
             finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
         }
 
         public bool RemoveWorking(Guid id)
         {
-            if (id == Guid.Empty)
-                return false;
+            if (id == Guid.Empty) return false;
+
+            StoreChangedEventArgs? args = null;
+            var removed = false;
 
             _lock.EnterWriteLock();
             try
             {
-                if (!_current.WorkingComponents.ContainsKey(id))
-                    return false;
+                if (!_current.WorkingComponents.ContainsKey(id)) return false;
 
                 var dict = new Dictionary<Guid, ComponentDraft>(_current.WorkingComponents);
-                var removed = dict.Remove(id);
+                removed = dict.Remove(id);
                 if (!removed) return false;
 
                 _current = _current with { WorkingComponents = dict };
 
                 MarkDirty_NoLock();
-                OnChanged(StoreChangeKind.Removed, id.ToString());
-                return true;
+
+                args = BuildArgs_NoLock(StoreChangeKind.WorkingRemoved, key: "WORKING", draftIds: new[] { id });
             }
             finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
+
+            return removed;
         }
 
         // ---------------- Documents ----------------
@@ -273,6 +387,8 @@ namespace ElectronicMaps.Application.Stores
             if (doc.DocumentId == Guid.Empty)
                 throw new ArgumentException("DocumentId is empty.", nameof(doc));
 
+            StoreChangedEventArgs args;
+
             _lock.EnterWriteLock();
             try
             {
@@ -282,9 +398,11 @@ namespace ElectronicMaps.Application.Stores
                 _current = _current with { Documents = list };
 
                 MarkDirty_NoLock();
-                OnChanged(StoreChangeKind.Upserted, doc.DocumentId.ToString());
+                args = BuildArgs_NoLock(StoreChangeKind.DocumentsChanged, key: "DOCS", draftIds: null);
             }
             finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
         }
 
         public bool RemoveDocument(Guid documentId)
@@ -292,21 +410,27 @@ namespace ElectronicMaps.Application.Stores
             if (documentId == Guid.Empty)
                 return false;
 
+            StoreChangedEventArgs? args = null;
+
+            var removed = false;
+
             _lock.EnterWriteLock();
             try
             {
                 var list = _current.Documents.ToList();
-                var removed = list.RemoveAll(d => d.DocumentId == documentId) > 0;
+                removed = list.RemoveAll(d => d.DocumentId == documentId) > 0;
                 if (!removed) return false;
 
                 _current = _current with { Documents = list };
 
                 _documentBinaries.Remove(documentId);
                 MarkDirty_NoLock();
-                OnChanged(StoreChangeKind.Removed, documentId.ToString());
-                return true;
+                args = BuildArgs_NoLock(StoreChangeKind.DocumentsChanged, key: "DOCS", draftIds: null);
             }
             finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
+            return removed;
         }
 
         public void AddOrReplaceDocumentBinary(Guid documentId, byte[] content)
@@ -314,33 +438,43 @@ namespace ElectronicMaps.Application.Stores
             if (documentId == Guid.Empty) throw new ArgumentException("DocumentId is empty.", nameof(documentId));
             if (content is null || content.Length == 0) throw new ArgumentException("Content is empty.", nameof(content));
 
+            StoreChangedEventArgs args;
+
             _lock.EnterWriteLock();
             try
             {
                 _documentBinaries[documentId] = content;
                 MarkDirty_NoLock();
-                OnChanged(StoreChangeKind.Upserted, documentId.ToString());
+
+                args = BuildArgs_NoLock(StoreChangeKind.DocumentsChanged, key: "DOCS_BIN", draftIds: null);
             }
             finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
         }
 
         public bool RemoveDocumentBinary(Guid documentId)
         {
             if (documentId == Guid.Empty) return false;
 
+            StoreChangedEventArgs? args = null;
+            var removed = false;
+
             _lock.EnterWriteLock();
             try
             {
-                var removed = _documentBinaries.Remove(documentId);
-                if (removed)
-                {
-                    MarkDirty_NoLock();
-                    OnChanged(StoreChangeKind.Removed, documentId.ToString());
-                }
-                return removed;
+                removed = _documentBinaries.Remove(documentId);
+                if (!removed) return false;
+
+                MarkDirty_NoLock();
+                args = BuildArgs_NoLock(StoreChangeKind.DocumentsChanged, key: "DOCS_BIN", draftIds: null);
+
             }
             finally { _lock.ExitWriteLock(); }
+            Changed?.Invoke(this, args);
+            return removed;
         }
+
 
         public byte[]? GetDocumentBinary(Guid documentId)
         {
@@ -370,10 +504,18 @@ namespace ElectronicMaps.Application.Stores
             }
             finally { _lock.ExitReadLock(); }
             // docsBytes берём из отдельного хранилища документов
-            await _serializer.SaveAsync(filePath, snapshot, docs, ct);
+            await _serializer.SaveAsync(filePath, snapshot, docs, ct).ConfigureAwait(false);
 
-            _hasUnsavedChanges = false;
-            OnChanged(StoreChangeKind.Saved, null);
+            StoreChangedEventArgs args;
+            _lock.EnterWriteLock();
+            try
+            {
+                _hasUnsavedChanges = false;
+                args = BuildArgs_NoLock(StoreChangeKind.ProjectSaved, key: filePath, draftIds: null);
+            }
+            finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
         }
 
         public async Task LoadProjectAsync(string filePath, CancellationToken ct = default)
@@ -383,32 +525,55 @@ namespace ElectronicMaps.Application.Stores
 
             var loaded = await _serializer.LoadAsync(filePath, ct);
 
+            StoreChangedEventArgs args;
+
             _lock.EnterWriteLock();
             try
             {
                 _current = loaded.Project;
 
                 _documentBinaries = loaded.Documents.GroupBy(d => d.DocumentId).ToDictionary(g => g.Key, g => g.Last().Content);
-
                 _hasUnsavedChanges = false;
-                OnChanged(StoreChangeKind.Loaded, null);
+                args = BuildArgs_NoLock(StoreChangeKind.ProjectLoaded, key: filePath, draftIds: null);
+
             }
             finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
         }
 
         public void Clear()
         {
+            StoreChangedEventArgs args;
+
             _lock.EnterWriteLock();
             try
             {
                 _current = WorkspaceProject.Models.WorkspaceProject.Empty();
+                _documentBinaries.Clear();
                 MarkDirty_NoLock();
-                OnChanged(StoreChangeKind.Cleared, null);
+
+                args = BuildArgs_NoLock(StoreChangeKind.Cleared, key: null, draftIds: null);
             }
             finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
         }
 
-        public void MarkClean() => _hasUnsavedChanges = false;
+        public void MarkClean() 
+        {
+            StoreChangedEventArgs args;
+
+            _lock.EnterWriteLock();
+            try
+            {
+                _hasUnsavedChanges = false;
+                args = BuildArgs_NoLock(StoreChangeKind.MarkedClean, key: null, draftIds: null);
+            }
+            finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
+        }
 
         public void Dispose() => _lock.Dispose();
 
@@ -474,8 +639,6 @@ namespace ElectronicMaps.Application.Stores
                 _lock.ExitWriteLock();
             }
         }
-
-       
 
         /// <summary>
         /// Инициализирует рабочие компоненты (<see cref="ComponentDraft"/>) на основе импортированных строк
@@ -547,11 +710,24 @@ namespace ElectronicMaps.Application.Stores
                 DbFamilyId: row.DatabaseFamilyId,
                 Family: row.Family,
                 FormCode: formCode,
+                FormName: row.ComponentFormDisplayName,
                 Quantity: row.Quantity,
                 SelectedRemarksIds: new List<int>(),
                 Designators: designators,
                 NdtParametersOverrides: emptyParams,
                 SchematicParameters: emptyParams);
+        }
+
+        private void RaiseChanged_NoLock(StoreChangeKind kind, string? key, IReadOnlyList<Guid>? draftIds)
+        {
+            var totalWorking = _current.WorkingComponents?.Count ?? 0;
+            var args = new StoreChangedEventArgs(kind, totalWorking, draftIds, key);
+            Changed?.Invoke(this, args);
+        }
+
+        private StoreChangedEventArgs BuildArgs_NoLock(StoreChangeKind importReplaced, string key, object draftIds)
+        {
+            throw new NotImplementedException();
         }
     }
 }

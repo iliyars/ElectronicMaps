@@ -10,34 +10,22 @@ namespace ElectronicMaps.Application.Stores
     {
         Unknown = 0,
 
-        /// <summary>
-        /// Добавлен новый компонент или обновлён существующий.
-        /// </summary>
-        Upserted,
+        ImportReplaced,
+        WorkingInitialized,
+        WorkingReplaced,
 
-        /// <summary>
-        /// Компонент удалён.
-        /// </summary>
-        Removed,
+        WorkingUpserted,     // добавили или обновили один draft
+        WorkingRemoved,      // удалили один или несколько
 
-        /// <summary>
-        /// Хранилище полностью очищено.
-        /// </summary>
+        ViewsRebuilt,
+        ViewSaved,
+        ViewRemoved,
+
+        DocumentsChanged,
+        ProjectLoaded,
+        ProjectSaved,
+
         Cleared,
-
-        /// <summary>
-        /// Хранилище полностью заменено новым набором (ReplaceAll).
-        /// </summary>
-        Replaced,
-
-        /// <summary>
-        /// Данные загружены из файла (LoadAsync).
-        /// </summary>
-        Loaded,
-
-        /// <summary>
-        /// Данные сохранены в файл (SaveAsync).
-        /// </summary>
-        Saved
+        MarkedClean
     }
 }

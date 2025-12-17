@@ -69,8 +69,12 @@ namespace ElectronicMaps.Application.Stores
         void InitializeWorkingDrafts();
         IReadOnlyList<ComponentDraft> GetAllWorking();
         void ReplaceWorking(IEnumerable<ComponentDraft> components);
-        void UpsertWorking(ComponentDraft component);
+        void UpdateWorking(Guid draftId, Func<ComponentDraft, ComponentDraft> update);
+        ComponentDraft? TryGetWorking(Guid draftId);
         bool RemoveWorking(Guid id);
+        IReadOnlyList<ComponentDraft> SplitWorking(Guid draftId, int parts);
+
+        ComponentDraft MergeWorking(IReadOnlyList<Guid> draftIds);
 
         // --- Documents metadata ---
         IReadOnlyList<WordDocumentInfo> GetDocuments();
