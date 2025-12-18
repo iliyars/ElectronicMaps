@@ -28,26 +28,12 @@ namespace ElectronicMaps.Application.Stores
         /// </summary>
         public int Count { get; }
 
-        public StoreChangedEventArgs(StoreChangeKind kind, int totalWorkingCount, IReadOnlyList<Guid>? draftIds, string? key)
+        public StoreChangedEventArgs(StoreChangeKind kind, string? key, int totalWorking, IReadOnlyList<Guid>? draftIds)
         {
             Kind = kind;
-            TotalWorkingCount = totalWorkingCount;
             DraftIds = draftIds ?? Array.Empty<Guid>();
+            TotalWorkingCount = totalWorking;
             Key = key;
         }
-
-        public static StoreChangedEventArgs ForSingleDraft(
-           StoreChangeKind kind,
-           int totalWorkingCount,
-           Guid draftId,
-           string? Key = null)
-           => new(kind, totalWorkingCount, new[] { draftId }, Key);
-
-        public static StoreChangedEventArgs ForDrafts(
-           StoreChangeKind kind,
-           int totalWorkingCount,
-           IReadOnlyList<Guid> draftIds,
-           string? Key = null)
-           => new(kind, totalWorkingCount, draftIds, Key);
     }
 }

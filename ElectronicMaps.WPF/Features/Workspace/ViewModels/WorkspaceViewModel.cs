@@ -16,32 +16,79 @@ using System.Windows.Controls.Primitives;
 
 namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
 {
-    public partial class WorkspaceViewModel : BaseScreenViewModel, INavigatedTo, IDisposable
+    public partial class WorkspaceViewModel : BaseScreenViewModel, INavigatedTo, INavigatedFrom
     {
         private readonly IComponentStore _componentStore;
+        private bool _subscribed;
 
-        private bool isDetailsOpen;
-        public bool IsDetailsOpen
-        {
-            get => isDetailsOpen;
-            set => SetProperty(ref isDetailsOpen, value);
-        }
+        public ObservableCollection<CardViewModelBase> ItemCards { get; } = new();
+
+        /// <summary>
+        /// Все компоненты из xml.
+        /// </summary>
+        public ObservableCollection<ImportedRowViewModel> ImportedComponents { get; } = new();
+
 
         [ObservableProperty]
-        private string selectedViewKey;
-        public ObservableCollection<CardViewModelBase> ItemCards { get; }
+        private bool isDetailsOpen;
+        
+        [ObservableProperty]
+        private string? selectedViewKey;
+
+        [ObservableProperty]
+        private Guid? openDetailsDraftId;
+
+        public IRelayCommand<Guid> ToggleDetailsCommand { get; }
+
+
 
         public WorkspaceViewModel(IComponentStore componentStore)
         {
             _componentStore = componentStore;
-            _componentStore.Changed += OnStoreChanged;
 
             ToggleDetailsCommand = new RelayCommand<Guid>(ToggleDetails);
         }
 
+        public Task OnNavigatedToAsync(object? parameter, CancellationToken cancellationToken = default)
+        {
+            if (!_subscribed)
+            {
+                _componentStore.Changed += OnStoreChanged;
+                _subscribed = true;
+            }
+
+            RebuildCards();
+            SyncDetailsState();
+            return Task.CompletedTask;
+        }
+
+        public Task OnNavigatedFromAsync(CancellationToken cancellationToken = default)
+        {
+            if (_subscribed)
+            {
+                _componentStore.Changed -= OnStoreChanged;
+                _subscribed = false;
+            }
+            return Task.CompletedTask;
+        }
+
+        private void ToggleDetails(Guid draftId)
+        {
+            OpenDetailsDraftId = OpenDetailsDraftId == draftId ? null : draftId;
+            SyncDetailsState();
+        }
+
         private void OnStoreChanged(object? sender, StoreChangedEventArgs e)
         {
-            switch(e.Kind)
+            // ВАЖНО: если store меняется из background (БД/файлы), обновляем UI через Dispatcher
+            if(!System.Windows.Application.Current.Dispatcher.CheckAccess())
+            {
+                System.Windows.Application.Current.Dispatcher.Invoke(() => OnStoreChanged(sender, e));
+                return;
+            }
+
+
+            switch (e.Kind)
             {
                 // Эти случаи проще пересобрать целиком (редко происходят)
                 case StoreChangeKind.ProjectLoaded:
@@ -65,6 +112,44 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
                     break;
             }
         }
+        private void SyncDetailsState()
+        {
+            foreach(var card in ItemCards)
+            {
+                card.IsDetailsOpen = OpenDetailsDraftId.HasValue && card.Item.Id == OpenDetailsDraftId.Value;
+            }
+        }
+
+        private void RebuildCards()
+        {
+            ItemCards.Clear();
+
+            var key = selectedViewKey ?? "ALL";
+            var drafts = _componentStore.GetWorkingForView(key);
+
+            var number = 1;
+            foreach (var draft in drafts)
+            {
+                ItemCards.Add(CreateCardViewModel(draft, number++));
+            }
+        }
+
+        private void UpsertCard(Guid id)
+        {
+            var draft = _componentStore.TryGetWorking(id);
+            if (draft != null) return;
+
+            var existing = ItemCards.FirstOrDefault(c => c.Item.Id == id);
+            if (existing is not null)
+            {
+                existing.ReplaceItem(draft);
+                return;
+            }
+
+            // Если карточки ещё нет — добавляем (позиционирование можно улучшить позже)
+            var number = ItemCards.Count + 1;
+            ItemCards.Add(CreateCardViewModel(draft, number));
+        }
 
         private void RemoveCard(Guid id)
         {
@@ -77,43 +162,16 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
             {
                 ItemCards[i].Number = i + 1;
             }
+
+            // если удалили открытую карточку — закрываем детали
+            if (OpenDetailsDraftId == id)
+                OpenDetailsDraftId = null;
         }
 
-        private void UpsertCard(Guid id)
-        {
-            var draft = _componentStore.TryGetWorking(id);
-            if (draft != null) return;
 
-            var existing = ItemCards.FirstOrDefault(c => c.Item.Id == id);
-            if(existing is not null)
-            {
-                existing.ReplaceItem(draft);
-                return;
-            }
+        
 
-            // Если карточки ещё нет — добавляем (позиционирование можно улучшить позже)
-            var number = ItemCards.Count + 1;
-            ItemCards.Add(CreateCardViewModel(draft, number));
-        }
 
-        private void SyncDetailsState()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void RebuildCards()
-        {
-            ItemCards.Clear();
-
-            var key = selectedViewKey ?? "ALL";
-            var drafts = _componentStore.GetWorkingForView(key);
-
-            var number = 1;
-            foreach(var draft in drafts)
-            {
-                ItemCards.Add(CreateCardViewModel(draft,number++));
-            }
-        }
 
         private CardViewModelBase CreateCardViewModel(ComponentDraft draft, int number)
         {
@@ -124,34 +182,22 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
             return new ComponentCardViewModel(draft.FormCode, draft.FormName, number, draft);
         }
 
-        private void ToggleDetails(Guid draftId)
-        {
-            OpenDetailsDraftId = OpenDetailsDraftId == draftId ? null : draftId;
-        }
-
-        private Guid openDetailsDraftId;
-        public Guid OpenDetailsDraftId
-        {
-            get => openDetailsDraftId;
-            set => SetProperty(ref  openDetailsDraftId, value);
-        }
-
-        public IRelayCommand<Guid> ToggleDetailsCommand { get; }
 
 
-        /// <summary>
-        /// Все компоненты из xml.
-        /// </summary>
-        public ObservableCollection<ImportedRowViewModel> ImportedComponents { get; } = new();
 
-        public Task OnNavigatedToAsync(object? parameter, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
 
-        public void Dispose()
-        {
-            _componentStore.Changed -= OnStoreChanged;
-        }
+
+       
+
+        //public void Dispose()
+        //{
+        //    if(_subscribed)
+        //    {
+        //        _componentStore.Changed -= OnStoreChanged;
+        //        _subscribed = false;
+        //    }    
+        //}
+
+       
     }
 }

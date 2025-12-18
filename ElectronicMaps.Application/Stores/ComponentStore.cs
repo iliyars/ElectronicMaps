@@ -54,7 +54,7 @@ namespace ElectronicMaps.Application.Stores
             _hasUnsavedChanges = false;
         }
 
-
+        #region Import
         // ---------------- Import ----------------
         public IReadOnlyList<ImportedRow> GetAllImported()
         {
@@ -92,8 +92,9 @@ namespace ElectronicMaps.Application.Stores
             Changed?.Invoke(this, args);
         }
 
+        #endregion
 
-
+        #region Views
         // ---- Views --- // 
         public IReadOnlyList<string> GetViewKeys()
         {
@@ -146,21 +147,21 @@ namespace ElectronicMaps.Application.Stores
             finally { _lock.ExitReadLock(); }
         }
 
-        public void SaveView(string key, IEnumerable<Guid> importedRowIds)
+        public void SaveView(string key, IEnumerable<Guid> draftIds)
         {
             if(string.IsNullOrWhiteSpace(key))
                 throw new ArgumentException("View key must not be empty.", nameof(key));
-            if(importedRowIds == null)
-                throw new ArgumentNullException(nameof(importedRowIds));
+            if(draftIds == null)
+                throw new ArgumentNullException(nameof(draftIds));
 
             StoreChangedEventArgs args;
 
             _lock.EnterWriteLock();
             try
             {
-                var existingIds = _current.ImportedRows.Select(x => x.RowId).ToHashSet();
+                var existingIds = _current.WorkingComponents.Select(x => x.Key).ToHashSet();
 
-                var ids = importedRowIds
+                var ids = draftIds
                     .Where(id => id != Guid.Empty && existingIds.Contains(id))
                     .Distinct()
                     .ToList();
@@ -211,25 +212,30 @@ namespace ElectronicMaps.Application.Stores
             return removed;
 
         }
-
-        public void RebuidViewsByForms()
+        /// <summary>
+        /// Перестраивает представления (<see cref="WorkspaceProject.ViewsByKey"/>) по формам
+        /// на основе текущих рабочих компонентов (<see cref="WorkspaceProject.WorkingComponents"/>).
+        ///
+        /// Для каждой формы создаётся view с ключом вида "FORM_CODE", содержащий список идентификаторов
+        /// рабочих компонентов (<see cref="ComponentDraft.Id"/>), относящихся к этой форме.
+        /// </summary>
+        public void RebuildViewsByForms()
         {
             StoreChangedEventArgs args;
 
             _lock.EnterWriteLock();
-
             try
             {
                 var working = _current.WorkingComponents;
                 var views = new Dictionary<string, List<Guid>>(StringComparer.OrdinalIgnoreCase);
 
-                if(working is not null && working.Count > 0)
+                if (working is not null && working.Count > 0)
                 {
                     var grouped = working.Values
                         .Where(d => d is not null && !string.IsNullOrWhiteSpace(d.FormCode))
                         .GroupBy(d => d.FormCode, StringComparer.OrdinalIgnoreCase);
 
-                    foreach(var g in grouped)
+                    foreach (var g in grouped)
                     {
                         var ids = g.OrderBy(d => d.SourceRowId)
                                     .ThenBy(d => d.Name, StringComparer.OrdinalIgnoreCase)
@@ -246,12 +252,24 @@ namespace ElectronicMaps.Application.Stores
 
                 args = BuildArgs_NoLock(StoreChangeKind.ViewsRebuilt, key: "VIEWS", draftIds: null);
             }
-            finally { _lock.ExitWriteLock(); }
-
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
             Changed?.Invoke(this, args);
         }
+        #endregion
 
+        #region Working
         // ---------------- Working components ----------------
+        /// <summary>
+        /// Инициализирует рабочие компоненты (<see cref="ComponentDraft"/>) на основе импортированных строк
+        /// (<see cref="ImportedRow"/>), создавая по одному Draft'у на каждую применимую форму:
+        /// форму семейства (например "4") и форму типа компонента (например "64").
+        /// 
+        /// Метод пересобирает <see cref="WorkspaceProject.WorkingComponents"/> "с нуля".
+        /// Параметры не подгружаются здесь и инициализируются пустыми — их загрузка выполняется отдельным шагом.
+        /// </summary>
         public void InitializeWorkingDrafts()
         {
             StoreChangedEventArgs args;
@@ -298,29 +316,6 @@ namespace ElectronicMaps.Application.Stores
             finally { _lock.ExitReadLock(); }
         }
 
-        public void ReplaceWorking(IEnumerable<ComponentDraft> components)
-        {
-            if (components is null) throw new ArgumentNullException(nameof(components));
-
-            var dict = components
-                .Where(c => c.Id != Guid.Empty)
-                .ToDictionary(c => c.Id, c => c);
-
-            StoreChangedEventArgs args;
-
-            _lock.EnterWriteLock();
-            try
-            {
-                _current = _current with { WorkingComponents = dict };
-                MarkDirty_NoLock();
-
-                args = BuildArgs_NoLock(StoreChangeKind.WorkingReplaced, key: "WORKING", draftIds: null);
-            }
-            finally { _lock.ExitWriteLock(); }
-
-            Changed?.Invoke(this, args);
-        }
-
         public void UpsertWorking(ComponentDraft component)
         {
             if (component.Id == Guid.Empty)
@@ -344,35 +339,196 @@ namespace ElectronicMaps.Application.Stores
             Changed?.Invoke(this, args);
         }
 
-        public bool RemoveWorking(Guid id)
+        public bool UpdateWorking(Guid draftId, Func<ComponentDraft, ComponentDraft> update)
         {
-            if (id == Guid.Empty) return false;
+            StoreChangedEventArgs? args = null;
+            var updatedOk = false;
+            _lock.EnterWriteLock();
 
+            try
+            {
+                if (!_current.WorkingComponents.TryGetValue(draftId, out var current))
+                    return false; // или throw new KeyNotFoundException(...)
+
+                var updated = update(current);
+
+                //TODO: проверить equals
+                // Если record структурно равен старому — можно ничего не делать
+               // if (Equals(updated, current))
+                 //   return;
+
+
+                var dict = new Dictionary<Guid, ComponentDraft>(_current.WorkingComponents)
+                {
+                    [draftId] = updated
+                };
+
+                _current = _current with { WorkingComponents = dict };
+
+                MarkDirty_NoLock();
+
+                args = BuildArgs_NoLock(StoreChangeKind.WorkingUpdated, key: "WORKING", draftIds: new[] { draftId });
+
+                updatedOk = true;
+            }
+            finally { _lock.ExitWriteLock(); }
+
+            if(args !=null)
+            {
+                Changed?.Invoke(this, args);
+            }
+            return updatedOk;
+        }
+
+        public ComponentDraft? TryGetWorking(Guid draftId)
+        {
+            _lock.EnterReadLock();
+            try
+            {
+                return _current.WorkingComponents.TryGetValue(draftId, out var d) ? d : null;
+            }
+            finally { _lock.ExitReadLock(); }
+        }
+        //TODO: переделать
+        public IReadOnlyList<ComponentDraft> SplitWorking(Guid draftId, int parts)
+        {
+            StoreChangedEventArgs? removedArgs = null;
+            StoreChangedEventArgs? upsertArgs = null;
+            List<ComponentDraft> created = new();
+
+            _lock.EnterWriteLock();
+            try
+            {
+                if (!_current.WorkingComponents.TryGetValue(draftId, out var source))
+                    return Array.Empty<ComponentDraft>();
+
+                // БАЗОВЫЙ split: делим quantity примерно поровну, designators режем по группам
+                var qty = source.Quantity;
+                var baseQty = qty / parts;
+                var rest = qty % parts;
+
+                var des = source.Designators?.ToList() ?? new List<string>();
+                var per = des.Count == 0 ? 0 : (int)Math.Ceiling(des.Count / (double)parts);
+
+                for (int i = 0; i < parts; i++)
+                {
+                    var q = baseQty + (i < rest ? 1 : 0);
+                    if (q <= 0) q = 1;
+
+                    var slice = (per == 0) ? Array.Empty<string>()
+                        : des.Skip(i * per).Take(per).ToArray();
+
+                    var d = source with
+                    {
+                        Id = Guid.NewGuid(),
+                        Quantity = q,
+                        Designators = slice
+                    };
+
+                    created.Add(d);
+                }
+
+                var dict = new Dictionary<Guid, ComponentDraft>(_current.WorkingComponents);
+                dict.Remove(draftId);
+                foreach (var d in created)
+                    dict[d.Id] = d;
+
+                _current = _current with { WorkingComponents = dict };
+                MarkDirty_NoLock();
+
+                removedArgs = BuildArgs_NoLock(StoreChangeKind.WorkingRemoved, key: "WORKING", draftIds: new[] { draftId });
+                upsertArgs = BuildArgs_NoLock(StoreChangeKind.WorkingUpserted, key: "WORKING", draftIds: created.Select(x => x.Id).ToList());
+            }
+            finally { _lock.ExitWriteLock(); }
+
+            if (removedArgs != null) Changed?.Invoke(this, removedArgs);
+            if (upsertArgs != null) Changed?.Invoke(this, upsertArgs);
+
+            return created;
+        }
+
+        public ComponentDraft MergeWorking(IReadOnlyList<Guid> draftIds)
+        {
+            StoreChangedEventArgs? removedArgs = null;
+            StoreChangedEventArgs? upsertArgs = null;
+
+            ComponentDraft merged;
+
+            _lock.EnterWriteLock();
+            try
+            {
+                var dictOld = _current.WorkingComponents;
+
+                var parts = new List<ComponentDraft>(draftIds.Count);
+                foreach (var id in draftIds)
+                    if (dictOld.TryGetValue(id, out var d)) parts.Add(d);
+
+                if(parts.Count < 2)
+                {
+                    throw new InvalidOperationException("MergeWorking: не найдены все указанные drafts.");
+                }
+
+                // Простейшие правила merge: берем “первый” как основу
+                var first = parts[0];
+
+                merged = first with
+                {
+                    Id = Guid.NewGuid(),
+                    Quantity = parts.Sum(p => p.Quantity),
+                    Designators = parts.SelectMany(p => p.Designators ?? Array.Empty<string>()).Distinct().ToArray(), //TODO: Сделатьб static метод для работы с designtor'ами
+                };
+
+                var dict = new Dictionary<Guid, ComponentDraft>(_current.WorkingComponents);
+                foreach (var id in draftIds) dict.Remove(id);
+                dict[merged.Id] = merged;
+
+                _current = _current with { WorkingComponents = dict };
+                MarkDirty_NoLock();
+
+                removedArgs = BuildArgs_NoLock(StoreChangeKind.WorkingRemoved, key: "WORKING", draftIds: draftIds);
+                upsertArgs = BuildArgs_NoLock(StoreChangeKind.WorkingUpserted, key: "WORKING", draftIds: new[] { merged.Id });
+            }
+            finally { _lock.ExitWriteLock(); }
+
+            if (removedArgs != null) Changed?.Invoke(this, removedArgs);
+            if(upsertArgs != null) Changed?.Invoke(this, upsertArgs);
+
+            return merged;
+        }
+
+        public void RemoveWorking(IEnumerable<Guid> ids)
+        {
             StoreChangedEventArgs? args = null;
             var removed = false;
 
             _lock.EnterWriteLock();
             try
             {
-                if (!_current.WorkingComponents.ContainsKey(id)) return false;
-
                 var dict = new Dictionary<Guid, ComponentDraft>(_current.WorkingComponents);
-                removed = dict.Remove(id);
-                if (!removed) return false;
+                var removedAny = false;
+
+                foreach(var id in ids)
+                {
+                    removedAny |= dict.Remove(id);
+                }
+
+                if (!removedAny) return;
 
                 _current = _current with { WorkingComponents = dict };
 
                 MarkDirty_NoLock();
 
-                args = BuildArgs_NoLock(StoreChangeKind.WorkingRemoved, key: "WORKING", draftIds: new[] { id });
+                args = BuildArgs_NoLock(StoreChangeKind.WorkingRemoved, key: "WORKING", draftIds:  ids.ToList());
             }
             finally { _lock.ExitWriteLock(); }
 
-            Changed?.Invoke(this, args);
-
-            return removed;
+            if(args is not null)
+                Changed?.Invoke(this, args);
         }
+        #endregion
 
+
+        #region Documents
         // ---------------- Documents ----------------
 
         public IReadOnlyList<WordDocumentInfo> GetDocuments()
@@ -433,26 +589,6 @@ namespace ElectronicMaps.Application.Stores
             return removed;
         }
 
-        public void AddOrReplaceDocumentBinary(Guid documentId, byte[] content)
-        {
-            if (documentId == Guid.Empty) throw new ArgumentException("DocumentId is empty.", nameof(documentId));
-            if (content is null || content.Length == 0) throw new ArgumentException("Content is empty.", nameof(content));
-
-            StoreChangedEventArgs args;
-
-            _lock.EnterWriteLock();
-            try
-            {
-                _documentBinaries[documentId] = content;
-                MarkDirty_NoLock();
-
-                args = BuildArgs_NoLock(StoreChangeKind.DocumentsChanged, key: "DOCS_BIN", draftIds: null);
-            }
-            finally { _lock.ExitWriteLock(); }
-
-            Changed?.Invoke(this, args);
-        }
-
         public bool RemoveDocumentBinary(Guid documentId)
         {
             if (documentId == Guid.Empty) return false;
@@ -475,7 +611,6 @@ namespace ElectronicMaps.Application.Stores
             return removed;
         }
 
-
         public byte[]? GetDocumentBinary(Guid documentId)
         {
             _lock.EnterReadLock();
@@ -486,6 +621,10 @@ namespace ElectronicMaps.Application.Stores
             finally { _lock.ExitReadLock(); }
         }
 
+        #endregion
+
+
+        #region IO
         // ---------------- Project I/O ----------------
 
         public async Task SaveProjectAsync(string filePath, CancellationToken ct = default)
@@ -542,6 +681,8 @@ namespace ElectronicMaps.Application.Stores
             Changed?.Invoke(this, args);
         }
 
+
+        #endregion
         public void Clear()
         {
             StoreChangedEventArgs args;
@@ -579,124 +720,8 @@ namespace ElectronicMaps.Application.Stores
 
         private void MarkDirty_NoLock() => _hasUnsavedChanges = true;
 
-        private void OnChanged(StoreChangeKind kind, string? key)
-            => Changed?.Invoke(this, new StoreChangedEventArgs(kind, key, _current.ImportedRows.Count));
-        /// <summary>
-        /// Перестраивает представления (<see cref="WorkspaceProject.ViewsByKey"/>) по формам
-        /// на основе текущих рабочих компонентов (<see cref="WorkspaceProject.WorkingComponents"/>).
-        ///
-        /// Для каждой формы создаётся view с ключом вида "FORM_CODE", содержащий список идентификаторов
-        /// рабочих компонентов (<see cref="ComponentDraft.Id"/>), относящихся к этой форме.
-        /// </summary>
-        public void RebuildViewsByForms()
-        {
-            _lock.EnterWriteLock();
-            try
-            {
-                var working = _current.WorkingComponents;
-                if(working is null || working.Count == 0)
-                {
-                    _current = _current with
-                    {
-                        ViewsByKey = new Dictionary<string, List<Guid>>(StringComparer.OrdinalIgnoreCase)
-                    };
 
-                    MarkDirty_NoLock();
-                    OnChanged(StoreChangeKind.Replaced, "VIEWS");
-                    return;
-                }
-
-                // Группировка рабочие компоненты по коду формы
-                var grouped = working.Values
-                    .Where(d => d is not null && !string.IsNullOrWhiteSpace(d.FormCode))
-                    .GroupBy(d => d.FormCode, StringComparer.OrdinalIgnoreCase);
-
-                var views = new Dictionary<string, List<Guid>>(StringComparer.OrdinalIgnoreCase);
-
-                foreach(var g in grouped)
-                {
-                    var formCode = g.Key;
-                    var key = formCode;
-
-                    var ids = g.OrderBy(d => d.SourceRowId)
-                                .ThenBy(d => d.Name, StringComparer.OrdinalIgnoreCase)
-                                .Select(d => d.Id)
-                                .ToList();
-
-                    views[key] = ids;
-                }
-
-                _current = _current with
-                {
-                    ViewsByKey = views
-                };
-
-                MarkDirty_NoLock();
-                OnChanged(StoreChangeKind.Replaced, "VIEWS");
-            }
-            finally
-            {
-                _lock.ExitWriteLock();
-            }
-        }
-
-        /// <summary>
-        /// Инициализирует рабочие компоненты (<see cref="ComponentDraft"/>) на основе импортированных строк
-        /// (<see cref="ImportedRow"/>), создавая по одному Draft'у на каждую применимую форму:
-        /// форму семейства (например "4") и форму типа компонента (например "64").
-        /// 
-        /// Метод пересобирает <see cref="WorkspaceProject.WorkingComponents"/> "с нуля".
-        /// Параметры не подгружаются здесь и инициализируются пустыми — их загрузка выполняется отдельным шагом.
-        /// </summary>
-        public void InitializeWorkingDrafts()
-        {
-            _lock.EnterWriteLock();
-            try
-            {
-                var imported = _current.ImportedRows;
-                if(imported is null || imported.Count == 0)
-                {
-                    _current = _current with { WorkingComponents = new Dictionary<Guid, ComponentDraft>() };
-                    MarkDirty_NoLock();
-                    OnChanged(StoreChangeKind.Replaced, "WORKING");
-                    return;
-                }
-
-                var working = new Dictionary<Guid, ComponentDraft>();
-
-                foreach(var row in imported)
-                {
-                    if (row is null) continue;
-                    if (row.RowId == Guid.Empty) continue;
-
-                    // Драфт формы семейства
-                    var familyFormCode = row.FamilyFormTypeCode;
-                    if(!string.IsNullOrEmpty(familyFormCode))
-                    {
-                        var draft = CreateDraftFromImportedRow(row, familyFormCode);
-                        working[draft.Id] = draft;
-                    }
-
-                    //Драфт формы типа компонента
-                    var componentFormCode = row.ComponentFormCode;
-                    if(!string.IsNullOrWhiteSpace(componentFormCode))
-                    {
-                        var draft = CreateDraftFromImportedRow(row, componentFormCode);
-                        working[draft.Id] = draft;
-                    }
-                }
-
-                _current = _current with { WorkingComponents = working };
-
-                MarkDirty_NoLock();
-                OnChanged(StoreChangeKind.Replaced, "WORKING");
-            }
-            finally
-            {
-                _lock.ExitWriteLock();
-            }
-        }
-
+        
         private ComponentDraft CreateDraftFromImportedRow(ImportedRow row, string formCode)
         {
             var emptyParams = new Dictionary<int, ParameterValueDraft>();
@@ -718,14 +743,13 @@ namespace ElectronicMaps.Application.Stores
                 SchematicParameters: emptyParams);
         }
 
-        private void RaiseChanged_NoLock(StoreChangeKind kind, string? key, IReadOnlyList<Guid>? draftIds)
+        private StoreChangedEventArgs BuildArgs_NoLock(StoreChangeKind kind, string? key, IReadOnlyList<Guid>? draftIds)
         {
             var totalWorking = _current.WorkingComponents?.Count ?? 0;
-            var args = new StoreChangedEventArgs(kind, totalWorking, draftIds, key);
-            Changed?.Invoke(this, args);
+            return new StoreChangedEventArgs(kind, key, totalWorking, draftIds);
         }
 
-        private StoreChangedEventArgs BuildArgs_NoLock(StoreChangeKind importReplaced, string key, object draftIds)
+        public void ReplaceWorking(IEnumerable<ComponentDraft> components)
         {
             throw new NotImplementedException();
         }

@@ -27,6 +27,9 @@ namespace ElectronicMaps.Application.Stores
 
         WorkspaceProject.Models.WorkspaceProject Current { get; }
 
+
+        #region Import
+
         /// <summary>
         /// Возвращает все компоненты из хранилища, независимо от группировки.
         /// 
@@ -48,14 +51,18 @@ namespace ElectronicMaps.Application.Stores
         /// могут игнорироваться реализацией.
         /// </param>
         void ReplaceImport(IEnumerable<ImportedRow> components);
+        #endregion
 
+        #region Views
         // --- Views (сохранённые сортировки) ---
         void RebuildViewsByForms();
         IReadOnlyList<string> GetViewKeys();
         IReadOnlyList<ComponentDraft> GetWorkingForView(string key);
-        void SaveView(string key, IEnumerable<Guid> importedRowIds);
+        void SaveView(string key, IEnumerable<Guid> draftsId);
         bool RemoveView(string key);
+        #endregion
 
+        #region working
         // --- Working components (editable) ---
         /// <summary>
         /// Инициализирует рабочие компоненты (<see cref="ComponentDraft"/>)
@@ -68,26 +75,30 @@ namespace ElectronicMaps.Application.Stores
         /// </summary>
         void InitializeWorkingDrafts();
         IReadOnlyList<ComponentDraft> GetAllWorking();
-        void ReplaceWorking(IEnumerable<ComponentDraft> components);
-        void UpdateWorking(Guid draftId, Func<ComponentDraft, ComponentDraft> update);
         ComponentDraft? TryGetWorking(Guid draftId);
-        bool RemoveWorking(Guid id);
+        bool UpdateWorking(Guid draftId, Func<ComponentDraft, ComponentDraft> update);
+        void RemoveWorking(IEnumerable<Guid> Ids);
+        void ReplaceWorking(IEnumerable<ComponentDraft> components);
         IReadOnlyList<ComponentDraft> SplitWorking(Guid draftId, int parts);
-
         ComponentDraft MergeWorking(IReadOnlyList<Guid> draftIds);
+        #endregion
 
+        #region Documents
         // --- Documents metadata ---
         IReadOnlyList<WordDocumentInfo> GetDocuments();
         void AddDocument(WordDocumentInfo doc);
         bool RemoveDocument(Guid documentId);
 
-        public bool RemoveDocumentBinary(Guid documentId);
+        bool RemoveDocumentBinary(Guid documentId);
 
-        public byte[]? GetDocumentBinary(Guid documentId);
+        byte[]? GetDocumentBinary(Guid documentId);
+        #endregion
 
+        #region Project IO
         // --- Project I/O ---
         Task SaveProjectAsync(string filePath, CancellationToken ct = default);
         Task LoadProjectAsync(string filePath, CancellationToken ct = default);
+#endregion
 
         void Clear();
         void MarkClean();

@@ -16,6 +16,7 @@ namespace ElectronicMaps.Application.Stores
 
         WorkingUpserted,     // добавили или обновили один draft
         WorkingRemoved,      // удалили один или несколько
+        WorkingUpdated,
 
         ViewsRebuilt,
         ViewSaved,
