@@ -5,6 +5,7 @@ using ElectronicMaps.Application.WorkspaceProject.Models;
 using ElectronicMaps.WPF.Features.Workspace.ViewModels.FormCards;
 using ElectronicMaps.WPF.Features.Workspace.ViewModels.GridRows;
 using ElectronicMaps.WPF.Infrastructure.Screens;
+using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using Navigation.Core.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,15 @@ using System.Windows.Controls.Primitives;
 
 namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
 {
+
+    public record ViewOptions(string Key, string Title);
+
     public partial class WorkspaceViewModel : BaseScreenViewModel, INavigatedTo, INavigatedFrom
     {
         private readonly IComponentStore _componentStore;
         private bool _subscribed;
 
+        public ObservableCollection<ViewOptions> ViewOptions { get; } = new();
         public ObservableCollection<CardViewModelBase> ItemCards { get; } = new();
 
         /// <summary>
@@ -37,6 +42,11 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
 
         [ObservableProperty]
         private Guid? openDetailsDraftId;
+
+        partial void OnSelectedViewKeyChanged(string? value)
+        {
+            RebuildCards();
+        }
 
         public IRelayCommand<Guid> ToggleDetailsCommand { get; }
         public WorkspaceViewModel(IComponentStore componentStore)
@@ -119,9 +129,11 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
 
         private void RebuildCards()
         {
+            RebuildViewOptions();
+
             ItemCards.Clear();
 
-            var key = selectedViewKey ?? "ALL";
+            var key = SelectedViewKey ?? WorkspaceViewKeys.UndefinedForm;
             var drafts = _componentStore.GetWorkingForView(key);
 
             var number = 1;
@@ -134,7 +146,7 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
         private void UpsertCard(Guid id)
         {
             var draft = _componentStore.TryGetWorking(id);
-            if (draft != null) return;
+            if (draft == null) return;
 
             var existing = ItemCards.FirstOrDefault(c => c.Item.Id == id);
             if (existing is not null)
@@ -151,7 +163,7 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
         private void RemoveCard(Guid id)
         {
             var existing = ItemCards.FirstOrDefault(c => c.Item.Id == id);
-            if (existing != null) return;
+            if (existing == null) return;
 
             ItemCards.Remove(existing);
 
@@ -165,9 +177,45 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
                 OpenDetailsDraftId = null;
         }
 
+        private void RebuildViewOptions()
+        {
+            ViewOptions.Clear();
 
-        
+            //Ключи форм из store
+            var keys = _componentStore.GetViewKeys();
 
+            // сортировка: undefind
+            var ordered = keys.OrderBy(k => string.Equals(k, WorkspaceViewKeys.UndefinedForm, StringComparison.OrdinalIgnoreCase)? 0 : 1)
+                .ThenBy(keys => ParseFormNumber(keys) ?? int.MaxValue)
+                .ThenBy(keys => keys, StringComparer.OrdinalIgnoreCase);
+
+            foreach(var key in ordered)
+                ViewOptions.Add(new ViewOptions(key, ToTitle(key)));
+
+            // если ничего не выбрано - выставим default
+            if(string.IsNullOrWhiteSpace(SelectedViewKey))
+                SelectedViewKey = ViewOptions.FirstOrDefault()?.Key;
+        }
+
+        private static int? ParseFormNumber(string key)
+        {
+            if (key.StartsWith("FORM_", StringComparison.OrdinalIgnoreCase))
+            {
+                var tail = key.Substring("FORM_".Length);
+                if (int.TryParse(tail, out var n))
+                    return n;
+            }
+            return null;
+        }
+
+        private static string ToTitle(string key)
+        {
+            if (string.Equals(key, WorkspaceViewKeys.UndefinedForm, StringComparison.OrdinalIgnoreCase))
+                return "Неопределённая форма";
+
+            var n = ParseFormNumber(key);
+            return $"Форма {n}";
+        }
 
 
         private CardViewModelBase CreateCardViewModel(ComponentDraft draft, int number)

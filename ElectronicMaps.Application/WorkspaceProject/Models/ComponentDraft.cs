@@ -39,6 +39,8 @@ namespace ElectronicMaps.Application.WorkspaceProject.Models
     string? Family,
     int? DbFamilyId,
 
+    string FamilyKey,
+
     int? DbComponentFormId,
     string FormCode,
     string FormName,
@@ -47,8 +49,6 @@ namespace ElectronicMaps.Application.WorkspaceProject.Models
 
     DraftKind Kind,
 
-
-    
     IReadOnlyList<string> Designators,  // Обозначения (R1–R5 и т.п.)
 
     IReadOnlyList<int> SelectedRemarksIds,
