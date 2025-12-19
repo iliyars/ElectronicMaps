@@ -39,9 +39,6 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
         private Guid? openDetailsDraftId;
 
         public IRelayCommand<Guid> ToggleDetailsCommand { get; }
-
-
-
         public WorkspaceViewModel(IComponentStore componentStore)
         {
             _componentStore = componentStore;
@@ -189,14 +186,7 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
 
        
 
-        //public void Dispose()
-        //{
-        //    if(_subscribed)
-        //    {
-        //        _componentStore.Changed -= OnStoreChanged;
-        //        _subscribed = false;
-        //    }    
-        //}
+        
 
        
     }

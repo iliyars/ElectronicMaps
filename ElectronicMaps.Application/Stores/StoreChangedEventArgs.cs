@@ -23,11 +23,6 @@ namespace ElectronicMaps.Application.Stores
 
         public int TotalWorkingCount { get; }
 
-        /// <summary>
-        /// Текущее количество элементов в Store после изменения.
-        /// </summary>
-        public int Count { get; }
-
         public StoreChangedEventArgs(StoreChangeKind kind, string? key, int totalWorking, IReadOnlyList<Guid>? draftIds)
         {
             Kind = kind;

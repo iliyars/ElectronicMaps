@@ -1,5 +1,6 @@
 ﻿using ElectronicMaps.Application.Abstractons.Queries;
 using ElectronicMaps.Application.DTO.Parameters;
+using ElectronicMaps.Application.Utils;
 using ElectronicMaps.Application.WorkspaceProject;
 using ElectronicMaps.Application.WorkspaceProject.Models;
 using ElectronicMaps.Domain.DTO;
@@ -36,14 +37,8 @@ namespace ElectronicMaps.Application.Stores
             get
             {
                 _lock.EnterReadLock();
-                try
-                {
-                    return _current;
-                }
-                finally
-                {
-                    _lock.ExitReadLock();
-                }
+                try { return _current; }
+                finally { _lock.ExitReadLock(); }
             }
         }
 
@@ -159,10 +154,10 @@ namespace ElectronicMaps.Application.Stores
             _lock.EnterWriteLock();
             try
             {
-                var existingIds = _current.WorkingComponents.Select(x => x.Key).ToHashSet();
+                var existingDraftIds = _current.WorkingComponents.Keys.ToHashSet();
 
                 var ids = draftIds
-                    .Where(id => id != Guid.Empty && existingIds.Contains(id))
+                    .Where(id => id != Guid.Empty && existingDraftIds.Contains(id))
                     .Distinct()
                     .ToList();
 
@@ -281,15 +276,25 @@ namespace ElectronicMaps.Application.Stores
                 var imported = _current.ImportedRows;
                 var working = new Dictionary<Guid, ComponentDraft>();
 
+                //Группируем по семействам
+                var familyGroups = imported
+                    .Where(r => r is not null)
+                    .GroupBy(GetFamilyGroupKey, StringComparer.OrdinalIgnoreCase);
+
+                foreach(var g in familyGroups)
+                {
+                    var rows = g.ToList();
+                    if (rows.Count == 0) continue;
+
+                    var draft = CreateFamilyDraftFromGroup(rows);
+                    working[draft.Id] = draft;
+                }
+
                 if(imported is not null && imported.Count > 0)
                 {
                     foreach(var row in imported)
                     {
-                        //TODO: Перед созданием необходимо сложить все компоненты одного семейства
-                        //Draft формы семейства
-                        var familyFormCode = row.FamilyFormTypeCode;
-                        var draft = CreateDraftFromImportedRow(row, familyFormCode);
-                        working[draft.Id] = draft;
+                      
 
                         //Draft типа компонента
                         var componentFormCode = row.ComponentFormCode;
@@ -309,6 +314,54 @@ namespace ElectronicMaps.Application.Stores
             Changed?.Invoke(this, args);
         }
 
+        private ComponentDraft CreateFamilyDraftFromGroup(List<ImportedRow> rows)
+        {
+            if (rows is null) throw new ArgumentNullException(nameof(rows));
+            if (rows.Count == 0) throw new ArgumentException("Group is empty.", nameof(rows));
+
+            var main = rows[0];
+
+            var formCode = main.FamilyFormTypeCode!;
+            var formName = main.FamilyFormDisplayName ?? formCode;
+
+            
+            var mergeDesignators = rows
+                .SelectMany(r => r.Designators ?? Array.Empty<string>())
+                .Where(d => !string.IsNullOrWhiteSpace(d))
+                .Select(d => d.Trim())
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            var quantitySum = rows.Sum(r => r.Quantity);
+            var quantity = mergeDesignators.Count > 0 ? mergeDesignators.Count : quantitySum;
+
+            var familyName = main.Family;
+            var name = !string.IsNullOrWhiteSpace(familyName) ? familyName! : main.CleanName;
+
+            var emptyParams = new Dictionary<int, ParameterValueDraft>();
+
+            return new ComponentDraft(
+                Id: Guid.NewGuid(),
+                SourceRowId: main.RowId,
+
+                Name: name,
+                DBComponentId: null,
+                Family:familyName,
+                DbFamilyId: main.DatabaseFamilyId,
+
+                FormCode: formCode,
+                FormName: formName,
+
+                Quantity: quantity,
+                Designators: mergeDesignators,
+
+                SelectedRemarksIds: Array.Empty<int>(),
+
+                NdtParametersOverrides: emptyParams,
+                SchematicParameters: emptyParams
+                );
+        }
+
         public IReadOnlyList<ComponentDraft> GetAllWorking()
         {
             _lock.EnterReadLock();
@@ -316,28 +369,28 @@ namespace ElectronicMaps.Application.Stores
             finally { _lock.ExitReadLock(); }
         }
 
-        public void UpsertWorking(ComponentDraft component)
-        {
-            if (component.Id == Guid.Empty)
-                throw new ArgumentException("ComponentDraft.Id is empty.", nameof(component));
+        //public void UpsertWorking(ComponentDraft component)
+        //{
+        //    if (component.Id == Guid.Empty)
+        //        throw new ArgumentException("ComponentDraft.Id is empty.", nameof(component));
 
-            StoreChangedEventArgs? args;
-            _lock.EnterWriteLock();
-            try
-            {
-                var dict = new Dictionary<Guid, ComponentDraft>(_current.WorkingComponents);
-                dict[component.Id] = component;
-                _current = _current with { WorkingComponents = dict };
+        //    StoreChangedEventArgs? args;
+        //    _lock.EnterWriteLock();
+        //    try
+        //    {
+        //        var dict = new Dictionary<Guid, ComponentDraft>(_current.WorkingComponents);
+        //        dict[component.Id] = component;
+        //        _current = _current with { WorkingComponents = dict };
 
-                MarkDirty_NoLock();
+        //        MarkDirty_NoLock();
 
-                args = BuildArgs_NoLock(StoreChangeKind.WorkingUpserted, key: "WORKING", draftIds: new[] { component.Id });
+        //        args = BuildArgs_NoLock(StoreChangeKind.WorkingUpserted, key: "WORKING", draftIds: new[] { component.Id });
 
-            }
-            finally { _lock.ExitWriteLock(); }
+        //    }
+        //    finally { _lock.ExitWriteLock(); }
 
-            Changed?.Invoke(this, args);
-        }
+        //    Changed?.Invoke(this, args);
+        //}
 
         public bool UpdateWorking(Guid draftId, Func<ComponentDraft, ComponentDraft> update)
         {
@@ -348,14 +401,15 @@ namespace ElectronicMaps.Application.Stores
             try
             {
                 if (!_current.WorkingComponents.TryGetValue(draftId, out var current))
-                    return false; // или throw new KeyNotFoundException(...)
+                    return false; // throw new KeyNotFoundException(...)
 
                 var updated = update(current);
 
-                //TODO: проверить equals
-                // Если record структурно равен старому — можно ничего не делать
-               // if (Equals(updated, current))
-                 //   return;
+                if (updated.Id != draftId)
+                    throw new InvalidOperationException("UpdateWorking: нельзя менять ComponentDraft.Id.");
+
+                if (Equals(updated, current))
+                    return true;
 
 
                 var dict = new Dictionary<Guid, ComponentDraft>(_current.WorkingComponents)
@@ -524,6 +578,28 @@ namespace ElectronicMaps.Application.Stores
 
             if(args is not null)
                 Changed?.Invoke(this, args);
+        }
+
+        public void ReplaceWorking(IEnumerable<ComponentDraft> components)
+        {
+            var dict = components
+                .Where(c => c is not null && c.Id != Guid.Empty)
+                .ToDictionary(c => c.Id, c => c);
+
+            StoreChangedEventArgs args;
+
+            _lock.EnterWriteLock();
+            try
+            {
+                _current = _current with { WorkingComponents = dict };
+
+                MarkDirty_NoLock();
+
+                args = BuildArgs_NoLock(StoreChangeKind.WorkingReplaced, key: "WORKING", draftIds: null);
+            }
+            finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
         }
         #endregion
 
@@ -725,7 +801,7 @@ namespace ElectronicMaps.Application.Stores
         private ComponentDraft CreateDraftFromImportedRow(ImportedRow row, string formCode)
         {
             var emptyParams = new Dictionary<int, ParameterValueDraft>();
-            var designators = row.Designators ?? Array.Empty<string>();
+            var designators = DesignatorHelper.Expand(row.Designator);
 
             return new ComponentDraft(
                 Id: Guid.NewGuid(),
@@ -749,10 +825,25 @@ namespace ElectronicMaps.Application.Stores
             return new StoreChangedEventArgs(kind, key, totalWorking, draftIds);
         }
 
-        public void ReplaceWorking(IEnumerable<ComponentDraft> components)
+        private static string GetFamilyGroupKey(ImportedRow r)
         {
-            throw new NotImplementedException();
+            if (r.DatabaseFamilyId is int id && id > 0)
+                return $"DBF:{id}";
+
+            if(!string.IsNullOrWhiteSpace(r.Family))
+                return  $"FAM:{NormalizeKey(r.Family)}";
+
+            return $"NOFAM: {NormalizeKey(r.Type)} | {NormalizeKey(r.CleanName)}";
         }
+
+        private static string NormalizeKey(string s)
+        {
+            s = s.Trim().ToUpperInvariant();
+            return string.Join(
+                ' ',
+                s.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+        }
+
     }
 }
 
