@@ -1,6 +1,7 @@
 ﻿using ElectronicMaps.Application.DTO.Forms;
 using ElectronicMaps.Application.DTO.Parameters;
 using ElectronicMaps.Domain.Entities;
+using ElectronicMaps.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace ElectronicMaps.Application.DTO.Components
         int Id,
         string Name,
         FormTypeDto FormType,
+        VerificationStatus VerificationStatus,
         IReadOnlyList<ParameterDefinitionDto> ParameterDefinitions,
         IReadOnlyList<ParameterValueDto> ParameterValues
         );

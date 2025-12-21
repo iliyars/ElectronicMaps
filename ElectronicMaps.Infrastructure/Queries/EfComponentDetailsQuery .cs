@@ -30,8 +30,9 @@ namespace ElectronicMaps.Infrastructure.Queries
                 {
                     c.Id,
                     c.Name,
-                    Form = new FormTypeDto(c.FormType.Id, c.FormType.Code, c.FormType.DisplayName),
                     FormTypeId = c.FormType.Id,
+                    c.VerificationStatus,
+                    Form = new FormTypeDto(c.FormType.Id, c.FormType.Code, c.FormType.DisplayName),
                 })
                 .FirstOrDefaultAsync(ct);
 
@@ -68,6 +69,7 @@ namespace ElectronicMaps.Infrastructure.Queries
                 component.Id,
                 component.Name,
                 component.Form,
+                component.VerificationStatus,
                 defs,
                 values
                 );
