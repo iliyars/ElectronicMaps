@@ -2,6 +2,7 @@
 using ElectronicMaps.Application.Security;
 using ElectronicMaps.Application.Services;
 using ElectronicMaps.Application.Stores;
+using ElectronicMaps.Application.WorkspaceProject;
 using ElectronicMaps.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -24,6 +25,7 @@ namespace ElectronicMaps.Application
             services.AddSingleton<IComponentStoreSerializer, JsonComponentStoreSerializer>();
             services.AddSingleton<IProjectSaveService, ProjectSaveService>(); // TODO: Move to Infrastructure>
             services.AddScoped<IAuthorizationService, AuthorizationService>();
+            services.AddScoped<IWorkspaceProjectSerializer, ZipWorkspaceProjectSerializer>(); // TODO: Move to Infrastructure>
 
             return services;
         }

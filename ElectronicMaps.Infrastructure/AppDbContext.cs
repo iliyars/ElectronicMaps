@@ -88,6 +88,21 @@ namespace ElectronicMaps.Infrastructure
                 .WithMany()
                 .HasForeignKey(x => x.FamilyFormTypeId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            b.Property(x => x.VerificationStatus)
+                .HasConversion<int>()
+                .IsRequired();
+
+            b.Property(x => x.CreatedAt).IsRequired();
+
+            b.Property(x => x.VerificationNote).IsRequired()
+                .HasMaxLength(500);
+
+            b.Property(x =>x.Version)
+                .IsRequired().HasDefaultValue(1);
+
+            b.HasIndex(x => x.VerificationStatus);
+            b.HasIndex(x => x.Name);
         }
 
         private void ConfigureComponent(ModelBuilder modelBuilder)
@@ -99,6 +114,7 @@ namespace ElectronicMaps.Infrastructure
             b.Property(x => x.Name)
                 .IsRequired()
                 .HasMaxLength(200);
+
             // Свзяь с семейством
             b.HasOne(x => x.ComponentFamily)
                 .WithMany(f => f.Components)
@@ -110,6 +126,29 @@ namespace ElectronicMaps.Infrastructure
                 .WithMany()
                 .HasForeignKey(x => x.FormTypeId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            //Verification
+            b.Property(x => x.VerificationStatus)
+                .HasConversion<int>()
+                .IsRequired();
+
+            b.Property(x => x.CreatedAt).IsRequired();
+
+            b.Property(x => x.VerificationNote).HasMaxLength(500);
+
+            b.Property(x => x.Version)
+                .IsRequired().HasDefaultValue(1);
+
+            b.HasOne<AppUser>()
+            .WithMany()
+            .HasForeignKey(x => x.VerifiedByUserId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+            // Индексы (без NormalizedName)
+            b.HasIndex(x => x.ComponentFamilyId);       // быстро выводить компоненты семейства
+            b.HasIndex(x => x.VerificationStatus);      // быстро выводить непроверенные
+            b.HasIndex(x => x.FormTypeId);              // если часто фильтруешь по форме
+
         }
 
         private void ConfigureFormType(ModelBuilder modelBuilder)
@@ -187,6 +226,14 @@ namespace ElectronicMaps.Infrastructure
                     "(([ComponentId] IS NOT NULL AND [ComponentFamilyId] IS NULL) " +
                     "OR ([ComponentId] IS NULL AND [ComponentFamilyId] IS NOT NULL))");
             });
+
+            b.HasIndex(x => new { x.ComponentId, x.ParameterDefinitionId })
+                .IsUnique()
+                .HasFilter("[ComponentId] IS NOT NULL"); // для SQL Server; для SQLite фильтр может игнорироваться
+
+            b.HasIndex(x => new { x.ComponentFamilyId, x.ParameterDefinitionId })
+                .IsUnique()
+                .HasFilter("[ComponentFamilyId] IS NOT NULL");
         }
 
         private static void SeedInitialForms(ModelBuilder modelBuilder)

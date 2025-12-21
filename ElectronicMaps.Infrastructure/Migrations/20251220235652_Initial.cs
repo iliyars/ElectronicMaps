@@ -7,26 +7,11 @@
 namespace ElectronicMaps.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class SeedInitialFormsData : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "ComponentFamilies",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
-                    Kind = table.Column<int>(type: "INTEGER", nullable: false),
-                    FamilyFormCode = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ComponentFamilies", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "FormTypes",
                 columns: table => new
@@ -35,12 +20,26 @@ namespace ElectronicMaps.Infrastructure.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Code = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     DisplayName = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
-                    Scope = table.Column<int>(type: "INTEGER", nullable: false),
                     TemplateKey = table.Column<string>(type: "TEXT", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FormTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Remark",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Text = table.Column<string>(type: "TEXT", nullable: false),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Order = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Remark", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -60,25 +59,23 @@ namespace ElectronicMaps.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Components",
+                name: "ComponentFamilies",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ComponentFamilyId = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
-                    FormCode = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    CanonicalName = table.Column<string>(type: "TEXT", maxLength: 200, nullable: true)
+                    FamilyFormTypeId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Components", x => x.Id);
+                    table.PrimaryKey("PK_ComponentFamilies", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Components_ComponentFamilies_ComponentFamilyId",
-                        column: x => x.ComponentFamilyId,
-                        principalTable: "ComponentFamilies",
+                        name: "FK_ComponentFamilies_FormTypes_FamilyFormTypeId",
+                        column: x => x.FamilyFormTypeId,
+                        principalTable: "FormTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -107,6 +104,83 @@ namespace ElectronicMaps.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ComponentFamilyRemark",
+                columns: table => new
+                {
+                    ComponentFamilyId = table.Column<int>(type: "INTEGER", nullable: false),
+                    RemarkId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Order = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ComponentFamilyRemark", x => new { x.ComponentFamilyId, x.RemarkId });
+                    table.ForeignKey(
+                        name: "FK_ComponentFamilyRemark_ComponentFamilies_ComponentFamilyId",
+                        column: x => x.ComponentFamilyId,
+                        principalTable: "ComponentFamilies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ComponentFamilyRemark_Remark_RemarkId",
+                        column: x => x.RemarkId,
+                        principalTable: "Remark",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Components",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    ComponentFamilyId = table.Column<int>(type: "INTEGER", nullable: false),
+                    FormTypeId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Components", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Components_ComponentFamilies_ComponentFamilyId",
+                        column: x => x.ComponentFamilyId,
+                        principalTable: "ComponentFamilies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Components_FormTypes_FormTypeId",
+                        column: x => x.FormTypeId,
+                        principalTable: "FormTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ComponentRemark",
+                columns: table => new
+                {
+                    ComponentId = table.Column<int>(type: "INTEGER", nullable: false),
+                    RemarkId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Order = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ComponentRemark", x => new { x.ComponentId, x.RemarkId });
+                    table.ForeignKey(
+                        name: "FK_ComponentRemark_Components_ComponentId",
+                        column: x => x.ComponentId,
+                        principalTable: "Components",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ComponentRemark_Remark_RemarkId",
+                        column: x => x.RemarkId,
+                        principalTable: "Remark",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ParameterValues",
                 columns: table => new
                 {
@@ -114,7 +188,7 @@ namespace ElectronicMaps.Infrastructure.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     ParameterDefinitionId = table.Column<int>(type: "INTEGER", nullable: false),
                     ComponentFamilyId = table.Column<int>(type: "INTEGER", nullable: true),
-                    ComponentId = table.Column<int>(type: "INTEGER", nullable: true),
+                    ComponentId = table.Column<int>(type: "INTEGER", nullable: false),
                     StringValue = table.Column<string>(type: "TEXT", nullable: true),
                     DoubleValue = table.Column<double>(type: "REAL", nullable: true),
                     IntValue = table.Column<int>(type: "INTEGER", nullable: true),
@@ -123,6 +197,7 @@ namespace ElectronicMaps.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ParameterValues", x => x.Id);
+                    table.CheckConstraint("CK_ParameterValues_Target", "(([ComponentId] IS NOT NULL AND [ComponentFamilyId] IS NULL) OR ([ComponentId] IS NULL AND [ComponentFamilyId] IS NOT NULL))");
                     table.ForeignKey(
                         name: "FK_ParameterValues_ComponentFamilies_ComponentFamilyId",
                         column: x => x.ComponentFamilyId,
@@ -145,11 +220,11 @@ namespace ElectronicMaps.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "FormTypes",
-                columns: new[] { "Id", "Code", "DisplayName", "Scope", "TemplateKey" },
+                columns: new[] { "Id", "Code", "DisplayName", "TemplateKey" },
                 values: new object[,]
                 {
-                    { 4, "FORM_4", "Форма 4", 0, null },
-                    { 68, "FORM_68", "Форма 68", 0, null }
+                    { 4, "FORM_4", "Форма 4", null },
+                    { 68, "FORM_68", "Форма 68", null }
                 });
 
             migrationBuilder.InsertData(
@@ -192,9 +267,19 @@ namespace ElectronicMaps.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Components_CanonicalName",
-                table: "Components",
-                column: "CanonicalName");
+                name: "IX_ComponentFamilies_FamilyFormTypeId",
+                table: "ComponentFamilies",
+                column: "FamilyFormTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ComponentFamilyRemark_RemarkId",
+                table: "ComponentFamilyRemark",
+                column: "RemarkId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ComponentRemark_RemarkId",
+                table: "ComponentRemark",
+                column: "RemarkId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Components_ComponentFamilyId",
@@ -202,9 +287,9 @@ namespace ElectronicMaps.Infrastructure.Migrations
                 column: "ComponentFamilyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Components_Name",
+                name: "IX_Components_FormTypeId",
                 table: "Components",
-                column: "Name");
+                column: "FormTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FormTypes_Code",
@@ -233,6 +318,12 @@ namespace ElectronicMaps.Infrastructure.Migrations
                 column: "ParameterDefinitionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Remark_Text",
+                table: "Remark",
+                column: "Text",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_WindowsIdentity",
                 table: "Users",
                 column: "WindowsIdentity",
@@ -243,10 +334,19 @@ namespace ElectronicMaps.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ComponentFamilyRemark");
+
+            migrationBuilder.DropTable(
+                name: "ComponentRemark");
+
+            migrationBuilder.DropTable(
                 name: "ParameterValues");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Remark");
 
             migrationBuilder.DropTable(
                 name: "Components");

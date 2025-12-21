@@ -3,6 +3,7 @@ using ElectronicMaps.Application;
 using ElectronicMaps.Application.Services;
 using ElectronicMaps.Domain.Services;
 using ElectronicMaps.Infrastructure;
+using ElectronicMaps.Infrastructure.Initialization;
 using ElectronicMaps.Infrastructure.Services;
 using ElectronicMaps.WPF.Infrastructure.Commands;
 using ElectronicMaps.WPF.Infrastructure.Commands.XmlCommands;
@@ -40,6 +41,7 @@ namespace ElectronicMaps.WPF
                 {
                     config.SetBasePath(AppContext.BaseDirectory)
                     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                    .AddJsonFile($"appsettings.local.json", optional: true, reloadOnChange: true)
                     .AddEnvironmentVariables();
                 }) 
                 .ConfigureServices((context, services) =>
@@ -73,11 +75,12 @@ namespace ElectronicMaps.WPF
 
             using (var scope = _host.Services.CreateScope())
             {
-                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                db.Database.Migrate();
+                var initializer = scope.ServiceProvider.GetRequiredService<IDatabaseInitializer>();
+                initializer.InitializeAsync().GetAwaiter().GetResult();
             }
-           // ViewTemplateRegistrar.RegisterViewTemplates(typeof(WelcomeViewModel).Assembly);
-          //  ViewTemplateRegistrar.RegisterViewTemplates(typeof(WorkspaceViewModel).Assembly);
+           
+            // ViewTemplateRegistrar.RegisterViewTemplates(typeof(WelcomeViewModel).Assembly);
+            //  ViewTemplateRegistrar.RegisterViewTemplates(typeof(WorkspaceViewModel).Assembly);
             var mainViewModel = _host.Services.GetRequiredService<MainViewModel>();
             var mainWindow = new MainWindow();
             mainWindow.DataContext = mainViewModel;

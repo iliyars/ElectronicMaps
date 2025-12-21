@@ -2,6 +2,7 @@
 using ElectronicMaps.Application.Services;
 using ElectronicMaps.Domain.Repositories;
 using ElectronicMaps.Domain.Services;
+using ElectronicMaps.Infrastructure.Initialization;
 using ElectronicMaps.Infrastructure.Persistance;
 using ElectronicMaps.Infrastructure.Queries;
 using ElectronicMaps.Infrastructure.Repositories;
@@ -22,15 +23,26 @@ namespace ElectronicMaps.Infrastructure
         public static IServiceCollection AddMapsInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
 
-            var connectionString = configuration.GetConnectionString("AppDb")
-           ?? throw new InvalidOperationException("Connection string 'AppDb' not found.");
+
+            services.AddSingleton<IConfiguration>(configuration);
 
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlite(connectionString);
+                var provider = DbConfig.GetProvider(configuration);
+                var connectionString
+                = DbConfig.BuildConnectionString(configuration);
+
+                if(provider.Equals("SqlServer", StringComparison.OrdinalIgnoreCase))
+                {
+                    //options.UseSqlServer(connectionString);
+                }
+                else
+                {
+                    options.UseSqlite(connectionString);
+                }
             });
 
-
+            services.AddScoped<IDatabaseInitializer, DatabaseInitializer>();
             services.AddScoped<IAppUserRepository, AppUserRepository>();
             services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 

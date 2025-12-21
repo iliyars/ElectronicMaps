@@ -81,6 +81,7 @@ namespace ElectronicMaps.Application.Stores
         void ReplaceWorking(IEnumerable<ComponentDraft> components);
         IReadOnlyList<ComponentDraft> SplitWorking(Guid draftId, int parts);
         ComponentDraft MergeWorking(IReadOnlyList<Guid> draftIds);
+        public void AssignFamily(Guid componentDraftId, string? familyName, int? dbFamilyId);
         #endregion
 
         #region Documents

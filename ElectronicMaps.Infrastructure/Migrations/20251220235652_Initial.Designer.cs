@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElectronicMaps.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251210105653_SeedInitialFormsData")]
-    partial class SeedInitialFormsData
+    [Migration("20251220235652_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,17 +56,11 @@ namespace ElectronicMaps.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("CanonicalName")
-                        .HasMaxLength(200)
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("ComponentFamilyId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("FormCode")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                    b.Property<int>("FormTypeId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -75,11 +69,9 @@ namespace ElectronicMaps.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CanonicalName");
-
                     b.HasIndex("ComponentFamilyId");
 
-                    b.HasIndex("Name");
+                    b.HasIndex("FormTypeId");
 
                     b.ToTable("Components", (string)null);
                 });
@@ -90,11 +82,7 @@ namespace ElectronicMaps.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("FamilyFormCode")
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Kind")
+                    b.Property<int>("FamilyFormTypeId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -104,7 +92,45 @@ namespace ElectronicMaps.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FamilyFormTypeId");
+
                     b.ToTable("ComponentFamilies", (string)null);
+                });
+
+            modelBuilder.Entity("ElectronicMaps.Domain.Entities.ComponentFamilyRemark", b =>
+                {
+                    b.Property<int>("ComponentFamilyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RemarkId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ComponentFamilyId", "RemarkId");
+
+                    b.HasIndex("RemarkId");
+
+                    b.ToTable("ComponentFamilyRemark");
+                });
+
+            modelBuilder.Entity("ElectronicMaps.Domain.Entities.ComponentRemark", b =>
+                {
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RemarkId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ComponentId", "RemarkId");
+
+                    b.HasIndex("RemarkId");
+
+                    b.ToTable("ComponentRemark");
                 });
 
             modelBuilder.Entity("ElectronicMaps.Domain.Entities.FormType", b =>
@@ -123,9 +149,6 @@ namespace ElectronicMaps.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Scope")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("TemplateKey")
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
@@ -142,15 +165,13 @@ namespace ElectronicMaps.Infrastructure.Migrations
                         {
                             Id = 68,
                             Code = "FORM_68",
-                            DisplayName = "Форма 68",
-                            Scope = 0
+                            DisplayName = "Форма 68"
                         },
                         new
                         {
                             Id = 4,
                             Code = "FORM_4",
-                            DisplayName = "Форма 4",
-                            Scope = 0
+                            DisplayName = "Форма 4"
                         });
                 });
 
@@ -511,7 +532,7 @@ namespace ElectronicMaps.Infrastructure.Migrations
                     b.Property<int?>("ComponentFamilyId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ComponentId")
+                    b.Property<int>("ComponentId")
                         .HasColumnType("INTEGER");
 
                     b.Property<double?>("DoubleValue")
@@ -537,7 +558,34 @@ namespace ElectronicMaps.Infrastructure.Migrations
 
                     b.HasIndex("ParameterDefinitionId");
 
-                    b.ToTable("ParameterValues", (string)null);
+                    b.ToTable("ParameterValues", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_ParameterValues_Target", "(([ComponentId] IS NOT NULL AND [ComponentFamilyId] IS NULL) OR ([ComponentId] IS NULL AND [ComponentFamilyId] IS NOT NULL))");
+                        });
+                });
+
+            modelBuilder.Entity("ElectronicMaps.Domain.Entities.Remark", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Text")
+                        .IsUnique();
+
+                    b.ToTable("Remark");
                 });
 
             modelBuilder.Entity("ElectronicMaps.Domain.Entities.Component", b =>
@@ -548,7 +596,64 @@ namespace ElectronicMaps.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ElectronicMaps.Domain.Entities.FormType", "FormType")
+                        .WithMany()
+                        .HasForeignKey("FormTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("ComponentFamily");
+
+                    b.Navigation("FormType");
+                });
+
+            modelBuilder.Entity("ElectronicMaps.Domain.Entities.ComponentFamily", b =>
+                {
+                    b.HasOne("ElectronicMaps.Domain.Entities.FormType", "FamilyFormType")
+                        .WithMany()
+                        .HasForeignKey("FamilyFormTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("FamilyFormType");
+                });
+
+            modelBuilder.Entity("ElectronicMaps.Domain.Entities.ComponentFamilyRemark", b =>
+                {
+                    b.HasOne("ElectronicMaps.Domain.Entities.ComponentFamily", "ComponentFamily")
+                        .WithMany()
+                        .HasForeignKey("ComponentFamilyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ElectronicMaps.Domain.Entities.Remark", "Remark")
+                        .WithMany("Families")
+                        .HasForeignKey("RemarkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ComponentFamily");
+
+                    b.Navigation("Remark");
+                });
+
+            modelBuilder.Entity("ElectronicMaps.Domain.Entities.ComponentRemark", b =>
+                {
+                    b.HasOne("ElectronicMaps.Domain.Entities.Component", "Component")
+                        .WithMany()
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ElectronicMaps.Domain.Entities.Remark", "Remark")
+                        .WithMany("Components")
+                        .HasForeignKey("RemarkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Component");
+
+                    b.Navigation("Remark");
                 });
 
             modelBuilder.Entity("ElectronicMaps.Domain.Entities.ParameterDefinition", b =>
@@ -572,7 +677,8 @@ namespace ElectronicMaps.Infrastructure.Migrations
                     b.HasOne("ElectronicMaps.Domain.Entities.Component", "Component")
                         .WithMany("ParameterValues")
                         .HasForeignKey("ComponentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ElectronicMaps.Domain.Entities.ParameterDefinition", "ParameterDefinition")
                         .WithMany()
@@ -602,6 +708,13 @@ namespace ElectronicMaps.Infrastructure.Migrations
             modelBuilder.Entity("ElectronicMaps.Domain.Entities.FormType", b =>
                 {
                     b.Navigation("Parameters");
+                });
+
+            modelBuilder.Entity("ElectronicMaps.Domain.Entities.Remark", b =>
+                {
+                    b.Navigation("Components");
+
+                    b.Navigation("Families");
                 });
 #pragma warning restore 612, 618
         }

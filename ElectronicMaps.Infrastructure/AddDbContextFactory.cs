@@ -14,23 +14,34 @@ namespace ElectronicMaps.Infrastructure
         public AppDbContext CreateDbContext(string[] args)
         {
 
+            var basePath = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "..",
+                "ElectronicMaps.WPF"
+    );
+
             // При миграциях стартовым проектом будет WPF, поэтому
             // CurrentDirectory будет указывать на папку Wpf-проекта, где лежит appsettings.json
             var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(basePath)
                 .AddJsonFile("appsettings.json", optional: true)
+                .AddJsonFile("appsettings.local.json", optional: true)
                 .Build();
 
-            var connectionString = config.GetConnectionString("AppDb")
-                ?? "Data Source=electronicmaps.db"; // запасной вариант
+            var provider = DbConfig.GetProvider(config);
+            var connectionString = DbConfig.BuildConnectionString(config);
 
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
-            // Здесь указываешь тот же провайдер и строку подключения,
-            // что будешь использовать в приложении
-            optionsBuilder.UseSqlite(connectionString);
-            // или:
-            // optionsBuilder.UseSqlServer("Server=...;Database=RcCards;Trusted_Connection=True;");
+            if (provider.Equals("SqlServer", StringComparison.OrdinalIgnoreCase)) 
+            {
+
+                // optionsBuilder.UseSqlServer(connectionString);
+            }
+
+            else
+                optionsBuilder.UseSqlite(connectionString);
+
 
             return new AppDbContext(optionsBuilder.Options);
         }
