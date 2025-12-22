@@ -1,7 +1,9 @@
-﻿using ElectronicMaps.Application.Abstractons.Queries;
+﻿using ElectronicMaps.Application.Abstractons.Commands;
+using ElectronicMaps.Application.Abstractons.Queries;
 using ElectronicMaps.Application.Services;
 using ElectronicMaps.Domain.Repositories;
 using ElectronicMaps.Domain.Services;
+using ElectronicMaps.Infrastructure.Commands;
 using ElectronicMaps.Infrastructure.Initialization;
 using ElectronicMaps.Infrastructure.Persistance;
 using ElectronicMaps.Infrastructure.Queries;
@@ -59,10 +61,13 @@ namespace ElectronicMaps.Infrastructure
 
             services.AddScoped<IWorkspaceQuery, EfWorkspaceQuery>();
             services.AddScoped<IComponentDetailsQuery, EfComponentDetailsQuery>();
+            services.AddScoped<IFamilyDetailsQuery, EfFamilyDetailsQuery>();
 
 
             services.AddSingleton<IComponentNameParser, ComponentNameParser>();
             services.AddScoped<IComponentSourceReader, AvsXmlComponentSourceReader>();
+
+            services.AddScoped<ISaveComponent, EfSaveComponent>();
 
             return services;
         }

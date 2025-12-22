@@ -9,6 +9,12 @@ using System.Threading.Tasks;
 
 namespace ElectronicMaps.Infrastructure.Queries
 {
+
+
+    /// <summary>
+    /// Read-репозиторий для получения минимальной справочной информации
+    /// о семействах компонентов.
+    ///</summary>
     public class EfComponentFamilyReadRepository : IComponentFamilyReadRepository
     {
         private readonly AppDbContext _db;
@@ -24,7 +30,8 @@ namespace ElectronicMaps.Infrastructure.Queries
                 f.Id,
                 f.Name,
                 f.FamilyFormTypeId,
-                f.FamilyFormType.Code
+                f.FamilyFormType.Code,
+                f.VerificationStatus
                 ))
                 .FirstOrDefaultAsync(ct);
         }
@@ -36,7 +43,8 @@ namespace ElectronicMaps.Infrastructure.Queries
                     f.Id,
                     f.Name,
                     f.FamilyFormTypeId,
-                    f.FamilyFormType.Code
+                    f.FamilyFormType.Code,
+                    f.VerificationStatus
                     ))
                 .FirstOrDefaultAsync(ct);
         }
@@ -50,7 +58,8 @@ namespace ElectronicMaps.Infrastructure.Queries
                     f.Id,
                     f.Name,
                     f.FamilyFormTypeId,
-                    f.FamilyFormType.Code
+                    f.FamilyFormType.Code,
+                    f.VerificationStatus
                     ))
                 .ToListAsync(ct).ContinueWith(t => (IReadOnlyList<ComponentFamilyLookupDto>)t.Result, ct);
         }

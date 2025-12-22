@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicMaps.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,8 @@ namespace ElectronicMaps.Application.DTO.Families
         int Id,
         string Name,
         int FormTypeId,
-        string FormCode
+        string FormCode,
+        VerificationStatus VerificationStatus
         );
 
 }

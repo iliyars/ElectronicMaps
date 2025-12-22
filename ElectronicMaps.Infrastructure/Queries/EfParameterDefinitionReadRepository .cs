@@ -20,10 +20,11 @@ namespace ElectronicMaps.Infrastructure.Queries
             _db = db;
         }
 
-        public Task<IReadOnlyList<ParameterDefinitionDto>> GetByFormTypeIdAsync(int formTypeId, CancellationToken ct)
+        public async Task<IReadOnlyList<ParameterDefinitionDto>> GetByFormTypeIdAsync(int formTypeId, CancellationToken ct)
         {
-            return _db.Set<ParameterDefinition>().AsNoTracking()
-                .Where(x => x.FormTypeId == formTypeId)
+            return await _db.Set<ParameterDefinition>()
+                .AsNoTracking()
+                .Where(p => p.FormTypeId == formTypeId)
                 .OrderBy(p => p.Order)
                 .Select(p => new ParameterDefinitionDto(
                     p.Id,
@@ -31,28 +32,24 @@ namespace ElectronicMaps.Infrastructure.Queries
                     p.DisplayName,
                     p.ValueKind,
                     p.Order,
-                    p.Unit
-                    ))
-                .ToListAsync(ct)
-                .ContinueWith(t => (IReadOnlyList<ParameterDefinitionDto>)t.Result, ct);
-
+                    p.Unit))
+                .ToListAsync(ct);
         }
 
-        public Task<IReadOnlyList<ParameterDefinitionDto>> GetByFormCodeAsync(string formCode, CancellationToken ct)
+        public async Task<IReadOnlyList<ParameterDefinitionDto>> GetByFormCodeAsync(string formCode, CancellationToken ct)
         {
-            return _db.Set<ParameterDefinition>().AsNoTracking()
-                .Where(p => p.FormType.Code == formCode)
-                .OrderBy(p => p.Order)
-                .Select(p => new ParameterDefinitionDto(
-                    p.Id,
-                    p.Code,
-                    p.DisplayName,
-                    p.ValueKind,
-                    p.Order,
-                    p.Unit
-                    ))
-                .ToListAsync(ct)
-                .ContinueWith(t => (IReadOnlyList<ParameterDefinitionDto>)t.Result, ct);
+            return await _db.Set<ParameterDefinition>()
+                 .AsNoTracking()
+                 .Where(p => p.FormType.Code == formCode)
+                 .OrderBy(p => p.Order)
+                 .Select(p => new ParameterDefinitionDto(
+                     p.Id,
+                     p.Code,
+                     p.DisplayName,
+                     p.ValueKind,
+                     p.Order,
+                     p.Unit))
+                 .ToListAsync(ct);
         }
     }
 }

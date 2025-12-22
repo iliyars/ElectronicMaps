@@ -7,6 +7,17 @@ using System.Threading.Tasks;
 
 namespace ElectronicMaps.Application.Abstractons.Queries
 {
+    /// <summary>
+    /// Запрос данных для пользовательского рабочего пространства (Workspace).
+    /// 
+    ///  Используется для отображения списка  рабочих компонентов,
+    ///  их группировки и сортировки по формам.
+    ///  Предназначен для пользовательского сценария работы с проектом,
+    ///  а не для администрирования справочника.
+    ///  
+    ///  Возвращаемые данные оптимизированы для отображения списков и карточек
+    ///   не содержат детальной информации о параметрах компонентов или семейств.s
+    /// </summary>
     public interface IWorkspaceQuery
     {
         Task<IReadOnlyList<ComponentListItemDto>> GetAllComponentsAsync(CancellationToken ct);

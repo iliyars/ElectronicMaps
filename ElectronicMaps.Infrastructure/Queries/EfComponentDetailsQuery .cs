@@ -30,9 +30,9 @@ namespace ElectronicMaps.Infrastructure.Queries
                 {
                     c.Id,
                     c.Name,
-                    FormTypeId = c.FormType.Id,
+                    c.FormTypeId,
                     c.VerificationStatus,
-                    Form = new FormTypeDto(c.FormType.Id, c.FormType.Code, c.FormType.DisplayName),
+                    Form = new FormTypeDto(c.FormTypeId, c.FormType!.Code, c.FormType!.DisplayName),
                 })
                 .FirstOrDefaultAsync(ct);
 
@@ -55,7 +55,8 @@ namespace ElectronicMaps.Infrastructure.Queries
 
             // Значения параметров по компоненту
             var values = await _db.Set<ParameterValue>().AsNoTracking()
-                .Where(v => v.ComponentId == componentId)
+                .Where(v => v.ComponentId == componentId && v.ComponentFamilyId == null)
+                .OrderBy(v => v.ParameterDefinition.Order)
                 .Select(v => new ParameterValueDto(
                     v.ParameterDefinitionId,
                     v.ParameterDefinition.Code,

@@ -33,7 +33,7 @@ namespace ElectronicMaps.Domain.Entities
         public ComponentFamily ComponentFamily { get; set; } = null!;
 
         public int FormTypeId { get;set; }
-        public FormType? FormType { get; set; }
+        public FormType FormType { get; set; } = null!;
 
         public ICollection<ParameterValue> ParameterValues { get; set; } = new List<ParameterValue>();
 
