@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using ElectronicMaps.Application.WorkspaceProject.Models;
 using ElectronicMaps.WPF.Features.Workspace.ViewModels.GridRows;
+using ElectronicMaps.WPF.Features.Workspace.ViewModels.Modal;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,6 +30,9 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels.FormCards
         public int Quantity => item.Quantity;
 
 
+        public IAsyncRelayCommand FillCommand { get; } //TODO: Разобраться кгде должна быть эта команда
+
+
         //TODO: form enum
         public bool IsFamilyForm => string.Equals(FormCode, "FORM_4", StringComparison.OrdinalIgnoreCase);
 
@@ -40,6 +45,14 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels.FormCards
             FormName = formName ?? throw new ArgumentNullException(nameof(formName));
             Number = number;
             Item = item;
+
+
+            //FillCommand = new AsyncRelayCommand(async () =>
+            //{
+            //    var vm = new UndefinedComponentFillWizardViewModel(Item.Id, fillService);
+            //    await vm.InitializeAsync(CancellationToken.None);
+            //    await dialogs.ShowDialogAsync(vm); // как у тебя устроены экраны/модалки
+            //});
         }
 
 

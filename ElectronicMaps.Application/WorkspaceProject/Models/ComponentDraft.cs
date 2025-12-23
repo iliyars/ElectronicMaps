@@ -9,8 +9,9 @@ namespace ElectronicMaps.Application.WorkspaceProject.Models
     public enum DraftKind
     {
         Component = 0,
-        FamilyAgregate = 1
-    }
+        FamilyAgregate = 1,
+        Undefined = 2,
+    }   
     public enum LocalFillStatus { Missing, Filled }
     public enum ApprovalStatus
     {

@@ -10,12 +10,11 @@ namespace ElectronicMaps.Application.DTO.Components
 {
     public record SaveComponentRequest(
         string ComponentName,
-        int ComponentFormTypeId,
+        string ComponentFormTypeCode,
 
         int? ExistingFamilyId,
         string FamilyName,
 
-        int FamilyFormTypeId,
 
         IReadOnlyList<ParameterValueInput> ComponentParameters,
         IReadOnlyList<ParameterValueInput> FamilyParameters

@@ -226,16 +226,5 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
 
             return new ComponentCardViewModel(draft.FormCode, draft.FormName, number, draft);
         }
-
-
-
-
-
-
-       
-
-        
-
-       
     }
 }
