@@ -11,6 +11,6 @@ namespace ElectronicMaps.Application.WorkspaceProject.Services
     {
         Task SaveDraftToDatabaseAsync(Guid draftId, CancellationToken ct);
 
-        Task<IReadOnlyList<ParameterDefinitionDto>> LoadDefinitionsForDraftAsync(Guid draftId, CancellationToken ct);s   
+        Task<IReadOnlyList<ParameterDefinitionDto>> LoadDefinitionsForDraftAsync(Guid draftId, CancellationToken ct);   
     }
 }

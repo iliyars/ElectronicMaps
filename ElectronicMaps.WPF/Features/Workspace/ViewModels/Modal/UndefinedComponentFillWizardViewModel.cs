@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using ElectronicMaps.Application.DTO.Forms;
 using ElectronicMaps.Application.WorkspaceProject.Models;
 using ElectronicMaps.Application.WorkspaceProject.Services;
+using ElectronicMaps.WPF.Features.Workspace.ViewModels.Parameters;
 using Microsoft.EntityFrameworkCore.Sqlite.Query.Internal;
 using System;
 using System.Collections.Generic;
@@ -23,8 +24,8 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels.Modal
         [ObservableProperty]
         private int step = 1;
 
-        public ParameterEditorViewModel FamilyEditor { get; private set; } = null!;
-        public ParameterEditorViewModel ComponentEditor { get; private set; } = null!;
+        public ParametersEditorViewModel FamilyEditor { get; private set; } = null!;
+        public ParametersEditorViewModel ComponentEditor { get; private set; } = null!;
 
         public ObservableCollection<FormTypeDto> FormTypes { get; } = new();
 
@@ -56,7 +57,7 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels.Modal
         public async Task InitializeAsync(CancellationToken ct)
         {
             var familyDefs = await _service.GetFamilyDefinitionsAsync(ct);
-            FamilyEditor = new ParameterEditorViewModel(familyDefs);
+            FamilyEditor = new ParametersEditorViewModel(familyDefs);
 
             var forms = await _service.GetComponentFormTypesAsync(ct);
             FormTypes.Clear();
@@ -77,8 +78,8 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels.Modal
             if (form is null) return;
 
             var defs = await _service.GetComponentDefinitionsAsync(form.Code, CancellationToken.None);
-            ComponentEditor = new ParameterEditorViewModel(defs);
-            OnPropertyChanged(ComponentEditor);
+            ComponentEditor = new ParametersEditorViewModel(defs);
+            OnPropertyChanged(nameof(ComponentEditor));
         }
         
         private async Task FinishAsync()
@@ -88,9 +89,9 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels.Modal
             await _service.SaveAsync(
                 draftId: DraftId,
                 familyName: FamilyName,
-                familyParameters: FamilyEditor.BuildInputs,
+                familyParameters: FamilyEditor.BuildInputs(),
                 componentFormTypeCode: SelectedFormType.Code,
-                componentParameters: ComponentEditor.BuildInputs,
+                componentParameters: ComponentEditor.BuildInputs(),
                 ct: CancellationToken.None);
         }
 

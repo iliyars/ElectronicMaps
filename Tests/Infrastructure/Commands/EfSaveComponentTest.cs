@@ -36,3 +36,4 @@ namespace ElectronicMaps.Tests.Infrastructure.Commands
 
         }
     }
+}

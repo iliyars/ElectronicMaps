@@ -1,0 +1,183 @@
+﻿<UserControl x:Class="ElectronicMaps.WPF.Features.Workspace.Views.WorkspaceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vm="clr-namespace:ElectronicMaps.WPF.Features.Workspace.ViewModels"
+             xmlns:cardsvm="clr-namespace:ElectronicMaps.WPF.Features.Workspace.ViewModels.FormCards"
+             xmlns:cardsview="clr-namespace:ElectronicMaps.WPF.Features.Workspace.Views.FormCards"
+             xmlns:local="clr-namespace:ElectronicMaps.WPF.Features.Workspace.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <!-- Лёгкие стили для контейнеров, завязанные на твои кисти -->
+        <Style x:Key="SurfaceCard"
+               TargetType="Border">
+            <Setter Property="CornerRadius"
+                    Value="16" />
+            <Setter Property="Background"
+                    Value="{DynamicResource AppSurfaceBrush}" />
+            <Setter Property="BorderBrush"
+                    Value="{DynamicResource AppBorderBrush}" />
+            <Setter Property="BorderThickness"
+                    Value="1" />
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+        </Style>
+
+        <Style x:Key="ToolbarCard"
+               TargetType="Border"
+               BasedOn="{StaticResource SurfaceCard}">
+            <Setter Property="CornerRadius"
+                    Value="14" />
+            <Setter Property="Background"
+                    Value="{DynamicResource AppToolbarBrush}" />
+            <Setter Property="Padding"
+                    Value="12" />
+        </Style>
+
+        <Style x:Key="MutedText"
+               TargetType="TextBlock">
+            <Setter Property="Foreground"
+                    Value="{DynamicResource AppMutedTextBrush}" />
+        </Style>
+
+        <Style x:Key="BodyText"
+               TargetType="TextBlock">
+            <Setter Property="Foreground"
+                    Value="{DynamicResource AppBodyTextBrush}" />
+        </Style>
+        
+        
+
+        <!-- Host-карточка: ты говорил "для карточки отдельная view" -->
+        <DataTemplate DataType="{x:Type cardsvm:ComponentCardViewModel}">
+            <cardsview:ComponentCardView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type cardsvm:FamilyCardsViewModel}">
+            <cardsview:FamilyCardView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type cardsvm:UndefinedCardViewModel}">
+            <cardsview:UndefinedCardView />
+        </DataTemplate>
+
+        <!-- Анимация боковой панели -->
+        <Storyboard x:Key="ShowDetails">
+            <DoubleAnimation Storyboard.TargetName="DetailsTranslate"
+                             Storyboard.TargetProperty="X"
+                             To="0"
+                             Duration="0:0:0.22">
+                <DoubleAnimation.EasingFunction>
+                              <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="DetailsPanel"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1"
+                             Duration="0:0:0.18">
+            </DoubleAnimation>
+        </Storyboard>
+
+        <Storyboard x:Key="HideDetails">
+            <DoubleAnimation Storyboard.TargetName="DetailsTranslate"
+                             Storyboard.TargetProperty="X"
+                             To="420"
+                             Duration="0:0:0.18">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseIn" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+                         
+            <DoubleAnimation Storyboard.TargetName="DetailsPanel"
+                             Storyboard.TargetProperty="Opacity"
+                             To="0"
+                             Duration="0:0:0.14" />
+        </Storyboard>
+
+    </UserControl.Resources>
+
+    <Grid>                      <!--Background="{DynamicResource AppBackgroundBrush}"-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <!--Top bar-->
+        <Border Grid.Row="0"
+                Margin="12" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <!-- ComboBox выбора формы -->
+            <ComboBox Grid.Column="0"
+                      ItemsSource="{Binding ViewOptions}"
+                      SelectedValuePath="Key"
+                      DisplayMemberPath="Title"
+                      ToolTip="{Binding ViewOptions.Count}"
+                      SelectedValue="{Binding SelectedViewKey, Mode=TwoWay}"
+                      Height="40"
+                      Margin="0" />
+        </Grid>
+
+
+        <!-- Cards area -->
+        <Border Grid.Row="1"
+                Padding="12">
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled"
+                          materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
+                <ItemsControl ItemsSource="{Binding ItemCards}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True"
+                                       Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Margin"
+                                    Value="8" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+
+        <Border x:Name="DetailsPanel"
+                Grid.Column="2"
+                Padding="12"
+                Opacity="0"
+                SnapsToDevicePixels="True">
+            <Border.RenderTransform>
+                <TranslateTransform x:Name="DetailsTranslate"
+                                    X="420" />
+            </Border.RenderTransform>
+
+            <Border.Style>
+                <Style TargetType="Border"
+                       BasedOn="{StaticResource SurfaceCard}">
+                    <Setter Property="Opacity"
+                            Value="0" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsDetailsOpen}"
+                                     Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource ShowDetails}" />
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource HideDetails}" />
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+    </Grid>
+</UserControl>

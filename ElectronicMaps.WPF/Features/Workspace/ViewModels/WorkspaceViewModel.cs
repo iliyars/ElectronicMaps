@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls.Primitives;
 
 namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
@@ -33,7 +34,6 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
         /// </summary>
         public ObservableCollection<ImportedRowViewModel> ImportedComponents { get; } = new();
 
-
         [ObservableProperty]
         private bool isDetailsOpen;
         
@@ -45,7 +45,8 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
 
         partial void OnSelectedViewKeyChanged(string? value)
         {
-            RebuildCards();
+            RebuildItemCards();
+            MessageBox.Show("OnSelectedViewKeyChanged");
         }
 
         public IRelayCommand<Guid> ToggleDetailsCommand { get; }
@@ -127,10 +128,8 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
             }
         }
 
-        private void RebuildCards()
+        private void RebuildItemCards()
         {
-            RebuildViewOptions();
-
             ItemCards.Clear();
 
             var key = SelectedViewKey ?? WorkspaceViewKeys.UndefinedForm;
@@ -138,9 +137,13 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
 
             var number = 1;
             foreach (var draft in drafts)
-            {
                 ItemCards.Add(CreateCardViewModel(draft, number++));
-            }
+        }
+
+        private void RebuildCards()
+        {
+            RebuildViewOptions();
+            RebuildItemCards();
         }
 
         private void UpsertCard(Guid id)
@@ -179,22 +182,26 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
 
         private void RebuildViewOptions()
         {
+
+            var current = SelectedViewKey;
+
             ViewOptions.Clear();
 
-            //Ключи форм из store
             var keys = _componentStore.GetViewKeys();
+            var ordered = keys
+                .OrderBy(k => string.Equals(k, WorkspaceViewKeys.UndefinedForm, StringComparison.OrdinalIgnoreCase) ? 0 : 1)
+                .ThenBy(k => ParseFormNumber(k) ?? int.MaxValue)
+                .ThenBy(k => k, StringComparer.OrdinalIgnoreCase);
 
-            // сортировка: undefind
-            var ordered = keys.OrderBy(k => string.Equals(k, WorkspaceViewKeys.UndefinedForm, StringComparison.OrdinalIgnoreCase)? 0 : 1)
-                .ThenBy(keys => ParseFormNumber(keys) ?? int.MaxValue)
-                .ThenBy(keys => keys, StringComparer.OrdinalIgnoreCase);
-
-            foreach(var key in ordered)
+            foreach (var key in ordered)
                 ViewOptions.Add(new ViewOptions(key, ToTitle(key)));
 
-            // если ничего не выбрано - выставим default
-            if(string.IsNullOrWhiteSpace(SelectedViewKey))
-                SelectedViewKey = ViewOptions.FirstOrDefault()?.Key;
+            // восстановим выбор, если он ещё валиден
+            if (!string.IsNullOrWhiteSpace(current) && ViewOptions.Any(x => x.Key == current))
+                return;
+
+            // иначе ставим дефолт (и да, это вызовет OnSelectedViewKeyChanged 1 раз — это нормально)
+            SelectedViewKey = ViewOptions.FirstOrDefault()?.Key;
         }
 
         private static int? ParseFormNumber(string key)
@@ -217,12 +224,14 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels
             return $"Форма {n}";
         }
 
-
         private CardViewModelBase CreateCardViewModel(ComponentDraft draft, int number)
         {
             // FORM_4 vs остальные
             if (string.Equals(draft.FormCode, "FORM_4", StringComparison.OrdinalIgnoreCase))
                 return new FamilyCardsViewModel(draft.FormCode, "Форма 4", number, draft);
+
+            if(string.Equals(draft.FormCode, WorkspaceViewKeys.UndefinedForm, StringComparison.OrdinalIgnoreCase))
+                return new UndefinedCardViewModel(draft.FormCode, ToTitle(draft.FormCode), number, draft);
 
             return new ComponentCardViewModel(draft.FormCode, draft.FormName, number, draft);
         }

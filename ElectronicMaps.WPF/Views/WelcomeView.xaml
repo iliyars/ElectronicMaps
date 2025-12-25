@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ElectronicMaps.WPF.Views"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              Background="{DynamicResource AppBackgroundBrush}"
              d:DesignHeight="600"
@@ -13,7 +12,7 @@
         <!-- Кнопка как ссылка в секции Start -->
         <Style x:Key="StartLinkButtonStyle"
                TargetType="Button"
-               BasedOn="{StaticResource MaterialDesignFlatButton}">
+               >
 
             <!-- Базовые параметры -->
             <Setter Property="Background"
@@ -80,11 +79,11 @@
             <!-- Заголовок приложения -->
             <StackPanel Margin="0,0,0,32">
                 <TextBlock Text="ElectronicMaps"
-                           Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                           
                            Foreground="{DynamicResource AppHeaderTextBrush}" />
                 <TextBlock Text="Формы для электронных карт"
                            Margin="0,4,0,0"
-                           Style="{StaticResource MaterialDesignBody2TextBlock}"
+                           
                            Foreground="{DynamicResource AppMutedTextBrush}" />
             </StackPanel>
 
@@ -92,59 +91,46 @@
             <StackPanel>
                 <TextBlock Text="Start"
                            Margin="0,0,0,8"
-                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                           
                            Foreground="{DynamicResource AppHeaderTextBrush}" />
 
                 <!-- Открыть XML -->
                 <Button Command="{Binding OpenXmlCommand}"
-                        Style="{StaticResource MaterialDesignFlatButton}"
+                        
                         HorizontalContentAlignment="Left"
                         Padding="0"
                         Margin="0,2,0,2">
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="FileXmlBox"
-                                                 Width="18"
-                                                 Height="18"
-                                                 Margin="0,0,8,0"
-                                                 Foreground="{DynamicResource AppAccentBrush}" />
+                        
                         <TextBlock Text="Open XML..."
-                                   Style="{StaticResource MaterialDesignBody1TextBlock}"
                                    Foreground="{DynamicResource AppBodyTextBrush}" />
                     </StackPanel>
                 </Button>
 
                 <!-- Открыть Word -->
                 <Button Command="{Binding OpenWordCommand}"
-                        Style="{StaticResource MaterialDesignFlatButton}"
+                        
                         HorizontalContentAlignment="Left"
                         Padding="0"
                         Margin="0,2,0,2">
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="FileWordBox"
-                                                 Width="18"
-                                                 Height="18"
-                                                 Margin="0,0,8,0"
-                                                 Foreground="{DynamicResource AppAccentBrush}" />
+                        
                         <TextBlock Text="Open Word..."
-                                   Style="{StaticResource MaterialDesignBody1TextBlock}"
+                                   
                                    Foreground="{DynamicResource AppBodyTextBrush}" />
                     </StackPanel>
                 </Button>
 
                 <!-- Открыть проект -->
                 <Button Command="{Binding OpenProjectCommand}"
-                        Style="{StaticResource MaterialDesignFlatButton}"
+                        
                         HorizontalContentAlignment="Left"
                         Padding="0"
                         Margin="0,2,0,2">
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="FolderOpen"
-                                                 Width="18"
-                                                 Height="18"
-                                                 Margin="0,0,8,0"
-                                                 Foreground="{DynamicResource AppAccentBrush}" />
+                        
                         <TextBlock Text="Open project..."
-                                   Style="{StaticResource MaterialDesignBody1TextBlock}"
+                                   
                                    Foreground="{DynamicResource AppBodyTextBrush}" />
                     </StackPanel>
                 </Button>
@@ -154,12 +140,12 @@
             <StackPanel Margin="0,32,0,0">
                 <TextBlock Text="Recent"
                            Margin="0,0,0,8"
-                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                           
                            Foreground="{DynamicResource AppHeaderTextBrush}" />
 
                 <!-- Пока просто заглушка -->
                 <TextBlock Text="Здесь появятся последние проекты и файлы."
-                           Style="{StaticResource MaterialDesignBody2TextBlock}"
+                           
                            Foreground="{DynamicResource AppMutedTextBrush}" />
             </StackPanel>
         </StackPanel>
@@ -171,7 +157,7 @@
                     Width="380">
             <TextBlock Text="Walkthroughs"
                        Margin="0,0,0,8"
-                       Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                       
                        Foreground="{DynamicResource AppHeaderTextBrush}" />
 
             <Border Background="{DynamicResource AppSurfaceBrush}"
@@ -182,11 +168,10 @@
                     BorderThickness="1">
                 <StackPanel>
                     <TextBlock Text="Импорт XML и обзор компонентов"
-                               Style="{StaticResource MaterialDesignBody1TextBlock}"
+                           
                                Foreground="{DynamicResource AppBodyTextBrush}" />
                     <TextBlock Text="Узнайте, как загрузить данные и начать работать с компонентами."
                                Margin="0,2,0,0"
-                               Style="{StaticResource MaterialDesignCaptionTextBlock}"
                                Foreground="{DynamicResource AppMutedTextBrush}" />
                 </StackPanel>
             </Border>
@@ -199,11 +184,9 @@
                     BorderThickness="1">
                 <StackPanel>
                     <TextBlock Text="Создание Word-форм"
-                               Style="{StaticResource MaterialDesignBody1TextBlock}"
                                Foreground="{DynamicResource AppBodyTextBrush}" />
                     <TextBlock Text="Шаги для генерации форм по выбранным компонентам."
                                Margin="0,2,0,0"
-                               Style="{StaticResource MaterialDesignCaptionTextBlock}"
                                Foreground="{DynamicResource AppMutedTextBrush}" />
                 </StackPanel>
             </Border>

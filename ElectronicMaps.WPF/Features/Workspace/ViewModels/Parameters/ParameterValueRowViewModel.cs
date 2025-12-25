@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using ElectronicMaps.Application.DTO.Parameters;
 using ElectronicMaps.Domain.Entities;
+using ElectronicMaps.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,6 +18,8 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels.Parameters
         public string DisplayName { get; }
         public string? Unit { get; }
         public string? Group { get; }
+        public ParameterValueKind Kind { get; }
+        public bool HasPins { get; }
 
 
         // значения (одно из них используется)
@@ -35,6 +38,8 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels.Parameters
             Code = def.Code;
             DisplayName = def.DisplayName;
             Unit = def.Unit;
+            Kind = def.DataType;
+            
         }
 
         public ParameterValueInput ToInput() =>

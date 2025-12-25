@@ -2,6 +2,7 @@
 using ElectronicMaps.Application.Project;
 using ElectronicMaps.Application.Services;
 using ElectronicMaps.Application.Stores;
+using ElectronicMaps.WPF.Features.Workspace.ViewModels;
 using ElectronicMaps.WPF.Services.Dialogs;
 using ElectronicMaps.WPF.Services.Project;
 using ElectronicMaps.WPF.ViewModels;
@@ -102,6 +103,8 @@ namespace ElectronicMaps.WPF.Infrastructure.Commands.XmlCommands
             var importedRows = await _componentAnalysisService.AnalyzeAsync(stream);
 
             _componentStore.ReplaceImport(importedRows);
+            _componentStore.InitializeWorkingDrafts();
+            _componentStore.RebuildViewsByForms();
         }
     }
 }

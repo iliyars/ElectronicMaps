@@ -118,7 +118,7 @@ namespace ElectronicMaps.Application.Services
                     // --- Component form --- //
                     ComponentFormId: dbComponent?.FormTypeId,
                     ComponentFormCode: dbComponent?.FormCode,
-                    ComponentFormDisplayName: dbComponent.FormName,
+                    ComponentFormDisplayName: dbComponent?.FormName,
 
                     LastUpdatedUtc: now
                     );

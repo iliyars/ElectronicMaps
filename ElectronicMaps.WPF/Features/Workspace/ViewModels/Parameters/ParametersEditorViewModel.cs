@@ -25,7 +25,7 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels.Parameters
 
         public bool IsValid => true;
 
-        public IReadOnlyCollection<ParameterValueInput> BuildInput()
+        public IReadOnlyList<ParameterValueInput> BuildInputs()
         {
             return Rows.Where(r => r.HasValue)
                 .Select(r => r.ToInput())

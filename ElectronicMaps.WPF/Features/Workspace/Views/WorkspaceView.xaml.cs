@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,19 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Wpf.Ui.Appearance;
 
-namespace ElectronicMaps.WPF
+namespace ElectronicMaps.WPF.Features.Workspace.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for WorkspaceView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class WorkspaceView : UserControl
     {
-        public MainWindow()
+        public WorkspaceView()
         {
             InitializeComponent();
-            //ApplicationThemeManager.Apply(this);
         }
     }
 }

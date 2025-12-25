@@ -56,6 +56,8 @@ namespace ElectronicMaps.Application.Stores
 
         #region Import
         // ---------------- Import ----------------
+       
+
         public IReadOnlyList<ImportedRow> GetAllImported()
         {
             _lock.EnterReadLock();
@@ -303,7 +305,7 @@ namespace ElectronicMaps.Application.Stores
 
             var main = rows[0];
 
-            var formCode = main.FamilyFormTypeCode!;
+            var formCode = WorkspaceViewKeys.FamilyFormCode;
             var formName = main.FamilyFormDisplayName ?? formCode;
 
             
@@ -996,7 +998,7 @@ namespace ElectronicMaps.Application.Stores
 
             var formCode = row.ComponentExistsInDatabase && !string.IsNullOrWhiteSpace(row.ComponentFormCode)
                 ? row.ComponentFormCode!
-                : string.Empty;
+                : WorkspaceViewKeys.UndefinedForm;
 
             var formName = row.ComponentExistsInDatabase
                 ? (row.ComponentFormDisplayName ?? formCode)

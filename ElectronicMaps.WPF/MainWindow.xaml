@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ElectronicMaps.WPF"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="ElectronicMaps"
         Height="720"
@@ -23,15 +22,11 @@
             <Button Content="Save Project"
                     Command="{Binding SaveProjectCommand}" />
             <ToggleButton IsChecked="{Binding IsDarkTheme, Mode=TwoWay}"
-                          Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                 
                           VerticalAlignment="Center"
                           Margin="0,0,8,0">
                 <StackPanel Orientation="Horizontal"
                             Margin="4,0">
-                    <materialDesign:PackIcon Kind="WeatherSunny"
-                                             Width="18"
-                                             Height="18"
-                                             Margin="0,0,4,0" />
                     <TextBlock Text="Тёмная тема"
                                VerticalAlignment="Center" />
                     

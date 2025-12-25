@@ -5,6 +5,7 @@ using ElectronicMaps.Domain.Services;
 using ElectronicMaps.Infrastructure;
 using ElectronicMaps.Infrastructure.Initialization;
 using ElectronicMaps.Infrastructure.Services;
+using ElectronicMaps.WPF.Features.Workspace.ViewModels;
 using ElectronicMaps.WPF.Infrastructure.Commands;
 using ElectronicMaps.WPF.Infrastructure.Commands.XmlCommands;
 using ElectronicMaps.WPF.Infrastructure.ViewLocation;
