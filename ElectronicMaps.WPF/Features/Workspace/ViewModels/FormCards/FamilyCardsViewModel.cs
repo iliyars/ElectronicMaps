@@ -9,8 +9,15 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels.FormCards
 {
     public class FamilyCardsViewModel : CardViewModelBase
     {
+
+        public string FamilyName { get; }
+
+
         public FamilyCardsViewModel(string formCode, string formName, int number, ComponentDraft item) : base(formCode, formName, number, item)
         {
+            FamilyName = item.Name;
+
+
         }
     }
 }

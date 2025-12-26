@@ -26,6 +26,8 @@
 
                 <TextBlock Text="{Binding FormName}"
                            HorizontalAlignment="Right" />
+                <TextBlock Text="{Binding FamilyName}" />
+
             </DockPanel>
 
 
