@@ -6,29 +6,12 @@
              xmlns:vm="clr-namespace:ElectronicMaps.WPF.ViewModels"
              xmlns:workspacevm="clr-namespace:ElectronicMaps.WPF.Features.Workspace.ViewModels"
              xmlns:workspaceview="clr-namespace:ElectronicMaps.WPF.Features.Workspace.Views"
-             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:converters="clr-namespace:ElectronicMaps.WPF.Helpers.Converters">
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <!-- Material Design base theme -->
-                <!--<materialDesign:BundledTheme BaseTheme="Light"
-                                             PrimaryColor="Teal"
-                                             SecondaryColor="Amber" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
-                <ResourceDictionary Source="Resources/ThemeResources.xaml" />-->
-
-
-
-
-
-
-            </ResourceDictionary.MergedDictionaries>
-            <converters:ItemIndexConverter x:Key="ItemIndexConverter" />
-
             <!-- Welcome screen -->
             <DataTemplate DataType="{x:Type vm:WelcomeViewModel}">
-                <views:WelcomeView/>
+                <views:WelcomeView />
             </DataTemplate>
 
 
@@ -39,6 +22,19 @@
             <DataTemplate DataType="{x:Type workspacevm:WorkspaceViewModel }">
                 <workspaceview:WorkspaceView />
             </DataTemplate>
+            <converters:ItemIndexConverter x:Key="ItemIndexConverter" />
+
+
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Основной файл стилей с общими ресурсами -->
+                <!-- Common Styles -->
+                <ResourceDictionary Source="pack://application:,,,/ElectronicMaps.WPF;component/Themes/Styles.xaml" />
+
+                <!-- Подключение светлой и тёмной темы -->
+                <!--<ResourceDictionary Source="pack://application:,,,/ElectronicMaps.WPF;component/Themes/Li.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/ElectronicMaps.WPF;component/Themes/Styles.xaml" />-->
+            </ResourceDictionary.MergedDictionaries>
+
 
         </ResourceDictionary>
 

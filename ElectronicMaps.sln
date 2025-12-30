@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36310.24
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11312.151 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicMaps.Domain", "ElectronicMaps.Domain\ElectronicMaps.Domain.csproj", "{D65C4ECB-E398-4A02-BB5D-8986C14E8A08}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicMaps.ConsoleTest", "ElectronicMaps.ConsoleTest\ElectronicMaps.ConsoleTest.csproj", "{F872A772-5F0D-418F-82D7-3F2FBEA262A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicMaps.Application", "ElectronicMaps.Application\ElectronicMaps.Application.csproj", "{E185B6A6-3BC9-4447-87A9-17A8E3431824}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicMaps.Tests", "Tests\ElectronicMaps.Tests.csproj", "{9C7F1015-97D8-4155-8F55-84FAC254E4B2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicMaps.WPF", "ElectronicMaps.WPF\ElectronicMaps.WPF.csproj", "{CC36EFDE-1D8B-48EB-B165-2FF889BF1892}"
 EndProject
@@ -35,10 +33,6 @@ Global
 		{E185B6A6-3BC9-4447-87A9-17A8E3431824}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E185B6A6-3BC9-4447-87A9-17A8E3431824}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E185B6A6-3BC9-4447-87A9-17A8E3431824}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C7F1015-97D8-4155-8F55-84FAC254E4B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C7F1015-97D8-4155-8F55-84FAC254E4B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C7F1015-97D8-4155-8F55-84FAC254E4B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C7F1015-97D8-4155-8F55-84FAC254E4B2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CC36EFDE-1D8B-48EB-B165-2FF889BF1892}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CC36EFDE-1D8B-48EB-B165-2FF889BF1892}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC36EFDE-1D8B-48EB-B165-2FF889BF1892}.Release|Any CPU.ActiveCfg = Release|Any CPU

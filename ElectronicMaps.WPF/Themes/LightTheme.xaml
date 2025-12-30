@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Светлая тема -->
+    <Color x:Key="BackgroundColor">#FFFFFF</Color>
+    <!-- Белый фон -->
+    <Color x:Key="TextColor">#212121</Color>
+    <!-- Тёмный текст -->
+
+    <SolidColorBrush x:Key="BackgroundBrush"
+                     Color="{DynamicResource BackgroundColor}" />
+    <SolidColorBrush x:Key="TextBrush"
+                     Color="{DynamicResource TextColor}" />
+
+</ResourceDictionary>

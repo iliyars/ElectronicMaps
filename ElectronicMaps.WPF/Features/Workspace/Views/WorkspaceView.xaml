@@ -12,46 +12,6 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
-        <!-- Лёгкие стили для контейнеров, завязанные на твои кисти -->
-        <Style x:Key="SurfaceCard"
-               TargetType="Border">
-            <Setter Property="CornerRadius"
-                    Value="16" />
-            <Setter Property="Background"
-                    Value="{DynamicResource AppSurfaceBrush}" />
-            <Setter Property="BorderBrush"
-                    Value="{DynamicResource AppBorderBrush}" />
-            <Setter Property="BorderThickness"
-                    Value="1" />
-            <Setter Property="SnapsToDevicePixels"
-                    Value="True" />
-        </Style>
-
-        <Style x:Key="ToolbarCard"
-               TargetType="Border"
-               BasedOn="{StaticResource SurfaceCard}">
-            <Setter Property="CornerRadius"
-                    Value="14" />
-            <Setter Property="Background"
-                    Value="{DynamicResource AppToolbarBrush}" />
-            <Setter Property="Padding"
-                    Value="12" />
-        </Style>
-
-        <Style x:Key="MutedText"
-               TargetType="TextBlock">
-            <Setter Property="Foreground"
-                    Value="{DynamicResource AppMutedTextBrush}" />
-        </Style>
-
-        <Style x:Key="BodyText"
-               TargetType="TextBlock">
-            <Setter Property="Foreground"
-                    Value="{DynamicResource AppBodyTextBrush}" />
-        </Style>
-        
-        
-
         <!-- Host-карточка: ты говорил "для карточки отдельная view" -->
         <DataTemplate DataType="{x:Type cardsvm:ComponentCardViewModel}">
             <cardsview:ComponentCardView />
@@ -100,69 +60,77 @@
 
     </UserControl.Resources>
 
-    <Grid>                      <!--Background="{DynamicResource AppBackgroundBrush}"-->
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
-        <!--Top bar-->
-        <Border Grid.Row="0"
-                Margin="12" />
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <!-- ComboBox выбора формы -->
-            <ComboBox Grid.Column="0"
-                      ItemsSource="{Binding ViewOptions}"
-                      SelectedValuePath="Key"
-                      DisplayMemberPath="Title"
-                      ToolTip="{Binding ViewOptions.Count}"
-                      SelectedValue="{Binding SelectedViewKey, Mode=TwoWay}"
-                      Height="40"
-                      Margin="0" />
-        </Grid>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="420" />
+            <!-- ширина панели деталей -->
+        </Grid.ColumnDefinitions>
+
+        <!-- Top bar -->
+        <Border Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Margin="12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ComboBox Grid.Column="0"
+                          ItemsSource="{Binding ViewOptions}"
+                          SelectedValuePath="Key"
+                          DisplayMemberPath="Title"
+                          SelectedValue="{Binding SelectedViewKey, Mode=TwoWay}"
+                          Height="40" />
+            </Grid>
+        </Border>
 
         <!-- Cards area -->
         <Border Grid.Row="1"
+                Grid.Column="0"
                 Padding="12">
-            <ScrollViewer VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Disabled"
-                          materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
-                <ItemsControl ItemsSource="{Binding ItemCards}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel IsItemsHost="True"
-                                       Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
+            <ListBox ItemsSource="{Binding ItemCards}"
+                     BorderThickness="0"
+                     Background="Transparent"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto">
 
-                    <ItemsControl.ItemContainerStyle>
-                        <Style TargetType="ContentPresenter">
-                            <Setter Property="Margin"
-                                    Value="8" />
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
-                </ItemsControl>
-            </ScrollViewer>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Margin"
+                                Value="8" />
+                        <Setter Property="HorizontalContentAlignment"
+                                Value="Stretch" />
+                        <Setter Property="Background"
+                                Value="Transparent" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+
+                <!-- ВАЖНО: ItemTemplate НЕ нужен, т.к. есть DataTemplate по типам -->
+            </ListBox>
         </Border>
 
+        <!-- Details panel -->
         <Border x:Name="DetailsPanel"
-                Grid.Column="2"
+                Grid.Row="1"
+                Grid.Column="1"
                 Padding="12"
                 Opacity="0"
                 SnapsToDevicePixels="True">
+
             <Border.RenderTransform>
                 <TranslateTransform x:Name="DetailsTranslate"
                                     X="420" />
             </Border.RenderTransform>
 
             <Border.Style>
-                <Style TargetType="Border"
-                       BasedOn="{StaticResource SurfaceCard}">
+                <Style TargetType="Border">
                     <Setter Property="Opacity"
                             Value="0" />
                     <Style.Triggers>
@@ -178,6 +146,8 @@
                     </Style.Triggers>
                 </Style>
             </Border.Style>
+
+            <!-- Здесь потом будет ContentControl для деталей -->
         </Border>
     </Grid>
 </UserControl>

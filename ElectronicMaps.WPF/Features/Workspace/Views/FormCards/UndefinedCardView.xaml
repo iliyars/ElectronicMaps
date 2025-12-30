@@ -6,7 +6,36 @@
              xmlns:local="clr-namespace:ElectronicMaps.WPF.Features.Workspace.Views.FormCards"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+    <Border>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+
+            <DockPanel Grid.Row="0"
+                       LastChildFill="True">
+                <TextBlock DockPanel.Dock="Left"
+                           Text="{Binding Number}"
+                           FontWeight="SemiBold"
+                           Opacity="0.7"
+                           Margin="0,0,10,0" />
+
+                <TextBlock Text="{Binding FormName}"
+                           HorizontalAlignment="Right" />
+                <TextBlock Text="{Binding FamilyName}" />
+
+            </DockPanel>
+
+
+
+        </Grid>
+
+
+
+
+    </Border>
 </UserControl>

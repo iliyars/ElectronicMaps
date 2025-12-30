@@ -1,62 +1,12 @@
 ﻿<UserControl x:Class="ElectronicMaps.WPF.Views.WelcomeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ElectronicMaps.WPF.Views"
              mc:Ignorable="d"
-             Background="{DynamicResource AppBackgroundBrush}"
              d:DesignHeight="600"
              d:DesignWidth="900">
-    <UserControl.Resources>
-        <!-- Кнопка как ссылка в секции Start -->
-        <Style x:Key="StartLinkButtonStyle"
-               TargetType="Button"
-               >
-
-            <!-- Базовые параметры -->
-            <Setter Property="Background"
-                    Value="Transparent" />
-            <Setter Property="BorderThickness"
-                    Value="0" />
-            <Setter Property="Padding"
-                    Value="0" />
-            <Setter Property="Margin"
-                    Value="0,4,0,4" />
-            <Setter Property="HorizontalContentAlignment"
-                    Value="Left" />
-            <Setter Property="Cursor"
-                    Value="Hand" />
-            <Setter Property="Foreground"
-                    Value="{DynamicResource AppAccentBrush}" />
-            <Setter Property="FontWeight"
-                    Value="Normal" />
-
-            <!-- Убираем ripple-эффект (как в VS Code) -->
-            
-
-            <!-- Реакция на наведение -->
-            <Style.Triggers>
-                <!-- При наведении: меняется цвет + жирный текст -->
-                <Trigger Property="IsMouseOver"
-                         Value="True">
-                    <Setter Property="Foreground"
-                            Value="{DynamicResource AppAccentLightBrush}" />
-                    <Setter Property="FontWeight"
-                            Value="SemiBold" />
-                </Trigger>
-
-                <!-- При нажатии: меняется цвет (ещё чуть светлее) -->
-                <Trigger Property="IsPressed"
-                         Value="True">
-                    <Setter Property="Foreground"
-                            Value="{DynamicResource AppAccentDarkBrush}" />
-                    <Setter Property="FontWeight"
-                            Value="SemiBold" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Resources>
 
     <Grid Margin="40,20">
         <Grid.ColumnDefinitions>
@@ -78,21 +28,15 @@
 
             <!-- Заголовок приложения -->
             <StackPanel Margin="0,0,0,32">
-                <TextBlock Text="ElectronicMaps"
-                           
-                           Foreground="{DynamicResource AppHeaderTextBrush}" />
+                <TextBlock Text="ElectronicMaps"/>
                 <TextBlock Text="Формы для электронных карт"
-                           Margin="0,4,0,0"
-                           
-                           Foreground="{DynamicResource AppMutedTextBrush}" />
+                           Margin="0,4,0,0"/>
             </StackPanel>
 
             <!-- START -->
             <StackPanel>
                 <TextBlock Text="Start"
-                           Margin="0,0,0,8"
-                           
-                           Foreground="{DynamicResource AppHeaderTextBrush}" />
+                           Margin="0,0,0,8"/>
 
                 <!-- Открыть XML -->
                 <Button Command="{Binding OpenXmlCommand}"
@@ -102,8 +46,7 @@
                         Margin="0,2,0,2">
                     <StackPanel Orientation="Horizontal">
                         
-                        <TextBlock Text="Open XML..."
-                                   Foreground="{DynamicResource AppBodyTextBrush}" />
+                        <TextBlock Text="Open XML..."/>
                     </StackPanel>
                 </Button>
 
@@ -115,9 +58,7 @@
                         Margin="0,2,0,2">
                     <StackPanel Orientation="Horizontal">
                         
-                        <TextBlock Text="Open Word..."
-                                   
-                                   Foreground="{DynamicResource AppBodyTextBrush}" />
+                        <TextBlock Text="Open Word..."/>
                     </StackPanel>
                 </Button>
 
@@ -129,9 +70,7 @@
                         Margin="0,2,0,2">
                     <StackPanel Orientation="Horizontal">
                         
-                        <TextBlock Text="Open project..."
-                                   
-                                   Foreground="{DynamicResource AppBodyTextBrush}" />
+                        <TextBlock Text="Open project..."/>
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -139,14 +78,10 @@
             <!-- RECENT (можно позже заполнить) -->
             <StackPanel Margin="0,32,0,0">
                 <TextBlock Text="Recent"
-                           Margin="0,0,0,8"
-                           
-                           Foreground="{DynamicResource AppHeaderTextBrush}" />
+                           Margin="0,0,0,8"/>
 
                 <!-- Пока просто заглушка -->
-                <TextBlock Text="Здесь появятся последние проекты и файлы."
-                           
-                           Foreground="{DynamicResource AppMutedTextBrush}" />
+                <TextBlock Text="Здесь появятся последние проекты и файлы."/>
             </StackPanel>
         </StackPanel>
 
@@ -156,38 +91,29 @@
                     HorizontalAlignment="Left"
                     Width="380">
             <TextBlock Text="Walkthroughs"
-                       Margin="0,0,0,8"
-                       
-                       Foreground="{DynamicResource AppHeaderTextBrush}" />
+                       Margin="0,0,0,8"/>
 
-            <Border Background="{DynamicResource AppSurfaceBrush}"
+            <Border 
                     CornerRadius="4"
                     Padding="10"
                     Margin="0,0,0,6"
-                    BorderBrush="{DynamicResource AppBorderBrush}"
                     BorderThickness="1">
                 <StackPanel>
-                    <TextBlock Text="Импорт XML и обзор компонентов"
-                           
-                               Foreground="{DynamicResource AppBodyTextBrush}" />
+                    <TextBlock Text="Импорт XML и обзор компонентов"/>
                     <TextBlock Text="Узнайте, как загрузить данные и начать работать с компонентами."
-                               Margin="0,2,0,0"
-                               Foreground="{DynamicResource AppMutedTextBrush}" />
+                               Margin="0,2,0,0"/>
                 </StackPanel>
             </Border>
 
-            <Border Background="{DynamicResource AppSurfaceBrush}"
+            <Border 
                     CornerRadius="4"
                     Padding="10"
                     Margin="0,0,0,6"
-                    BorderBrush="{DynamicResource AppBorderBrush}"
                     BorderThickness="1">
                 <StackPanel>
-                    <TextBlock Text="Создание Word-форм"
-                               Foreground="{DynamicResource AppBodyTextBrush}" />
+                    <TextBlock Text="Создание Word-форм"/>
                     <TextBlock Text="Шаги для генерации форм по выбранным компонентам."
-                               Margin="0,2,0,0"
-                               Foreground="{DynamicResource AppMutedTextBrush}" />
+                               Margin="0,2,0,0"/>
                 </StackPanel>
             </Border>
         </StackPanel>

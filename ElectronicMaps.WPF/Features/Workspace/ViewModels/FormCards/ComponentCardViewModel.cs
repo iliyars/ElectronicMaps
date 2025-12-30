@@ -14,6 +14,7 @@ namespace ElectronicMaps.WPF.Features.Workspace.ViewModels.FormCards
         public ComponentCardViewModel(string formCode, string formName, int number, ComponentDraft item) 
             : base(formCode,formName,number, item)
         {
+
         }
     }
 }

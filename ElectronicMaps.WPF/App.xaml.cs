@@ -17,8 +17,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Navigation.Core.Abstractions;
 using Navigation.Core.Services;
+using System.Collections;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Windows;
 
@@ -31,11 +34,20 @@ namespace ElectronicMaps.WPF
     {
         private IHost _host = null!;
 
+
+       
+
+
         protected override void OnStartup(StartupEventArgs e)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             base.OnStartup(e);
+
+            //DumpResources(System.Windows.Application.Current.Resources, "App.Resources");
+            //foreach (var md in System.Windows.Application.Current.Resources.MergedDictionaries)
+            //    DumpResources(md, "MergedDictionary");
+
 
             _host = Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration((context, config) =>

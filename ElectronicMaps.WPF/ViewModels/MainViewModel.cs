@@ -8,8 +8,6 @@ using ElectronicMaps.Domain.DTO;
 using ElectronicMaps.WPF.Infrastructure.Commands;
 using ElectronicMaps.WPF.Infrastructure.Screens;
 using ElectronicMaps.WPF.Services.Dialogs;
-using MaterialDesignColors;
-using MaterialDesignThemes.Wpf;
 using Navigation.Core.Abstractions;
 using Navigation.Core.Models;
 using System;
@@ -20,6 +18,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -34,18 +33,7 @@ namespace ElectronicMaps.WPF.ViewModels
         
         private bool _disposed = false;
 
-        private bool _isDarkTheme;
-        public bool IsDarkTheme
-        {
-            get => _isDarkTheme;
-            set
-            {
-                if (SetProperty(ref _isDarkTheme, value))
-                {
-                    ApplyTheme(value);
-                }
-            }
-        }
+       
         public BaseScreenViewModel? CurrentScreen =>
         _navigation.CurrentScreen as BaseScreenViewModel;
 
@@ -68,81 +56,13 @@ namespace ElectronicMaps.WPF.ViewModels
         {
             _navigation = navigationService;
             _commands = appCommands;
+            //SwitchTheme(true);
             _navigation.CurrentScreenChanged += OnCurrentScreenChanged;
-            System.Diagnostics.Debug.WriteLine(
-        $"MainViewModel created: {GetHashCode()}");
-            InitThemeFromResources();
         }
-        private void InitThemeFromResources()
-        {
-            var app = System.Windows.Application.Current;
-
-            var theme = app.Resources
-                           .MergedDictionaries
-                           .OfType<BundledTheme>()
-                           .FirstOrDefault();
-
-            if (theme != null)
-            {
-                IsDarkTheme = theme.BaseTheme == BaseTheme.Dark;
-            }
-        }
-
-        private void ApplyTheme(bool isDark)
-        {
-            var app = System.Windows.Application.Current;
-            var resources = app.Resources;
-
-            // 1. Переключаем MaterialDesign BundledTheme
-            var bundledTheme = resources
-                .MergedDictionaries
-                .OfType<BundledTheme>()
-                .FirstOrDefault();
-
-            if (bundledTheme != null)
-            {
-                bundledTheme.BaseTheme = isDark ? BaseTheme.Dark : BaseTheme.Light;
-
-                // Акцентные цвета (можно оставить одинаковыми)
-                bundledTheme.PrimaryColor = PrimaryColor.Teal;
-                bundledTheme.SecondaryColor = isDark
-                    ? SecondaryColor.Lime
-                    : SecondaryColor.Amber;
-            }
-
-            // 2. Подменяем наши брендовые кисти под Light/Dark
-
-            Color GetColor(string key) => (Color)resources[key];
-
-            resources["AppBackgroundBrush"] = new SolidColorBrush(
-                isDark ? GetColor("AppBackgroundDarkColor") : GetColor("AppBackgroundLightColor"));
-
-            resources["AppSurfaceBrush"] = new SolidColorBrush(
-                isDark ? GetColor("AppSurfaceDarkColor") : GetColor("AppSurfaceLightColor"));
-
-            resources["AppToolbarBrush"] = new SolidColorBrush(
-                isDark ? GetColor("AppToolbarDarkColor") : GetColor("AppToolbarLightColor"));
-
-            resources["AppBorderBrush"] = new SolidColorBrush(
-                isDark ? GetColor("AppBorderDarkColor") : GetColor("AppBorderLightColor"));
-
-            resources["AppHeaderTextBrush"] = new SolidColorBrush(
-                isDark ? GetColor("AppHeaderTextDarkColor") : GetColor("AppHeaderTextLightColor"));
-
-            resources["AppBodyTextBrush"] = new SolidColorBrush(
-                isDark ? GetColor("AppBodyTextDarkColor") : GetColor("AppBodyTextLightColor"));
-
-            resources["AppMutedTextBrush"] = new SolidColorBrush(
-                isDark ? GetColor("AppMutedTextDarkColor") : GetColor("AppMutedTextLightColor"));
-
-        }
-
+     
+       
         private void OnCurrentScreenChanged(object? sender, NavigationChangedEventArgs e)
         {
-
-            System.Diagnostics.Debug.WriteLine(
-        $"[NavigateInternalAsync] Thread: {Environment.CurrentManagedThreadId}");
-
             // если используешь AsyncRelayCommand из MVVM Toolkit —
             // можно дернуть NotifyCanExecuteChanged для Back/Forward
             if (GoBackCommand is IRelayCommand backRelay)
@@ -167,9 +87,18 @@ namespace ElectronicMaps.WPF.ViewModels
         }
 
 
-        
 
-       
+        public void SwitchTheme(bool isDark)
+        {
+            var dictionary = isDark
+                ? new ResourceDictionary { Source = new Uri("pack://application:,,,/ElectronicMaps.WPF;component/Themes/DarkTheme.xaml") }
+                : new ResourceDictionary { Source = new Uri("pack://application:,,,/ElectronicMaps.WPF;component/Themes/LightTheme.xaml") };
+
+            // Применяем новую тему
+            System.Windows.Application.Current.Resources.MergedDictionaries.Clear();
+            System.Windows.Application.Current.Resources.MergedDictionaries.Add(dictionary);
+        }
+
 
         public async Task InitializeAsync()
         {
