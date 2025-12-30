@@ -1,0 +1,18 @@
+{
+  "formCode": "4",
+  "itemsPerPage": 4,
+  "itemFieldTemplates": {
+    "Name": "F04.Item[{i}].Name",
+    "Designators": "F04.Item[{i}].Designators",
+    "Quantity": "F04.Item[{i}].Quantity",
+
+    "Param.ResourceHours": "F04.Item[{i}].Param.ResourceHours",
+    "Param.TempMin": "F04.Item[{i}].Param.TempMin",
+    "Param.TempMax": "F04.Item[{i}].Param.TempMax"
+  },
+
+    "metaFieldTags": {
+      "Meta.DocumentNumber": "F04.Meta.DocumentNumber",
+      "Meta.EnvCode": "F04.Meta.EnvCode"
+    }
+  }

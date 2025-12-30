@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicMaps.Infrastructu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navigation.Core", "Navigation.Core\Navigation.Core.csproj", "{CADECEC1-AA11-41E6-A0AF-1DD964AD0CF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicMaps.Documents", "ElectronicMaps.Documents\ElectronicMaps.Documents.csproj", "{7DA5F480-BA66-45B2-B6ED-1DC257F44544}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{CADECEC1-AA11-41E6-A0AF-1DD964AD0CF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CADECEC1-AA11-41E6-A0AF-1DD964AD0CF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CADECEC1-AA11-41E6-A0AF-1DD964AD0CF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DA5F480-BA66-45B2-B6ED-1DC257F44544}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DA5F480-BA66-45B2-B6ED-1DC257F44544}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DA5F480-BA66-45B2-B6ED-1DC257F44544}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DA5F480-BA66-45B2-B6ED-1DC257F44544}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
