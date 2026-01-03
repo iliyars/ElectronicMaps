@@ -1,0 +1,77 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Background Colors -->
+    <SolidColorBrush x:Key="WindowBackground"
+                     Color="#F3F3F3" />
+    <SolidColorBrush x:Key="PanelBackground"
+                     Color="#FFFFFF" />
+
+    <!-- Accent Color -->
+    <SolidColorBrush x:Key="AccentBrush"
+                     Color="#0078D4" />
+    <SolidColorBrush x:Key="AccentHoverBrush"
+                     Color="#1084D8" />
+
+    <!-- Button Colors -->
+    <SolidColorBrush x:Key="ButtonBackground"
+                     Color="#FFFFFF" />
+    <SolidColorBrush x:Key="ButtonForeground"
+                     Color="#1F1F1F" />
+    <SolidColorBrush x:Key="ButtonBorder"
+                     Color="#D1D1D1" />
+    <SolidColorBrush x:Key="ButtonBackgroundHover"
+                     Color="#F5F5F5" />
+    <SolidColorBrush x:Key="ButtonBackgroundPressed"
+                     Color="#E5E5E5" />
+
+    <!-- TextBox Colors -->
+    <SolidColorBrush x:Key="TextBoxBackground"
+                     Color="#FFFFFF" />
+    <SolidColorBrush x:Key="TextBoxForeground"
+                     Color="#1F1F1F" />
+    <SolidColorBrush x:Key="TextBoxBorder"
+                     Color="#D1D1D1" />
+    <SolidColorBrush x:Key="TextBoxBorderHover"
+                     Color="#B1B1B1" />
+
+    <!-- ComboBox Colors -->
+    <SolidColorBrush x:Key="ComboBoxBackground"
+                     Color="#FFFFFF" />
+    <SolidColorBrush x:Key="ComboBoxForeground"
+                     Color="#1F1F1F" />
+    <SolidColorBrush x:Key="ComboBoxBorder"
+                     Color="#D1D1D1" />
+    <SolidColorBrush x:Key="ComboBoxBorderHover"
+                     Color="#B1B1B1" />
+
+    <!-- Popup Colors -->
+    <SolidColorBrush x:Key="PopupBackground"
+                     Color="#FFFFFF" />
+    <SolidColorBrush x:Key="PopupBorder"
+                     Color="#D1D1D1" />
+
+    <!-- DataGrid Colors -->
+    <SolidColorBrush x:Key="DataGridBackground"
+                     Color="#FFFFFF" />
+    <SolidColorBrush x:Key="DataGridForeground"
+                     Color="#1F1F1F" />
+    <SolidColorBrush x:Key="DataGridBorder"
+                     Color="#E0E0E0" />
+    <SolidColorBrush x:Key="DataGridAlternateRowBackground"
+                     Color="#F9F9F9" />
+    <SolidColorBrush x:Key="DataGridHeaderBackground"
+                     Color="#F5F5F5" />
+    <SolidColorBrush x:Key="DataGridHeaderForeground"
+                     Color="#1F1F1F" />
+    <SolidColorBrush x:Key="DataGridRowHoverBackground"
+                     Color="#F0F0F0" />
+    <SolidColorBrush x:Key="DataGridRowSelectedBackground"
+                     Color="#CCE8FF" />
+
+    <!-- Text Colors -->
+    <SolidColorBrush x:Key="TextPrimary"
+                     Color="#1F1F1F" />
+    <SolidColorBrush x:Key="TextSecondary"
+                     Color="#6F6F6F" />
+
+</ResourceDictionary>

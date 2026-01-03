@@ -1,0 +1,7 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:workspace="clr-namespace:ElectronicMaps.WPF.Features.Workspace">
+    <DataTemplate DataType="{x:Type workspace:WorkspaceViewModel}">
+        <workspace:WorkspaceView />
+    </DataTemplate>
+</ResourceDictionary>

@@ -2,18 +2,11 @@
 using ElectronicMaps.Application.Project;
 using ElectronicMaps.Application.Services;
 using ElectronicMaps.Application.Stores;
-using ElectronicMaps.WPF.Features.Workspace.ViewModels;
+using ElectronicMaps.WPF.Features.Workspace;
 using ElectronicMaps.WPF.Services.Dialogs;
-using ElectronicMaps.WPF.Services.Project;
-using ElectronicMaps.WPF.ViewModels;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Navigation.Core.Abstractions;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ElectronicMaps.WPF.Infrastructure.Commands.XmlCommands
 {
@@ -60,7 +53,7 @@ namespace ElectronicMaps.WPF.Infrastructure.Commands.XmlCommands
                 //4.обработка XML
                    await ProcessXmlFileAsync(stream);
 
-                await _navigationService.NavigateAsync<WorkspaceViewModel>();
+                await _navigationService.NavigateAsync<Features.Workspace.WorkspaceViewModel>();
 
             }
             catch (Exception ex)

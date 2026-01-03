@@ -3,7 +3,9 @@ using ElectronicMaps.Application.Security;
 using ElectronicMaps.Application.Services;
 using ElectronicMaps.Application.Stores;
 using ElectronicMaps.Application.WorkspaceProject;
+using ElectronicMaps.Documents.DI;
 using ElectronicMaps.Domain.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -15,24 +17,23 @@ namespace ElectronicMaps.Application
 {
     public static class ServiceCollectionExtentions
     {
-        public static IServiceCollection AddApplication(this IServiceCollection services)
+        public static IServiceCollection AddApplication(
+            this IServiceCollection services,
+            IConfiguration configuration)
         {
             services.AddScoped<IFileImportService, FileImportService>();
             services.AddScoped<IComponentAnalysisService, ComponentAnalysisService>();
-
-
             services.AddSingleton<IComponentStore, ComponentStore>();
             services.AddSingleton<IComponentStoreSerializer, JsonComponentStoreSerializer>();
             services.AddSingleton<IProjectSaveService, ProjectSaveService>(); // TODO: Move to Infrastructure>
             services.AddScoped<IAuthorizationService, AuthorizationService>();
             services.AddScoped<IWorkspaceProjectSerializer, ZipWorkspaceProjectSerializer>(); // TODO: Move to Infrastructure>
 
+            //services.AddScoped<IDocumentAdapter, DocumentAdapter>(); // TODO: Move to Infrastructure>
+            //services.AddScoped<IDocumentGenerationService, DocumentGenerationService>(); // TODO: Move to Infrastructure>
+
+            services.AddDocumentRendering(configuration);
             return services;
         }
-
-
-
-
-
     }
 }

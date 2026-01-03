@@ -1,23 +1,45 @@
 Folder PATH listing for volume Data
 Volume serial number is E810-4D8E
 A:.
+¦   .gitattributes
+¦   .gitignore
 ¦   ElectronicMaps.sln
+¦   ElectronicMaps.WPF.zip
+¦   nul
 ¦   tree.txt
 ¦   
 +---ElectronicMaps.Application
 ¦   ¦   ElectronicMaps.Application.csproj
 ¦   ¦   ServiceCollectionExtentions.cs
 ¦   ¦   
+¦   +---Abstractons
+¦   ¦   +---Commands
+¦   ¦   ¦       ISaveComponent.cs
+¦   ¦   ¦       
+¦   ¦   +---Queries
+¦   ¦           IComponentDetailsQuery.cs
+¦   ¦           IComponentFamilyReadRepository.cs
+¦   ¦           IComponentReadRepository.cs
+¦   ¦           IFamilyDetailsQuery.cs
+¦   ¦           IFamilyRemarksQuery.cs
+¦   ¦           IFormTypeReadRepository.cs
+¦   ¦           IParameterDefinitionReadRepository.cs
+¦   ¦           IParameterValueReadRepository.cs
+¦   ¦           IRemarksQuery.cs
+¦   ¦           IWorkspaceQuery.cs
+¦   ¦           
 ¦   +---bin
 ¦   ¦   +---Debug
-¦   ¦       +---net8.0
+¦   ¦       +---net10.0
 ¦   ¦       ¦       ElectronicMaps.Application.deps.json
 ¦   ¦       ¦       ElectronicMaps.Application.dll
 ¦   ¦       ¦       ElectronicMaps.Application.pdb
+¦   ¦       ¦       ElectronicMaps.Documents.dll
+¦   ¦       ¦       ElectronicMaps.Documents.pdb
 ¦   ¦       ¦       ElectronicMaps.Domain.dll
 ¦   ¦       ¦       ElectronicMaps.Domain.pdb
 ¦   ¦       ¦       
-¦   ¦       +---net9.0
+¦   ¦       +---net8.0
 ¦   ¦               ElectronicMaps.Application.deps.json
 ¦   ¦               ElectronicMaps.Application.dll
 ¦   ¦               ElectronicMaps.Application.pdb
@@ -25,7 +47,38 @@ A:.
 ¦   ¦               ElectronicMaps.Domain.pdb
 ¦   ¦               
 ¦   +---DTO
-¦   ¦       AnalyzedComponentDto.cs
+¦   ¦   ¦   NewComponentInFamilyDto.cs
+¦   ¦   ¦   NewFamilyAndComponentDto.cs
+¦   ¦   ¦   
+¦   ¦   +---Components
+¦   ¦   ¦       ComponentDetailsDto.cs
+¦   ¦   ¦       ComponentListItemDto.cs
+¦   ¦   ¦       ComponentLookUpDto.cs
+¦   ¦   ¦       SaveComponentRequest.cs
+¦   ¦   ¦       SaveComponentResult.cs
+¦   ¦   ¦       
+¦   ¦   +---Families
+¦   ¦   ¦       ComponentFamilyLookupDto.cs
+¦   ¦   ¦       FamilyDetailsDto.cs
+¦   ¦   ¦       
+¦   ¦   +---Forms
+¦   ¦   ¦       FormTypeDto.cs
+¦   ¦   ¦       
+¦   ¦   +---Parameters
+¦   ¦   ¦       ParameterDefinitionDto.cs
+¦   ¦   ¦       ParameterValueDto.cs
+¦   ¦   ¦       ParameterValueInput.cs
+¦   ¦   ¦       
+¦   ¦   +---Remarks
+¦   ¦           RemarkDto.cs
+¦   ¦           
+¦   +---Features
+¦   ¦   +---Forms
+¦   ¦           IFormComponentService.cs
+¦   ¦           
+¦   +---History
+¦   ¦       IUndoableAction.cs
+¦   ¦       UndoRedoManager.cs
 ¦   ¦       
 ¦   +---obj
 ¦   ¦   ¦   ElectronicMaps.Application.csproj.nuget.dgspec.json
@@ -35,8 +88,8 @@ A:.
 ¦   ¦   ¦   project.nuget.cache
 ¦   ¦   ¦   
 ¦   ¦   +---Debug
-¦   ¦       +---net8.0
-¦   ¦       ¦   ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+¦   ¦       +---net10.0
+¦   ¦       ¦   ¦   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
 ¦   ¦       ¦   ¦   Electron.8DA75E0F.Up2Date
 ¦   ¦       ¦   ¦   ElectronicMaps.Application.AssemblyInfo.cs
 ¦   ¦       ¦   ¦   ElectronicMaps.Application.AssemblyInfoInputs.cache
@@ -49,6 +102,7 @@ A:.
 ¦   ¦       ¦   ¦   ElectronicMaps.Application.GeneratedMSBuildEditorConfig.editorconfig
 ¦   ¦       ¦   ¦   ElectronicMaps.Application.GlobalUsings.g.cs
 ¦   ¦       ¦   ¦   ElectronicMaps.Application.pdb
+¦   ¦       ¦   ¦   ElectronicMaps.Application.sourcelink.json
 ¦   ¦       ¦   ¦   
 ¦   ¦       ¦   +---ref
 ¦   ¦       ¦   ¦       ElectronicMaps.Application.dll
@@ -56,8 +110,8 @@ A:.
 ¦   ¦       ¦   +---refint
 ¦   ¦       ¦           ElectronicMaps.Application.dll
 ¦   ¦       ¦           
-¦   ¦       +---net9.0
-¦   ¦           ¦   .NETCoreApp,Version=v9.0.AssemblyAttributes.cs
+¦   ¦       +---net8.0
+¦   ¦           ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
 ¦   ¦           ¦   Electron.8DA75E0F.Up2Date
 ¦   ¦           ¦   ElectronicMaps.Application.AssemblyInfo.cs
 ¦   ¦           ¦   ElectronicMaps.Application.AssemblyInfoInputs.cache
@@ -70,6 +124,7 @@ A:.
 ¦   ¦           ¦   ElectronicMaps.Application.GeneratedMSBuildEditorConfig.editorconfig
 ¦   ¦           ¦   ElectronicMaps.Application.GlobalUsings.g.cs
 ¦   ¦           ¦   ElectronicMaps.Application.pdb
+¦   ¦           ¦   ElectronicMaps.Application.sourcelink.json
 ¦   ¦           ¦   
 ¦   ¦           +---ref
 ¦   ¦           ¦       ElectronicMaps.Application.dll
@@ -77,479 +132,81 @@ A:.
 ¦   ¦           +---refint
 ¦   ¦                   ElectronicMaps.Application.dll
 ¦   ¦                   
+¦   +---Project
+¦   ¦       IProjectSaveService.cs
+¦   ¦       ProjectSaveService.cs
+¦   ¦       
 ¦   +---Security
 ¦   ¦       AuthorizationService.cs
 ¦   ¦       IAuthorizationService.cs
 ¦   ¦       
 ¦   +---Services
 ¦   ¦       ComponentAnalysisService.cs
-¦   ¦       ComponentCreationService.cs
-¦   ¦       ComponentFormBatchService.cs
 ¦   ¦       FileImportService.cs
-¦   ¦       FormQueryService.cs
 ¦   ¦       IComponentAnalysisService.cs
 ¦   ¦       IComponentCreationService.cs
+¦   ¦       IDocumentAdapter.cs
+¦   ¦       IDocumentGenerationService.cs
 ¦   ¦       IFileImportService.cs
+¦   ¦       IUnitOfWork.cs
 ¦   ¦       
 ¦   +---Stores
 ¦   ¦       ComponentStore.cs
 ¦   ¦       IComponentStore.cs
+¦   ¦       IComponentStoreSerializer.cs
+¦   ¦       JsonComponentStoreSerializer.cs
 ¦   ¦       StoreChangedEventArgs.cs
+¦   ¦       StoreChangeKind.cs
 ¦   ¦       
 ¦   +---Updates
-¦           IUpdateChecker.cs
-¦           UpdateInfo.cs
-¦           
+¦   ¦       IUpdateChecker.cs
+¦   ¦       UpdateInfo.cs
+¦   ¦       
+¦   +---Utils
+¦   ¦       DesignatorHelper.cs
+¦   ¦       NameNormalizer.cs
+¦   ¦       
+¦   +---WorkspaceProject
+¦       ¦   IWorkspaceProjectSerializer.cs
+¦       ¦   ZipWorkspaceProjectSerializer.cs
+¦       ¦   
+¦       +---Models
+¦       ¦       ComponentDraft.cs
+¦       ¦       ImportedRow.cs
+¦       ¦       ParameterValueDraft.cs
+¦       ¦       WordDocumentInfo.cs
+¦       ¦       WorkspaceProject.cs
+¦       ¦       WorkspaceViewKeys.cs
+¦       ¦       
+¦       +---Services
+¦               IUndefinedComponentFillService.cs
+¦               IWorkspaceActions.cs
+¦               UndefinedComponentFillService.cs
+¦               
 +---ElectronicMaps.ConsoleTest
 ¦   ¦   ElectronicMaps.ConsoleTest.csproj
 ¦   ¦   Program.cs
 ¦   ¦   
 ¦   +---bin
 ¦   ¦   +---Debug
-¦   ¦       +---net8.0
+¦   ¦       +---net10.0
+¦   ¦       ¦   ¦   DocumentFormat.OpenXml.dll
+¦   ¦       ¦   ¦   DocumentFormat.OpenXml.Framework.dll
+¦   ¦       ¦   ¦   ElectronicMaps.Application.dll
+¦   ¦       ¦   ¦   ElectronicMaps.Application.pdb
 ¦   ¦       ¦   ¦   ElectronicMaps.ConsoleTest.deps.json
 ¦   ¦       ¦   ¦   ElectronicMaps.ConsoleTest.dll
 ¦   ¦       ¦   ¦   ElectronicMaps.ConsoleTest.exe
 ¦   ¦       ¦   ¦   ElectronicMaps.ConsoleTest.pdb
 ¦   ¦       ¦   ¦   ElectronicMaps.ConsoleTest.runtimeconfig.json
+¦   ¦       ¦   ¦   ElectronicMaps.Documents.dll
+¦   ¦       ¦   ¦   ElectronicMaps.Documents.pdb
 ¦   ¦       ¦   ¦   ElectronicMaps.Domain.dll
 ¦   ¦       ¦   ¦   ElectronicMaps.Domain.pdb
 ¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.dll
 ¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.pdb
 ¦   ¦       ¦   ¦   Microsoft.Data.Sqlite.dll
 ¦   ¦       ¦   ¦   Microsoft.EntityFrameworkCore.Abstractions.dll
-¦   ¦       ¦   ¦   Microsoft.EntityFrameworkCore.dll
-¦   ¦       ¦   ¦   Microsoft.EntityFrameworkCore.Relational.dll
-¦   ¦       ¦   ¦   Microsoft.EntityFrameworkCore.Sqlite.dll
-¦   ¦       ¦   ¦   Microsoft.Extensions.Caching.Abstractions.dll
-¦   ¦       ¦   ¦   Microsoft.Extensions.Caching.Memory.dll
-¦   ¦       ¦   ¦   Microsoft.Extensions.Configuration.Abstractions.dll
-¦   ¦       ¦   ¦   Microsoft.Extensions.Configuration.dll
-¦   ¦       ¦   ¦   Microsoft.Extensions.Configuration.FileExtensions.dll
-¦   ¦       ¦   ¦   Microsoft.Extensions.Configuration.Json.dll
-¦   ¦       ¦   ¦   Microsoft.Extensions.DependencyInjection.Abstractions.dll
-¦   ¦       ¦   ¦   Microsoft.Extensions.DependencyInjection.dll
-¦   ¦       ¦   ¦   Microsoft.Extensions.DependencyModel.dll
-¦   ¦       ¦   ¦   Microsoft.Extensions.FileProviders.Abstractions.dll
-¦   ¦       ¦   ¦   Microsoft.Extensions.FileProviders.Physical.dll
-¦   ¦       ¦   ¦   Microsoft.Extensions.FileSystemGlobbing.dll
-¦   ¦       ¦   ¦   Microsoft.Extensions.Logging.Abstractions.dll
-¦   ¦       ¦   ¦   Microsoft.Extensions.Logging.dll
-¦   ¦       ¦   ¦   Microsoft.Extensions.Options.dll
-¦   ¦       ¦   ¦   Microsoft.Extensions.Primitives.dll
-¦   ¦       ¦   ¦   SQLitePCLRaw.batteries_v2.dll
-¦   ¦       ¦   ¦   SQLitePCLRaw.core.dll
-¦   ¦       ¦   ¦   SQLitePCLRaw.provider.e_sqlite3.dll
-¦   ¦       ¦   ¦   System.Diagnostics.DiagnosticSource.dll
-¦   ¦       ¦   ¦   System.IO.Pipelines.dll
-¦   ¦       ¦   ¦   System.Text.Encodings.Web.dll
-¦   ¦       ¦   ¦   System.Text.Json.dll
-¦   ¦       ¦   ¦   
-¦   ¦       ¦   +---runtimes
-¦   ¦       ¦       +---browser
-¦   ¦       ¦       ¦   +---lib
-¦   ¦       ¦       ¦       +---net8.0
-¦   ¦       ¦       ¦               System.Text.Encodings.Web.dll
-¦   ¦       ¦       ¦               
-¦   ¦       ¦       +---browser-wasm
-¦   ¦       ¦       ¦   +---nativeassets
-¦   ¦       ¦       ¦       +---net8.0
-¦   ¦       ¦       ¦               e_sqlite3.a
-¦   ¦       ¦       ¦               
-¦   ¦       ¦       +---linux-arm
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           libe_sqlite3.so
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---linux-arm64
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           libe_sqlite3.so
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---linux-armel
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           libe_sqlite3.so
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---linux-mips64
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           libe_sqlite3.so
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---linux-musl-arm
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           libe_sqlite3.so
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---linux-musl-arm64
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           libe_sqlite3.so
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---linux-musl-s390x
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       +---linux-musl-x64
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           libe_sqlite3.so
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---linux-ppc64le
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           libe_sqlite3.so
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---linux-s390x
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           libe_sqlite3.so
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---linux-x64
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           libe_sqlite3.so
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---linux-x86
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           libe_sqlite3.so
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---maccatalyst-arm64
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           libe_sqlite3.dylib
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---maccatalyst-x64
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           libe_sqlite3.dylib
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---osx-arm64
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           libe_sqlite3.dylib
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---osx-x64
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           libe_sqlite3.dylib
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---win-arm
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           e_sqlite3.dll
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---win-arm64
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           e_sqlite3.dll
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---win-x64
-¦   ¦       ¦       ¦   +---native
-¦   ¦       ¦       ¦           e_sqlite3.dll
-¦   ¦       ¦       ¦           
-¦   ¦       ¦       +---win-x86
-¦   ¦       ¦           +---native
-¦   ¦       ¦                   e_sqlite3.dll
-¦   ¦       ¦                   
-¦   ¦       +---net9.0
-¦   ¦           ¦   ElectronicMaps.ConsoleTest.deps.json
-¦   ¦           ¦   ElectronicMaps.ConsoleTest.dll
-¦   ¦           ¦   ElectronicMaps.ConsoleTest.exe
-¦   ¦           ¦   ElectronicMaps.ConsoleTest.pdb
-¦   ¦           ¦   ElectronicMaps.ConsoleTest.runtimeconfig.json
-¦   ¦           ¦   ElectronicMaps.Domain.dll
-¦   ¦           ¦   ElectronicMaps.Domain.pdb
-¦   ¦           ¦   ElectronicMaps.Infrastructure.dll
-¦   ¦           ¦   ElectronicMaps.Infrastructure.pdb
-¦   ¦           ¦   Microsoft.Data.Sqlite.dll
-¦   ¦           ¦   Microsoft.EntityFrameworkCore.Abstractions.dll
-¦   ¦           ¦   Microsoft.EntityFrameworkCore.dll
-¦   ¦           ¦   Microsoft.EntityFrameworkCore.Relational.dll
-¦   ¦           ¦   Microsoft.EntityFrameworkCore.Sqlite.dll
-¦   ¦           ¦   Microsoft.Extensions.Caching.Abstractions.dll
-¦   ¦           ¦   Microsoft.Extensions.Caching.Memory.dll
-¦   ¦           ¦   Microsoft.Extensions.Configuration.Abstractions.dll
-¦   ¦           ¦   Microsoft.Extensions.Configuration.dll
-¦   ¦           ¦   Microsoft.Extensions.Configuration.FileExtensions.dll
-¦   ¦           ¦   Microsoft.Extensions.Configuration.Json.dll
-¦   ¦           ¦   Microsoft.Extensions.DependencyInjection.Abstractions.dll
-¦   ¦           ¦   Microsoft.Extensions.DependencyInjection.dll
-¦   ¦           ¦   Microsoft.Extensions.DependencyModel.dll
-¦   ¦           ¦   Microsoft.Extensions.FileProviders.Abstractions.dll
-¦   ¦           ¦   Microsoft.Extensions.FileProviders.Physical.dll
-¦   ¦           ¦   Microsoft.Extensions.FileSystemGlobbing.dll
-¦   ¦           ¦   Microsoft.Extensions.Logging.Abstractions.dll
-¦   ¦           ¦   Microsoft.Extensions.Logging.dll
-¦   ¦           ¦   Microsoft.Extensions.Options.dll
-¦   ¦           ¦   Microsoft.Extensions.Primitives.dll
-¦   ¦           ¦   SQLitePCLRaw.batteries_v2.dll
-¦   ¦           ¦   SQLitePCLRaw.core.dll
-¦   ¦           ¦   SQLitePCLRaw.provider.e_sqlite3.dll
-¦   ¦           ¦   System.Text.Json.dll
-¦   ¦           ¦   
-¦   ¦           +---runtimes
-¦   ¦               +---browser-wasm
-¦   ¦               ¦   +---nativeassets
-¦   ¦               ¦       +---net9.0
-¦   ¦               ¦               e_sqlite3.a
-¦   ¦               ¦               
-¦   ¦               +---linux-arm
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-arm64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-armel
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-mips64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-musl-arm
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-musl-arm64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-musl-s390x
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-musl-x64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-ppc64le
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-s390x
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-x64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-x86
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---maccatalyst-arm64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.dylib
-¦   ¦               ¦           
-¦   ¦               +---maccatalyst-x64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.dylib
-¦   ¦               ¦           
-¦   ¦               +---osx-arm64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.dylib
-¦   ¦               ¦           
-¦   ¦               +---osx-x64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.dylib
-¦   ¦               ¦           
-¦   ¦               +---win-arm
-¦   ¦               ¦   +---native
-¦   ¦               ¦           e_sqlite3.dll
-¦   ¦               ¦           
-¦   ¦               +---win-arm64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           e_sqlite3.dll
-¦   ¦               ¦           
-¦   ¦               +---win-x64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           e_sqlite3.dll
-¦   ¦               ¦           
-¦   ¦               +---win-x86
-¦   ¦                   +---native
-¦   ¦                           e_sqlite3.dll
-¦   ¦                           
-¦   +---obj
-¦       ¦   ElectronicMaps.ConsoleTest.csproj.nuget.dgspec.json
-¦       ¦   ElectronicMaps.ConsoleTest.csproj.nuget.g.props
-¦       ¦   ElectronicMaps.ConsoleTest.csproj.nuget.g.targets
-¦       ¦   project.assets.json
-¦       ¦   project.nuget.cache
-¦       ¦   
-¦       +---Debug
-¦           +---net8.0
-¦           ¦   ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
-¦           ¦   ¦   apphost.exe
-¦           ¦   ¦   Electron.B9ACF719.Up2Date
-¦           ¦   ¦   ElectronicMaps.ConsoleTest.AssemblyInfo.cs
-¦           ¦   ¦   ElectronicMaps.ConsoleTest.AssemblyInfoInputs.cache
-¦           ¦   ¦   ElectronicMaps.ConsoleTest.assets.cache
-¦           ¦   ¦   ElectronicMaps.ConsoleTest.csproj.AssemblyReference.cache
-¦           ¦   ¦   ElectronicMaps.ConsoleTest.csproj.CoreCompileInputs.cache
-¦           ¦   ¦   ElectronicMaps.ConsoleTest.csproj.FileListAbsolute.txt
-¦           ¦   ¦   ElectronicMaps.ConsoleTest.dll
-¦           ¦   ¦   ElectronicMaps.ConsoleTest.GeneratedMSBuildEditorConfig.editorconfig
-¦           ¦   ¦   ElectronicMaps.ConsoleTest.genruntimeconfig.cache
-¦           ¦   ¦   ElectronicMaps.ConsoleTest.GlobalUsings.g.cs
-¦           ¦   ¦   ElectronicMaps.ConsoleTest.pdb
-¦           ¦   ¦   
-¦           ¦   +---ref
-¦           ¦   ¦       ElectronicMaps.ConsoleTest.dll
-¦           ¦   ¦       
-¦           ¦   +---refint
-¦           ¦           ElectronicMaps.ConsoleTest.dll
-¦           ¦           
-¦           +---net9.0
-¦               ¦   .NETCoreApp,Version=v9.0.AssemblyAttributes.cs
-¦               ¦   apphost.exe
-¦               ¦   Electron.B9ACF719.Up2Date
-¦               ¦   ElectronicMaps.ConsoleTest.AssemblyInfo.cs
-¦               ¦   ElectronicMaps.ConsoleTest.AssemblyInfoInputs.cache
-¦               ¦   ElectronicMaps.ConsoleTest.assets.cache
-¦               ¦   ElectronicMaps.ConsoleTest.csproj.AssemblyReference.cache
-¦               ¦   ElectronicMaps.ConsoleTest.csproj.BuildWithSkipAnalyzers
-¦               ¦   ElectronicMaps.ConsoleTest.csproj.CoreCompileInputs.cache
-¦               ¦   ElectronicMaps.ConsoleTest.csproj.FileListAbsolute.txt
-¦               ¦   ElectronicMaps.ConsoleTest.dll
-¦               ¦   ElectronicMaps.ConsoleTest.GeneratedMSBuildEditorConfig.editorconfig
-¦               ¦   ElectronicMaps.ConsoleTest.genruntimeconfig.cache
-¦               ¦   ElectronicMaps.ConsoleTest.GlobalUsings.g.cs
-¦               ¦   ElectronicMaps.ConsoleTest.pdb
-¦               ¦   
-¦               +---ref
-¦               ¦       ElectronicMaps.ConsoleTest.dll
-¦               ¦       
-¦               +---refint
-¦                       ElectronicMaps.ConsoleTest.dll
-¦                       
-+---ElectronicMaps.Domain
-¦   ¦   ElectronicMaps.Domain.csproj
-¦   ¦   
-¦   +---bin
-¦   ¦   +---Debug
-¦   ¦       +---net8.0
-¦   ¦       ¦       ElectronicMaps.Domain.deps.json
-¦   ¦       ¦       ElectronicMaps.Domain.dll
-¦   ¦       ¦       ElectronicMaps.Domain.pdb
-¦   ¦       ¦       
-¦   ¦       +---net9.0
-¦   ¦               ElectronicMaps.Domain.deps.json
-¦   ¦               ElectronicMaps.Domain.dll
-¦   ¦               ElectronicMaps.Domain.pdb
-¦   ¦               
-¦   +---DTO
-¦   ¦       ComponentCreateDto.cs
-¦   ¦       ComponentDto.cs
-¦   ¦       ComponentFormResultDto.cs
-¦   ¦       ComponentSourceFileDto.cs
-¦   ¦       DocumentMetadataDto.cs
-¦   ¦       FileImportResultDto.cs
-¦   ¦       ParameterDto.cs
-¦   ¦       ParsedComponentName.cs
-¦   ¦       SourceComponentDto.cs
-¦   ¦       
-¦   +---Entities
-¦   ¦       AppUser.cs
-¦   ¦       Component.cs
-¦   ¦       ComponentFamily.cs
-¦   ¦       FormType.cs
-¦   ¦       ParameterDefinition.cs
-¦   ¦       ParameterValue.cs
-¦   ¦       
-¦   +---Enums
-¦   ¦       ComponentKind.cs
-¦   ¦       FormScope.cs
-¦   ¦       ParameterValueKind.cs
-¦   ¦       
-¦   +---obj
-¦   ¦   ¦   ElectronicMaps.Domain.csproj.nuget.dgspec.json
-¦   ¦   ¦   ElectronicMaps.Domain.csproj.nuget.g.props
-¦   ¦   ¦   ElectronicMaps.Domain.csproj.nuget.g.targets
-¦   ¦   ¦   project.assets.json
-¦   ¦   ¦   project.nuget.cache
-¦   ¦   ¦   
-¦   ¦   +---Debug
-¦   ¦       +---net8.0
-¦   ¦       ¦   ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
-¦   ¦       ¦   ¦   ElectronicMaps.Domain.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.Domain.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.Domain.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.Domain.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.Domain.csproj.CoreCompileInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.Domain.csproj.FileListAbsolute.txt
-¦   ¦       ¦   ¦   ElectronicMaps.Domain.dll
-¦   ¦       ¦   ¦   ElectronicMaps.Domain.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.Domain.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.Domain.pdb
-¦   ¦       ¦   ¦   
-¦   ¦       ¦   +---ref
-¦   ¦       ¦   ¦       ElectronicMaps.Domain.dll
-¦   ¦       ¦   ¦       
-¦   ¦       ¦   +---refint
-¦   ¦       ¦           ElectronicMaps.Domain.dll
-¦   ¦       ¦           
-¦   ¦       +---net9.0
-¦   ¦           ¦   .NETCoreApp,Version=v9.0.AssemblyAttributes.cs
-¦   ¦           ¦   ElectronicMaps.Domain.AssemblyInfo.cs
-¦   ¦           ¦   ElectronicMaps.Domain.AssemblyInfoInputs.cache
-¦   ¦           ¦   ElectronicMaps.Domain.assets.cache
-¦   ¦           ¦   ElectronicMaps.Domain.csproj.BuildWithSkipAnalyzers
-¦   ¦           ¦   ElectronicMaps.Domain.csproj.CoreCompileInputs.cache
-¦   ¦           ¦   ElectronicMaps.Domain.csproj.FileListAbsolute.txt
-¦   ¦           ¦   ElectronicMaps.Domain.dll
-¦   ¦           ¦   ElectronicMaps.Domain.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦           ¦   ElectronicMaps.Domain.GlobalUsings.g.cs
-¦   ¦           ¦   ElectronicMaps.Domain.pdb
-¦   ¦           ¦   
-¦   ¦           +---ref
-¦   ¦           ¦       ElectronicMaps.Domain.dll
-¦   ¦           ¦       
-¦   ¦           +---refint
-¦   ¦                   ElectronicMaps.Domain.dll
-¦   ¦                   
-¦   +---Repositories
-¦   ¦       IAppUserRepository.cs
-¦   ¦       IComponentCommandRepository.cs
-¦   ¦       IComponentQueryRepository.cs
-¦   ¦       
-¦   +---Securirty
-¦   ¦       AppRole.cs
-¦   ¦       ICurrentUserService.cs
-¦   ¦       
-¦   +---Services
-¦   ¦       IComponentFormBatchService.cs
-¦   ¦       IComponentNameParser.cs
-¦   ¦       IComponentSourceReader.cs
-¦   ¦       IFormQueryService.cs
-¦   ¦       
-¦   +---Shared
-¦           DomainObject.cs
-¦           
-+---ElectronicMaps.WPF
-¦   ¦   App.xaml
-¦   ¦   App.xaml.cs
-¦   ¦   appsettings.json
-¦   ¦   AssemblyInfo.cs
-¦   ¦   ElectronicMaps.WPF.csproj
-¦   ¦   ElectronicMaps.WPF.csproj.user
-¦   ¦   MainWindow.xaml
-¦   ¦   MainWindow.xaml.cs
-¦   ¦   
-¦   +---Assets
-¦   +---bin
-¦   ¦   +---Debug
-¦   ¦       +---net8.0-windows
-¦   ¦       ¦   ¦   appsettings.json
-¦   ¦       ¦   ¦   CommunityToolkit.Mvvm.dll
-¦   ¦       ¦   ¦   ElectronicMaps.Application.dll
-¦   ¦       ¦   ¦   ElectronicMaps.Application.pdb
-¦   ¦       ¦   ¦   ElectronicMaps.Domain.dll
-¦   ¦       ¦   ¦   ElectronicMaps.Domain.pdb
-¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.dll
-¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.pdb
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.deps.json
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.dll
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.exe
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.pdb
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.runtimeconfig.json
-¦   ¦       ¦   ¦   Humanizer.dll
-¦   ¦       ¦   ¦   MaterialDesignColors.dll
-¦   ¦       ¦   ¦   MaterialDesignThemes.Wpf.dll
-¦   ¦       ¦   ¦   Microsoft.Bcl.AsyncInterfaces.dll
-¦   ¦       ¦   ¦   Microsoft.CodeAnalysis.CSharp.dll
-¦   ¦       ¦   ¦   Microsoft.CodeAnalysis.CSharp.Workspaces.dll
-¦   ¦       ¦   ¦   Microsoft.CodeAnalysis.dll
-¦   ¦       ¦   ¦   Microsoft.CodeAnalysis.Workspaces.dll
-¦   ¦       ¦   ¦   Microsoft.Data.Sqlite.dll
-¦   ¦       ¦   ¦   Microsoft.EntityFrameworkCore.Abstractions.dll
-¦   ¦       ¦   ¦   Microsoft.EntityFrameworkCore.Design.dll
 ¦   ¦       ¦   ¦   Microsoft.EntityFrameworkCore.dll
 ¦   ¦       ¦   ¦   Microsoft.EntityFrameworkCore.Relational.dll
 ¦   ¦       ¦   ¦   Microsoft.EntityFrameworkCore.Sqlite.dll
@@ -583,198 +240,772 @@ A:.
 ¦   ¦       ¦   ¦   Microsoft.Extensions.Options.ConfigurationExtensions.dll
 ¦   ¦       ¦   ¦   Microsoft.Extensions.Options.dll
 ¦   ¦       ¦   ¦   Microsoft.Extensions.Primitives.dll
-¦   ¦       ¦   ¦   Microsoft.Xaml.Behaviors.dll
-¦   ¦       ¦   ¦   Mono.TextTemplating.dll
 ¦   ¦       ¦   ¦   SQLitePCLRaw.batteries_v2.dll
 ¦   ¦       ¦   ¦   SQLitePCLRaw.core.dll
 ¦   ¦       ¦   ¦   SQLitePCLRaw.provider.e_sqlite3.dll
-¦   ¦       ¦   ¦   System.Composition.AttributedModel.dll
-¦   ¦       ¦   ¦   System.Composition.Convention.dll
-¦   ¦       ¦   ¦   System.Composition.Hosting.dll
-¦   ¦       ¦   ¦   System.Composition.Runtime.dll
-¦   ¦       ¦   ¦   System.Composition.TypedParts.dll
 ¦   ¦       ¦   ¦   System.Diagnostics.EventLog.dll
-¦   ¦       ¦   ¦   System.IO.Pipelines.dll
-¦   ¦       ¦   ¦   System.Text.Encodings.Web.dll
-¦   ¦       ¦   ¦   System.Text.Json.dll
+¦   ¦       ¦   ¦   System.IO.Packaging.dll
 ¦   ¦       ¦   ¦   
-¦   ¦       ¦   +---cs
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-¦   ¦       ¦   ¦       
-¦   ¦       ¦   +---de
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-¦   ¦       ¦   ¦       
-¦   ¦       ¦   +---es
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-¦   ¦       ¦   ¦       
-¦   ¦       ¦   +---fr
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-¦   ¦       ¦   ¦       
-¦   ¦       ¦   +---it
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-¦   ¦       ¦   ¦       
-¦   ¦       ¦   +---ja
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-¦   ¦       ¦   ¦       
-¦   ¦       ¦   +---ko
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-¦   ¦       ¦   ¦       
-¦   ¦       ¦   +---pl
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-¦   ¦       ¦   ¦       
-¦   ¦       ¦   +---pt-BR
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-¦   ¦       ¦   ¦       
-¦   ¦       ¦   +---ru
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-¦   ¦       ¦   ¦       
+¦   ¦       ¦   +---BuildHost-net472
+¦   ¦       ¦   ¦   ¦   Microsoft.Build.Locator.dll
+¦   ¦       ¦   ¦   ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.exe
+¦   ¦       ¦   ¦   ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.exe.config
+¦   ¦       ¦   ¦   ¦   Microsoft.IO.Redist.dll
+¦   ¦       ¦   ¦   ¦   Newtonsoft.Json.dll
+¦   ¦       ¦   ¦   ¦   System.Buffers.dll
+¦   ¦       ¦   ¦   ¦   System.Collections.Immutable.dll
+¦   ¦       ¦   ¦   ¦   System.CommandLine.dll
+¦   ¦       ¦   ¦   ¦   System.Memory.dll
+¦   ¦       ¦   ¦   ¦   System.Numerics.Vectors.dll
+¦   ¦       ¦   ¦   ¦   System.Runtime.CompilerServices.Unsafe.dll
+¦   ¦       ¦   ¦   ¦   System.Threading.Tasks.Extensions.dll
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---cs
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---de
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---es
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---fr
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---it
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---ja
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---ko
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---pl
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---pt-BR
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---ru
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---tr
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---zh-Hans
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---zh-Hant
+¦   ¦       ¦   ¦           System.CommandLine.resources.dll
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---BuildHost-netcore
+¦   ¦       ¦   ¦   ¦   Microsoft.Build.Locator.dll
+¦   ¦       ¦   ¦   ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.deps.json
+¦   ¦       ¦   ¦   ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+¦   ¦       ¦   ¦   ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll.config
+¦   ¦       ¦   ¦   ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.runtimeconfig.json
+¦   ¦       ¦   ¦   ¦   Newtonsoft.Json.dll
+¦   ¦       ¦   ¦   ¦   System.Collections.Immutable.dll
+¦   ¦       ¦   ¦   ¦   System.CommandLine.dll
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---cs
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---de
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---es
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---fr
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---it
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---ja
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---ko
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---pl
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---pt-BR
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---ru
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---tr
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---zh-Hans
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---zh-Hant
+¦   ¦       ¦   ¦           System.CommandLine.resources.dll
+¦   ¦       ¦   ¦           
 ¦   ¦       ¦   +---runtimes
-¦   ¦       ¦   ¦   +---browser
-¦   ¦       ¦   ¦   ¦   +---lib
-¦   ¦       ¦   ¦   ¦       +---net8.0
-¦   ¦       ¦   ¦   ¦               System.Text.Encodings.Web.dll
-¦   ¦       ¦   ¦   ¦               
-¦   ¦       ¦   ¦   +---browser-wasm
-¦   ¦       ¦   ¦   ¦   +---nativeassets
-¦   ¦       ¦   ¦   ¦       +---net8.0
-¦   ¦       ¦   ¦   ¦               e_sqlite3.a
-¦   ¦       ¦   ¦   ¦               
-¦   ¦       ¦   ¦   +---linux-arm
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           libe_sqlite3.so
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---linux-arm64
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           libe_sqlite3.so
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---linux-armel
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           libe_sqlite3.so
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---linux-mips64
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           libe_sqlite3.so
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---linux-musl-arm
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           libe_sqlite3.so
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---linux-musl-arm64
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           libe_sqlite3.so
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---linux-musl-s390x
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   +---linux-musl-x64
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           libe_sqlite3.so
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---linux-ppc64le
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           libe_sqlite3.so
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---linux-s390x
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           libe_sqlite3.so
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---linux-x64
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           libe_sqlite3.so
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---linux-x86
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           libe_sqlite3.so
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---maccatalyst-arm64
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           libe_sqlite3.dylib
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---maccatalyst-x64
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           libe_sqlite3.dylib
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---osx-arm64
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           libe_sqlite3.dylib
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---osx-x64
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           libe_sqlite3.dylib
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---win
-¦   ¦       ¦   ¦   ¦   +---lib
-¦   ¦       ¦   ¦   ¦       +---net8.0
-¦   ¦       ¦   ¦   ¦               System.Diagnostics.EventLog.dll
-¦   ¦       ¦   ¦   ¦               
-¦   ¦       ¦   ¦   +---win-arm
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           e_sqlite3.dll
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---win-arm64
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           e_sqlite3.dll
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---win-x64
-¦   ¦       ¦   ¦   ¦   +---native
-¦   ¦       ¦   ¦   ¦           e_sqlite3.dll
-¦   ¦       ¦   ¦   ¦           
-¦   ¦       ¦   ¦   +---win-x86
-¦   ¦       ¦   ¦       +---native
-¦   ¦       ¦   ¦               e_sqlite3.dll
-¦   ¦       ¦   ¦               
-¦   ¦       ¦   +---tr
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
+¦   ¦       ¦       +---browser-wasm
+¦   ¦       ¦       ¦   +---nativeassets
+¦   ¦       ¦       ¦       +---net9.0
+¦   ¦       ¦       ¦               e_sqlite3.a
+¦   ¦       ¦       ¦               
+¦   ¦       ¦       +---linux-arm
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.so
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---linux-arm64
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.so
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---linux-armel
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.so
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---linux-mips64
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.so
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---linux-musl-arm
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.so
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---linux-musl-arm64
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.so
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---linux-musl-riscv64
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.so
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---linux-musl-s390x
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.so
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---linux-musl-x64
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.so
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---linux-ppc64le
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.so
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---linux-riscv64
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.so
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---linux-s390x
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.so
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---linux-x64
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.so
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---linux-x86
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.so
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---maccatalyst-arm64
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.dylib
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---maccatalyst-x64
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.dylib
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---osx-arm64
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.dylib
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---osx-x64
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           libe_sqlite3.dylib
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---win
+¦   ¦       ¦       ¦   +---lib
+¦   ¦       ¦       ¦       +---net10.0
+¦   ¦       ¦       ¦               System.Diagnostics.EventLog.dll
+¦   ¦       ¦       ¦               System.Diagnostics.EventLog.Messages.dll
+¦   ¦       ¦       ¦               
+¦   ¦       ¦       +---win-arm
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           e_sqlite3.dll
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---win-arm64
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           e_sqlite3.dll
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---win-x64
+¦   ¦       ¦       ¦   +---native
+¦   ¦       ¦       ¦           e_sqlite3.dll
+¦   ¦       ¦       ¦           
+¦   ¦       ¦       +---win-x86
+¦   ¦       ¦           +---native
+¦   ¦       ¦                   e_sqlite3.dll
+¦   ¦       ¦                   
+¦   ¦       +---net8.0
+¦   ¦           +---runtimes
+¦   ¦               +---browser
+¦   ¦               ¦   +---lib
+¦   ¦               ¦       +---net8.0
+¦   ¦               +---browser-wasm
+¦   ¦               ¦   +---nativeassets
+¦   ¦               ¦       +---net8.0
+¦   ¦               +---linux-arm
+¦   ¦               ¦   +---native
+¦   ¦               +---linux-arm64
+¦   ¦               ¦   +---native
+¦   ¦               +---linux-armel
+¦   ¦               ¦   +---native
+¦   ¦               +---linux-mips64
+¦   ¦               ¦   +---native
+¦   ¦               +---linux-musl-arm
+¦   ¦               ¦   +---native
+¦   ¦               +---linux-musl-arm64
+¦   ¦               ¦   +---native
+¦   ¦               +---linux-musl-x64
+¦   ¦               ¦   +---native
+¦   ¦               +---linux-ppc64le
+¦   ¦               ¦   +---native
+¦   ¦               +---linux-s390x
+¦   ¦               ¦   +---native
+¦   ¦               +---linux-x64
+¦   ¦               ¦   +---native
+¦   ¦               +---linux-x86
+¦   ¦               ¦   +---native
+¦   ¦               +---maccatalyst-arm64
+¦   ¦               ¦   +---native
+¦   ¦               +---maccatalyst-x64
+¦   ¦               ¦   +---native
+¦   ¦               +---osx-arm64
+¦   ¦               ¦   +---native
+¦   ¦               +---osx-x64
+¦   ¦               ¦   +---native
+¦   ¦               +---win-arm
+¦   ¦               ¦   +---native
+¦   ¦               +---win-arm64
+¦   ¦               ¦   +---native
+¦   ¦               +---win-x64
+¦   ¦               ¦   +---native
+¦   ¦               +---win-x86
+¦   ¦                   +---native
+¦   +---obj
+¦       ¦   ElectronicMaps.ConsoleTest.csproj.nuget.dgspec.json
+¦       ¦   ElectronicMaps.ConsoleTest.csproj.nuget.g.props
+¦       ¦   ElectronicMaps.ConsoleTest.csproj.nuget.g.targets
+¦       ¦   project.assets.json
+¦       ¦   project.nuget.cache
+¦       ¦   
+¦       +---Debug
+¦           +---net10.0
+¦           ¦   ¦   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+¦           ¦   ¦   apphost.exe
+¦           ¦   ¦   Electron.B9ACF719.Up2Date
+¦           ¦   ¦   ElectronicMaps.ConsoleTest.AssemblyInfo.cs
+¦           ¦   ¦   ElectronicMaps.ConsoleTest.AssemblyInfoInputs.cache
+¦           ¦   ¦   ElectronicMaps.ConsoleTest.assets.cache
+¦           ¦   ¦   ElectronicMaps.ConsoleTest.csproj.AssemblyReference.cache
+¦           ¦   ¦   ElectronicMaps.ConsoleTest.csproj.CoreCompileInputs.cache
+¦           ¦   ¦   ElectronicMaps.ConsoleTest.csproj.FileListAbsolute.txt
+¦           ¦   ¦   ElectronicMaps.ConsoleTest.dll
+¦           ¦   ¦   ElectronicMaps.ConsoleTest.GeneratedMSBuildEditorConfig.editorconfig
+¦           ¦   ¦   ElectronicMaps.ConsoleTest.genruntimeconfig.cache
+¦           ¦   ¦   ElectronicMaps.ConsoleTest.GlobalUsings.g.cs
+¦           ¦   ¦   ElectronicMaps.ConsoleTest.pdb
+¦           ¦   ¦   ElectronicMaps.ConsoleTest.sourcelink.json
+¦           ¦   ¦   
+¦           ¦   +---ref
+¦           ¦   ¦       ElectronicMaps.ConsoleTest.dll
+¦           ¦   ¦       
+¦           ¦   +---refint
+¦           ¦           ElectronicMaps.ConsoleTest.dll
+¦           ¦           
+¦           +---net8.0
+¦               ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+¦               ¦   apphost.exe
+¦               ¦   ElectronicMaps.ConsoleTest.assets.cache
+¦               ¦   ElectronicMaps.ConsoleTest.csproj.FileListAbsolute.txt
+¦               ¦   ElectronicMaps.ConsoleTest.GlobalUsings.g.cs
+¦               ¦   
+¦               +---ref
+¦               +---refint
++---ElectronicMaps.Documents
+¦   ¦   ElectronicMaps.Documents.csproj
+¦   ¦   
+¦   +---bin
+¦   ¦   +---Debug
+¦   ¦       +---net10.0
+¦   ¦       ¦       ElectronicMaps.Documents.deps.json
+¦   ¦       ¦       ElectronicMaps.Documents.dll
+¦   ¦       ¦       ElectronicMaps.Documents.pdb
+¦   ¦       ¦       
+¦   ¦       +---net8.0
+¦   +---Configuration
+¦   ¦       DocumentRenderingOptions.cs
+¦   ¦       SchemaStoreOptions.cs
+¦   ¦       
+¦   +---Core
+¦   ¦   +---Models
+¦   ¦   ¦       DocumentBuildRequest.cs
+¦   ¦   ¦       DocumentBuildResult.cs
+¦   ¦   ¦       DocumentItem.cs
+¦   ¦   ¦       TemplateId.cs
+¦   ¦   ¦       
+¦   ¦   +---Services
+¦   ¦           ITemplateStore.cs
+¦   ¦           IWordRenderer.cs
+¦   ¦           
+¦   +---DI
+¦   ¦       ServiceCollectionExtentions.cs
+¦   ¦       
+¦   +---obj
+¦   ¦   ¦   ElectronicMaps.Documents.csproj.nuget.dgspec.json
+¦   ¦   ¦   ElectronicMaps.Documents.csproj.nuget.g.props
+¦   ¦   ¦   ElectronicMaps.Documents.csproj.nuget.g.targets
+¦   ¦   ¦   project.assets.json
+¦   ¦   ¦   project.nuget.cache
+¦   ¦   ¦   
+¦   ¦   +---Debug
+¦   ¦       +---net10.0
+¦   ¦       ¦   ¦   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+¦   ¦       ¦   ¦   ElectronicMaps.Documents.AssemblyInfo.cs
+¦   ¦       ¦   ¦   ElectronicMaps.Documents.AssemblyInfoInputs.cache
+¦   ¦       ¦   ¦   ElectronicMaps.Documents.assets.cache
+¦   ¦       ¦   ¦   ElectronicMaps.Documents.csproj.AssemblyReference.cache
+¦   ¦       ¦   ¦   ElectronicMaps.Documents.csproj.BuildWithSkipAnalyzers
+¦   ¦       ¦   ¦   ElectronicMaps.Documents.csproj.CoreCompileInputs.cache
+¦   ¦       ¦   ¦   ElectronicMaps.Documents.csproj.FileListAbsolute.txt
+¦   ¦       ¦   ¦   ElectronicMaps.Documents.dll
+¦   ¦       ¦   ¦   ElectronicMaps.Documents.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦       ¦   ¦   ElectronicMaps.Documents.GlobalUsings.g.cs
+¦   ¦       ¦   ¦   ElectronicMaps.Documents.pdb
+¦   ¦       ¦   ¦   ElectronicMaps.Documents.sourcelink.json
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---ref
+¦   ¦       ¦   ¦       ElectronicMaps.Documents.dll
 ¦   ¦       ¦   ¦       
-¦   ¦       ¦   +---zh-Hans
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.resources.dll
-¦   ¦       ¦   ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-¦   ¦       ¦   ¦       
-¦   ¦       ¦   +---zh-Hant
-¦   ¦       ¦           Microsoft.CodeAnalysis.CSharp.resources.dll
-¦   ¦       ¦           Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-¦   ¦       ¦           Microsoft.CodeAnalysis.resources.dll
-¦   ¦       ¦           Microsoft.CodeAnalysis.Workspaces.resources.dll
+¦   ¦       ¦   +---refint
+¦   ¦       ¦           ElectronicMaps.Documents.dll
 ¦   ¦       ¦           
-¦   ¦       +---net9.0-windows
+¦   ¦       +---net8.0
+¦   ¦           ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+¦   ¦           ¦   ElectronicMaps.Documents.AssemblyInfo.cs
+¦   ¦           ¦   ElectronicMaps.Documents.AssemblyInfoInputs.cache
+¦   ¦           ¦   ElectronicMaps.Documents.assets.cache
+¦   ¦           ¦   ElectronicMaps.Documents.csproj.AssemblyReference.cache
+¦   ¦           ¦   ElectronicMaps.Documents.csproj.CoreCompileInputs.cache
+¦   ¦           ¦   ElectronicMaps.Documents.csproj.FileListAbsolute.txt
+¦   ¦           ¦   ElectronicMaps.Documents.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   ElectronicMaps.Documents.GlobalUsings.g.cs
+¦   ¦           ¦   ElectronicMaps.Documents.sourcelink.json
+¦   ¦           ¦   
+¦   ¦           +---ref
+¦   ¦           +---refint
+¦   +---Rendering
+¦   ¦   +---FormRenderer
+¦   ¦   ¦       GenericFormRenderer.cs
+¦   ¦   ¦       
+¦   ¦   +---OpenXml
+¦   ¦   ¦       OpenXmlWordRenderer.cs
+¦   ¦   ¦       SdtContentWriter.cs
+¦   ¦   ¦       TableCloner.cs
+¦   ¦   ¦       
+¦   ¦   +---Schemas
+¦   ¦   ¦   +---JsonFiles
+¦   ¦   ¦   ¦       Form04.schema.json
+¦   ¦   ¦   ¦       
+¦   ¦   ¦   +---Models
+¦   ¦   ¦   ¦       FormSchema.cs
+¦   ¦   ¦   ¦       
+¦   ¦   ¦   +---Store
+¦   ¦   ¦           ISchemaStore.cs
+¦   ¦   ¦           JsonSchemaStore.cs
+¦   ¦   ¦           SchemaNotFoundException.cs
+¦   ¦   ¦           
+¦   ¦   +---Validation
+¦   ¦           ITemplateValidator.cs
+¦   ¦           TemplateValidator.cs
+¦   ¦           ValidationResult.cs
+¦   ¦           
+¦   +---Templates
+¦       +---Store
+¦       ¦       FileSystemTemplateStore.cs
+¦       ¦       
+¦       +---WordFiles
++---ElectronicMaps.Domain
+¦   ¦   ElectronicMaps.Domain.csproj
+¦   ¦   
+¦   +---bin
+¦   ¦   +---Debug
+¦   ¦       +---net10.0
+¦   ¦       ¦       ElectronicMaps.Domain.deps.json
+¦   ¦       ¦       ElectronicMaps.Domain.dll
+¦   ¦       ¦       ElectronicMaps.Domain.pdb
+¦   ¦       ¦       
+¦   ¦       +---net8.0
+¦   ¦               ElectronicMaps.Domain.deps.json
+¦   ¦               ElectronicMaps.Domain.dll
+¦   ¦               ElectronicMaps.Domain.pdb
+¦   ¦               
+¦   +---DTO
+¦   ¦       ComponentCreateDto.cs
+¦   ¦       ComponentDto.cs
+¦   ¦       ComponentFormResultDto.cs
+¦   ¦       ComponentParameterUpdateDto.cs
+¦   ¦       ComponentSourceFileDto.cs
+¦   ¦       DocumentMetadataDto.cs
+¦   ¦       FileImportResultDto.cs
+¦   ¦       ParameterDto.cs
+¦   ¦       ParsedComponentName.cs
+¦   ¦       SourceComponentDto.cs
+¦   ¦       
+¦   +---Entities
+¦   ¦       AppUser.cs
+¦   ¦       Component.cs
+¦   ¦       ComponentFamily.cs
+¦   ¦       FormType.cs
+¦   ¦       ParameterDefinition.cs
+¦   ¦       ParameterValue.cs
+¦   ¦       Remark.cs
+¦   ¦       
+¦   +---Enums
+¦   ¦       ComponentKind.cs
+¦   ¦       FormScope.cs
+¦   ¦       ParameterValueKind.cs
+¦   ¦       VerificationStatus.cs
+¦   ¦       
+¦   +---obj
+¦   ¦   ¦   ElectronicMaps.Domain.csproj.nuget.dgspec.json
+¦   ¦   ¦   ElectronicMaps.Domain.csproj.nuget.g.props
+¦   ¦   ¦   ElectronicMaps.Domain.csproj.nuget.g.targets
+¦   ¦   ¦   project.assets.json
+¦   ¦   ¦   project.nuget.cache
+¦   ¦   ¦   
+¦   ¦   +---Debug
+¦   ¦       +---net10.0
+¦   ¦       ¦   ¦   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+¦   ¦       ¦   ¦   ElectronicMaps.Domain.AssemblyInfo.cs
+¦   ¦       ¦   ¦   ElectronicMaps.Domain.AssemblyInfoInputs.cache
+¦   ¦       ¦   ¦   ElectronicMaps.Domain.assets.cache
+¦   ¦       ¦   ¦   ElectronicMaps.Domain.csproj.BuildWithSkipAnalyzers
+¦   ¦       ¦   ¦   ElectronicMaps.Domain.csproj.CoreCompileInputs.cache
+¦   ¦       ¦   ¦   ElectronicMaps.Domain.csproj.FileListAbsolute.txt
+¦   ¦       ¦   ¦   ElectronicMaps.Domain.dll
+¦   ¦       ¦   ¦   ElectronicMaps.Domain.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦       ¦   ¦   ElectronicMaps.Domain.GlobalUsings.g.cs
+¦   ¦       ¦   ¦   ElectronicMaps.Domain.pdb
+¦   ¦       ¦   ¦   ElectronicMaps.Domain.sourcelink.json
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---ref
+¦   ¦       ¦   ¦       ElectronicMaps.Domain.dll
+¦   ¦       ¦   ¦       
+¦   ¦       ¦   +---refint
+¦   ¦       ¦           ElectronicMaps.Domain.dll
+¦   ¦       ¦           
+¦   ¦       +---net8.0
+¦   ¦           ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+¦   ¦           ¦   ElectronicMaps.Domain.AssemblyInfo.cs
+¦   ¦           ¦   ElectronicMaps.Domain.AssemblyInfoInputs.cache
+¦   ¦           ¦   ElectronicMaps.Domain.assets.cache
+¦   ¦           ¦   ElectronicMaps.Domain.csproj.BuildWithSkipAnalyzers
+¦   ¦           ¦   ElectronicMaps.Domain.csproj.CoreCompileInputs.cache
+¦   ¦           ¦   ElectronicMaps.Domain.csproj.FileListAbsolute.txt
+¦   ¦           ¦   ElectronicMaps.Domain.dll
+¦   ¦           ¦   ElectronicMaps.Domain.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   ElectronicMaps.Domain.GlobalUsings.g.cs
+¦   ¦           ¦   ElectronicMaps.Domain.pdb
+¦   ¦           ¦   ElectronicMaps.Domain.sourcelink.json
+¦   ¦           ¦   
+¦   ¦           +---ref
+¦   ¦           ¦       ElectronicMaps.Domain.dll
+¦   ¦           ¦       
+¦   ¦           +---refint
+¦   ¦                   ElectronicMaps.Domain.dll
+¦   ¦                   
+¦   +---Repositories
+¦   ¦       IAppUserRepository.cs
+¦   ¦       IComponentFamilyRepository.cs
+¦   ¦       IComponentRepository.cs
+¦   ¦       
+¦   +---Securirty
+¦   ¦       AppRole.cs
+¦   ¦       ICurrentUserService.cs
+¦   ¦       
+¦   +---Services
+¦   ¦       IComponentFormBatchService.cs
+¦   ¦       IComponentNameParser.cs
+¦   ¦       IComponentSourceReader.cs
+¦   ¦       IFormQueryService.cs
+¦   ¦       
+¦   +---Shared
+¦           DomainObject.cs
+¦           
++---ElectronicMaps.Infrastructure
+¦   ¦   AddDbContextFactory.cs
+¦   ¦   AppDbContext.cs
+¦   ¦   DbConfig.cs
+¦   ¦   ElectronicMaps.Infrastructure.csproj
+¦   ¦   ServiceCollectionExtentions.cs
+¦   ¦   
+¦   +---bin
+¦   ¦   +---Debug
+¦   ¦       +---net10.0
+¦   ¦       ¦   ¦   ElectronicMaps.Application.dll
+¦   ¦       ¦   ¦   ElectronicMaps.Application.pdb
+¦   ¦       ¦   ¦   ElectronicMaps.Documents.dll
+¦   ¦       ¦   ¦   ElectronicMaps.Documents.pdb
+¦   ¦       ¦   ¦   ElectronicMaps.Domain.dll
+¦   ¦       ¦   ¦   ElectronicMaps.Domain.pdb
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.deps.json
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.dll
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.pdb
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.runtimeconfig.json
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---BuildHost-net472
+¦   ¦       ¦   ¦   ¦   Microsoft.Build.Locator.dll
+¦   ¦       ¦   ¦   ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.exe
+¦   ¦       ¦   ¦   ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.exe.config
+¦   ¦       ¦   ¦   ¦   Microsoft.IO.Redist.dll
+¦   ¦       ¦   ¦   ¦   Newtonsoft.Json.dll
+¦   ¦       ¦   ¦   ¦   System.Buffers.dll
+¦   ¦       ¦   ¦   ¦   System.Collections.Immutable.dll
+¦   ¦       ¦   ¦   ¦   System.CommandLine.dll
+¦   ¦       ¦   ¦   ¦   System.Memory.dll
+¦   ¦       ¦   ¦   ¦   System.Numerics.Vectors.dll
+¦   ¦       ¦   ¦   ¦   System.Runtime.CompilerServices.Unsafe.dll
+¦   ¦       ¦   ¦   ¦   System.Threading.Tasks.Extensions.dll
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---cs
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---de
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---es
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---fr
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---it
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---ja
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---ko
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---pl
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---pt-BR
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---ru
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---tr
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---zh-Hans
+¦   ¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---zh-Hant
+¦   ¦       ¦   ¦           System.CommandLine.resources.dll
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---BuildHost-netcore
+¦   ¦       ¦       ¦   Microsoft.Build.Locator.dll
+¦   ¦       ¦       ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.deps.json
+¦   ¦       ¦       ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+¦   ¦       ¦       ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll.config
+¦   ¦       ¦       ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.runtimeconfig.json
+¦   ¦       ¦       ¦   Newtonsoft.Json.dll
+¦   ¦       ¦       ¦   System.Collections.Immutable.dll
+¦   ¦       ¦       ¦   System.CommandLine.dll
+¦   ¦       ¦       ¦   
+¦   ¦       ¦       +---cs
+¦   ¦       ¦       ¦       System.CommandLine.resources.dll
+¦   ¦       ¦       ¦       
+¦   ¦       ¦       +---de
+¦   ¦       ¦       ¦       System.CommandLine.resources.dll
+¦   ¦       ¦       ¦       
+¦   ¦       ¦       +---es
+¦   ¦       ¦       ¦       System.CommandLine.resources.dll
+¦   ¦       ¦       ¦       
+¦   ¦       ¦       +---fr
+¦   ¦       ¦       ¦       System.CommandLine.resources.dll
+¦   ¦       ¦       ¦       
+¦   ¦       ¦       +---it
+¦   ¦       ¦       ¦       System.CommandLine.resources.dll
+¦   ¦       ¦       ¦       
+¦   ¦       ¦       +---ja
+¦   ¦       ¦       ¦       System.CommandLine.resources.dll
+¦   ¦       ¦       ¦       
+¦   ¦       ¦       +---ko
+¦   ¦       ¦       ¦       System.CommandLine.resources.dll
+¦   ¦       ¦       ¦       
+¦   ¦       ¦       +---pl
+¦   ¦       ¦       ¦       System.CommandLine.resources.dll
+¦   ¦       ¦       ¦       
+¦   ¦       ¦       +---pt-BR
+¦   ¦       ¦       ¦       System.CommandLine.resources.dll
+¦   ¦       ¦       ¦       
+¦   ¦       ¦       +---ru
+¦   ¦       ¦       ¦       System.CommandLine.resources.dll
+¦   ¦       ¦       ¦       
+¦   ¦       ¦       +---tr
+¦   ¦       ¦       ¦       System.CommandLine.resources.dll
+¦   ¦       ¦       ¦       
+¦   ¦       ¦       +---zh-Hans
+¦   ¦       ¦       ¦       System.CommandLine.resources.dll
+¦   ¦       ¦       ¦       
+¦   ¦       ¦       +---zh-Hant
+¦   ¦       ¦               System.CommandLine.resources.dll
+¦   ¦       ¦               
+¦   ¦       +---net8.0
+¦   ¦       ¦       ElectronicMaps.Application.dll
+¦   ¦       ¦       ElectronicMaps.Application.pdb
+¦   ¦       ¦       ElectronicMaps.Domain.dll
+¦   ¦       ¦       ElectronicMaps.Domain.pdb
+¦   ¦       ¦       ElectronicMaps.Infrastructure.deps.json
+¦   ¦       ¦       ElectronicMaps.Infrastructure.dll
+¦   ¦       ¦       ElectronicMaps.Infrastructure.pdb
+¦   ¦       ¦       ElectronicMaps.Infrastructure.runtimeconfig.json
+¦   ¦       ¦       
+¦   ¦       +---net9.0
+¦   +---Commands
+¦   ¦       EfSaveComponent.cs
+¦   ¦       
+¦   +---Initialization
+¦   ¦       DatabaseInitializer.cs
+¦   ¦       IDatabaseInitializer.cs
+¦   ¦       
+¦   +---Migrations
+¦   ¦       20251220235652_Initial.cs
+¦   ¦       20251220235652_Initial.Designer.cs
+¦   ¦       20251221004528_AddVerificationAndFixParameterTarget.cs
+¦   ¦       20251221004528_AddVerificationAndFixParameterTarget.Designer.cs
+¦   ¦       AppDbContextModelSnapshot.cs
+¦   ¦       
+¦   +---obj
+¦   ¦   ¦   ElectronicMaps.Infrastructure.csproj.nuget.dgspec.json
+¦   ¦   ¦   ElectronicMaps.Infrastructure.csproj.nuget.g.props
+¦   ¦   ¦   ElectronicMaps.Infrastructure.csproj.nuget.g.targets
+¦   ¦   ¦   project.assets.json
+¦   ¦   ¦   project.nuget.cache
+¦   ¦   ¦   
+¦   ¦   +---Debug
+¦   ¦       +---net10.0
+¦   ¦       ¦   ¦   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+¦   ¦       ¦   ¦   Electron.D68147B6.Up2Date
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.AssemblyInfo.cs
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.AssemblyInfoInputs.cache
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.assets.cache
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.AssemblyReference.cache
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.BuildWithSkipAnalyzers
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.CoreCompileInputs.cache
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.FileListAbsolute.txt
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.dll
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.genruntimeconfig.cache
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.GlobalUsings.g.cs
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.pdb
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.sourcelink.json
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---ref
+¦   ¦       ¦   ¦       ElectronicMaps.Infrastructure.dll
+¦   ¦       ¦   ¦       
+¦   ¦       ¦   +---refint
+¦   ¦       ¦           ElectronicMaps.Infrastructure.dll
+¦   ¦       ¦           
+¦   ¦       +---net8.0
+¦   ¦       ¦   ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+¦   ¦       ¦   ¦   Electron.D68147B6.Up2Date
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.AssemblyInfo.cs
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.AssemblyInfoInputs.cache
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.assets.cache
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.AssemblyReference.cache
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.BuildWithSkipAnalyzers
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.CoreCompileInputs.cache
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.FileListAbsolute.txt
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.dll
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.genruntimeconfig.cache
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.GlobalUsings.g.cs
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.pdb
+¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.sourcelink.json
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---ref
+¦   ¦       ¦   ¦       ElectronicMaps.Infrastructure.dll
+¦   ¦       ¦   ¦       
+¦   ¦       ¦   +---refint
+¦   ¦       ¦           ElectronicMaps.Infrastructure.dll
+¦   ¦       ¦           
+¦   ¦       +---net9.0
+¦   ¦           ¦   .NETCoreApp,Version=v9.0.AssemblyAttributes.cs
+¦   ¦           ¦   ElectronicMaps.Infrastructure.AssemblyInfo.cs
+¦   ¦           ¦   ElectronicMaps.Infrastructure.AssemblyInfoInputs.cache
+¦   ¦           ¦   ElectronicMaps.Infrastructure.assets.cache
+¦   ¦           ¦   ElectronicMaps.Infrastructure.csproj.AssemblyReference.cache
+¦   ¦           ¦   ElectronicMaps.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   ElectronicMaps.Infrastructure.GlobalUsings.g.cs
+¦   ¦           ¦   
+¦   ¦           +---ref
+¦   ¦           +---refint
+¦   +---Persistance
+¦   ¦       EfUnitOfWork.cs
+¦   ¦       
+¦   +---Queries
+¦   ¦       EfComponentDetailsQuery .cs
+¦   ¦       EfComponentFamilyReadRepository.cs
+¦   ¦       EfComponentReadRepository.cs
+¦   ¦       EfComponentRemarksQuery.cs
+¦   ¦       EfFamilyDetailsQuery.cs
+¦   ¦       EfFamilyRemarkQuery.cs
+¦   ¦       EfFormTypeReadRepository.cs
+¦   ¦       EfParameterDefinitionReadRepository .cs
+¦   ¦       EfParameterValueReadRepository .cs
+¦   ¦       EfWorkspaceQuery .cs
+¦   ¦       
+¦   +---Repositories
+¦   ¦       AppUserRepository.cs
+¦   ¦       EfComponentFamilyRepository.cs
+¦   ¦       EfComponentRepository.cs
+¦   ¦       
+¦   +---Security
+¦   ¦       WindowsCurrentUserService.cs
+¦   ¦       
+¦   +---Services
+¦           AvsXmlComponentSourceReader.cs
+¦           ComponentNameParser.cs
+¦           
++---ElectronicMaps.WPF
+¦   ¦   App.xaml
+¦   ¦   App.xaml.cs
+¦   ¦   appsettings.json
+¦   ¦   appsettings.local.json
+¦   ¦   AssemblyInfo.cs
+¦   ¦   ElectronicMaps.WPF.csproj
+¦   ¦   ElectronicMaps.WPF.csproj.user
+¦   ¦   
+¦   +---bin
+¦   ¦   +---Debug
+¦   ¦       +---net10.0-windows7
 ¦   ¦           ¦   appsettings.json
+¦   ¦           ¦   appsettings.local.json
 ¦   ¦           ¦   CommunityToolkit.Mvvm.dll
+¦   ¦           ¦   DocumentFormat.OpenXml.dll
+¦   ¦           ¦   DocumentFormat.OpenXml.Framework.dll
 ¦   ¦           ¦   ElectronicMaps.Application.dll
 ¦   ¦           ¦   ElectronicMaps.Application.pdb
+¦   ¦           ¦   ElectronicMaps.Documents.dll
+¦   ¦           ¦   ElectronicMaps.Documents.pdb
 ¦   ¦           ¦   ElectronicMaps.Domain.dll
 ¦   ¦           ¦   ElectronicMaps.Domain.pdb
 ¦   ¦           ¦   ElectronicMaps.Infrastructure.dll
@@ -784,10 +1015,20 @@ A:.
 ¦   ¦           ¦   ElectronicMaps.WPF.exe
 ¦   ¦           ¦   ElectronicMaps.WPF.pdb
 ¦   ¦           ¦   ElectronicMaps.WPF.runtimeconfig.json
-¦   ¦           ¦   MaterialDesignColors.dll
-¦   ¦           ¦   MaterialDesignThemes.Wpf.dll
+¦   ¦           ¦   Humanizer.dll
+¦   ¦           ¦   Microsoft.Build.dll
+¦   ¦           ¦   Microsoft.Build.Framework.dll
+¦   ¦           ¦   Microsoft.Build.Tasks.Core.dll
+¦   ¦           ¦   Microsoft.Build.Utilities.Core.dll
+¦   ¦           ¦   Microsoft.CodeAnalysis.CSharp.dll
+¦   ¦           ¦   Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+¦   ¦           ¦   Microsoft.CodeAnalysis.dll
+¦   ¦           ¦   Microsoft.CodeAnalysis.ExternalAccess.RazorCompiler.dll
+¦   ¦           ¦   Microsoft.CodeAnalysis.Workspaces.dll
+¦   ¦           ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
 ¦   ¦           ¦   Microsoft.Data.Sqlite.dll
 ¦   ¦           ¦   Microsoft.EntityFrameworkCore.Abstractions.dll
+¦   ¦           ¦   Microsoft.EntityFrameworkCore.Design.dll
 ¦   ¦           ¦   Microsoft.EntityFrameworkCore.dll
 ¦   ¦           ¦   Microsoft.EntityFrameworkCore.Relational.dll
 ¦   ¦           ¦   Microsoft.EntityFrameworkCore.Sqlite.dll
@@ -821,363 +1062,399 @@ A:.
 ¦   ¦           ¦   Microsoft.Extensions.Options.ConfigurationExtensions.dll
 ¦   ¦           ¦   Microsoft.Extensions.Options.dll
 ¦   ¦           ¦   Microsoft.Extensions.Primitives.dll
-¦   ¦           ¦   Microsoft.Xaml.Behaviors.dll
+¦   ¦           ¦   Microsoft.NET.StringTools.dll
+¦   ¦           ¦   Mono.TextTemplating.dll
+¦   ¦           ¦   Navigation.Core.dll
+¦   ¦           ¦   Navigation.Core.pdb
+¦   ¦           ¦   Newtonsoft.Json.dll
 ¦   ¦           ¦   SQLitePCLRaw.batteries_v2.dll
 ¦   ¦           ¦   SQLitePCLRaw.core.dll
 ¦   ¦           ¦   SQLitePCLRaw.provider.e_sqlite3.dll
-¦   ¦           ¦   System.Diagnostics.EventLog.dll
-¦   ¦           ¦   System.Text.Json.dll
+¦   ¦           ¦   System.Composition.AttributedModel.dll
+¦   ¦           ¦   System.Composition.Convention.dll
+¦   ¦           ¦   System.Composition.Hosting.dll
+¦   ¦           ¦   System.Composition.Runtime.dll
+¦   ¦           ¦   System.Composition.TypedParts.dll
+¦   ¦           ¦   System.Reflection.MetadataLoadContext.dll
+¦   ¦           ¦   Wpf.Ui.Abstractions.dll
+¦   ¦           ¦   Wpf.Ui.dll
 ¦   ¦           ¦   
+¦   ¦           +---BuildHost-net472
+¦   ¦           ¦   ¦   Microsoft.Build.Locator.dll
+¦   ¦           ¦   ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.exe
+¦   ¦           ¦   ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.exe.config
+¦   ¦           ¦   ¦   Microsoft.IO.Redist.dll
+¦   ¦           ¦   ¦   Newtonsoft.Json.dll
+¦   ¦           ¦   ¦   System.Buffers.dll
+¦   ¦           ¦   ¦   System.Collections.Immutable.dll
+¦   ¦           ¦   ¦   System.CommandLine.dll
+¦   ¦           ¦   ¦   System.Memory.dll
+¦   ¦           ¦   ¦   System.Numerics.Vectors.dll
+¦   ¦           ¦   ¦   System.Runtime.CompilerServices.Unsafe.dll
+¦   ¦           ¦   ¦   System.Threading.Tasks.Extensions.dll
+¦   ¦           ¦   ¦   
+¦   ¦           ¦   +---cs
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---de
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---es
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---fr
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---it
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---ja
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---ko
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---pl
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---pt-BR
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---ru
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---tr
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---zh-Hans
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---zh-Hant
+¦   ¦           ¦           System.CommandLine.resources.dll
+¦   ¦           ¦           
+¦   ¦           +---BuildHost-netcore
+¦   ¦           ¦   ¦   Microsoft.Build.Locator.dll
+¦   ¦           ¦   ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.deps.json
+¦   ¦           ¦   ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+¦   ¦           ¦   ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll.config
+¦   ¦           ¦   ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.runtimeconfig.json
+¦   ¦           ¦   ¦   Newtonsoft.Json.dll
+¦   ¦           ¦   ¦   System.Collections.Immutable.dll
+¦   ¦           ¦   ¦   System.CommandLine.dll
+¦   ¦           ¦   ¦   
+¦   ¦           ¦   +---cs
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---de
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---es
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---fr
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---it
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---ja
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---ko
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---pl
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---pt-BR
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---ru
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---tr
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---zh-Hans
+¦   ¦           ¦   ¦       System.CommandLine.resources.dll
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---zh-Hant
+¦   ¦           ¦           System.CommandLine.resources.dll
+¦   ¦           ¦           
+¦   ¦           +---cs
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
+¦   ¦           ¦       
+¦   ¦           +---de
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
+¦   ¦           ¦       
+¦   ¦           +---es
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
+¦   ¦           ¦       
+¦   ¦           +---fr
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
+¦   ¦           ¦       
+¦   ¦           +---it
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
+¦   ¦           ¦       
+¦   ¦           +---ja
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
+¦   ¦           ¦       
+¦   ¦           +---ko
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
+¦   ¦           ¦       
+¦   ¦           +---pl
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
+¦   ¦           ¦       
+¦   ¦           +---pt-BR
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
+¦   ¦           ¦       
+¦   ¦           +---ru
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
+¦   ¦           ¦       
 ¦   ¦           +---runtimes
-¦   ¦               +---browser-wasm
-¦   ¦               ¦   +---nativeassets
-¦   ¦               ¦       +---net9.0
-¦   ¦               ¦               e_sqlite3.a
-¦   ¦               ¦               
-¦   ¦               +---linux-arm
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-arm64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-armel
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-mips64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-musl-arm
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-musl-arm64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-musl-s390x
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-musl-x64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-ppc64le
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-s390x
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-x64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---linux-x86
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.so
-¦   ¦               ¦           
-¦   ¦               +---maccatalyst-arm64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.dylib
-¦   ¦               ¦           
-¦   ¦               +---maccatalyst-x64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.dylib
-¦   ¦               ¦           
-¦   ¦               +---osx-arm64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.dylib
-¦   ¦               ¦           
-¦   ¦               +---osx-x64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           libe_sqlite3.dylib
-¦   ¦               ¦           
-¦   ¦               +---win
-¦   ¦               ¦   +---lib
-¦   ¦               ¦       +---net9.0
-¦   ¦               ¦               System.Diagnostics.EventLog.dll
-¦   ¦               ¦               
-¦   ¦               +---win-arm
-¦   ¦               ¦   +---native
-¦   ¦               ¦           e_sqlite3.dll
-¦   ¦               ¦           
-¦   ¦               +---win-arm64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           e_sqlite3.dll
-¦   ¦               ¦           
-¦   ¦               +---win-x64
-¦   ¦               ¦   +---native
-¦   ¦               ¦           e_sqlite3.dll
-¦   ¦               ¦           
-¦   ¦               +---win-x86
-¦   ¦                   +---native
-¦   ¦                           e_sqlite3.dll
-¦   ¦                           
-¦   +---Helpers
-¦   ¦   ¦   AsyncRelayCommand.cs
-¦   ¦   ¦   EnumDescriptionConnverter.cs
-¦   ¦   ¦   RelayCommand.cs
-¦   ¦   ¦   
-¦   ¦   +---Converters
-¦   ¦           BooleanToVisibilityConverter.cs
+¦   ¦           ¦   +---browser-wasm
+¦   ¦           ¦   ¦   +---nativeassets
+¦   ¦           ¦   ¦       +---net9.0
+¦   ¦           ¦   ¦               e_sqlite3.a
+¦   ¦           ¦   ¦               
+¦   ¦           ¦   +---linux-arm
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.so
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---linux-arm64
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.so
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---linux-armel
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.so
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---linux-mips64
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.so
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---linux-musl-arm
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.so
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---linux-musl-arm64
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.so
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---linux-musl-riscv64
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.so
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---linux-musl-s390x
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.so
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---linux-musl-x64
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.so
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---linux-ppc64le
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.so
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---linux-riscv64
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.so
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---linux-s390x
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.so
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---linux-x64
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.so
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---linux-x86
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.so
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---maccatalyst-arm64
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.dylib
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---maccatalyst-x64
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.dylib
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---osx-arm64
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.dylib
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---osx-x64
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           libe_sqlite3.dylib
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---win-arm
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           e_sqlite3.dll
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---win-arm64
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           e_sqlite3.dll
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---win-x64
+¦   ¦           ¦   ¦   +---native
+¦   ¦           ¦   ¦           e_sqlite3.dll
+¦   ¦           ¦   ¦           
+¦   ¦           ¦   +---win-x86
+¦   ¦           ¦       +---native
+¦   ¦           ¦               e_sqlite3.dll
+¦   ¦           ¦               
+¦   ¦           +---tr
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
+¦   ¦           ¦       
+¦   ¦           +---zh-Hans
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
+¦   ¦           ¦       
+¦   ¦           +---zh-Hant
+¦   ¦                   Microsoft.CodeAnalysis.CSharp.resources.dll
+¦   ¦                   Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+¦   ¦                   Microsoft.CodeAnalysis.resources.dll
+¦   ¦                   Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+¦   ¦                   Microsoft.CodeAnalysis.Workspaces.resources.dll
+¦   ¦                   
+¦   +---Features
+¦   ¦   +---Welcome
+¦   ¦   ¦       WelcomeTemplates.xaml
+¦   ¦   ¦       WelcomeView.xaml
+¦   ¦   ¦       WelcomeView.xaml.cs
+¦   ¦   ¦       WelcomeViewModel.cs
+¦   ¦   ¦       
+¦   ¦   +---Workspace
+¦   ¦       ¦   WorkspaceTemplates.xaml
+¦   ¦       ¦   WorkspaceView.xaml
+¦   ¦       ¦   WorkspaceView.xaml.cs
+¦   ¦       ¦   WorkspaceViewModel.cs
+¦   ¦       ¦   
+¦   ¦       +---Details
+¦   ¦       ¦       DetailsViewModel.cs
+¦   ¦       ¦       
+¦   ¦       +---FormCards
+¦   ¦       ¦       CardViewModelBase.cs
+¦   ¦       ¦       ComponentCardView.xaml
+¦   ¦       ¦       ComponentCardView.xaml.cs
+¦   ¦       ¦       ComponentCardViewModel.cs
+¦   ¦       ¦       FamilyCardsViewModel.cs
+¦   ¦       ¦       FamilyCardView.xaml
+¦   ¦       ¦       FamilyCardView.xaml.cs
+¦   ¦       ¦       UndefinedCardView.xaml
+¦   ¦       ¦       UndefinedCardView.xaml.cs
+¦   ¦       ¦       UndefinedCardViewModel.cs
+¦   ¦       ¦       
+¦   ¦       +---GridRows
+¦   ¦       ¦       ImportedRowViewModel.cs
+¦   ¦       ¦       
+¦   ¦       +---Modal
+¦   ¦       ¦       UndefinedComponentFillWizardViewModel.cs
+¦   ¦       ¦       
+¦   ¦       +---Parameters
+¦   ¦               ParametersEditorView.xaml
+¦   ¦               ParametersEditorView.xaml.cs
+¦   ¦               ParametersEditorViewModel.cs
+¦   ¦               ParameterValueRowViewModel.cs
+¦   ¦               
+¦   +---Infrastructure
+¦   ¦   +---Commands
+¦   ¦   ¦   ¦   AppCommands.cs
+¦   ¦   ¦   ¦   IAppCommands.cs
+¦   ¦   ¦   ¦   
+¦   ¦   ¦   +---XmlCommands
+¦   ¦   ¦           IXmlCommands.cs
+¦   ¦   ¦           XmlCommands.cs
+¦   ¦   ¦           
+¦   ¦   +---ViewLocation
+¦   ¦   ¦       ViewTemplateRegistrar.cs
+¦   ¦   ¦       
+¦   ¦   +---ViewModels
+¦   ¦           BaseScreenViewModel.cs
+¦   ¦           ViewModelBase.cs
 ¦   ¦           
+¦   +---Main
+¦   ¦       MainViewModel.cs
+¦   ¦       MainWindow.xaml
+¦   ¦       MainWindow.xaml.cs
+¦   ¦       
 ¦   +---obj
 ¦   ¦   ¦   ElectronicMaps.WPF.csproj.nuget.dgspec.json
 ¦   ¦   ¦   ElectronicMaps.WPF.csproj.nuget.g.props
 ¦   ¦   ¦   ElectronicMaps.WPF.csproj.nuget.g.targets
-¦   ¦   ¦   ElectronicMaps.WPF_4jbru5ui_wpftmp.csproj.nuget.dgspec.json
-¦   ¦   ¦   ElectronicMaps.WPF_4jbru5ui_wpftmp.csproj.nuget.g.props
-¦   ¦   ¦   ElectronicMaps.WPF_4jbru5ui_wpftmp.csproj.nuget.g.targets
-¦   ¦   ¦   ElectronicMaps.WPF_bomh0xbk_wpftmp.csproj.nuget.dgspec.json
-¦   ¦   ¦   ElectronicMaps.WPF_bomh0xbk_wpftmp.csproj.nuget.g.props
-¦   ¦   ¦   ElectronicMaps.WPF_bomh0xbk_wpftmp.csproj.nuget.g.targets
-¦   ¦   ¦   ElectronicMaps.WPF_irrtpphq_wpftmp.csproj.nuget.dgspec.json
-¦   ¦   ¦   ElectronicMaps.WPF_irrtpphq_wpftmp.csproj.nuget.g.props
-¦   ¦   ¦   ElectronicMaps.WPF_irrtpphq_wpftmp.csproj.nuget.g.targets
-¦   ¦   ¦   ElectronicMaps.WPF_lhnmkyla_wpftmp.csproj.nuget.dgspec.json
-¦   ¦   ¦   ElectronicMaps.WPF_lhnmkyla_wpftmp.csproj.nuget.g.props
-¦   ¦   ¦   ElectronicMaps.WPF_lhnmkyla_wpftmp.csproj.nuget.g.targets
+¦   ¦   ¦   ElectronicMaps.WPF_0btlrfhb_wpftmp.csproj.nuget.dgspec.json
+¦   ¦   ¦   ElectronicMaps.WPF_0btlrfhb_wpftmp.csproj.nuget.g.props
+¦   ¦   ¦   ElectronicMaps.WPF_0btlrfhb_wpftmp.csproj.nuget.g.targets
+¦   ¦   ¦   ElectronicMaps.WPF_3r32q5u5_wpftmp.csproj.nuget.dgspec.json
+¦   ¦   ¦   ElectronicMaps.WPF_3r32q5u5_wpftmp.csproj.nuget.g.props
+¦   ¦   ¦   ElectronicMaps.WPF_3r32q5u5_wpftmp.csproj.nuget.g.targets
+¦   ¦   ¦   ElectronicMaps.WPF_fz4tvxde_wpftmp.csproj.nuget.dgspec.json
+¦   ¦   ¦   ElectronicMaps.WPF_fz4tvxde_wpftmp.csproj.nuget.g.props
+¦   ¦   ¦   ElectronicMaps.WPF_fz4tvxde_wpftmp.csproj.nuget.g.targets
+¦   ¦   ¦   ElectronicMaps.WPF_ovpqs14j_wpftmp.csproj.nuget.dgspec.json
+¦   ¦   ¦   ElectronicMaps.WPF_ovpqs14j_wpftmp.csproj.nuget.g.props
+¦   ¦   ¦   ElectronicMaps.WPF_ovpqs14j_wpftmp.csproj.nuget.g.targets
+¦   ¦   ¦   ElectronicMaps.WPF_qadh40nn_wpftmp.csproj.nuget.dgspec.json
+¦   ¦   ¦   ElectronicMaps.WPF_qadh40nn_wpftmp.csproj.nuget.g.props
+¦   ¦   ¦   ElectronicMaps.WPF_qadh40nn_wpftmp.csproj.nuget.g.targets
+¦   ¦   ¦   ElectronicMaps.WPF_vtcobnif_wpftmp.csproj.nuget.dgspec.json
+¦   ¦   ¦   ElectronicMaps.WPF_vtcobnif_wpftmp.csproj.nuget.g.props
+¦   ¦   ¦   ElectronicMaps.WPF_vtcobnif_wpftmp.csproj.nuget.g.targets
 ¦   ¦   ¦   project.assets.json
 ¦   ¦   ¦   project.nuget.cache
 ¦   ¦   ¦   
 ¦   ¦   +---Debug
-¦   ¦       +---net8.0-windows
-¦   ¦       ¦   ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
-¦   ¦       ¦   ¦   App.g.cs
-¦   ¦       ¦   ¦   App.g.i.cs
-¦   ¦       ¦   ¦   apphost.exe
-¦   ¦       ¦   ¦   Electron.97703320.Up2Date
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.csproj.AssemblyReference.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.csproj.CoreCompileInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.csproj.FileListAbsolute.txt
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.designer.deps.json
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.designer.runtimeconfig.json
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.dll
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.g.resources
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.genruntimeconfig.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF.pdb
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_0qjc4qlo_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_0qjc4qlo_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_0qjc4qlo_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_0qjc4qlo_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_0qjc4qlo_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_0qjc4qlo_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_3o3bji24_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_3o3bji24_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_3o3bji24_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_3o3bji24_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_3o3bji24_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_3o3bji24_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_4jbru5ui_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_4jbru5ui_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_4jbru5ui_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_4jbru5ui_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_4jbru5ui_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_awpahuqn_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_awpahuqn_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_awpahuqn_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_awpahuqn_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_awpahuqn_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_awpahuqn_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_bddca55y_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_bddca55y_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_bddca55y_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_bddca55y_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_bddca55y_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_bddca55y_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_bomh0xbk_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_bomh0xbk_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_bomh0xbk_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_bomh0xbk_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_bomh0xbk_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_Content.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_Content.g.i.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_fo2kdhje_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_fo2kdhje_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_fo2kdhje_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_fo2kdhje_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_fo2kdhje_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_fo2kdhje_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_fshexogd_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_fshexogd_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_fshexogd_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_fshexogd_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_fshexogd_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_fshexogd_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_gjbevewn_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_gjbevewn_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_gjbevewn_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_gjbevewn_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_gjbevewn_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_gjbevewn_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_h1yfcac0_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_h1yfcac0_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_h1yfcac0_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_h1yfcac0_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_h1yfcac0_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_hgiklq1l_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_hgiklq1l_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_hgiklq1l_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_hgiklq1l_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_hgiklq1l_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_hgiklq1l_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_hmgd1eod_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_hmgd1eod_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_hmgd1eod_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_hmgd1eod_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_hmgd1eod_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_ikrl1jph_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_ikrl1jph_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_ikrl1jph_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_ikrl1jph_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_ikrl1jph_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_ikrl1jph_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_irrtpphq_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_irrtpphq_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_irrtpphq_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_irrtpphq_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_irrtpphq_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_jp2qqtaz_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_jp2qqtaz_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_jp2qqtaz_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_jp2qqtaz_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_jp2qqtaz_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_jp2qqtaz_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_lhnmkyla_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_lhnmkyla_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_lhnmkyla_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_lhnmkyla_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_lhnmkyla_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_m2fqcql2_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_m2fqcql2_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_m2fqcql2_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_m2fqcql2_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_m2fqcql2_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_m2fqcql2_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_MarkupCompile.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_MarkupCompile.i.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_MarkupCompile.i.lref
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_MarkupCompile.lref
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_mxzamkre_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_mxzamkre_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_mxzamkre_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_mxzamkre_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_mxzamkre_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_mxzamkre_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_nlhxzm1g_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_nlhxzm1g_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_nlhxzm1g_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_nlhxzm1g_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_nlhxzm1g_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_nlhxzm1g_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_pjhd5f3j_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_pjhd5f3j_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_pjhd5f3j_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_pjhd5f3j_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_pjhd5f3j_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_pnajp1rl_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_pnajp1rl_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_pnajp1rl_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_pnajp1rl_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_pnajp1rl_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_pnajp1rl_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_q2ze5fco_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_q2ze5fco_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_q2ze5fco_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_q2ze5fco_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_q2ze5fco_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_qhn5udtu_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_qhn5udtu_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_qhn5udtu_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_qhn5udtu_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_qhn5udtu_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_qhn5udtu_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_wlu3xrbs_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_wlu3xrbs_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_wlu3xrbs_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_wlu3xrbs_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_wlu3xrbs_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_xsgpjwuh_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_xsgpjwuh_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_xsgpjwuh_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_xsgpjwuh_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_xsgpjwuh_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_xsgpjwuh_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_yvuam2i4_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_yvuam2i4_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_yvuam2i4_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_yvuam2i4_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_yvuam2i4_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_yvuam2i4_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_zxiqft14_wpftmp.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_zxiqft14_wpftmp.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_zxiqft14_wpftmp.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_zxiqft14_wpftmp.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_zxiqft14_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.WPF_zxiqft14_wpftmp.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   GeneratedInternalTypeHelper.g.cs
-¦   ¦       ¦   ¦   GeneratedInternalTypeHelper.g.i.cs
-¦   ¦       ¦   ¦   MainWindow.g.cs
-¦   ¦       ¦   ¦   MainWindow.g.i.cs
-¦   ¦       ¦   ¦   
-¦   ¦       ¦   +---ref
-¦   ¦       ¦   ¦       ElectronicMaps.WPF.dll
-¦   ¦       ¦   ¦       
-¦   ¦       ¦   +---refint
-¦   ¦       ¦   ¦       ElectronicMaps.WPF.dll
-¦   ¦       ¦   ¦       
-¦   ¦       ¦   +---Views
-¦   ¦       ¦       ¦   MainViewModel.g.cs
-¦   ¦       ¦       ¦   MainViewModel.g.i.cs
-¦   ¦       ¦       ¦   
-¦   ¦       ¦       +---Components
-¦   ¦       ¦       ¦       AddComponentView.g.cs
-¦   ¦       ¦       ¦       AddComponentView.g.i.cs
-¦   ¦       ¦       ¦       ComponentDetailsView.g.cs
-¦   ¦       ¦       ¦       ComponentDetailsView.g.i.cs
-¦   ¦       ¦       ¦       ComponentsListView.g.cs
-¦   ¦       ¦       ¦       ComponentsListView.g.i.cs
-¦   ¦       ¦       ¦       
-¦   ¦       ¦       +---Controls
-¦   ¦       ¦       ¦       ComponentCard.g.cs
-¦   ¦       ¦       ¦       ComponentCard.g.i.cs
-¦   ¦       ¦       ¦       SideBarControl.g.cs
-¦   ¦       ¦       ¦       SideBarControl.g.i.cs
-¦   ¦       ¦       ¦       TopBarControl.g.cs
-¦   ¦       ¦       ¦       TopBarControl.g.i.cs
-¦   ¦       ¦       ¦       
-¦   ¦       ¦       +---Dashboard
-¦   ¦       ¦       ¦       DashboardView.g.cs
-¦   ¦       ¦       ¦       DashboardView.g.i.cs
-¦   ¦       ¦       ¦       
-¦   ¦       ¦       +---Forms
-¦   ¦       ¦       ¦       FormGenerationView.g.cs
-¦   ¦       ¦       ¦       FormGenerationView.g.i.cs
-¦   ¦       ¦       ¦       FormPreviewView.g.cs
-¦   ¦       ¦       ¦       FormPreviewView.g.i.cs
-¦   ¦       ¦       ¦       FormSelectView.g.cs
-¦   ¦       ¦       ¦       FormSelectView.g.i.cs
-¦   ¦       ¦       ¦       
-¦   ¦       ¦       +---Projects
-¦   ¦       ¦               ProjectLoadView.g.cs
-¦   ¦       ¦               ProjectLoadView.g.i.cs
-¦   ¦       ¦               ProjectSaveView.g.cs
-¦   ¦       ¦               ProjectSaveView.g.i.cs
-¦   ¦       ¦               
-¦   ¦       +---net9.0-windows
-¦   ¦           ¦   .NETCoreApp,Version=v9.0.AssemblyAttributes.cs
+¦   ¦       +---net10.0-windows7
+¦   ¦           ¦   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
 ¦   ¦           ¦   App.baml
 ¦   ¦           ¦   App.g.cs
 ¦   ¦           ¦   App.g.i.cs
@@ -1197,27 +1474,136 @@ A:.
 ¦   ¦           ¦   ElectronicMaps.WPF.genruntimeconfig.cache
 ¦   ¦           ¦   ElectronicMaps.WPF.GlobalUsings.g.cs
 ¦   ¦           ¦   ElectronicMaps.WPF.pdb
+¦   ¦           ¦   ElectronicMaps.WPF.sourcelink.json
+¦   ¦           ¦   ElectronicMaps.WPF_0btlrfhb_wpftmp.AssemblyInfo.cs
+¦   ¦           ¦   ElectronicMaps.WPF_0btlrfhb_wpftmp.AssemblyInfoInputs.cache
+¦   ¦           ¦   ElectronicMaps.WPF_0btlrfhb_wpftmp.assets.cache
+¦   ¦           ¦   ElectronicMaps.WPF_0btlrfhb_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   ElectronicMaps.WPF_0btlrfhb_wpftmp.GlobalUsings.g.cs
+¦   ¦           ¦   ElectronicMaps.WPF_0btlrfhb_wpftmp.sourcelink.json
+¦   ¦           ¦   ElectronicMaps.WPF_3r32q5u5_wpftmp.AssemblyInfo.cs
+¦   ¦           ¦   ElectronicMaps.WPF_3r32q5u5_wpftmp.AssemblyInfoInputs.cache
+¦   ¦           ¦   ElectronicMaps.WPF_3r32q5u5_wpftmp.assets.cache
+¦   ¦           ¦   ElectronicMaps.WPF_3r32q5u5_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   ElectronicMaps.WPF_3r32q5u5_wpftmp.GlobalUsings.g.cs
+¦   ¦           ¦   ElectronicMaps.WPF_3r32q5u5_wpftmp.sourcelink.json
+¦   ¦           ¦   ElectronicMaps.WPF_af3xm2gj_wpftmp.AssemblyInfo.cs
+¦   ¦           ¦   ElectronicMaps.WPF_af3xm2gj_wpftmp.AssemblyInfoInputs.cache
+¦   ¦           ¦   ElectronicMaps.WPF_af3xm2gj_wpftmp.assets.cache
+¦   ¦           ¦   ElectronicMaps.WPF_af3xm2gj_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   ElectronicMaps.WPF_af3xm2gj_wpftmp.GlobalUsings.g.cs
+¦   ¦           ¦   ElectronicMaps.WPF_af3xm2gj_wpftmp.sourcelink.json
 ¦   ¦           ¦   ElectronicMaps.WPF_Content.g.cs
 ¦   ¦           ¦   ElectronicMaps.WPF_Content.g.i.cs
-¦   ¦           ¦   ElectronicMaps.WPF_eqhrb251_wpftmp.AssemblyInfo.cs
-¦   ¦           ¦   ElectronicMaps.WPF_eqhrb251_wpftmp.AssemblyInfoInputs.cache
-¦   ¦           ¦   ElectronicMaps.WPF_eqhrb251_wpftmp.assets.cache
-¦   ¦           ¦   ElectronicMaps.WPF_eqhrb251_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦           ¦   ElectronicMaps.WPF_eqhrb251_wpftmp.GlobalUsings.g.cs
+¦   ¦           ¦   ElectronicMaps.WPF_dn5t4otl_wpftmp.AssemblyInfo.cs
+¦   ¦           ¦   ElectronicMaps.WPF_dn5t4otl_wpftmp.AssemblyInfoInputs.cache
+¦   ¦           ¦   ElectronicMaps.WPF_dn5t4otl_wpftmp.assets.cache
+¦   ¦           ¦   ElectronicMaps.WPF_dn5t4otl_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   ElectronicMaps.WPF_dn5t4otl_wpftmp.GlobalUsings.g.cs
+¦   ¦           ¦   ElectronicMaps.WPF_dn5t4otl_wpftmp.sourcelink.json
+¦   ¦           ¦   ElectronicMaps.WPF_fz4tvxde_wpftmp.AssemblyInfo.cs
+¦   ¦           ¦   ElectronicMaps.WPF_fz4tvxde_wpftmp.AssemblyInfoInputs.cache
+¦   ¦           ¦   ElectronicMaps.WPF_fz4tvxde_wpftmp.assets.cache
+¦   ¦           ¦   ElectronicMaps.WPF_fz4tvxde_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   ElectronicMaps.WPF_fz4tvxde_wpftmp.GlobalUsings.g.cs
+¦   ¦           ¦   ElectronicMaps.WPF_fz4tvxde_wpftmp.sourcelink.json
+¦   ¦           ¦   ElectronicMaps.WPF_ktfcspo3_wpftmp.AssemblyInfo.cs
+¦   ¦           ¦   ElectronicMaps.WPF_ktfcspo3_wpftmp.AssemblyInfoInputs.cache
+¦   ¦           ¦   ElectronicMaps.WPF_ktfcspo3_wpftmp.assets.cache
+¦   ¦           ¦   ElectronicMaps.WPF_ktfcspo3_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   ElectronicMaps.WPF_ktfcspo3_wpftmp.GlobalUsings.g.cs
+¦   ¦           ¦   ElectronicMaps.WPF_ktfcspo3_wpftmp.sourcelink.json
 ¦   ¦           ¦   ElectronicMaps.WPF_MarkupCompile.cache
 ¦   ¦           ¦   ElectronicMaps.WPF_MarkupCompile.i.cache
 ¦   ¦           ¦   ElectronicMaps.WPF_MarkupCompile.i.lref
 ¦   ¦           ¦   ElectronicMaps.WPF_MarkupCompile.lref
-¦   ¦           ¦   MainWindow.baml
-¦   ¦           ¦   MainWindow.g.cs
-¦   ¦           ¦   MainWindow.g.i.cs
+¦   ¦           ¦   ElectronicMaps.WPF_ovpqs14j_wpftmp.AssemblyInfo.cs
+¦   ¦           ¦   ElectronicMaps.WPF_ovpqs14j_wpftmp.AssemblyInfoInputs.cache
+¦   ¦           ¦   ElectronicMaps.WPF_ovpqs14j_wpftmp.assets.cache
+¦   ¦           ¦   ElectronicMaps.WPF_ovpqs14j_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   ElectronicMaps.WPF_ovpqs14j_wpftmp.GlobalUsings.g.cs
+¦   ¦           ¦   ElectronicMaps.WPF_ovpqs14j_wpftmp.sourcelink.json
+¦   ¦           ¦   ElectronicMaps.WPF_qadh40nn_wpftmp.AssemblyInfo.cs
+¦   ¦           ¦   ElectronicMaps.WPF_qadh40nn_wpftmp.AssemblyInfoInputs.cache
+¦   ¦           ¦   ElectronicMaps.WPF_qadh40nn_wpftmp.assets.cache
+¦   ¦           ¦   ElectronicMaps.WPF_qadh40nn_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   ElectronicMaps.WPF_qadh40nn_wpftmp.GlobalUsings.g.cs
+¦   ¦           ¦   ElectronicMaps.WPF_qadh40nn_wpftmp.sourcelink.json
+¦   ¦           ¦   ElectronicMaps.WPF_vtcobnif_wpftmp.AssemblyInfo.cs
+¦   ¦           ¦   ElectronicMaps.WPF_vtcobnif_wpftmp.AssemblyInfoInputs.cache
+¦   ¦           ¦   ElectronicMaps.WPF_vtcobnif_wpftmp.assets.cache
+¦   ¦           ¦   ElectronicMaps.WPF_vtcobnif_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   ElectronicMaps.WPF_vtcobnif_wpftmp.GlobalUsings.g.cs
+¦   ¦           ¦   ElectronicMaps.WPF_vtcobnif_wpftmp.sourcelink.json
+¦   ¦           ¦   ElectronicMaps.WPF_xn4mdia1_wpftmp.AssemblyInfo.cs
+¦   ¦           ¦   ElectronicMaps.WPF_xn4mdia1_wpftmp.AssemblyInfoInputs.cache
+¦   ¦           ¦   ElectronicMaps.WPF_xn4mdia1_wpftmp.assets.cache
+¦   ¦           ¦   ElectronicMaps.WPF_xn4mdia1_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   ElectronicMaps.WPF_xn4mdia1_wpftmp.GlobalUsings.g.cs
+¦   ¦           ¦   ElectronicMaps.WPF_xn4mdia1_wpftmp.sourcelink.json
+¦   ¦           ¦   GeneratedInternalTypeHelper.g.cs
+¦   ¦           ¦   GeneratedInternalTypeHelper.g.i.cs
 ¦   ¦           ¦   
+¦   ¦           +---Features
+¦   ¦           ¦   +---Welcome
+¦   ¦           ¦   ¦       WelcomeTemplates.baml
+¦   ¦           ¦   ¦       WelcomeView.baml
+¦   ¦           ¦   ¦       WelcomeView.g.cs
+¦   ¦           ¦   ¦       WelcomeView.g.i.cs
+¦   ¦           ¦   ¦       
+¦   ¦           ¦   +---Workspace
+¦   ¦           ¦       ¦   WorkspaceTemplates.baml
+¦   ¦           ¦       ¦   WorkspaceView.baml
+¦   ¦           ¦       ¦   WorkspaceView.g.cs
+¦   ¦           ¦       ¦   WorkspaceView.g.i.cs
+¦   ¦           ¦       ¦   
+¦   ¦           ¦       +---FormCards
+¦   ¦           ¦       ¦       ComponentCardView.baml
+¦   ¦           ¦       ¦       ComponentCardView.g.cs
+¦   ¦           ¦       ¦       ComponentCardView.g.i.cs
+¦   ¦           ¦       ¦       FamilyCardView.baml
+¦   ¦           ¦       ¦       FamilyCardView.g.cs
+¦   ¦           ¦       ¦       FamilyCardView.g.i.cs
+¦   ¦           ¦       ¦       UndefinedCardView.baml
+¦   ¦           ¦       ¦       UndefinedCardView.g.cs
+¦   ¦           ¦       ¦       UndefinedCardView.g.i.cs
+¦   ¦           ¦       ¦       
+¦   ¦           ¦       +---Parameters
+¦   ¦           ¦               ParametersEditorView.baml
+¦   ¦           ¦               ParametersEditorView.g.cs
+¦   ¦           ¦               ParametersEditorView.g.i.cs
+¦   ¦           ¦               
+¦   ¦           +---Main
+¦   ¦           ¦       MainWindow.baml
+¦   ¦           ¦       MainWindow.g.cs
+¦   ¦           ¦       MainWindow.g.i.cs
+¦   ¦           ¦       
 ¦   ¦           +---ref
 ¦   ¦           ¦       ElectronicMaps.WPF.dll
 ¦   ¦           ¦       
 ¦   ¦           +---refint
-¦   ¦                   ElectronicMaps.WPF.dll
-¦   ¦                   
+¦   ¦           ¦       ElectronicMaps.WPF.dll
+¦   ¦           ¦       
+¦   ¦           +---Shared
+¦   ¦               +---Controls
+¦   ¦               ¦       ComponentCard.baml
+¦   ¦               ¦       ComponentCard.g.cs
+¦   ¦               ¦       ComponentCard.g.i.cs
+¦   ¦               ¦       SideBarControl.baml
+¦   ¦               ¦       SideBarControl.g.cs
+¦   ¦               ¦       SideBarControl.g.i.cs
+¦   ¦               ¦       TopBarControl.baml
+¦   ¦               ¦       TopBarControl.g.cs
+¦   ¦               ¦       TopBarControl.g.i.cs
+¦   ¦               ¦       
+¦   ¦               +---Converters
+¦   ¦               ¦       Converters.baml
+¦   ¦               ¦       
+¦   ¦               +---Themes
+¦   ¦                       DarkTheme.baml
+¦   ¦                       LightTheme.baml
+¦   ¦                       Styles.baml
+¦   ¦                       
 ¦   +---Resources
 ¦   +---Services
 ¦   ¦   +---Dialogs
@@ -1228,12 +1614,6 @@ A:.
 ¦   ¦   ¦       FilePicker.cs
 ¦   ¦   ¦       IFilePicker.cs
 ¦   ¦   ¦       
-¦   ¦   +---Navigation
-¦   ¦   ¦       INavigationService.cs
-¦   ¦   ¦       NavigateDetailMessage.cs
-¦   ¦   ¦       NavigationMessage.cs
-¦   ¦   ¦       NavigationService.cs
-¦   ¦   ¦       
 ¦   ¦   +---Project
 ¦   ¦   ¦       IProjectService.cs
 ¦   ¦   ¦       ProjectService.cs
@@ -1241,48 +1621,10 @@ A:.
 ¦   ¦   +---Word
 ¦   ¦           WordGenerationService.cs
 ¦   ¦           
-¦   +---Styles
-¦   +---ViewModels
-¦   ¦   ¦   AnalyzedComponentViewModel.cs
-¦   ¦   ¦   ComponentsViewModel.cs
-¦   ¦   ¦   EditableParameterViewModel.cs
-¦   ¦   ¦   MainViewModel.cs
-¦   ¦   ¦   PageViewModelBase.cs
-¦   ¦   ¦   ViewModelBase.cs
-¦   ¦   ¦   
-¦   ¦   +---Components
-¦   ¦   ¦       AddComponentViewModel.cs
-¦   ¦   ¦       ComponentDetailViewModel.cs
-¦   ¦   ¦       ComponentRowViewModel.cs
-¦   ¦   ¦       ComponentsListViewModel.cs
-¦   ¦   ¦       
-¦   ¦   +---Dashboard
-¦   ¦   ¦       DashboardViewModel.cs
-¦   ¦   ¦       
-¦   ¦   +---Forms
-¦   ¦   ¦       FormGenerationViewModel.cs
-¦   ¦   ¦       FormPreviewViewModel.cs
-¦   ¦   ¦       FormSelectorViewModel.cs
-¦   ¦   ¦       
-¦   ¦   +---Projects
-¦   ¦   ¦       ProjectLoadViewModel.cs
-¦   ¦   ¦       ProjectSaveViewModel.cs
-¦   ¦   ¦       
-¦   ¦   +---Users
-¦   ¦           LoginViewModel.cs
-¦   ¦           UserManagementViewModel.cs
-¦   ¦           
-¦   +---Views
-¦       ¦   MainViewModel.xaml
-¦       ¦   MainViewModel.xaml.cs
-¦       ¦   
-¦       +---Components
-¦       ¦       AddComponentView.xaml
-¦       ¦       AddComponentView.xaml.cs
-¦       ¦       ComponentDetailsView.xaml
-¦       ¦       ComponentDetailsView.xaml.cs
-¦       ¦       ComponentsListView.xaml
-¦       ¦       ComponentsListView.xaml.cs
+¦   +---Shared
+¦       +---Commands
+¦       ¦       AsyncRelayCommand.cs
+¦       ¦       RelayCommand.cs
 ¦       ¦       
 ¦       +---Controls
 ¦       ¦       ComponentCard.xaml
@@ -1292,138 +1634,67 @@ A:.
 ¦       ¦       TopBarControl.xaml
 ¦       ¦       TopBarControl.xaml.cs
 ¦       ¦       
-¦       +---Dashboard
-¦       ¦       DashboardView.xaml
-¦       ¦       DashboardView.xaml.cs
+¦       +---Converters
+¦       ¦       BooleanToVisibilityConverter.cs
+¦       ¦       Converters.xaml
+¦       ¦       EnumDescriptionConverter.cs
+¦       ¦       EnumEqualsToVisibilityConverter .cs
+¦       ¦       IndexToNumberConverter.cs
 ¦       ¦       
-¦       +---Forms
-¦       ¦       FormGenerationView.xaml
-¦       ¦       FormGenerationView.xaml.cs
-¦       ¦       FormPreviewView.xaml
-¦       ¦       FormPreviewView.xaml.cs
-¦       ¦       FormSelectView.xaml
-¦       ¦       FormSelectView.xaml.cs
-¦       ¦       
-¦       +---Projects
-¦               ProjectLoadView.xaml
-¦               ProjectLoadView.xaml.cs
-¦               ProjectSaveView.xaml
-¦               ProjectSaveView.xaml.cs
+¦       +---Themes
+¦               DarkTheme.xaml
+¦               LightTheme.xaml
+¦               Styles.xaml
+¦               ThemeManager.cs
 ¦               
-+---Infrastructure
-¦   ¦   AddDbContextFactory.cs
-¦   ¦   AppDbContext.cs
-¦   ¦   ElectronicMaps.Infrastructure.csproj
-¦   ¦   ServiceCollectionExtentions.cs
++---Navigation.Core
+¦   ¦   Navigation.Core.csproj
 ¦   ¦   
+¦   +---Abstractions
+¦   ¦       INavigationService.cs
+¦   ¦       IScreen.cs
+¦   ¦       NavigationLifecycle.cs
+¦   ¦       
 ¦   +---bin
 ¦   ¦   +---Debug
 ¦   ¦       +---net8.0
-¦   ¦       ¦       ElectronicMaps.Domain.dll
-¦   ¦       ¦       ElectronicMaps.Domain.pdb
-¦   ¦       ¦       ElectronicMaps.Infrastructure.deps.json
-¦   ¦       ¦       ElectronicMaps.Infrastructure.dll
-¦   ¦       ¦       ElectronicMaps.Infrastructure.pdb
-¦   ¦       ¦       ElectronicMaps.Infrastructure.runtimeconfig.json
-¦   ¦       ¦       
-¦   ¦       +---net9.0
-¦   ¦               ElectronicMaps.Domain.dll
-¦   ¦               ElectronicMaps.Domain.pdb
-¦   ¦               ElectronicMaps.Infrastructure.deps.json
-¦   ¦               ElectronicMaps.Infrastructure.dll
-¦   ¦               ElectronicMaps.Infrastructure.pdb
-¦   ¦               ElectronicMaps.Infrastructure.runtimeconfig.json
-¦   ¦               Infrastructure.deps.json
-¦   ¦               Infrastructure.dll
-¦   ¦               Infrastructure.pdb
-¦   ¦               Infrastructure.runtimeconfig.json
-¦   ¦               rc_cards.db
+¦   ¦               Navigation.Core.deps.json
+¦   ¦               Navigation.Core.dll
+¦   ¦               Navigation.Core.pdb
 ¦   ¦               
-¦   +---Migrations
-¦   ¦       20251124201737_InitialCreate.cs
-¦   ¦       20251124201737_InitialCreate.Designer.cs
-¦   ¦       AppDbContextModelSnapshot.cs
+¦   +---Models
+¦   ¦       NavigationChangedEventArgs.cs
 ¦   ¦       
 ¦   +---obj
-¦   ¦   ¦   ElectronicMaps.Infrastructure.csproj.nuget.dgspec.json
-¦   ¦   ¦   ElectronicMaps.Infrastructure.csproj.nuget.g.props
-¦   ¦   ¦   ElectronicMaps.Infrastructure.csproj.nuget.g.targets
-¦   ¦   ¦   Infrastructure.csproj.nuget.dgspec.json
-¦   ¦   ¦   Infrastructure.csproj.nuget.g.props
-¦   ¦   ¦   Infrastructure.csproj.nuget.g.targets
+¦   ¦   ¦   Navigation.Core.csproj.nuget.dgspec.json
+¦   ¦   ¦   Navigation.Core.csproj.nuget.g.props
+¦   ¦   ¦   Navigation.Core.csproj.nuget.g.targets
 ¦   ¦   ¦   project.assets.json
 ¦   ¦   ¦   project.nuget.cache
 ¦   ¦   ¦   
 ¦   ¦   +---Debug
 ¦   ¦       +---net8.0
-¦   ¦       ¦   ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
-¦   ¦       ¦   ¦   Electron.D68147B6.Up2Date
-¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.AssemblyInfo.cs
-¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.AssemblyInfoInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.assets.cache
-¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.AssemblyReference.cache
-¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.BuildWithSkipAnalyzers
-¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.CoreCompileInputs.cache
-¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.FileListAbsolute.txt
-¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.dll
-¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.genruntimeconfig.cache
-¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.GlobalUsings.g.cs
-¦   ¦       ¦   ¦   ElectronicMaps.Infrastructure.pdb
-¦   ¦       ¦   ¦   
-¦   ¦       ¦   +---ref
-¦   ¦       ¦   ¦       ElectronicMaps.Infrastructure.dll
-¦   ¦       ¦   ¦       
-¦   ¦       ¦   +---refint
-¦   ¦       ¦           ElectronicMaps.Infrastructure.dll
-¦   ¦       ¦           
-¦   ¦       +---net9.0
-¦   ¦           ¦   .NETCoreApp,Version=v9.0.AssemblyAttributes.cs
-¦   ¦           ¦   Electron.D68147B6.Up2Date
-¦   ¦           ¦   ElectronicMaps.Infrastructure.AssemblyInfo.cs
-¦   ¦           ¦   ElectronicMaps.Infrastructure.AssemblyInfoInputs.cache
-¦   ¦           ¦   ElectronicMaps.Infrastructure.assets.cache
-¦   ¦           ¦   ElectronicMaps.Infrastructure.csproj.AssemblyReference.cache
-¦   ¦           ¦   ElectronicMaps.Infrastructure.csproj.BuildWithSkipAnalyzers
-¦   ¦           ¦   ElectronicMaps.Infrastructure.csproj.CoreCompileInputs.cache
-¦   ¦           ¦   ElectronicMaps.Infrastructure.csproj.FileListAbsolute.txt
-¦   ¦           ¦   ElectronicMaps.Infrastructure.dll
-¦   ¦           ¦   ElectronicMaps.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦           ¦   ElectronicMaps.Infrastructure.genruntimeconfig.cache
-¦   ¦           ¦   ElectronicMaps.Infrastructure.GlobalUsings.g.cs
-¦   ¦           ¦   ElectronicMaps.Infrastructure.pdb
-¦   ¦           ¦   Infrastr.15EFFBFE.Up2Date
-¦   ¦           ¦   Infrastructure.AssemblyInfo.cs
-¦   ¦           ¦   Infrastructure.AssemblyInfoInputs.cache
-¦   ¦           ¦   Infrastructure.assets.cache
-¦   ¦           ¦   Infrastructure.csproj.AssemblyReference.cache
-¦   ¦           ¦   Infrastructure.csproj.CoreCompileInputs.cache
-¦   ¦           ¦   Infrastructure.csproj.FileListAbsolute.txt
-¦   ¦           ¦   Infrastructure.dll
-¦   ¦           ¦   Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
-¦   ¦           ¦   Infrastructure.genruntimeconfig.cache
-¦   ¦           ¦   Infrastructure.GlobalUsings.g.cs
-¦   ¦           ¦   Infrastructure.pdb
+¦   ¦           ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+¦   ¦           ¦   Navigation.Core.AssemblyInfo.cs
+¦   ¦           ¦   Navigation.Core.AssemblyInfoInputs.cache
+¦   ¦           ¦   Navigation.Core.assets.cache
+¦   ¦           ¦   Navigation.Core.csproj.BuildWithSkipAnalyzers
+¦   ¦           ¦   Navigation.Core.csproj.CoreCompileInputs.cache
+¦   ¦           ¦   Navigation.Core.csproj.FileListAbsolute.txt
+¦   ¦           ¦   Navigation.Core.dll
+¦   ¦           ¦   Navigation.Core.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   Navigation.Core.GlobalUsings.g.cs
+¦   ¦           ¦   Navigation.Core.pdb
+¦   ¦           ¦   Navigation.Core.sourcelink.json
 ¦   ¦           ¦   
 ¦   ¦           +---ref
-¦   ¦           ¦       ElectronicMaps.Infrastructure.dll
-¦   ¦           ¦       Infrastructure.dll
+¦   ¦           ¦       Navigation.Core.dll
 ¦   ¦           ¦       
 ¦   ¦           +---refint
-¦   ¦                   ElectronicMaps.Infrastructure.dll
-¦   ¦                   Infrastructure.dll
+¦   ¦                   Navigation.Core.dll
 ¦   ¦                   
-¦   +---Repositories
-¦   ¦       AppUserRepository.cs
-¦   ¦       ComponentCommandRepository.cs
-¦   ¦       ComponentQueryRepository.cs
-¦   ¦       
-¦   +---Security
-¦   ¦       WindowsCurrentUserService.cs
-¦   ¦       
 ¦   +---Services
-¦           AvsXmlComponentSourceReader.cs
-¦           ComponentNameParser.cs
+¦           NavigationService.cs
 ¦           
 +---Tests
     ¦   ElectronicMaps.Tests.csproj
@@ -1431,535 +1702,90 @@ A:.
     +---bin
     ¦   +---Debug
     ¦       +---net8.0
-    ¦       ¦   ¦   .msCoverageSourceRootsMapping_ElectronicMaps.Tests
-    ¦       ¦   ¦   CoverletSourceRootsMapping_ElectronicMaps.Tests
-    ¦       ¦   ¦   ElectronicMaps.Domain.dll
-    ¦       ¦   ¦   ElectronicMaps.Domain.pdb
-    ¦       ¦   ¦   ElectronicMaps.Infrastructure.dll
-    ¦       ¦   ¦   ElectronicMaps.Infrastructure.pdb
-    ¦       ¦   ¦   ElectronicMaps.Tests.deps.json
-    ¦       ¦   ¦   ElectronicMaps.Tests.dll
-    ¦       ¦   ¦   ElectronicMaps.Tests.pdb
-    ¦       ¦   ¦   ElectronicMaps.Tests.runtimeconfig.json
-    ¦       ¦   ¦   Microsoft.Data.Sqlite.dll
-    ¦       ¦   ¦   Microsoft.EntityFrameworkCore.Abstractions.dll
-    ¦       ¦   ¦   Microsoft.EntityFrameworkCore.dll
-    ¦       ¦   ¦   Microsoft.EntityFrameworkCore.Relational.dll
-    ¦       ¦   ¦   Microsoft.EntityFrameworkCore.Sqlite.dll
-    ¦       ¦   ¦   Microsoft.Extensions.Caching.Abstractions.dll
-    ¦       ¦   ¦   Microsoft.Extensions.Caching.Memory.dll
-    ¦       ¦   ¦   Microsoft.Extensions.Configuration.Abstractions.dll
-    ¦       ¦   ¦   Microsoft.Extensions.Configuration.dll
-    ¦       ¦   ¦   Microsoft.Extensions.Configuration.FileExtensions.dll
-    ¦       ¦   ¦   Microsoft.Extensions.Configuration.Json.dll
-    ¦       ¦   ¦   Microsoft.Extensions.DependencyInjection.Abstractions.dll
-    ¦       ¦   ¦   Microsoft.Extensions.DependencyInjection.dll
-    ¦       ¦   ¦   Microsoft.Extensions.DependencyModel.dll
-    ¦       ¦   ¦   Microsoft.Extensions.FileProviders.Abstractions.dll
-    ¦       ¦   ¦   Microsoft.Extensions.FileProviders.Physical.dll
-    ¦       ¦   ¦   Microsoft.Extensions.FileSystemGlobbing.dll
-    ¦       ¦   ¦   Microsoft.Extensions.Logging.Abstractions.dll
-    ¦       ¦   ¦   Microsoft.Extensions.Logging.dll
-    ¦       ¦   ¦   Microsoft.Extensions.Options.dll
-    ¦       ¦   ¦   Microsoft.Extensions.Primitives.dll
-    ¦       ¦   ¦   Microsoft.TestPlatform.CommunicationUtilities.dll
-    ¦       ¦   ¦   Microsoft.TestPlatform.CoreUtilities.dll
-    ¦       ¦   ¦   Microsoft.TestPlatform.CrossPlatEngine.dll
-    ¦       ¦   ¦   Microsoft.TestPlatform.PlatformAbstractions.dll
-    ¦       ¦   ¦   Microsoft.TestPlatform.Utilities.dll
-    ¦       ¦   ¦   Microsoft.VisualStudio.CodeCoverage.Shim.dll
-    ¦       ¦   ¦   Microsoft.VisualStudio.TestPlatform.Common.dll
-    ¦       ¦   ¦   Microsoft.VisualStudio.TestPlatform.ObjectModel.dll
-    ¦       ¦   ¦   Newtonsoft.Json.dll
-    ¦       ¦   ¦   SQLitePCLRaw.batteries_v2.dll
-    ¦       ¦   ¦   SQLitePCLRaw.core.dll
-    ¦       ¦   ¦   SQLitePCLRaw.provider.e_sqlite3.dll
-    ¦       ¦   ¦   System.IO.Pipelines.dll
-    ¦       ¦   ¦   System.Text.Encodings.Web.dll
-    ¦       ¦   ¦   System.Text.Json.dll
-    ¦       ¦   ¦   testhost.dll
-    ¦       ¦   ¦   testhost.exe
-    ¦       ¦   ¦   xunit.abstractions.dll
-    ¦       ¦   ¦   xunit.assert.dll
-    ¦       ¦   ¦   xunit.core.dll
-    ¦       ¦   ¦   xunit.execution.dotnet.dll
-    ¦       ¦   ¦   xunit.runner.reporters.netcoreapp10.dll
-    ¦       ¦   ¦   xunit.runner.utility.netcoreapp10.dll
-    ¦       ¦   ¦   xunit.runner.visualstudio.testadapter.dll
-    ¦       ¦   ¦   
-    ¦       ¦   +---cs
-    ¦       ¦   ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦       ¦   ¦       
-    ¦       ¦   +---de
-    ¦       ¦   ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦       ¦   ¦       
-    ¦       ¦   +---es
-    ¦       ¦   ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦       ¦   ¦       
-    ¦       ¦   +---fr
-    ¦       ¦   ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦       ¦   ¦       
-    ¦       ¦   +---it
-    ¦       ¦   ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦       ¦   ¦       
-    ¦       ¦   +---ja
-    ¦       ¦   ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦       ¦   ¦       
-    ¦       ¦   +---ko
-    ¦       ¦   ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦       ¦   ¦       
-    ¦       ¦   +---pl
-    ¦       ¦   ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦       ¦   ¦       
-    ¦       ¦   +---pt-BR
-    ¦       ¦   ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦       ¦   ¦       
-    ¦       ¦   +---ru
-    ¦       ¦   ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦       ¦   ¦       
-    ¦       ¦   +---runtimes
-    ¦       ¦   ¦   +---browser
-    ¦       ¦   ¦   ¦   +---lib
-    ¦       ¦   ¦   ¦       +---net8.0
-    ¦       ¦   ¦   ¦               System.Text.Encodings.Web.dll
-    ¦       ¦   ¦   ¦               
-    ¦       ¦   ¦   +---browser-wasm
-    ¦       ¦   ¦   ¦   +---nativeassets
-    ¦       ¦   ¦   ¦       +---net8.0
-    ¦       ¦   ¦   ¦               e_sqlite3.a
-    ¦       ¦   ¦   ¦               
-    ¦       ¦   ¦   +---linux-arm
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           libe_sqlite3.so
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---linux-arm64
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           libe_sqlite3.so
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---linux-armel
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           libe_sqlite3.so
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---linux-mips64
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           libe_sqlite3.so
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---linux-musl-arm
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           libe_sqlite3.so
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---linux-musl-arm64
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           libe_sqlite3.so
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---linux-musl-s390x
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   +---linux-musl-x64
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           libe_sqlite3.so
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---linux-ppc64le
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           libe_sqlite3.so
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---linux-s390x
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           libe_sqlite3.so
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---linux-x64
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           libe_sqlite3.so
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---linux-x86
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           libe_sqlite3.so
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---maccatalyst-arm64
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           libe_sqlite3.dylib
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---maccatalyst-x64
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           libe_sqlite3.dylib
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---osx-arm64
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           libe_sqlite3.dylib
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---osx-x64
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           libe_sqlite3.dylib
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---win-arm
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           e_sqlite3.dll
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---win-arm64
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           e_sqlite3.dll
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---win-x64
-    ¦       ¦   ¦   ¦   +---native
-    ¦       ¦   ¦   ¦           e_sqlite3.dll
-    ¦       ¦   ¦   ¦           
-    ¦       ¦   ¦   +---win-x86
-    ¦       ¦   ¦       +---native
-    ¦       ¦   ¦               e_sqlite3.dll
-    ¦       ¦   ¦               
-    ¦       ¦   +---tr
-    ¦       ¦   ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦       ¦   ¦       
-    ¦       ¦   +---zh-Hans
-    ¦       ¦   ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦       ¦   ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦       ¦   ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦       ¦   ¦       
-    ¦       ¦   +---zh-Hant
-    ¦       ¦           Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦       ¦           Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦       ¦           Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦       ¦           Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦       ¦           Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦       ¦           
-    ¦       +---net9.0
-    ¦           ¦   .msCoverageSourceRootsMapping_ElectronicMaps.Tests
-    ¦           ¦   .msCoverageSourceRootsMapping_Tests
-    ¦           ¦   CoverletSourceRootsMapping_ElectronicMaps.Tests
-    ¦           ¦   CoverletSourceRootsMapping_Tests
-    ¦           ¦   ElectronicMaps.Domain.dll
-    ¦           ¦   ElectronicMaps.Domain.pdb
-    ¦           ¦   ElectronicMaps.Infrastructure.dll
-    ¦           ¦   ElectronicMaps.Infrastructure.pdb
-    ¦           ¦   ElectronicMaps.Tests.deps.json
-    ¦           ¦   ElectronicMaps.Tests.dll
-    ¦           ¦   ElectronicMaps.Tests.pdb
-    ¦           ¦   ElectronicMaps.Tests.runtimeconfig.json
-    ¦           ¦   Microsoft.Data.Sqlite.dll
-    ¦           ¦   Microsoft.EntityFrameworkCore.Abstractions.dll
-    ¦           ¦   Microsoft.EntityFrameworkCore.dll
-    ¦           ¦   Microsoft.EntityFrameworkCore.Relational.dll
-    ¦           ¦   Microsoft.EntityFrameworkCore.Sqlite.dll
-    ¦           ¦   Microsoft.Extensions.Caching.Abstractions.dll
-    ¦           ¦   Microsoft.Extensions.Caching.Memory.dll
-    ¦           ¦   Microsoft.Extensions.Configuration.Abstractions.dll
-    ¦           ¦   Microsoft.Extensions.Configuration.dll
-    ¦           ¦   Microsoft.Extensions.Configuration.FileExtensions.dll
-    ¦           ¦   Microsoft.Extensions.Configuration.Json.dll
-    ¦           ¦   Microsoft.Extensions.DependencyInjection.Abstractions.dll
-    ¦           ¦   Microsoft.Extensions.DependencyInjection.dll
-    ¦           ¦   Microsoft.Extensions.DependencyModel.dll
-    ¦           ¦   Microsoft.Extensions.FileProviders.Abstractions.dll
-    ¦           ¦   Microsoft.Extensions.FileProviders.Physical.dll
-    ¦           ¦   Microsoft.Extensions.FileSystemGlobbing.dll
-    ¦           ¦   Microsoft.Extensions.Logging.Abstractions.dll
-    ¦           ¦   Microsoft.Extensions.Logging.dll
-    ¦           ¦   Microsoft.Extensions.Options.dll
-    ¦           ¦   Microsoft.Extensions.Primitives.dll
-    ¦           ¦   Microsoft.TestPlatform.CommunicationUtilities.dll
-    ¦           ¦   Microsoft.TestPlatform.CoreUtilities.dll
-    ¦           ¦   Microsoft.TestPlatform.CrossPlatEngine.dll
-    ¦           ¦   Microsoft.TestPlatform.PlatformAbstractions.dll
-    ¦           ¦   Microsoft.TestPlatform.Utilities.dll
-    ¦           ¦   Microsoft.VisualStudio.CodeCoverage.Shim.dll
-    ¦           ¦   Microsoft.VisualStudio.TestPlatform.Common.dll
-    ¦           ¦   Microsoft.VisualStudio.TestPlatform.ObjectModel.dll
-    ¦           ¦   Newtonsoft.Json.dll
-    ¦           ¦   SQLitePCLRaw.batteries_v2.dll
-    ¦           ¦   SQLitePCLRaw.core.dll
-    ¦           ¦   SQLitePCLRaw.provider.e_sqlite3.dll
-    ¦           ¦   System.Text.Json.dll
-    ¦           ¦   testhost.dll
-    ¦           ¦   testhost.exe
-    ¦           ¦   xunit.abstractions.dll
-    ¦           ¦   xunit.assert.dll
-    ¦           ¦   xunit.core.dll
-    ¦           ¦   xunit.execution.dotnet.dll
-    ¦           ¦   xunit.runner.reporters.netcoreapp10.dll
-    ¦           ¦   xunit.runner.utility.netcoreapp10.dll
-    ¦           ¦   xunit.runner.visualstudio.testadapter.dll
-    ¦           ¦   
     ¦           +---cs
-    ¦           ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦           ¦       
     ¦           +---de
-    ¦           ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦           ¦       
     ¦           +---es
-    ¦           ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦           ¦       
     ¦           +---fr
-    ¦           ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦           ¦       
     ¦           +---it
-    ¦           ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦           ¦       
     ¦           +---ja
-    ¦           ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦           ¦       
     ¦           +---ko
-    ¦           ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦           ¦       
     ¦           +---pl
-    ¦           ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦           ¦       
     ¦           +---pt-BR
-    ¦           ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦           ¦       
     ¦           +---ru
-    ¦           ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦           ¦       
     ¦           +---runtimes
+    ¦           ¦   +---browser
+    ¦           ¦   ¦   +---lib
+    ¦           ¦   ¦       +---net8.0
     ¦           ¦   +---browser-wasm
     ¦           ¦   ¦   +---nativeassets
-    ¦           ¦   ¦       +---net9.0
-    ¦           ¦   ¦               e_sqlite3.a
-    ¦           ¦   ¦               
+    ¦           ¦   ¦       +---net8.0
     ¦           ¦   +---linux-arm
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           libe_sqlite3.so
-    ¦           ¦   ¦           
     ¦           ¦   +---linux-arm64
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           libe_sqlite3.so
-    ¦           ¦   ¦           
     ¦           ¦   +---linux-armel
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           libe_sqlite3.so
-    ¦           ¦   ¦           
     ¦           ¦   +---linux-mips64
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           libe_sqlite3.so
-    ¦           ¦   ¦           
     ¦           ¦   +---linux-musl-arm
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           libe_sqlite3.so
-    ¦           ¦   ¦           
     ¦           ¦   +---linux-musl-arm64
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           libe_sqlite3.so
-    ¦           ¦   ¦           
-    ¦           ¦   +---linux-musl-s390x
-    ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           libe_sqlite3.so
-    ¦           ¦   ¦           
     ¦           ¦   +---linux-musl-x64
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           libe_sqlite3.so
-    ¦           ¦   ¦           
     ¦           ¦   +---linux-ppc64le
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           libe_sqlite3.so
-    ¦           ¦   ¦           
     ¦           ¦   +---linux-s390x
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           libe_sqlite3.so
-    ¦           ¦   ¦           
     ¦           ¦   +---linux-x64
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           libe_sqlite3.so
-    ¦           ¦   ¦           
     ¦           ¦   +---linux-x86
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           libe_sqlite3.so
-    ¦           ¦   ¦           
     ¦           ¦   +---maccatalyst-arm64
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           libe_sqlite3.dylib
-    ¦           ¦   ¦           
     ¦           ¦   +---maccatalyst-x64
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           libe_sqlite3.dylib
-    ¦           ¦   ¦           
     ¦           ¦   +---osx-arm64
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           libe_sqlite3.dylib
-    ¦           ¦   ¦           
     ¦           ¦   +---osx-x64
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           libe_sqlite3.dylib
-    ¦           ¦   ¦           
     ¦           ¦   +---win-arm
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           e_sqlite3.dll
-    ¦           ¦   ¦           
     ¦           ¦   +---win-arm64
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           e_sqlite3.dll
-    ¦           ¦   ¦           
     ¦           ¦   +---win-x64
     ¦           ¦   ¦   +---native
-    ¦           ¦   ¦           e_sqlite3.dll
-    ¦           ¦   ¦           
     ¦           ¦   +---win-x86
     ¦           ¦       +---native
-    ¦           ¦               e_sqlite3.dll
-    ¦           ¦               
     ¦           +---tr
-    ¦           ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦           ¦       
     ¦           +---zh-Hans
-    ¦           ¦       Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦           ¦       Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦           ¦       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦           ¦       
     ¦           +---zh-Hant
-    ¦                   Microsoft.TestPlatform.CommunicationUtilities.resources.dll
-    ¦                   Microsoft.TestPlatform.CoreUtilities.resources.dll
-    ¦                   Microsoft.TestPlatform.CrossPlatEngine.resources.dll
-    ¦                   Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-    ¦                   Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
-    ¦                   
+    +---Infrastructure
+    ¦   +---Commands
+    ¦   ¦       EfSaveComponentTest.cs
+    ¦   ¦       
+    ¦   +---Presistance
+    ¦           SqliteDbFixture.cs
+    ¦           
     +---obj
     ¦   ¦   ElectronicMaps.Tests.csproj.nuget.dgspec.json
     ¦   ¦   ElectronicMaps.Tests.csproj.nuget.g.props
     ¦   ¦   ElectronicMaps.Tests.csproj.nuget.g.targets
     ¦   ¦   project.assets.json
     ¦   ¦   project.nuget.cache
-    ¦   ¦   Tests.csproj.nuget.dgspec.json
-    ¦   ¦   Tests.csproj.nuget.g.props
-    ¦   ¦   Tests.csproj.nuget.g.targets
     ¦   ¦   
     ¦   +---Debug
     ¦       +---net8.0
-    ¦       ¦   ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
-    ¦       ¦   ¦   Electron.357A011A.Up2Date
-    ¦       ¦   ¦   ElectronicMaps.Tests.AssemblyInfo.cs
-    ¦       ¦   ¦   ElectronicMaps.Tests.AssemblyInfoInputs.cache
-    ¦       ¦   ¦   ElectronicMaps.Tests.assets.cache
-    ¦       ¦   ¦   ElectronicMaps.Tests.csproj.AssemblyReference.cache
-    ¦       ¦   ¦   ElectronicMaps.Tests.csproj.CoreCompileInputs.cache
-    ¦       ¦   ¦   ElectronicMaps.Tests.csproj.FileListAbsolute.txt
-    ¦       ¦   ¦   ElectronicMaps.Tests.dll
-    ¦       ¦   ¦   ElectronicMaps.Tests.GeneratedMSBuildEditorConfig.editorconfig
-    ¦       ¦   ¦   ElectronicMaps.Tests.genruntimeconfig.cache
-    ¦       ¦   ¦   ElectronicMaps.Tests.GlobalUsings.g.cs
-    ¦       ¦   ¦   ElectronicMaps.Tests.pdb
-    ¦       ¦   ¦   
-    ¦       ¦   +---ref
-    ¦       ¦   ¦       ElectronicMaps.Tests.dll
-    ¦       ¦   ¦       
-    ¦       ¦   +---refint
-    ¦       ¦           ElectronicMaps.Tests.dll
-    ¦       ¦           
-    ¦       +---net9.0
-    ¦           ¦   .NETCoreApp,Version=v9.0.AssemblyAttributes.cs
-    ¦           ¦   Electron.357A011A.Up2Date
-    ¦           ¦   ElectronicMaps.Tests.AssemblyInfo.cs
-    ¦           ¦   ElectronicMaps.Tests.AssemblyInfoInputs.cache
+    ¦           ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
     ¦           ¦   ElectronicMaps.Tests.assets.cache
-    ¦           ¦   ElectronicMaps.Tests.csproj.AssemblyReference.cache
-    ¦           ¦   ElectronicMaps.Tests.csproj.CoreCompileInputs.cache
     ¦           ¦   ElectronicMaps.Tests.csproj.FileListAbsolute.txt
-    ¦           ¦   ElectronicMaps.Tests.dll
-    ¦           ¦   ElectronicMaps.Tests.GeneratedMSBuildEditorConfig.editorconfig
-    ¦           ¦   ElectronicMaps.Tests.genruntimeconfig.cache
     ¦           ¦   ElectronicMaps.Tests.GlobalUsings.g.cs
-    ¦           ¦   ElectronicMaps.Tests.pdb
-    ¦           ¦   Tests.AssemblyInfo.cs
-    ¦           ¦   Tests.AssemblyInfoInputs.cache
-    ¦           ¦   Tests.assets.cache
-    ¦           ¦   Tests.csproj.AssemblyReference.cache
-    ¦           ¦   Tests.GeneratedMSBuildEditorConfig.editorconfig
-    ¦           ¦   Tests.GlobalUsings.g.cs
     ¦           ¦   
     ¦           +---ref
-    ¦           ¦       ElectronicMaps.Tests.dll
-    ¦           ¦       
     ¦           +---refint
-    ¦                   ElectronicMaps.Tests.dll
-    ¦                   
     +---Parsers
-            ComponentNameParserTest.cs
+    ¦       ComponentNameParserTest.cs
+    ¦       
+    +---TestHelpers
+            DbFixtures.cs
             
