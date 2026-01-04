@@ -19,9 +19,12 @@
                 <ResourceDictionary Source="/Features/Workspace/WorkspaceTemplates.xaml" />
 
                 <!-- Themes -->
-                <ResourceDictionary Source="Shared/Themes/Styles.xaml" />
-                <ResourceDictionary Source="Shared/Themes/DarkTheme.xaml"/>
+                <ResourceDictionary Source="/Shared/Themes/Styles.xaml" />
+                <ResourceDictionary Source="/Shared/Themes/WorkspaceStyles.xaml" />
+                <ResourceDictionary Source="/Shared/Themes/DarkTheme.xaml"/>
                 <!--<ResourceDictionary Source="/Themes/LightTheme.xaml" />-->
+
+                <ResourceDictionary Source="/Shared/Converters/Converters.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
 

@@ -7,6 +7,7 @@ using ElectronicMaps.Domain.DTO;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -28,6 +29,30 @@ namespace ElectronicMaps.Application.Stores
         private WorkspaceProject.Models.WorkspaceProject _current;
         private Dictionary<Guid, byte[]> _documentBinaries = new();
         private bool _hasUnsavedChanges;
+
+
+        // Индексы и КЕШИ
+        /// <summary>
+        /// Индекс: FormCode → List[ComponentDraft]
+        /// Кеш для GetWorkingForView() - O(1) вместо O(N)
+        /// </summary>
+        private Dictionary<string, List<ComponentDraft>> _draftsByFormCode = new(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Индекс: DraftId → ComponentDraft
+        /// Кеш для TryGetWorking() - O(1) вместо O(N)
+        /// </summary>
+        private Dictionary<Guid, ComponentDraft> _draftsById = new();
+
+        /// <summary>
+        /// Кеш отсортированных ключей форм для GetViewKeys()
+        /// </summary>
+        private List<string> _sortedFormCodes = new();
+
+        /// <summary>
+        /// Флаг валидности индексов
+        /// </summary>
+        private bool _indexesValid = false;
 
         private static readonly ApprovalRef MissingApproval =
             new(ApprovalStatus.Missing, PendingSetId: null, ApprovedSetId: null);
@@ -55,9 +80,9 @@ namespace ElectronicMaps.Application.Stores
         }
 
         #region Import
+
         // ---------------- Import ----------------
        
-
         public IReadOnlyList<ImportedRow> GetAllImported()
         {
             _lock.EnterReadLock();
@@ -85,6 +110,8 @@ namespace ElectronicMaps.Application.Stores
                     WorkingComponents = new Dictionary<Guid, ComponentDraft>() // рабочий слой тоже обычно пересобирается
                 };
 
+                InvalidateIndexes_NoLock();
+
                 MarkDirty_NoLock();
 
                 args = BuildArgs_NoLock(StoreChangeKind.ImportReplaced, key: "ALL", draftIds: null);
@@ -101,7 +128,11 @@ namespace ElectronicMaps.Application.Stores
         public IReadOnlyList<string> GetViewKeys()
         {
             _lock.EnterReadLock();
-            try { return _current.ViewsByKey.Keys.OrderBy(x => x).ToList(); }
+            try 
+            {
+                EnsureIndexes_NoLock();
+                return _sortedFormCodes;//_current.ViewsByKey.Keys.OrderBy(x => x).ToList(); 
+            }
             finally { _lock.ExitReadLock(); }
         }
 
@@ -132,19 +163,12 @@ namespace ElectronicMaps.Application.Stores
             _lock.EnterReadLock();
             try
             {
-                if (!_current.ViewsByKey.TryGetValue(key, out var ids) || ids.Count == 0)
-                    return Array.Empty<ComponentDraft>();
+                EnsureIndexes_NoLock();
 
-                var dict = _current.WorkingComponents;
-                if (dict.Count == 0) return Array.Empty<ComponentDraft>();
-
-                var result = new List<ComponentDraft>(ids.Count);
-                foreach(var id in ids)
-                {
-                    if(dict.TryGetValue(id, out var comp))
-                        result.Add(comp);
-                }
-                return result;
+                // O(1) lookup в индексе!
+                return _draftsByFormCode.TryGetValue(key, out var list)
+                    ? list
+                    : Array.Empty<ComponentDraft>();
             }
             finally { _lock.ExitReadLock(); }
         }
@@ -230,6 +254,9 @@ namespace ElectronicMaps.Application.Stores
             {
                 RebuildViewsByForms_NoLock();
 
+                // Перестраиваем индексы после изменения Views
+                RebuildIndexes_NoLock();
+
                 MarkDirty_NoLock();
 
                 args = BuildArgs_NoLock(StoreChangeKind.ViewsRebuilt, key: "VIEWS", draftIds: null);
@@ -261,6 +288,8 @@ namespace ElectronicMaps.Application.Stores
 
             try
             {
+                var sw = Stopwatch.StartNew();
+
                 var imported = _current.ImportedRows;
                 var working = new Dictionary<Guid, ComponentDraft>();
 
@@ -291,6 +320,9 @@ namespace ElectronicMaps.Application.Stores
 
                 MarkDirty_NoLock();
 
+                sw.Stop();
+                Debug.WriteLine($"[STORE] InitializeWorkingDrafts: {sw.ElapsedMilliseconds}ms (components: {working.Count})");
+
                 args = BuildArgs_NoLock(StoreChangeKind.WorkingInitialized, key: "WORKING", draftIds: null);
             }
             finally { _lock.ExitWriteLock(); }
@@ -298,66 +330,15 @@ namespace ElectronicMaps.Application.Stores
             Changed?.Invoke(this, args);
         }
 
-        private ComponentDraft CreateFamilyDraftFromGroup(List<ImportedRow> rows)
-        {
-            if (rows is null) throw new ArgumentNullException(nameof(rows));
-            if (rows.Count == 0) throw new ArgumentException("Group is empty.", nameof(rows));
-
-            var main = rows[0];
-
-            var formCode = WorkspaceViewKeys.FamilyFormCode;
-            var formName = main.FamilyFormDisplayName ?? formCode;
-
-            
-            var mergeDesignators = rows
-                .SelectMany(r => r.Designators ?? Array.Empty<string>())
-                .Where(d => !string.IsNullOrWhiteSpace(d))
-                .Select(d => d.Trim())
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToList();
-
-            var quantitySum = rows.Sum(r => r.Quantity);
-            var quantity = mergeDesignators.Count > 0 ? mergeDesignators.Count : quantitySum;
-
-            var familyName = main.Family;
-            var name = !string.IsNullOrWhiteSpace(familyName) ? familyName! : main.CleanName;
-
-            var emptyParams = new Dictionary<int, ParameterValueDraft>();
-
-            return new ComponentDraft(
-                Id: Guid.NewGuid(),
-                SourceRowId: main.RowId,
-
-                Name: name,
-                DBComponentId: null,
-
-                Family:familyName,
-                DbFamilyId: main.DatabaseFamilyId,
-                FamilyKey: GetFamilyGroupKey(main),
-
-                DbComponentFormId: null,
-                FormCode: formCode,
-                FormName: formName,
-
-                Quantity: quantity,
-
-                Kind: DraftKind.FamilyAgregate,
-
-                Designators: mergeDesignators,
-
-                SelectedRemarksIds: Array.Empty<int>(),
-
-                NdtParametersOverrides: emptyParams,
-                ApprovalRef: MissingApproval,
-                SchematicParameters: emptyParams,
-                LocalFillStatus: LocalFillStatus.Missing
-                );
-        }
 
         public IReadOnlyList<ComponentDraft> GetAllWorking()
         {
             _lock.EnterReadLock();
-            try { return _current.WorkingComponents.Values.ToList(); }
+            try
+            {
+                EnsureIndexes_NoLock();
+                return _draftsById.Values.ToList();
+            }
             finally { _lock.ExitReadLock(); }
         }
 
@@ -431,7 +412,12 @@ namespace ElectronicMaps.Application.Stores
             _lock.EnterReadLock();
             try
             {
-                return _current.WorkingComponents.TryGetValue(draftId, out var d) ? d : null;
+                EnsureIndexes_NoLock();
+
+                // O(1) lookup в индексе!
+                return _draftsById.TryGetValue(draftId, out var draft)
+                    ? draft
+                    : null;
             }
             finally { _lock.ExitReadLock(); }
         }
@@ -595,7 +581,6 @@ namespace ElectronicMaps.Application.Stores
         }
         #endregion
 
-
         #region Documents
         // ---------------- Documents ----------------
 
@@ -690,7 +675,6 @@ namespace ElectronicMaps.Application.Stores
         }
 
         #endregion
-
 
         #region IO
         // ---------------- Project I/O ----------------
@@ -804,12 +788,196 @@ namespace ElectronicMaps.Application.Stores
             Changed?.Invoke(this, args);
         }
 
+        #endregion
+       
+        #region Utility
+
+        public void Clear()
+        {
+            StoreChangedEventArgs args;
+
+            _lock.EnterWriteLock();
+            try
+            {
+                _current = WorkspaceProject.Models.WorkspaceProject.Empty();
+                _documentBinaries.Clear();
+
+                InvalidateIndexes_NoLock();
+                MarkDirty_NoLock();
+
+                args = BuildArgs_NoLock(StoreChangeKind.Cleared, key: null, draftIds: null);
+            }
+            finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
+        }
+
+        public void MarkClean()
+        {
+            StoreChangedEventArgs args;
+
+            _lock.EnterWriteLock();
+            try
+            {
+                _hasUnsavedChanges = false;
+                args = BuildArgs_NoLock(StoreChangeKind.MarkedClean, key: null, draftIds: null);
+            }
+            finally { _lock.ExitWriteLock(); }
+
+            Changed?.Invoke(this, args);
+        }
+
+        public void Dispose() => _lock.Dispose();
+        
+        #endregion
+
+        #region Index Management
+
+        /// <summary>
+        /// ОПТИМИЗАЦИЯ: Перестраивает все индексы за один проход
+        /// Вызывается при загрузке проекта, инициализации, RebuildViews
+        /// </summary>
+        private void RebuildIndexes_NoLock()
+        {
+            var sw = Stopwatch.StartNew();
+
+            _draftsByFormCode.Clear();
+            _draftsById.Clear();
+            _sortedFormCodes.Clear();
+
+            var working = _current.WorkingComponents;
+            if(working == null || working.Count == 0)
+            {
+                _indexesValid = true;
+                return;
+            }
+
+            var formCodesSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            // Один проход во всем компонентам
+            foreach(var draft in working.Values)
+            {
+                if (draft == null) continue;
+
+                // Индекс по ID
+                _draftsById[draft.Id] = draft;
+
+                // Индекс по FormCode
+                var formCode = string.IsNullOrWhiteSpace(draft.FormCode)
+                    ? WorkspaceViewKeys.UndefinedForm
+                    : draft.FormCode;
+
+                if(!_draftsByFormCode.ContainsKey(formCode))
+                    _draftsByFormCode[formCode] = new List<ComponentDraft>();
+
+                _draftsByFormCode[formCode].Add(draft);
+                formCodesSet.Add(formCode);
+            }
+
+            // Сортируем ключи форм
+            _sortedFormCodes = formCodesSet
+                .OrderBy(k => string.Equals(k, WorkspaceViewKeys.UndefinedForm, StringComparison.OrdinalIgnoreCase) ? 0 : 1)
+                .ThenBy(k => k, StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            _indexesValid = true;
+
+            sw.Stop();
+            Debug.WriteLine($"[STORE] RebuildIndexes: {sw.ElapsedMilliseconds}ms (drafts: {working.Count}, forms: {formCodesSet.Count})");
+
+        }
+
+        /// <summary>
+        /// Инвалидирует индексы (помечает как невалидные)
+        /// </summary>
+        private void InvalidateIndexes_NoLock()
+        {
+            _indexesValid = false;
+        }
+
+        /// <summary>
+        /// Проверяет валидность индексов, перестраивает если нужно
+        /// </summary>
+        private void EnsureIndexes_NoLock()
+        {
+            if (!_indexesValid)
+                RebuildIndexes_NoLock();
+        }
+
+        /// <summary>
+        /// Обновляет один draft в индексах (при UpdateWorking)
+        /// </summary>
+        private void UpdateDraftInIndexes_NoLock(ComponentDraft draft)
+        {
+            if (!_indexesValid) return; // Будет пересоздано при следующем запросе
+
+            // Обновляем в _draftsById
+            _draftsById[draft.Id] = draft;
+
+            // Обновляем в _draftsByFormCode
+            var formCode = string.IsNullOrWhiteSpace(draft.FormCode)
+                ? WorkspaceViewKeys.UndefinedForm
+                : draft.FormCode;
+
+            // Удаляем из всех форм (может был в другой)
+            foreach (var list in _draftsByFormCode.Values)
+            {
+                list.RemoveAll(d => d.Id == draft.Id);
+            }
+
+            // Добавляем в правильную форму
+            if (!_draftsByFormCode.ContainsKey(formCode))
+                _draftsByFormCode[formCode] = new List<ComponentDraft>();
+
+            _draftsByFormCode[formCode].Add(draft);
+        }
+
+        /// <summary>
+        /// Добавляет draft в индексы (при Split/Merge)
+        /// </summary>
+        private void AddDraftToIndexes_NoLock(ComponentDraft draft)
+        {
+            if (!_indexesValid) return;
+
+            _draftsById[draft.Id] = draft;
+
+            var formCode = string.IsNullOrWhiteSpace(draft.FormCode)
+                ? WorkspaceViewKeys.UndefinedForm
+                : draft.FormCode;
+
+            if (!_draftsByFormCode.ContainsKey(formCode))
+                _draftsByFormCode[formCode] = new List<ComponentDraft>();
+
+            _draftsByFormCode[formCode].Add(draft);
+        }
+
+        /// <summary>
+        /// Удаляет draft из индексов (при Remove/Split/Merge)
+        /// </summary>
+        private void RemoveDraftFromIndexes_NoLock(Guid draftId)
+        {
+            if (!_indexesValid) return;
+
+            _draftsById.Remove(draftId);
+
+            foreach (var list in _draftsByFormCode.Values)
+            {
+                list.RemoveAll(d => d.Id == draftId);
+            }
+        }
+
+        #endregion
+
+        #region Private Helpers
+
+        private void MarkDirty_NoLock() => _hasUnsavedChanges = true;
+
         private void RebuildViewsByForms_NoLock()
         {
             var working = _current.WorkingComponents;
             var views = new Dictionary<string, List<Guid>>(StringComparer.OrdinalIgnoreCase);
 
-            if(working is not null && working.Count > 0)
+            if (working is not null && working.Count > 0)
             {
                 // Undefined view (если FormCode пустой)
                 var undefinedIds = working.Values
@@ -840,18 +1008,126 @@ namespace ElectronicMaps.Application.Stores
             _current = _current with { ViewsByKey = views };
         }
 
+        private ComponentDraft CreateDraftFromImportedRow(ImportedRow row)
+        {
+            var emptyParams = new Dictionary<int, ParameterValueDraft>();
+            var designators = DesignatorHelper.Expand(row.Designator);
+
+            var formCode = row.ComponentExistsInDatabase && !string.IsNullOrWhiteSpace(row.ComponentFormCode)
+                ? row.ComponentFormCode!
+                : WorkspaceViewKeys.UndefinedForm;
+
+            var formName = row.ComponentExistsInDatabase
+                ? (row.ComponentFormDisplayName ?? formCode)
+                : string.Empty;
+
+            var resolvedFormName = row.ComponentFormDisplayName ?? string.Empty;
+
+            return new ComponentDraft(
+                Id: Guid.NewGuid(),
+                SourceRowId: row.RowId,
+
+                Name: row.CleanName,
+                DBComponentId: row.ExistingComponentId,
+
+                Family: row.Family,
+                DbFamilyId: row.DatabaseFamilyId,
+                FamilyKey: GetFamilyGroupKey(row),
+
+                DbComponentFormId: row.ComponentFormId,
+                FormCode: formCode,
+                FormName: formName,
+
+                Quantity: row.Quantity,
+
+                Kind: DraftKind.Component,
+
+                Designators: designators,
+
+                SelectedRemarksIds: Array.Empty<int>(),
+
+                NdtParametersOverrides: emptyParams,
+                ApprovalRef: MissingApproval,
+
+                SchematicParameters: emptyParams,
+                LocalFillStatus: LocalFillStatus.Missing
+                );
+        }
+
+        private ComponentDraft CreateFamilyDraftFromGroup(List<ImportedRow> rows)
+        {
+            if (rows is null) throw new ArgumentNullException(nameof(rows));
+            if (rows.Count == 0) throw new ArgumentException("Group is empty.", nameof(rows));
+
+            var main = rows[0];
+
+            var formCode = WorkspaceViewKeys.FamilyFormCode;
+            var formName = main.FamilyFormDisplayName ?? formCode;
+
+
+            var mergeDesignators = rows
+                .SelectMany(r => r.Designators ?? Array.Empty<string>())
+                .Where(d => !string.IsNullOrWhiteSpace(d))
+                .Select(d => d.Trim())
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            var quantitySum = rows.Sum(r => r.Quantity);
+            var quantity = mergeDesignators.Count > 0 ? mergeDesignators.Count : quantitySum;
+
+            var familyName = main.Family;
+            var name = !string.IsNullOrWhiteSpace(familyName) ? familyName! : main.CleanName;
+
+            var emptyParams = new Dictionary<int, ParameterValueDraft>();
+
+            return new ComponentDraft(
+                Id: Guid.NewGuid(),
+                SourceRowId: main.RowId,
+
+                Name: name,
+                DBComponentId: null,
+
+                Family: familyName,
+                DbFamilyId: main.DatabaseFamilyId,
+                FamilyKey: GetFamilyGroupKey(main),
+
+                DbComponentFormId: null,
+                FormCode: formCode,
+                FormName: formName,
+
+                Quantity: quantity,
+
+                Kind: DraftKind.FamilyAgregate,
+
+                Designators: mergeDesignators,
+
+                SelectedRemarksIds: Array.Empty<int>(),
+
+                NdtParametersOverrides: emptyParams,
+                ApprovalRef: MissingApproval,
+                SchematicParameters: emptyParams,
+                LocalFillStatus: LocalFillStatus.Missing
+                );
+        }
+
+        private StoreChangedEventArgs BuildArgs_NoLock(StoreChangeKind kind, string? key, IReadOnlyList<Guid>? draftIds)
+        {
+            var totalWorking = _current.WorkingComponents?.Count ?? 0;
+            return new StoreChangedEventArgs(kind, key, totalWorking, draftIds);
+        }
+
         private void RebuildFamilyAggregate_NoLock(Dictionary<Guid, ComponentDraft> working, string familyKey)
         {
             if (string.IsNullOrWhiteSpace(familyKey))
                 return;
 
-            if(string.Equals(familyKey, WorkspaceViewKeys.NoFamily, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(familyKey, WorkspaceViewKeys.NoFamily, StringComparison.OrdinalIgnoreCase))
             {
-                var stray = working.Values.FirstOrDefault(d => 
+                var stray = working.Values.FirstOrDefault(d =>
                 d.Kind == DraftKind.FamilyAgregate &&
                 string.Equals(d.FamilyKey, familyKey, StringComparison.OrdinalIgnoreCase));
 
-                if(stray is not null)
+                if (stray is not null)
                     working.Remove(stray.Id);
 
                 return;
@@ -859,19 +1135,19 @@ namespace ElectronicMaps.Application.Stores
 
             //Все компоненты этого семейства
             var components = working.Values
-                .Where(d => d.Kind == DraftKind.Component 
+                .Where(d => d.Kind == DraftKind.Component
                         && string.Equals(d.FamilyKey, familyKey, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
             // Существющий агрегат
-            var existingFamily = working.Values.FirstOrDefault(d => 
+            var existingFamily = working.Values.FirstOrDefault(d =>
                 d.Kind == DraftKind.FamilyAgregate &&
                 string.Equals(d.FamilyKey, familyKey, StringComparison.OrdinalIgnoreCase));
 
             //Если компонентов больше нет - удалить агрегат
-            if(components.Count == 0)
+            if (components.Count == 0)
             {
-                if(existingFamily is not null)
+                if (existingFamily is not null)
                     working.Remove(existingFamily.Id);
 
                 return;
@@ -894,7 +1170,7 @@ namespace ElectronicMaps.Application.Stores
             // Имя семейного агрегата: Family, иначе Name первого компонента
             var name = !string.IsNullOrWhiteSpace(resolvedFamilyname) ? resolvedFamilyname! : first.Name;
 
-            if(existingFamily is not null)
+            if (existingFamily is not null)
             {
                 //Обновляем только агригируемые поля, параметры не трогаем
                 var update = existingFamily with
@@ -953,103 +1229,13 @@ namespace ElectronicMaps.Application.Stores
             working[created.Id] = created;
         }
 
-        #endregion
-        public void Clear()
-        {
-            StoreChangedEventArgs args;
-
-            _lock.EnterWriteLock();
-            try
-            {
-                _current = WorkspaceProject.Models.WorkspaceProject.Empty();
-                _documentBinaries.Clear();
-                MarkDirty_NoLock();
-
-                args = BuildArgs_NoLock(StoreChangeKind.Cleared, key: null, draftIds: null);
-            }
-            finally { _lock.ExitWriteLock(); }
-
-            Changed?.Invoke(this, args);
-        }
-
-        public void MarkClean() 
-        {
-            StoreChangedEventArgs args;
-
-            _lock.EnterWriteLock();
-            try
-            {
-                _hasUnsavedChanges = false;
-                args = BuildArgs_NoLock(StoreChangeKind.MarkedClean, key: null, draftIds: null);
-            }
-            finally { _lock.ExitWriteLock(); }
-
-            Changed?.Invoke(this, args);
-        }
-
-        public void Dispose() => _lock.Dispose();
-
-        private void MarkDirty_NoLock() => _hasUnsavedChanges = true;
-        
-        private ComponentDraft CreateDraftFromImportedRow(ImportedRow row)
-        {
-            var emptyParams = new Dictionary<int, ParameterValueDraft>();
-            var designators = DesignatorHelper.Expand(row.Designator);
-
-            var formCode = row.ComponentExistsInDatabase && !string.IsNullOrWhiteSpace(row.ComponentFormCode)
-                ? row.ComponentFormCode!
-                : WorkspaceViewKeys.UndefinedForm;
-
-            var formName = row.ComponentExistsInDatabase
-                ? (row.ComponentFormDisplayName ?? formCode)
-                : string.Empty;
-
-            var resolvedFormName = row.ComponentFormDisplayName ?? string.Empty;
-
-            return new ComponentDraft(
-                Id: Guid.NewGuid(),
-                SourceRowId: row.RowId,
-
-                Name: row.CleanName,
-                DBComponentId: row.ExistingComponentId,
-
-                Family: row.Family,
-                DbFamilyId: row.DatabaseFamilyId,
-                FamilyKey: GetFamilyGroupKey(row),
-
-                DbComponentFormId: row.ComponentFormId,
-                FormCode: formCode,
-                FormName: formName,
-
-                Quantity: row.Quantity,
-
-                Kind: DraftKind.Component,
-
-                Designators: designators,
-
-                SelectedRemarksIds: Array.Empty<int>(),
-
-                NdtParametersOverrides: emptyParams,
-                ApprovalRef: MissingApproval,
-
-                SchematicParameters: emptyParams,
-                LocalFillStatus: LocalFillStatus.Missing
-                );
-        }
-
-        private StoreChangedEventArgs BuildArgs_NoLock(StoreChangeKind kind, string? key, IReadOnlyList<Guid>? draftIds)
-        {
-            var totalWorking = _current.WorkingComponents?.Count ?? 0;
-            return new StoreChangedEventArgs(kind, key, totalWorking, draftIds);
-        }
-
         private static string GetFamilyGroupKey(ImportedRow r)
         {
             if (r.DatabaseFamilyId is int id && id > 0)
                 return $"DBF:{id}";
 
-            if(!string.IsNullOrWhiteSpace(r.Family))
-                return  $"FAM:{NormalizeKey(r.Family)}";
+            if (!string.IsNullOrWhiteSpace(r.Family))
+                return $"FAM:{NormalizeKey(r.Family)}";
 
             return WorkspaceViewKeys.NoFamily;
         }
@@ -1061,6 +1247,7 @@ namespace ElectronicMaps.Application.Stores
                 ' ',
                 s.Split(' ', StringSplitOptions.RemoveEmptyEntries));
         }
+
         private string BuildFamilyKey(string? familyName, int? dbFamilyId)
         {
             if (dbFamilyId is int id && id > 0)
@@ -1071,6 +1258,9 @@ namespace ElectronicMaps.Application.Stores
 
             return WorkspaceViewKeys.NoFamily;
         }
+        
+        #endregion
+
     }
 }
 

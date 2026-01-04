@@ -6,7 +6,86 @@
              xmlns:local="clr-namespace:ElectronicMaps.WPF.Features.Workspace.FormCards"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Border Background="Transparent"
+            Padding="20,16">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
             
-    </Grid>
+            
+            <!-- Ноер карточки -->
+            <Border Grid.Column="0"
+                    Style="{StaticResource NumberBadgeStyle}"
+                    Margin="0,0,16,0">
+                <TextBlock Text="{Binding Number}"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+            </Border>
+
+            <!-- Информация о компоненте -->
+            <StackPanel Grid.Column="1"
+                        VerticalAlignment="Center">
+
+                <!-- Название компонента -->
+                <TextBlock Text="{Binding Name}"
+                           Style="{StaticResource ComponentNameStyle}"
+                           Margin="0,0,0,6" />
+
+                <!-- Метаданные -->
+                <StackPanel Orientation="Horizontal">
+                    <!-- Форма -->
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0,0,16,0">
+                        <TextBlock Text="Форма:"
+                                   Style="{StaticResource MetadataLabelStyle}" />
+                        <TextBlock Text="{Binding FormName}"
+                                   Style="{StaticResource MetadataValueStyle}" />
+                    </StackPanel>
+
+                    <!-- Количество -->
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Количество:"
+                                   Style="{StaticResource MetadataLabelStyle}" />
+                        <TextBlock Text="{Binding Quantity}"
+                                   Style="{StaticResource MetadataValueStyle}" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Кнопки действий -->
+            <StackPanel Grid.Column="2"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+
+                <!-- Кнопка "Детали" -->
+                <Button Content="Детали"
+                        Height="36"
+                        Padding="16,0"
+                        Style="{StaticResource PrimaryButton}"
+                        Margin="0,0,8,0"
+                        Command="{Binding DataContext.ToggleDetailsCommand, 
+                                  RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding Item.Id}" />
+
+                <!-- Кнопка "Редактировать" -->
+                <Button Content="⚙"
+                        Style="{StaticResource SecondaryActionButton}"
+                        ToolTip="Редактировать" />
+            </StackPanel>
+
+
+
+
+        </Grid>
+        
+        
+        
+        
+    </Border>
 </UserControl>

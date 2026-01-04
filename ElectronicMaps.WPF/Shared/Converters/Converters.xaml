@@ -7,5 +7,6 @@
     <converters:EnumEqualsToVisibilityConverter x:Key="EnumEqualsToVisibilityConverter" />
     <converters:IndexToNumberConverter x:Key="IndexToNumberConverter" />
     <converters:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+    <converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
 
 </ResourceDictionary>

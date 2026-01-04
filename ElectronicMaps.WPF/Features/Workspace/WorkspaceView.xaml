@@ -18,28 +18,29 @@
             <formCards:UndefinedCardView />
         </DataTemplate>
 
-        <!-- Анимация боковой панели -->
-        <Storyboard x:Key="ShowDetails">
+        <!-- Анимация появления боковой панели -->
+        <Storyboard x:Key="ShowDetailsPanel">
             <DoubleAnimation Storyboard.TargetName="DetailsTranslate"
                              Storyboard.TargetProperty="X"
                              To="0"
-                             Duration="0:0:0.22">
+                             Duration="0:0:0.3">
                 <DoubleAnimation.EasingFunction>
                     <CubicEase EasingMode="EaseOut" />
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
             <DoubleAnimation Storyboard.TargetName="DetailsPanel"
                              Storyboard.TargetProperty="Opacity"
-                             To="1"
-                             Duration="0:0:0.18">
+                             From="0" To="1"
+                             Duration="0:0:0.25">
             </DoubleAnimation>
         </Storyboard>
 
-        <Storyboard x:Key="HideDetails">
+        <!-- Анимация скрытия боковой панели -->
+        <Storyboard x:Key="HideDetailsPanel">
             <DoubleAnimation Storyboard.TargetName="DetailsTranslate"
                              Storyboard.TargetProperty="X"
-                             To="420"
-                             Duration="0:0:0.18">
+                             To="450"
+                             Duration="0:0:0.25">
                 <DoubleAnimation.EasingFunction>
                     <CubicEase EasingMode="EaseIn" />
                 </DoubleAnimation.EasingFunction>
@@ -47,9 +48,10 @@
 
             <DoubleAnimation Storyboard.TargetName="DetailsPanel"
                              Storyboard.TargetProperty="Opacity"
-                             To="0"
-                             Duration="0:0:0.14" />
+                             From="1" To="0"
+                             Duration="0:0:0.2" />
         </Storyboard>
+        
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -66,79 +68,190 @@
         <!-- Top bar -->
         <Border Grid.Row="0"
                 Grid.ColumnSpan="2"
-                Margin="12">
+                Background="{DynamicResource PanelBackground}"
+                BorderBrush="{DynamicResource DataGridBorder}"
+                BorderThickness="0,0,0,1"
+                Padding="24,16">
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="350" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <ComboBox Grid.Column="0"
-                          ItemsSource="{Binding ViewOptions}"
-                          SelectedValuePath="Key"
-                          DisplayMemberPath="Title"
-                          SelectedValue="{Binding SelectedViewKey, Mode=TwoWay}"
-                          Height="40" />
+                <!-- Выбор формы -->
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Форма компонентов"
+                               Style="{StaticResource SectionHeaderStyle}" />
+                    <ComboBox ItemsSource="{Binding ViewOptions}"
+                              SelectedItem="{Binding SelectedViewOption, Mode=TwoWay}"
+                              MinHeight="40">
+                    </ComboBox>
+                </StackPanel>
+                
+                <!-- Статистика -->
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="Компонентов: "
+                               Foreground="{DynamicResource TextSecondary}"
+                               FontSize="13"
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding ItemCards.Count}"
+                               Style="{StaticResource CounterStyle}"
+                               VerticalAlignment="Center"
+                               Margin="4,0,0,0" /> 
+                </StackPanel>
+
+                <!-- Кнопки действий (опционально) -->
+                <StackPanel Grid.Column="2"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+
+                </StackPanel>
             </Grid>
         </Border>
 
         <!-- Cards area -->
+        <ScrollViewer Grid.Row="1"
+                Grid.Column="0"
+                VerticalScrollBarVisibility="Auto"
+                HorizontalScrollBarVisibility="Disabled"
+                Padding="24,20,12,20">
+            <ScrollViewer.Resources>
+                <Style TargetType="ScrollBar"
+                       BasedOn="{StaticResource MinimalScrollBar}" />
+            </ScrollViewer.Resources>
+
+            <!-- Список карточек -->
+            <ItemsControl ItemsSource="{Binding ItemCards}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel  />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardContainerStyle}">
+                            <ContentControl Content="{Binding}" />
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        
+        <!-- Empty state (когда нет карточек)-->
         <Border Grid.Row="1"
                 Grid.Column="0"
-                Padding="12">
-            <ListBox ItemsSource="{Binding ItemCards}"
-                     BorderThickness="0"
-                     Background="Transparent"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto">
-
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Margin"
-                                Value="8" />
-                        <Setter Property="HorizontalContentAlignment"
-                                Value="Stretch" />
-                        <Setter Property="Background"
-                                Value="Transparent" />
-                    </Style>
-                </ListBox.ItemContainerStyle>
-
-                <!-- ВАЖНО: ItemTemplate НЕ нужен, т.к. есть DataTemplate по типам -->
-            </ListBox>
+                Background="Transparent"
+                Visibility="{Binding ItemCards.Count, Converter={StaticResource CountToVisibilityConverter}}">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <TextBlock Text="📦"
+                           Style="{StaticResource EmptyStateIcon}" />
+                <TextBlock Text="Нет компонентов для отображения"
+                           Style="{StaticResource EmptyStateText}"
+                           FontWeight="SemiBold" />
+                <TextBlock Text="Выберите другую форму или импортируйте данные"
+                           Style="{StaticResource EmptyStateText}"
+                           FontSize="13"
+                           Margin="0,8,0,0"
+                           Opacity="0.7" />
+            </StackPanel>
         </Border>
 
         <!-- Details panel -->
         <Border x:Name="DetailsPanel"
-                Grid.Row="1"
+                Grid.Row="0"
+                Grid.RowSpan="2"
                 Grid.Column="1"
-                Padding="12"
+                Background="{DynamicResource PanelBackground}"
+                BorderBrush="{DynamicResource DataGridBorder}"
+                BorderThickness="1,0,0,0"
                 Opacity="0"
-                SnapsToDevicePixels="True">
+                Panel.ZIndex="10">
 
             <Border.RenderTransform>
-                <TranslateTransform x:Name="DetailsTranslate"
+                <TranslateTransform x:Name="DetailsPanelTransform"
                                     X="420" />
             </Border.RenderTransform>
 
             <Border.Style>
                 <Style TargetType="Border">
-                    <Setter Property="Opacity"
-                            Value="0" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsDetailsOpen}"
                                      Value="True">
                             <DataTrigger.EnterActions>
-                                <BeginStoryboard Storyboard="{StaticResource ShowDetails}" />
+                                <BeginStoryboard Storyboard="{StaticResource ShowDetailsPanel}" />
                             </DataTrigger.EnterActions>
                             <DataTrigger.ExitActions>
-                                <BeginStoryboard Storyboard="{StaticResource HideDetails}" />
+                                <BeginStoryboard Storyboard="{StaticResource HideDetailsPanel}" />
                             </DataTrigger.ExitActions>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </Border.Style>
 
-            <!-- Здесь потом будет ContentControl для деталей -->
+            <!-- Details Content -->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!-- Details Header -->
+                <Border Grid.Row="0"
+                        Background="{DynamicResource PanelBackground}"
+                        BorderBrush="{DynamicResource DataGridBorder}"
+                        BorderThickness="0,0,0,1"
+                        Padding="20,16">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Параметры компонента"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextPrimary}" />
+                            <TextBlock Text="Детальная информация"
+                                       FontSize="12"
+                                       Foreground="{DynamicResource TextSecondary}"
+                                       Margin="0,4,0,0" />
+                        </StackPanel>
+
+                        <!-- Close Button -->
+                        <Button Grid.Column="1"
+                                Content="✕"
+                                Style="{StaticResource ClosePanelButton}"
+                                Command="{Binding ToggleDetailsCommand}"
+                                CommandParameter="{Binding OpenDetailsDraftId}" />
+                    </Grid>
+                </Border>
+
+                <!-- Details Content Area -->
+                <ScrollViewer Grid.Row="1"
+                              VerticalScrollBarVisibility="Auto"
+                              Padding="20">
+
+                    <StackPanel>
+                        <!-- Placeholder для деталей -->
+                        <TextBlock Text="Детали выбранного компонента будут отображаться здесь"
+                                   Foreground="{DynamicResource TextSecondary}"
+                                   FontSize="13"
+                                   TextWrapping="Wrap"
+                                   Margin="0,20,0,0" />
+
+                        <!-- TODO: Заменить на реальный ContentControl -->
+                        <!-- <ContentControl Content="{Binding SelectedCardDetails}" /> -->
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
         </Border>
     </Grid>
 </UserControl>

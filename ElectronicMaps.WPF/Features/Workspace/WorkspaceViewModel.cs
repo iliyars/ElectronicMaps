@@ -9,21 +9,28 @@ using Navigation.Core.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
+using System.Windows.Data;
+using System.Windows.Threading;
 using Wpf.Ui.Abstractions.Controls;
 
 namespace ElectronicMaps.WPF.Features.Workspace
 {
-    public record ViewOption(string Key, string Title);
+    public record ViewOption(string Key, string Title)
+    {
+        public override string ToString() => Title;
+    }
 
     public partial class WorkspaceViewModel : BaseScreenViewModel, INavigatedTo, INavigatedFrom
     {
         private readonly IComponentStore _componentStore;
         private bool _subscribed;
+        private bool _isInitializing;
 
         public ObservableCollection<ViewOption> ViewOptions { get; } = new();
-        public ObservableCollection<FormCards.CardViewModelBase> ItemCards { get; } = new();
+        public ObservableCollection<CardViewModelBase> ItemCards { get; } = new();
 
         /// <summary>
         /// Все компоненты из xml.
@@ -34,13 +41,19 @@ namespace ElectronicMaps.WPF.Features.Workspace
         private bool isDetailsOpen;
 
         [ObservableProperty]
-        private string? selectedViewKey;
+        private ViewOption? selectedViewOption;
 
         [ObservableProperty]
         private Guid? openDetailsDraftId;
 
-        partial void OnSelectedViewKeyChanged(string? value)
+        [ObservableProperty]
+        private CardViewModelBase? selectedCard;
+
+        partial void OnSelectedViewOptionChanged(ViewOption? value)
         {
+            if (_isInitializing)
+                return;
+
             RebuildItemCards();
             //MessageBox.Show("OnSelectedViewKeyChanged");
         }
@@ -49,8 +62,9 @@ namespace ElectronicMaps.WPF.Features.Workspace
         public WorkspaceViewModel(IComponentStore componentStore)
         {
             _componentStore = componentStore;
-
             ToggleDetailsCommand = new RelayCommand<Guid>(ToggleDetails);
+            // ОПТИМИЗАЦИЯ: Отключаем уведомления об изменениях коллекции во время массовых операций
+            EnableCollectionSynchronization(ItemCards);
         }
 
         public Task OnNavigatedToAsync(object? parameter, CancellationToken cancellationToken = default)
@@ -78,7 +92,20 @@ namespace ElectronicMaps.WPF.Features.Workspace
 
         private void ToggleDetails(Guid draftId)
         {
-            OpenDetailsDraftId = OpenDetailsDraftId == draftId ? null : draftId;
+            if (OpenDetailsDraftId == draftId)
+            {
+                // Закрываем панель
+                OpenDetailsDraftId = null;
+                SelectedCard = null;
+                IsDetailsOpen = false;
+            }
+            else
+            {
+                // Открываем панель
+                OpenDetailsDraftId = draftId;
+                SelectedCard = ItemCards.FirstOrDefault(c => c.Item.Id == draftId);
+                IsDetailsOpen = true;
+            }
             SyncDetailsState();
         }
 
@@ -127,19 +154,71 @@ namespace ElectronicMaps.WPF.Features.Workspace
 
         private void RebuildItemCards()
         {
+
+            var totalSw = Stopwatch.StartNew();
+
             ItemCards.Clear();
 
-            var key = SelectedViewKey ?? WorkspaceViewKeys.UndefinedForm;
+            var key = SelectedViewOption?.Key ?? WorkspaceViewKeys.UndefinedForm;
+            var storeSw = Stopwatch.StartNew();
             var drafts = _componentStore.GetWorkingForView(key);
+            storeSw.Stop();
 
+            var vmSw = Stopwatch.StartNew();
+            var newCards = new List<CardViewModelBase>(drafts.Count);
             var number = 1;
+
             foreach (var draft in drafts)
-                ItemCards.Add(CreateCardViewModel(draft, number++));
+                newCards.Add(CreateCardViewModel(draft, number++));
+            vmSw.Stop();
+
+            var collSw = Stopwatch.StartNew();
+            ReplaceCollection(ItemCards, newCards);
+            collSw.Stop();
+
+            totalSw.Stop();
+
+            Debug.WriteLine($"[PERF] ==========================================");
+            Debug.WriteLine($"[PERF] Store:      {storeSw.ElapsedMilliseconds}ms");
+            Debug.WriteLine($"[PERF] ViewModels: {vmSw.ElapsedMilliseconds}ms");
+            Debug.WriteLine($"[PERF] Collection: {collSw.ElapsedMilliseconds}ms");
+            Debug.WriteLine($"[PERF] TOTAL:      {totalSw.ElapsedMilliseconds}ms");
+            Debug.WriteLine($"[PERF] ==========================================");
+
+            // Измеряем UI rendering (отложенное)
+            Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
+            {
+                var uiSw = Stopwatch.StartNew();
+                System.Windows.Application.Current.MainWindow?.UpdateLayout();
+                uiSw.Stop();
+                Debug.WriteLine($"[PERF] UI Render:  {uiSw.ElapsedMilliseconds}ms");
+            }), DispatcherPriority.Background);
+
+            // Если была открыта панель деталей, но компонент исчез - закрываем
+            if (OpenDetailsDraftId.HasValue)
+            {
+                var stillExists = ItemCards.Any(c => c.Item.Id == OpenDetailsDraftId.Value);
+                if (!stillExists)
+                {
+                    OpenDetailsDraftId = null;
+                    SelectedCard = null;
+                    IsDetailsOpen = false;
+                }
+            }
         }
 
         private void RebuildCards()
         {
-            RebuildViewOptions();
+            try
+            {
+                _isInitializing = true;
+                RebuildViewOptions();
+            }
+            finally
+            {
+                _isInitializing = false;
+            }
+
             RebuildItemCards();
         }
 
@@ -148,16 +227,32 @@ namespace ElectronicMaps.WPF.Features.Workspace
             var draft = _componentStore.TryGetWorking(id);
             if (draft == null) return;
 
-            var existing = ItemCards.FirstOrDefault(c => c.Item.Id == id);
-            if (existing is not null)
+            // Проверяем, относится ли этот draft к текущему view
+            var currentViewKey = SelectedViewOption?.Key ?? WorkspaceViewKeys.UndefinedForm;
+            if (!string.Equals(draft.FormCode, currentViewKey, StringComparison.OrdinalIgnoreCase))
             {
-                existing.ReplaceItem(draft);
+                // Этот компонент не для текущей формы, игнорируем
                 return;
             }
 
-            // Если карточки ещё нет — добавляем (позиционирование можно улучшить позже)
+            var existing = ItemCards.FirstOrDefault(c => c.Item.Id == id);
+            if (existing is not null)
+            {
+                // Обновляем существующую карточку
+                existing.ReplaceItem(draft);
+
+                // Если это открытая карточка - обновляем SelectedCard
+                if (SelectedCard?.Item.Id == id)
+                {
+                    SelectedCard = existing;
+                }
+                return;
+            }
+
+            // Если карточки ещё нет — добавляем
             var number = ItemCards.Count + 1;
-            ItemCards.Add(CreateCardViewModel(draft, number));
+            var newCard = CreateCardViewModel(draft, number);
+            ItemCards.Add(newCard);
         }
 
         private void RemoveCard(Guid id)
@@ -174,31 +269,48 @@ namespace ElectronicMaps.WPF.Features.Workspace
 
             // если удалили открытую карточку — закрываем детали
             if (OpenDetailsDraftId == id)
+            {
                 OpenDetailsDraftId = null;
+                SelectedCard = null;
+                IsDetailsOpen = false;
+            }
         }
 
         private void RebuildViewOptions()
         {
-
-            var current = SelectedViewKey;
+            var currentKey = SelectedViewOption?.Key;
 
             ViewOptions.Clear();
 
             var keys = _componentStore.GetViewKeys();
+            if (!keys.Any())
+            {
+                // Нет доступных форм
+                SelectedViewOption = null;
+                return;
+            }
+
             var ordered = keys
                 .OrderBy(k => string.Equals(k, WorkspaceViewKeys.UndefinedForm, StringComparison.OrdinalIgnoreCase) ? 0 : 1)
                 .ThenBy(k => ParseFormNumber(k) ?? int.MaxValue)
                 .ThenBy(k => k, StringComparer.OrdinalIgnoreCase);
 
             foreach (var key in ordered)
+            {
                 ViewOptions.Add(new ViewOption(key, ToTitle(key)));
+            }
 
-            // восстановим выбор, если он ещё валиден
-            if (!string.IsNullOrWhiteSpace(current) && ViewOptions.Any(x => x.Key == current))
-                return;
-
-            // иначе ставим дефолт (и да, это вызовет OnSelectedViewKeyChanged 1 раз — это нормально)
-            SelectedViewKey = ViewOptions.FirstOrDefault()?.Key;
+            // Восстанавливаем выбор, если он ещё валиден
+            if (!string.IsNullOrWhiteSpace(currentKey))
+            {
+                var matchingOption = ViewOptions.FirstOrDefault(x => x.Key == currentKey);
+                if(matchingOption != null)
+                {
+                    SelectedViewOption = matchingOption;
+                    return;
+                }
+            }
+            SelectedViewOption = ViewOptions.FirstOrDefault();
         }
 
         private static int? ParseFormNumber(string key)
@@ -218,19 +330,34 @@ namespace ElectronicMaps.WPF.Features.Workspace
                 return "Неопределённая форма";
 
             var n = ParseFormNumber(key);
-            return $"Форма {n}";
+            if (n.HasValue)
+                return $"Форма {n}";
+
+            return key; // Fallback на сам ключ если не удалось распарсить
         }
 
         private CardViewModelBase CreateCardViewModel(ComponentDraft draft, int number)
         {
             // FORM_4 vs остальные
             if (string.Equals(draft.FormCode, "FORM_4", StringComparison.OrdinalIgnoreCase))
-                return new FormCards.FamilyCardsViewModel(draft.FormCode, "Форма 4", number, draft);
+                return new FamilyCardsViewModel(draft.FormCode, "Форма 4", number, draft);
 
             if (string.Equals(draft.FormCode, WorkspaceViewKeys.UndefinedForm, StringComparison.OrdinalIgnoreCase))
-                return new FormCards.UndefinedCardViewModel(draft.FormCode, ToTitle(draft.FormCode), number, draft);
+                return new UndefinedCardViewModel(draft.FormCode, ToTitle(draft.FormCode), number, draft);
 
-            return new FormCards.ComponentCardViewModel(draft.FormCode, draft.FormName, number, draft);
+            return new ComponentCardViewModel(draft.FormCode, draft.FormName, number, draft);
+        }
+
+        private static void ReplaceCollection<T>(ObservableCollection<T> collection, List<T> newItems)
+        {
+            collection.Clear();
+            foreach (var item in newItems)
+                collection.Add(item);
+        }
+
+        private static void EnableCollectionSynchronization(ObservableCollection<CardViewModelBase> collection)
+        {
+            BindingOperations.EnableCollectionSynchronization(collection, new object());
         }
     }
 }
