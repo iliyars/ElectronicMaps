@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ElectronicMaps.Application.Features.Workspace.Models;
 using ElectronicMaps.Application.Stores;
-using ElectronicMaps.Application.WorkspaceProject.Models;
 using ElectronicMaps.WPF.Features.Workspace.FormCards;
 using ElectronicMaps.WPF.Features.Workspace.GridRows;
 using ElectronicMaps.WPF.Infrastructure.ViewModels;

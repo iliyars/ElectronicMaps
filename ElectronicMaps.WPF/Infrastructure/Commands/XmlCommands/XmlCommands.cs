@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using ElectronicMaps.Application.Project;
-using ElectronicMaps.Application.Services;
+using ElectronicMaps.Application.Features.Components.Services;
+using ElectronicMaps.Application.Features.Workspace.Services;
 using ElectronicMaps.Application.Stores;
 using ElectronicMaps.WPF.Features.Workspace;
 using ElectronicMaps.WPF.Services.Dialogs;

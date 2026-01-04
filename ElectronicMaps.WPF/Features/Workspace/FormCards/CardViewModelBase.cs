@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronicMaps.Application.WorkspaceProject.Models;
+using ElectronicMaps.Application.Features.Workspace.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,6 +24,11 @@ namespace ElectronicMaps.WPF.Features.Workspace.FormCards
         public string Name => item.Name;
         public int Quantity => item.Quantity;
 
+        /// <summary>
+        /// ID компонента
+        /// </summary>
+        public Guid Id => Item.Id;
+
 
         public IAsyncRelayCommand FillCommand { get; } //TODO: Разобраться кгде должна быть эта команда
 
@@ -31,7 +36,10 @@ namespace ElectronicMaps.WPF.Features.Workspace.FormCards
         //TODO: form enum
         public bool IsFamilyForm => string.Equals(FormCode, "FORM_4", StringComparison.OrdinalIgnoreCase);
 
-
+        /// <summary>
+        /// Тип карточки (для UI различения)
+        /// </summary>
+        public abstract string CardType { get; }
 
 
         protected CardViewModelBase(string formCode, string formName, int number, ComponentDraft item)
@@ -51,9 +59,13 @@ namespace ElectronicMaps.WPF.Features.Workspace.FormCards
         }
 
 
-        public void ReplaceItem(ComponentDraft newDraft)
+        public virtual void ReplaceItem(ComponentDraft newDraft)
         {
+            Item = newDraft;
 
+            OnPropertyChanged(nameof(Name));
+            OnPropertyChanged(nameof(Quantity));
+            OnPropertyChanged(nameof(Id));
         }
     }
 }

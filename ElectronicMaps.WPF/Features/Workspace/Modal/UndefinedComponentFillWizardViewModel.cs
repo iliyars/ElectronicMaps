@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronicMaps.Application.DTO.Forms;
-using ElectronicMaps.Application.WorkspaceProject.Models;
-using ElectronicMaps.Application.WorkspaceProject.Services;
+using ElectronicMaps.Application.DTOs.Forms;
+using ElectronicMaps.Application.Features.Workspace.Models;
+using ElectronicMaps.Application.Features.Workspace.Services;
 using ElectronicMaps.WPF.Features.Workspace.Parameters;
 using System.Collections.ObjectModel;
 
@@ -17,8 +17,8 @@ namespace ElectronicMaps.WPF.Features.Workspace.Modal
         [ObservableProperty]
         private int step = 1;
 
-        public Features.Workspace.Parameters.ParametersEditorViewModel FamilyEditor { get; private set; } = null!;
-        public Features.Workspace.Parameters.ParametersEditorViewModel ComponentEditor { get; private set; } = null!;
+        public ParametersEditorViewModel FamilyEditor { get; private set; } = null!;
+        public ParametersEditorViewModel ComponentEditor { get; private set; } = null!;
 
         public ObservableCollection<FormTypeDto> FormTypes { get; } = new();
 

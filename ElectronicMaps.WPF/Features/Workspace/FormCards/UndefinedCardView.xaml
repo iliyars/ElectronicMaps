@@ -6,28 +6,160 @@
              xmlns:local="clr-namespace:ElectronicMaps.WPF.Features.Workspace.FormCards"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Border>
+    <!-- Единый стиль с небольшим визуальным отличием -->
+    <Border Background="{DynamicResource CardBackground}"
+            BorderBrush="{DynamicResource WarningBorder}"
+            BorderThickness="1"
+            CornerRadius="6"
+            Padding="16,12"
+            Opacity="0.85">
+
+        <Border.Style>
+            <Style TargetType="Border">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver"
+                             Value="True">
+                        <Setter Property="BorderBrush"
+                                Value="{DynamicResource WarningBorderHover}" />
+                        <Setter Property="Background"
+                                Value="{DynamicResource CardBackgroundHover}" />
+                        <Setter Property="Opacity"
+                                Value="1.0" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <!-- Номер -->
+                <ColumnDefinition Width="*" />
+                <!-- Информация -->
+                <ColumnDefinition Width="Auto" />
+                <!-- Кнопка -->
+                <ColumnDefinition Width="Auto" />
+                <!-- Количество -->
+            </Grid.ColumnDefinitions>
 
-            <DockPanel Grid.Row="0"
-                       LastChildFill="True">
-                <TextBlock DockPanel.Dock="Left"
-                           Text="{Binding Number}"
-                           FontWeight="SemiBold"
-                           Opacity="0.7"
-                           Margin="0,0,10,0" />
+            <!-- Номер -->
+            <TextBlock Grid.Column="0"
+                       Text="{Binding Number}"
+                       FontSize="13"
+                       Foreground="{DynamicResource TextTertiary}"
+                       VerticalAlignment="Center"
+                       Margin="0,0,16,0"
+                       MinWidth="24" />
 
-                <TextBlock Text="{Binding FormName}"
-                           HorizontalAlignment="Right" />
-                <TextBlock Text="{Binding FamilyName}" />
+            <!-- Основная информация -->
+            <StackPanel Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Margin="0,0,16,0">
 
-            </DockPanel>
+                <!-- Название с иконкой предупреждения -->
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,0,0,2">
+                    <!-- Иконка (небольшая) -->
+                    <TextBlock Text="⚠"
+                               FontSize="13"
+                               Foreground="{DynamicResource WarningText}"
+                               VerticalAlignment="Center"
+                               Margin="0,0,6,0" />
+
+                    <TextBlock Text="{Binding Name}"
+                               FontSize="14"
+                               FontWeight="Medium"
+                               Foreground="{DynamicResource TextPrimary}"
+                               TextTrimming="CharacterEllipsis"
+                               VerticalAlignment="Center"
+                               ToolTip="{Binding Name}" />
+                </StackPanel>
+
+                <!-- Причина + позиционные обозначения (если есть) -->
+                <TextBlock FontSize="12"
+                           Foreground="{DynamicResource TextSecondary}"
+                           TextTrimming="CharacterEllipsis">
+                    <Run Text="{Binding UndefinedReason, Mode=OneTime}"
+                         Foreground="#CCD4A574" />
+                    <!-- Позиционные обозначения если есть -->
+                    <!--<Run Text=" • "
+                         Foreground="#80A0A0A0"
+                         Visibility="{Binding HasDesignators, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <Run Text="{Binding Designators, Mode=OneWay}"
+                         Visibility="{Binding HasDesignators, Converter={StaticResource BoolToVisibilityConverter}}" />-->
+                </TextBlock>
+            </StackPanel>
+
+            <!-- Кнопка "Добавить в БД" -->
+            <Button Grid.Column="2"
+                    Content="+ Добавить в БД"
+                    Command="{Binding AddToDatabaseCommand}"
+                    VerticalAlignment="Center"
+                    Margin="16,0,12,0"
+                    Padding="12,6"
+                    FontSize="12"
+                    Cursor="Hand"
+                    Background="Transparent"
+                    Foreground="{DynamicResource WarningButtonForeground}"
+                    BorderBrush="{DynamicResource WarningBorder}"
+                    BorderThickness="1">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="ButtonBorder"
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="4"
+                                            Padding="{TemplateBinding Padding}">
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver"
+                                                 Value="True">
+                                            <Setter TargetName="ButtonBorder"
+                                                    Property="Background"
+                                                    Value="{DynamicResource WarningButtonBackgroundHover}" />
+                                            <Setter TargetName="ButtonBorder"
+                                                    Property="BorderBrush"
+                                                    Value="{DynamicResource WarningBorderHover}" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed"
+                                                 Value="True">
+                                            <Setter TargetName="ButtonBorder"
+                                                    Property="Background"
+                                                    Value="{DynamicResource WarningButtonBackgroundPressed}" />
+                                            <Setter TargetName="ButtonBorder"
+                                                    Property="BorderBrush"
+                                                    Value="{DynamicResource WarningBorderHover}" />
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled"
+                                                 Value="False">
+                                            <Setter TargetName="ButtonBorder"
+                                                    Property="Opacity"
+                                                    Value="0.5" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <!-- Количество -->
+            <TextBlock Grid.Column="3"
+                       VerticalAlignment="Center"
+                       FontSize="13"
+                       Foreground="{DynamicResource TextSecondary}">
+                <Run Text="{Binding Quantity, Mode=OneTime}"
+                     FontWeight="Medium"
+                     Foreground="{DynamicResource TextPrimary}" />
+                <Run Text=" шт." />
+            </TextBlock>
         </Grid>
     </Border>
 </UserControl>

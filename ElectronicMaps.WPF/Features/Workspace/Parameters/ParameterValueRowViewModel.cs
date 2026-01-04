@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using ElectronicMaps.Application.DTO.Parameters;
+using ElectronicMaps.Application.DTOs.Parameters;
 using ElectronicMaps.Domain.Enums;
 
 

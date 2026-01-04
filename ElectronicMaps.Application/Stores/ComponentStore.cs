@@ -1,8 +1,8 @@
-﻿using ElectronicMaps.Application.Abstractons.Queries;
-using ElectronicMaps.Application.DTO.Parameters;
-using ElectronicMaps.Application.Utils;
-using ElectronicMaps.Application.WorkspaceProject;
-using ElectronicMaps.Application.WorkspaceProject.Models;
+﻿using ElectronicMaps.Application.Abstractions.Queries;
+using ElectronicMaps.Application.Common.Helpers;
+using ElectronicMaps.Application.DTOs.Parameters;
+using ElectronicMaps.Application.Features.Workspace.Models;
+using ElectronicMaps.Application.Features.Workspace.Serialization;
 using ElectronicMaps.Domain.DTO;
 using System;
 using System.Collections.Concurrent;
@@ -26,7 +26,7 @@ namespace ElectronicMaps.Application.Stores
         private readonly ReaderWriterLockSlim _lock = new(LockRecursionPolicy.NoRecursion);
         private readonly IWorkspaceProjectSerializer _serializer;
 
-        private WorkspaceProject.Models.WorkspaceProject _current;
+        private Features.Workspace.Models.WorkspaceProject _current;
         private Dictionary<Guid, byte[]> _documentBinaries = new();
         private bool _hasUnsavedChanges;
 
@@ -62,7 +62,7 @@ namespace ElectronicMaps.Application.Stores
 
         public bool HasUnsavedChanges => _hasUnsavedChanges;
 
-        public WorkspaceProject.Models.WorkspaceProject Current
+        public Features.Workspace.Models.WorkspaceProject Current
         {
             get
             {
@@ -75,7 +75,7 @@ namespace ElectronicMaps.Application.Stores
         public ComponentStore(IWorkspaceProjectSerializer serializer)
         {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
-            _current = WorkspaceProject.Models.WorkspaceProject.Empty();
+            _current = Features.Workspace.Models.WorkspaceProject.Empty();
             _hasUnsavedChanges = false;
         }
 
@@ -684,7 +684,7 @@ namespace ElectronicMaps.Application.Stores
             if (string.IsNullOrWhiteSpace(filePath))
                 throw new ArgumentException("File path is empty.", nameof(filePath));
 
-            WorkspaceProject.Models.WorkspaceProject snapshot;
+            Features.Workspace.Models.WorkspaceProject snapshot;
             IReadOnlyCollection<WordDocumentBinary> docs;
 
             _lock.EnterReadLock();
@@ -799,7 +799,7 @@ namespace ElectronicMaps.Application.Stores
             _lock.EnterWriteLock();
             try
             {
-                _current = WorkspaceProject.Models.WorkspaceProject.Empty();
+                _current = Features.Workspace.Models.WorkspaceProject.Empty();
                 _documentBinaries.Clear();
 
                 InvalidateIndexes_NoLock();

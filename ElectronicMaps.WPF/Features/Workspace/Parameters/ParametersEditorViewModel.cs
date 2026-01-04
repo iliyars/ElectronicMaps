@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using ElectronicMaps.Application.DTO.Parameters;
+using ElectronicMaps.Application.DTOs.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

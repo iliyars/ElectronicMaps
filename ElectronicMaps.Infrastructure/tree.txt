@@ -1,0 +1,245 @@
+Folder PATH listing for volume Data
+Volume serial number is E810-4D8E
+A:.
+¦   AddDbContextFactory.cs
+¦   AppDbContext.cs
+¦   DbConfig.cs
+¦   ElectronicMaps.Infrastructure.csproj
+¦   ServiceCollectionExtentions.cs
+¦   tree.txt
+¦   
++---bin
+¦   +---Debug
+¦       +---net10.0
+¦       ¦   ¦   ElectronicMaps.Application.dll
+¦       ¦   ¦   ElectronicMaps.Application.pdb
+¦       ¦   ¦   ElectronicMaps.Documents.dll
+¦       ¦   ¦   ElectronicMaps.Documents.pdb
+¦       ¦   ¦   ElectronicMaps.Domain.dll
+¦       ¦   ¦   ElectronicMaps.Domain.pdb
+¦       ¦   ¦   ElectronicMaps.Infrastructure.deps.json
+¦       ¦   ¦   ElectronicMaps.Infrastructure.dll
+¦       ¦   ¦   ElectronicMaps.Infrastructure.pdb
+¦       ¦   ¦   ElectronicMaps.Infrastructure.runtimeconfig.json
+¦       ¦   ¦   
+¦       ¦   +---BuildHost-net472
+¦       ¦   ¦   ¦   Microsoft.Build.Locator.dll
+¦       ¦   ¦   ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.exe
+¦       ¦   ¦   ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.exe.config
+¦       ¦   ¦   ¦   Microsoft.IO.Redist.dll
+¦       ¦   ¦   ¦   Newtonsoft.Json.dll
+¦       ¦   ¦   ¦   System.Buffers.dll
+¦       ¦   ¦   ¦   System.Collections.Immutable.dll
+¦       ¦   ¦   ¦   System.CommandLine.dll
+¦       ¦   ¦   ¦   System.Memory.dll
+¦       ¦   ¦   ¦   System.Numerics.Vectors.dll
+¦       ¦   ¦   ¦   System.Runtime.CompilerServices.Unsafe.dll
+¦       ¦   ¦   ¦   System.Threading.Tasks.Extensions.dll
+¦       ¦   ¦   ¦   
+¦       ¦   ¦   +---cs
+¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦       ¦   ¦   ¦       
+¦       ¦   ¦   +---de
+¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦       ¦   ¦   ¦       
+¦       ¦   ¦   +---es
+¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦       ¦   ¦   ¦       
+¦       ¦   ¦   +---fr
+¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦       ¦   ¦   ¦       
+¦       ¦   ¦   +---it
+¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦       ¦   ¦   ¦       
+¦       ¦   ¦   +---ja
+¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦       ¦   ¦   ¦       
+¦       ¦   ¦   +---ko
+¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦       ¦   ¦   ¦       
+¦       ¦   ¦   +---pl
+¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦       ¦   ¦   ¦       
+¦       ¦   ¦   +---pt-BR
+¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦       ¦   ¦   ¦       
+¦       ¦   ¦   +---ru
+¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦       ¦   ¦   ¦       
+¦       ¦   ¦   +---tr
+¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦       ¦   ¦   ¦       
+¦       ¦   ¦   +---zh-Hans
+¦       ¦   ¦   ¦       System.CommandLine.resources.dll
+¦       ¦   ¦   ¦       
+¦       ¦   ¦   +---zh-Hant
+¦       ¦   ¦           System.CommandLine.resources.dll
+¦       ¦   ¦           
+¦       ¦   +---BuildHost-netcore
+¦       ¦       ¦   Microsoft.Build.Locator.dll
+¦       ¦       ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.deps.json
+¦       ¦       ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+¦       ¦       ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll.config
+¦       ¦       ¦   Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.runtimeconfig.json
+¦       ¦       ¦   Newtonsoft.Json.dll
+¦       ¦       ¦   System.Collections.Immutable.dll
+¦       ¦       ¦   System.CommandLine.dll
+¦       ¦       ¦   
+¦       ¦       +---cs
+¦       ¦       ¦       System.CommandLine.resources.dll
+¦       ¦       ¦       
+¦       ¦       +---de
+¦       ¦       ¦       System.CommandLine.resources.dll
+¦       ¦       ¦       
+¦       ¦       +---es
+¦       ¦       ¦       System.CommandLine.resources.dll
+¦       ¦       ¦       
+¦       ¦       +---fr
+¦       ¦       ¦       System.CommandLine.resources.dll
+¦       ¦       ¦       
+¦       ¦       +---it
+¦       ¦       ¦       System.CommandLine.resources.dll
+¦       ¦       ¦       
+¦       ¦       +---ja
+¦       ¦       ¦       System.CommandLine.resources.dll
+¦       ¦       ¦       
+¦       ¦       +---ko
+¦       ¦       ¦       System.CommandLine.resources.dll
+¦       ¦       ¦       
+¦       ¦       +---pl
+¦       ¦       ¦       System.CommandLine.resources.dll
+¦       ¦       ¦       
+¦       ¦       +---pt-BR
+¦       ¦       ¦       System.CommandLine.resources.dll
+¦       ¦       ¦       
+¦       ¦       +---ru
+¦       ¦       ¦       System.CommandLine.resources.dll
+¦       ¦       ¦       
+¦       ¦       +---tr
+¦       ¦       ¦       System.CommandLine.resources.dll
+¦       ¦       ¦       
+¦       ¦       +---zh-Hans
+¦       ¦       ¦       System.CommandLine.resources.dll
+¦       ¦       ¦       
+¦       ¦       +---zh-Hant
+¦       ¦               System.CommandLine.resources.dll
+¦       ¦               
+¦       +---net8.0
+¦       ¦       ElectronicMaps.Application.dll
+¦       ¦       ElectronicMaps.Application.pdb
+¦       ¦       ElectronicMaps.Domain.dll
+¦       ¦       ElectronicMaps.Domain.pdb
+¦       ¦       ElectronicMaps.Infrastructure.deps.json
+¦       ¦       ElectronicMaps.Infrastructure.dll
+¦       ¦       ElectronicMaps.Infrastructure.pdb
+¦       ¦       ElectronicMaps.Infrastructure.runtimeconfig.json
+¦       ¦       
+¦       +---net9.0
++---Commands
+¦       EfSaveComponent.cs
+¦       
++---Initialization
+¦       DatabaseInitializer.cs
+¦       IDatabaseInitializer.cs
+¦       
++---Migrations
+¦       20251220235652_Initial.cs
+¦       20251220235652_Initial.Designer.cs
+¦       20251221004528_AddVerificationAndFixParameterTarget.cs
+¦       20251221004528_AddVerificationAndFixParameterTarget.Designer.cs
+¦       AppDbContextModelSnapshot.cs
+¦       
++---obj
+¦   ¦   ElectronicMaps.Infrastructure.csproj.nuget.dgspec.json
+¦   ¦   ElectronicMaps.Infrastructure.csproj.nuget.g.props
+¦   ¦   ElectronicMaps.Infrastructure.csproj.nuget.g.targets
+¦   ¦   project.assets.json
+¦   ¦   project.nuget.cache
+¦   ¦   
+¦   +---Debug
+¦       +---net10.0
+¦       ¦   ¦   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+¦       ¦   ¦   Electron.D68147B6.Up2Date
+¦       ¦   ¦   ElectronicMaps.Infrastructure.AssemblyInfo.cs
+¦       ¦   ¦   ElectronicMaps.Infrastructure.AssemblyInfoInputs.cache
+¦       ¦   ¦   ElectronicMaps.Infrastructure.assets.cache
+¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.AssemblyReference.cache
+¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.BuildWithSkipAnalyzers
+¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.CoreCompileInputs.cache
+¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.FileListAbsolute.txt
+¦       ¦   ¦   ElectronicMaps.Infrastructure.dll
+¦       ¦   ¦   ElectronicMaps.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+¦       ¦   ¦   ElectronicMaps.Infrastructure.genruntimeconfig.cache
+¦       ¦   ¦   ElectronicMaps.Infrastructure.GlobalUsings.g.cs
+¦       ¦   ¦   ElectronicMaps.Infrastructure.pdb
+¦       ¦   ¦   ElectronicMaps.Infrastructure.sourcelink.json
+¦       ¦   ¦   
+¦       ¦   +---ref
+¦       ¦   ¦       ElectronicMaps.Infrastructure.dll
+¦       ¦   ¦       
+¦       ¦   +---refint
+¦       ¦           ElectronicMaps.Infrastructure.dll
+¦       ¦           
+¦       +---net8.0
+¦       ¦   ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+¦       ¦   ¦   Electron.D68147B6.Up2Date
+¦       ¦   ¦   ElectronicMaps.Infrastructure.AssemblyInfo.cs
+¦       ¦   ¦   ElectronicMaps.Infrastructure.AssemblyInfoInputs.cache
+¦       ¦   ¦   ElectronicMaps.Infrastructure.assets.cache
+¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.AssemblyReference.cache
+¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.BuildWithSkipAnalyzers
+¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.CoreCompileInputs.cache
+¦       ¦   ¦   ElectronicMaps.Infrastructure.csproj.FileListAbsolute.txt
+¦       ¦   ¦   ElectronicMaps.Infrastructure.dll
+¦       ¦   ¦   ElectronicMaps.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+¦       ¦   ¦   ElectronicMaps.Infrastructure.genruntimeconfig.cache
+¦       ¦   ¦   ElectronicMaps.Infrastructure.GlobalUsings.g.cs
+¦       ¦   ¦   ElectronicMaps.Infrastructure.pdb
+¦       ¦   ¦   ElectronicMaps.Infrastructure.sourcelink.json
+¦       ¦   ¦   
+¦       ¦   +---ref
+¦       ¦   ¦       ElectronicMaps.Infrastructure.dll
+¦       ¦   ¦       
+¦       ¦   +---refint
+¦       ¦           ElectronicMaps.Infrastructure.dll
+¦       ¦           
+¦       +---net9.0
+¦           ¦   .NETCoreApp,Version=v9.0.AssemblyAttributes.cs
+¦           ¦   ElectronicMaps.Infrastructure.AssemblyInfo.cs
+¦           ¦   ElectronicMaps.Infrastructure.AssemblyInfoInputs.cache
+¦           ¦   ElectronicMaps.Infrastructure.assets.cache
+¦           ¦   ElectronicMaps.Infrastructure.csproj.AssemblyReference.cache
+¦           ¦   ElectronicMaps.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+¦           ¦   ElectronicMaps.Infrastructure.GlobalUsings.g.cs
+¦           ¦   
+¦           +---ref
+¦           +---refint
++---Persistence
+¦       EfUnitOfWork.cs
+¦       
++---Queries
+¦       EfComponentDetailsQuery .cs
+¦       EfComponentFamilyReadRepository.cs
+¦       EfComponentReadRepository.cs
+¦       EfComponentRemarksQuery.cs
+¦       EfFamilyDetailsQuery.cs
+¦       EfFamilyRemarkQuery.cs
+¦       EfFormTypeReadRepository.cs
+¦       EfParameterDefinitionReadRepository .cs
+¦       EfParameterValueReadRepository .cs
+¦       EfWorkspaceQuery .cs
+¦       
++---Repositories
+¦       AppUserRepository.cs
+¦       EfComponentFamilyRepository.cs
+¦       EfComponentRepository.cs
+¦       
++---Security
+¦       AuthorizationService.cs
+¦       IAuthorizationService.cs
+¦       WindowsCurrentUserService.cs
+¦       
++---Services
+        AvsXmlComponentSourceReader.cs
+        ComponentNameParser.cs
+        

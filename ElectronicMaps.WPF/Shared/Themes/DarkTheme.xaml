@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
     <!-- Background Colors -->
     <SolidColorBrush x:Key="WindowBackground"
                      Color="#1E1E1E" />
@@ -73,4 +74,47 @@
                      Color="#E0E0E0" />
     <SolidColorBrush x:Key="TextSecondary"
                      Color="#A0A0A0" />
+
+
+    <!-- ========== ЕДИНАЯ ЦВЕТОВАЯ СХЕМА ДЛЯ ВСЕХ КАРТОЧЕК ========== -->
+
+    <!-- Фон карточек (одинаковый для всех типов) -->
+    <SolidColorBrush x:Key="CardBackground"
+                     Color="#2D2D30"
+                     PresentationOptions:Freeze="True" />
+
+    <SolidColorBrush x:Key="CardBackgroundHover"
+                     Color="#3E3E42"
+                     PresentationOptions:Freeze="True" />
+
+    <!-- Рамка карточек (одинаковая для Component и Family) -->
+    <SolidColorBrush x:Key="CardBorder"
+                     Color="#3F3F46"
+                     PresentationOptions:Freeze="True" />
+
+    <SolidColorBrush x:Key="CardBorderHover"
+                     Color="#007ACC"
+                     PresentationOptions:Freeze="True" />
+
+    <!-- ========== ЦВЕТА ДЛЯ UNDEFINED (единственное отличие) ========== -->
+
+    <!-- Рамка для Undefined карточек (оранжевая, но приглушённая) -->
+    <SolidColorBrush x:Key="WarningBorder"
+                     Color="#6B5D42"
+                     PresentationOptions:Freeze="True" />
+
+    <SolidColorBrush x:Key="WarningBorderHover"
+                     Color="#D4A574"
+                     PresentationOptions:Freeze="True" />
+
+    <SolidColorBrush x:Key="WarningText"
+                     Color="#D4A574"
+                     PresentationOptions:Freeze="True" />
+
+    
+
+
+
+
+
 </ResourceDictionary>

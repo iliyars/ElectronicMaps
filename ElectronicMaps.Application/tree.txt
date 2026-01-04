@@ -1,0 +1,180 @@
+Folder PATH listing for volume Data
+Volume serial number is E810-4D8E
+A:.
+¦   ElectronicMaps.Application.csproj
+¦   ServiceCollectionExtensions.cs
+¦   tree.txt
+¦   
++---Abstractions
+¦   +---Commands
+¦   ¦       ISaveComponent.cs
+¦   ¦       
+¦   +---Persistance
+¦   ¦       IUnitOfWork.cs
+¦   ¦       
+¦   +---Queries
+¦       +---Components
+¦       ¦       IComponentDetailsQuery.cs
+¦       ¦       IComponentReadRepository.cs
+¦       ¦       
+¦       +---Families
+¦       ¦       IComponentFamilyReadRepository.cs
+¦       ¦       IFamilyDetailsQuery.cs
+¦       ¦       IFamilyRemarksQuery.cs
+¦       ¦       
+¦       +---Forms
+¦       ¦       IFormTypeReadRepository.cs
+¦       ¦       
+¦       +---Parameters
+¦       ¦       IParameterDefinitionReadRepository.cs
+¦       ¦       IParameterValueReadRepository.cs
+¦       ¦       
+¦       +---Remarks
+¦       ¦       IRemarksQuery.cs
+¦       ¦       
+¦       +---Workspace
+¦               IWorkspaceQuery.cs
+¦               
++---bin
+¦   +---Debug
+¦       +---net10.0
+¦       ¦       ElectronicMaps.Application.deps.json
+¦       ¦       ElectronicMaps.Application.dll
+¦       ¦       ElectronicMaps.Application.pdb
+¦       ¦       ElectronicMaps.Documents.dll
+¦       ¦       ElectronicMaps.Documents.pdb
+¦       ¦       ElectronicMaps.Domain.dll
+¦       ¦       ElectronicMaps.Domain.pdb
+¦       ¦       
+¦       +---net8.0
+¦               ElectronicMaps.Application.deps.json
+¦               ElectronicMaps.Application.dll
+¦               ElectronicMaps.Application.pdb
+¦               ElectronicMaps.Domain.dll
+¦               ElectronicMaps.Domain.pdb
+¦               
++---Common
+¦   +---Helpers
+¦           DesignatorHelper.cs
+¦           NameNormalizer.cs
+¦           
++---DTOs
+¦   +---Components
+¦   ¦       ComponentDetailsDto.cs
+¦   ¦       ComponentListItemDto.cs
+¦   ¦       ComponentLookUpDto.cs
+¦   ¦       NewComponentInFamilyDto.cs
+¦   ¦       SaveComponentRequest.cs
+¦   ¦       SaveComponentResult.cs
+¦   ¦       
+¦   +---Families
+¦   ¦       ComponentFamilyLookupDto.cs
+¦   ¦       FamilyDetailsDto.cs
+¦   ¦       NewFamilyAndComponentDto.cs
+¦   ¦       
+¦   +---Forms
+¦   ¦       FormTypeDto.cs
+¦   ¦       
+¦   +---Parameters
+¦   ¦       ParameterDefinitionDto.cs
+¦   ¦       ParameterValueDto.cs
+¦   ¦       ParameterValueInput.cs
+¦   ¦       
+¦   +---Remarks
+¦           RemarkDto.cs
+¦           
++---Features
+¦   +---Components
+¦   ¦   +---Services
+¦   ¦           ComponentAnalysisService.cs
+¦   ¦           IComponentAnalysisService.cs
+¦   ¦           
+¦   +---Import
+¦   ¦   +---Services
+¦   ¦           FileImportService.cs
+¦   ¦           IFileImportService.cs
+¦   ¦           
+¦   +---Workspace
+¦       +---Models
+¦       ¦       ComponentDraft.cs
+¦       ¦       ImportedRow.cs
+¦       ¦       ParameterValueDraft.cs
+¦       ¦       WordDocumentInfo.cs
+¦       ¦       WorkspaceProject.cs
+¦       ¦       WorkspaceViewKeys.cs
+¦       ¦       
+¦       +---Serialization
+¦       ¦       IWorkspaceProjectSerializer.cs
+¦       ¦       ZipWorkspaceProjectSerializer.cs
+¦       ¦       
+¦       +---Services
+¦               IProjectSaveService.cs
+¦               IUndefinedComponentFillService.cs
+¦               IWorkspaceActions.cs
+¦               ProjectSaveService.cs
+¦               UndefinedComponentFillService.cs
+¦               
++---obj
+¦   ¦   ElectronicMaps.Application.csproj.nuget.dgspec.json
+¦   ¦   ElectronicMaps.Application.csproj.nuget.g.props
+¦   ¦   ElectronicMaps.Application.csproj.nuget.g.targets
+¦   ¦   project.assets.json
+¦   ¦   project.nuget.cache
+¦   ¦   
+¦   +---Debug
+¦       +---net10.0
+¦       ¦   ¦   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+¦       ¦   ¦   Electron.8DA75E0F.Up2Date
+¦       ¦   ¦   ElectronicMaps.Application.AssemblyInfo.cs
+¦       ¦   ¦   ElectronicMaps.Application.AssemblyInfoInputs.cache
+¦       ¦   ¦   ElectronicMaps.Application.assets.cache
+¦       ¦   ¦   ElectronicMaps.Application.csproj.AssemblyReference.cache
+¦       ¦   ¦   ElectronicMaps.Application.csproj.BuildWithSkipAnalyzers
+¦       ¦   ¦   ElectronicMaps.Application.csproj.CoreCompileInputs.cache
+¦       ¦   ¦   ElectronicMaps.Application.csproj.FileListAbsolute.txt
+¦       ¦   ¦   ElectronicMaps.Application.dll
+¦       ¦   ¦   ElectronicMaps.Application.GeneratedMSBuildEditorConfig.editorconfig
+¦       ¦   ¦   ElectronicMaps.Application.GlobalUsings.g.cs
+¦       ¦   ¦   ElectronicMaps.Application.pdb
+¦       ¦   ¦   ElectronicMaps.Application.sourcelink.json
+¦       ¦   ¦   
+¦       ¦   +---ref
+¦       ¦   ¦       ElectronicMaps.Application.dll
+¦       ¦   ¦       
+¦       ¦   +---refint
+¦       ¦           ElectronicMaps.Application.dll
+¦       ¦           
+¦       +---net8.0
+¦           ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+¦           ¦   Electron.8DA75E0F.Up2Date
+¦           ¦   ElectronicMaps.Application.AssemblyInfo.cs
+¦           ¦   ElectronicMaps.Application.AssemblyInfoInputs.cache
+¦           ¦   ElectronicMaps.Application.assets.cache
+¦           ¦   ElectronicMaps.Application.csproj.AssemblyReference.cache
+¦           ¦   ElectronicMaps.Application.csproj.BuildWithSkipAnalyzers
+¦           ¦   ElectronicMaps.Application.csproj.CoreCompileInputs.cache
+¦           ¦   ElectronicMaps.Application.csproj.FileListAbsolute.txt
+¦           ¦   ElectronicMaps.Application.dll
+¦           ¦   ElectronicMaps.Application.GeneratedMSBuildEditorConfig.editorconfig
+¦           ¦   ElectronicMaps.Application.GlobalUsings.g.cs
+¦           ¦   ElectronicMaps.Application.pdb
+¦           ¦   ElectronicMaps.Application.sourcelink.json
+¦           ¦   
+¦           +---ref
+¦           ¦       ElectronicMaps.Application.dll
+¦           ¦       
+¦           +---refint
+¦                   ElectronicMaps.Application.dll
+¦                   
++---Security
+¦       AuthorizationService.cs
+¦       IAuthorizationService.cs
+¦       
++---Stores
+        ComponentStore.cs
+        IComponentStore.cs
+        IComponentStoreSerializer.cs
+        JsonComponentStoreSerializer.cs
+        StoreChangedEventArgs.cs
+        StoreChangeKind.cs
+        

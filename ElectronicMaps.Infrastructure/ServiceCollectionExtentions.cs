@@ -1,13 +1,7 @@
-﻿using ElectronicMaps.Application.Abstractons.Commands;
-using ElectronicMaps.Application.Abstractons.Queries;
-using ElectronicMaps.Application.Services;
+﻿using ElectronicMaps.Application.Abstractions.Queries.Workspace;
+using ElectronicMaps.Application.Abstractions.Commands;
 using ElectronicMaps.Domain.Repositories;
 using ElectronicMaps.Domain.Services;
-using ElectronicMaps.Infrastructure.Commands;
-using ElectronicMaps.Infrastructure.Initialization;
-using ElectronicMaps.Infrastructure.Persistance;
-using ElectronicMaps.Infrastructure.Queries;
-using ElectronicMaps.Infrastructure.Repositories;
 using ElectronicMaps.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +11,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ElectronicMaps.Infrastructure.Persistence;
+using ElectronicMaps.Application.Abstractions.Queries.Components;
+using ElectronicMaps.Application.Abstractions.Queries.Families;
+using ElectronicMaps.Application.Abstractions.Queries.Forms;
+using ElectronicMaps.Application.Abstractions.Queries.Parameters;
+using ElectronicMaps.Infrastructure.Persistence.Configuration;
+using ElectronicMaps.Infrastructure.Persistence.Initialization;
+using ElectronicMaps.Infrastructure.Persistence.Repositories.Commands;
+using ElectronicMaps.Infrastructure.Persistence.Repositories.Queries;
+using ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Components;
+using ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Families;
+using ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Forms;
+using ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Parameters;
+using ElectronicMaps.Application.Abstractions.Persistence;
 
 namespace ElectronicMaps.Infrastructure
 {
@@ -45,12 +53,10 @@ namespace ElectronicMaps.Infrastructure
             });
 
             services.AddScoped<IDatabaseInitializer, DatabaseInitializer>();
-            services.AddScoped<IAppUserRepository, AppUserRepository>();
             services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 
             // Write repositories
-            services.AddScoped<IComponentRepository, EfComponentRepository>();
-            services.AddScoped<IComponentFamilyRepository, EfComponentFamilyRepository>();
+
 
 
             services.AddScoped<IComponentReadRepository, EfComponentReadRepository>();

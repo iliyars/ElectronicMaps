@@ -1,4 +1,4 @@
-﻿using ElectronicMaps.Application.WorkspaceProject.Models;
+﻿using ElectronicMaps.Application.Features.Workspace.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +25,7 @@ namespace ElectronicMaps.Application.Stores
         event EventHandler<StoreChangedEventArgs>? Changed;
         bool HasUnsavedChanges { get; }
 
-        WorkspaceProject.Models.WorkspaceProject Current { get; }
+        Features.Workspace.Models.WorkspaceProject Current { get; }
 
 
         #region Import

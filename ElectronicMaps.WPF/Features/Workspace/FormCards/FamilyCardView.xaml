@@ -6,28 +6,90 @@
              xmlns:local="clr-namespace:ElectronicMaps.WPF.Features.Workspace.FormCards"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Border>
+    <!-- Единый стиль (как ComponentCard) -->
+    <Border Background="{DynamicResource CardBackground}"
+            BorderBrush="{DynamicResource CardBorder}"
+            BorderThickness="1"
+            CornerRadius="6"
+            Padding="16,12">
+
+        <Border.Style>
+            <Style TargetType="Border">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver"
+                             Value="True">
+                        <Setter Property="BorderBrush"
+                                Value="{DynamicResource CardBorderHover}" />
+                        <Setter Property="Background"
+                                Value="{DynamicResource CardBackgroundHover}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <!-- Номер -->
+                <ColumnDefinition Width="*" />
+                <!-- Информация -->
+                <ColumnDefinition Width="Auto" />
+                <!-- Количество -->
+            </Grid.ColumnDefinitions>
 
-            <DockPanel Grid.Row="0"
-                       LastChildFill="True">
-                <TextBlock DockPanel.Dock="Left"
-                           Text="{Binding Number}"
-                           FontWeight="SemiBold"
-                           Opacity="0.7"
-                           Margin="0,0,10,0" />
+            <!-- Номер -->
+            <TextBlock Grid.Column="0"
+                       Text="{Binding Number}"
+                       FontSize="13"
+                       Foreground="{DynamicResource TextTertiary}"
+                       VerticalAlignment="Center"
+                       Margin="0,0,16,0"
+                       MinWidth="24" />
 
-                <TextBlock Text="{Binding FormName}"
-                           HorizontalAlignment="Right" />
-                <TextBlock Text="{Binding FamilyName}" />
+            <!-- Основная информация -->
+            <StackPanel Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Margin="0,0,16,0">
 
-            </DockPanel>
+                <!-- Название компонента -->
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,0,0,2">
+                    <!-- Иконка семейства (небольшая) -->
+                    <TextBlock Text="👥"
+                               FontSize="14"
+                               VerticalAlignment="Center"
+                               Margin="0,0,6,0"
+                               Opacity="0.7" />
+
+                    <TextBlock Text="{Binding Name}"
+                               FontSize="14"
+                               FontWeight="Medium"
+                               Foreground="{DynamicResource TextPrimary}"
+                               TextTrimming="CharacterEllipsis"
+                               VerticalAlignment="Center"
+                               ToolTip="{Binding Name}" />
+                </StackPanel>
+
+                <!-- Семейство и позиционные обозначения -->
+                <TextBlock FontSize="12"
+                           Foreground="{DynamicResource TextSecondary}"
+                           TextTrimming="CharacterEllipsis">
+                    <Run Text="Семейство:"/>
+                    <Run Text="{Binding FamilyName, Mode=OneWay}"
+                         FontWeight="Medium" />
+                </TextBlock>
+            </StackPanel>
+
+            <!-- Количество компонентов -->
+            <TextBlock Grid.Column="2"
+                       VerticalAlignment="Center"
+                       FontSize="13"
+                       Foreground="{DynamicResource TextSecondary}">
+                <Run Text="{Binding ComponentsCount}"
+                     FontWeight="Medium"
+                     Foreground="{DynamicResource TextPrimary}" />
+                <Run Text=" компонента" />
+            </TextBlock>
         </Grid>
     </Border>
 </UserControl>

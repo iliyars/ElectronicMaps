@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using ElectronicMaps.Application.WorkspaceProject.Models;
+using ElectronicMaps.Application.Features.Workspace.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

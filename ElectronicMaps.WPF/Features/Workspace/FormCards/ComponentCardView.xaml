@@ -6,86 +6,78 @@
              xmlns:local="clr-namespace:ElectronicMaps.WPF.Features.Workspace.FormCards"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Border Background="Transparent"
-            Padding="20,16">
+    <!-- Единый стиль для всех карточек -->
+    <Border Background="{DynamicResource CardBackground}"
+            BorderBrush="{DynamicResource CardBorder}"
+            BorderThickness="1"
+            CornerRadius="6"
+            Padding="16,12">
+
+        <Border.Style>
+            <Style TargetType="Border">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver"
+                             Value="True">
+                        <Setter Property="BorderBrush"
+                                Value="{DynamicResource CardBorderHover}" />
+                        <Setter Property="Background"
+                                Value="{DynamicResource CardBackgroundHover}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
+                <!-- Номер -->
                 <ColumnDefinition Width="*" />
+                <!-- Информация -->
                 <ColumnDefinition Width="Auto" />
+                <!-- Количество -->
             </Grid.ColumnDefinitions>
-            
-            
-            <!-- Ноер карточки -->
-            <Border Grid.Column="0"
-                    Style="{StaticResource NumberBadgeStyle}"
-                    Margin="0,0,16,0">
-                <TextBlock Text="{Binding Number}"
-                           FontSize="20"
-                           FontWeight="Bold"
-                           Foreground="White"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center" />
-            </Border>
 
-            <!-- Информация о компоненте -->
+            <!-- Номер (минималистично) -->
+            <TextBlock Grid.Column="0"
+                       Text="{Binding Number}"
+                       FontSize="13"
+                       Foreground="{DynamicResource TextTertiary}"
+                       VerticalAlignment="Center"
+                       Margin="0,0,16,0"
+                       MinWidth="24" />
+
+            <!-- Основная информация -->
             <StackPanel Grid.Column="1"
-                        VerticalAlignment="Center">
+                        VerticalAlignment="Center"
+                        Margin="0,0,16,0">
 
-                <!-- Название компонента -->
+                <!-- Название -->
                 <TextBlock Text="{Binding Name}"
-                           Style="{StaticResource ComponentNameStyle}"
-                           Margin="0,0,0,6" />
+                           FontSize="14"
+                           FontWeight="Medium"
+                           Foreground="{DynamicResource TextPrimary}"
+                           TextTrimming="CharacterEllipsis"
+                           ToolTip="{Binding Name}" />
 
-                <!-- Метаданные -->
-                <StackPanel Orientation="Horizontal">
-                    <!-- Форма -->
-                    <StackPanel Orientation="Horizontal"
-                                Margin="0,0,16,0">
-                        <TextBlock Text="Форма:"
-                                   Style="{StaticResource MetadataLabelStyle}" />
-                        <TextBlock Text="{Binding FormName}"
-                                   Style="{StaticResource MetadataValueStyle}" />
-                    </StackPanel>
-
-                    <!-- Количество -->
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Количество:"
-                                   Style="{StaticResource MetadataLabelStyle}" />
-                        <TextBlock Text="{Binding Quantity}"
-                                   Style="{StaticResource MetadataValueStyle}" />
-                    </StackPanel>
-                </StackPanel>
+                <!-- Позиционные обозначения -->
+                <TextBlock Margin="0,2,0,0"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextSecondary}"
+                           TextTrimming="CharacterEllipsis">
+                    <Run Text="{Binding Designators, Mode=OneWay}" />
+                </TextBlock>
             </StackPanel>
 
-            <!-- Кнопки действий -->
-            <StackPanel Grid.Column="2"
-                        Orientation="Horizontal"
-                        VerticalAlignment="Center">
-
-                <!-- Кнопка "Детали" -->
-                <Button Content="Детали"
-                        Height="36"
-                        Padding="16,0"
-                        Style="{StaticResource PrimaryButton}"
-                        Margin="0,0,8,0"
-                        Command="{Binding DataContext.ToggleDetailsCommand, 
-                                  RelativeSource={RelativeSource AncestorType=UserControl}}"
-                        CommandParameter="{Binding Item.Id}" />
-
-                <!-- Кнопка "Редактировать" -->
-                <Button Content="⚙"
-                        Style="{StaticResource SecondaryActionButton}"
-                        ToolTip="Редактировать" />
-            </StackPanel>
-
-
-
-
+            <!-- Количество (минималистично) -->
+            <TextBlock Grid.Column="2"
+                       VerticalAlignment="Center"
+                       FontSize="13"
+                       Foreground="{DynamicResource TextSecondary}">
+                <Run Text="{Binding Quantity}"
+                     FontWeight="Medium"
+                     Foreground="{DynamicResource TextPrimary}" />
+                <Run Text=" шт." />
+            </TextBlock>
         </Grid>
-        
-        
-        
-        
     </Border>
 </UserControl>
