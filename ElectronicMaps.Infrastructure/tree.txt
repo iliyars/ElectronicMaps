@@ -1,9 +1,6 @@
 Folder PATH listing for volume Data
 Volume serial number is E810-4D8E
 A:.
-¦   AddDbContextFactory.cs
-¦   AppDbContext.cs
-¦   DbConfig.cs
 ¦   ElectronicMaps.Infrastructure.csproj
 ¦   ServiceCollectionExtentions.cs
 ¦   tree.txt
@@ -136,12 +133,6 @@ A:.
 ¦       ¦       
 ¦       +---net9.0
 +---Commands
-¦       EfSaveComponent.cs
-¦       
-+---Initialization
-¦       DatabaseInitializer.cs
-¦       IDatabaseInitializer.cs
-¦       
 +---Migrations
 ¦       20251220235652_Initial.cs
 ¦       20251220235652_Initial.Designer.cs
@@ -215,25 +206,43 @@ A:.
 ¦           +---ref
 ¦           +---refint
 +---Persistence
-¦       EfUnitOfWork.cs
-¦       
-+---Queries
-¦       EfComponentDetailsQuery .cs
-¦       EfComponentFamilyReadRepository.cs
-¦       EfComponentReadRepository.cs
-¦       EfComponentRemarksQuery.cs
-¦       EfFamilyDetailsQuery.cs
-¦       EfFamilyRemarkQuery.cs
-¦       EfFormTypeReadRepository.cs
-¦       EfParameterDefinitionReadRepository .cs
-¦       EfParameterValueReadRepository .cs
-¦       EfWorkspaceQuery .cs
-¦       
-+---Repositories
-¦       AppUserRepository.cs
-¦       EfComponentFamilyRepository.cs
-¦       EfComponentRepository.cs
-¦       
+¦   ¦   EfUnitOfWork.cs
+¦   ¦   
+¦   +---Configuration
+¦   ¦       AppDbContext.cs
+¦   ¦       DbConfig.cs
+¦   ¦       DbContextFactory.cs
+¦   ¦       
+¦   +---Initialization
+¦   ¦       DatabaseInitializer.cs
+¦   ¦       IDatabaseInitializer.cs
+¦   ¦       
+¦   +---Repositories
+¦       +---Commands
+¦       ¦       EfSaveComponent.cs
+¦       ¦       
+¦       +---Queries
+¦           ¦   EfWorkspaceQuery .cs
+¦           ¦   
+¦           +---Components
+¦           ¦       EfComponentDetailsQuery .cs
+¦           ¦       EfComponentReadRepository.cs
+¦           ¦       
+¦           +---Families
+¦           ¦       EfComponentFamilyReadRepository.cs
+¦           ¦       EfFamilyDetailsQuery.cs
+¦           ¦       EfFamilyRemarkQuery.cs
+¦           ¦       
+¦           +---Forms
+¦           ¦       EfFormTypeReadRepository.cs
+¦           ¦       
+¦           +---Parameters
+¦           ¦       EfParameterDefinitionReadRepository .cs
+¦           ¦       EfParameterValueReadRepository .cs
+¦           ¦       
+¦           +---Remarks
+¦                   EfComponentRemarksQuery.cs
+¦                   
 +---Security
 ¦       AuthorizationService.cs
 ¦       IAuthorizationService.cs

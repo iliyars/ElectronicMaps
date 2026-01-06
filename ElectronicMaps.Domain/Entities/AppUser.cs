@@ -1,10 +1,5 @@
-﻿using ElectronicMaps.Domain.Securirty;
-using ElectronicMaps.Domain.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ElectronicMaps.Domain.Common;
+using ElectronicMaps.Domain.Security;
 
 namespace ElectronicMaps.Domain.Entities
 {

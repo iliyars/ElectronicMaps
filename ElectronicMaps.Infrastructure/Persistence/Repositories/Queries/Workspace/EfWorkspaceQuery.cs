@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicMaps.Infrastructure.Persistence.Repositories.Queries
+namespace ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Workspace
 {
     /// <summary>
     /// EF Core реализация запроса данных рабочего пространства (Workspace).

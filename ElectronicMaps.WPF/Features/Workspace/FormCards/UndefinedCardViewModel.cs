@@ -29,7 +29,7 @@ namespace ElectronicMaps.WPF.Features.Workspace.FormCards
         [RelayCommand]
         private void AddToDatabase()
         {
-
+            var a = Item;
         }
     }
 }

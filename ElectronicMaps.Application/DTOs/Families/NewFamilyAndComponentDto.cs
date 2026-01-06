@@ -1,10 +1,6 @@
-﻿using ElectronicMaps.Application.Features.Workspace.Models;
-using ElectronicMaps.Domain.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ElectronicMaps.Application.DTOs.Domain;
+using ElectronicMaps.Application.Features.Workspace.Models;
+
 
 namespace ElectronicMaps.Application.DTOs.Families
 {

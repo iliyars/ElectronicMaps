@@ -1,0 +1,112 @@
+Folder PATH listing for volume Data
+Volume serial number is E810-4D8E
+A:.
+¦   ElectronicMaps.Domain.csproj
+¦   tree.txt
+¦   
++---bin
+¦   +---Debug
+¦       +---net10.0
+¦       ¦       ElectronicMaps.Domain.deps.json
+¦       ¦       ElectronicMaps.Domain.dll
+¦       ¦       ElectronicMaps.Domain.pdb
+¦       ¦       
+¦       +---net8.0
+¦               ElectronicMaps.Domain.deps.json
+¦               ElectronicMaps.Domain.dll
+¦               ElectronicMaps.Domain.pdb
+¦               
++---DTO
+¦       ComponentCreateDto.cs
+¦       ComponentDto.cs
+¦       ComponentFormResultDto.cs
+¦       ComponentParameterUpdateDto.cs
+¦       ComponentSourceFileDto.cs
+¦       DocumentMetadataDto.cs
+¦       FileImportResultDto.cs
+¦       ParameterDto.cs
+¦       ParsedComponentName.cs
+¦       SourceComponentDto.cs
+¦       
++---Entities
+¦       AppUser.cs
+¦       Component.cs
+¦       ComponentFamily.cs
+¦       FormType.cs
+¦       ParameterDefinition.cs
+¦       ParameterValue.cs
+¦       Remark.cs
+¦       
++---Enums
+¦       ComponentKind.cs
+¦       FormScope.cs
+¦       ParameterValueKind.cs
+¦       VerificationStatus.cs
+¦       
++---obj
+¦   ¦   ElectronicMaps.Domain.csproj.nuget.dgspec.json
+¦   ¦   ElectronicMaps.Domain.csproj.nuget.g.props
+¦   ¦   ElectronicMaps.Domain.csproj.nuget.g.targets
+¦   ¦   project.assets.json
+¦   ¦   project.nuget.cache
+¦   ¦   
+¦   +---Debug
+¦       +---net10.0
+¦       ¦   ¦   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+¦       ¦   ¦   ElectronicMaps.Domain.AssemblyInfo.cs
+¦       ¦   ¦   ElectronicMaps.Domain.AssemblyInfoInputs.cache
+¦       ¦   ¦   ElectronicMaps.Domain.assets.cache
+¦       ¦   ¦   ElectronicMaps.Domain.csproj.AssemblyReference.cache
+¦       ¦   ¦   ElectronicMaps.Domain.csproj.BuildWithSkipAnalyzers
+¦       ¦   ¦   ElectronicMaps.Domain.csproj.CoreCompileInputs.cache
+¦       ¦   ¦   ElectronicMaps.Domain.csproj.FileListAbsolute.txt
+¦       ¦   ¦   ElectronicMaps.Domain.dll
+¦       ¦   ¦   ElectronicMaps.Domain.GeneratedMSBuildEditorConfig.editorconfig
+¦       ¦   ¦   ElectronicMaps.Domain.GlobalUsings.g.cs
+¦       ¦   ¦   ElectronicMaps.Domain.pdb
+¦       ¦   ¦   ElectronicMaps.Domain.sourcelink.json
+¦       ¦   ¦   
+¦       ¦   +---ref
+¦       ¦   ¦       ElectronicMaps.Domain.dll
+¦       ¦   ¦       
+¦       ¦   +---refint
+¦       ¦           ElectronicMaps.Domain.dll
+¦       ¦           
+¦       +---net8.0
+¦           ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+¦           ¦   ElectronicMaps.Domain.AssemblyInfo.cs
+¦           ¦   ElectronicMaps.Domain.AssemblyInfoInputs.cache
+¦           ¦   ElectronicMaps.Domain.assets.cache
+¦           ¦   ElectronicMaps.Domain.csproj.BuildWithSkipAnalyzers
+¦           ¦   ElectronicMaps.Domain.csproj.CoreCompileInputs.cache
+¦           ¦   ElectronicMaps.Domain.csproj.FileListAbsolute.txt
+¦           ¦   ElectronicMaps.Domain.dll
+¦           ¦   ElectronicMaps.Domain.GeneratedMSBuildEditorConfig.editorconfig
+¦           ¦   ElectronicMaps.Domain.GlobalUsings.g.cs
+¦           ¦   ElectronicMaps.Domain.pdb
+¦           ¦   ElectronicMaps.Domain.sourcelink.json
+¦           ¦   
+¦           +---ref
+¦           ¦       ElectronicMaps.Domain.dll
+¦           ¦       
+¦           +---refint
+¦                   ElectronicMaps.Domain.dll
+¦                   
++---Repositories
+¦       IAppUserRepository.cs
+¦       IComponentFamilyRepository.cs
+¦       IComponentRepository.cs
+¦       
++---Securirty
+¦       AppRole.cs
+¦       ICurrentUserService.cs
+¦       
++---Services
+¦       IComponentFormBatchService.cs
+¦       IComponentNameParser.cs
+¦       IComponentSourceReader.cs
+¦       IFormQueryService.cs
+¦       
++---Shared
+        DomainObject.cs
+        

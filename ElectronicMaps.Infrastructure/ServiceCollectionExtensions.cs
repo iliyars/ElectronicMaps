@@ -19,16 +19,17 @@ using ElectronicMaps.Application.Abstractions.Queries.Parameters;
 using ElectronicMaps.Infrastructure.Persistence.Configuration;
 using ElectronicMaps.Infrastructure.Persistence.Initialization;
 using ElectronicMaps.Infrastructure.Persistence.Repositories.Commands;
-using ElectronicMaps.Infrastructure.Persistence.Repositories.Queries;
 using ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Components;
 using ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Families;
 using ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Forms;
 using ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Parameters;
 using ElectronicMaps.Application.Abstractions.Persistence;
+using ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Workspace;
+using ElectronicMaps.Application.Abstractions.Services;
 
 namespace ElectronicMaps.Infrastructure
 {
-    public static class ServiceCollectionExtentions
+    public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddMapsInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {

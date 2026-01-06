@@ -1,9 +1,5 @@
-﻿using ElectronicMaps.Domain.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using ElectronicMaps.Domain.ValueObjects;
 
 namespace ElectronicMaps.Domain.Services
 {
@@ -19,7 +15,7 @@ namespace ElectronicMaps.Domain.Services
         /// <param name="componentName">The logical name of the component to load the form for.</param>
         /// <param name="ct">Cancellation token for the asynchronius operaion.</param>
         /// <returns>A read-only list of parameter DTOs describing the component.</returns>
-        Task<IReadOnlyList<ParameterDto>> GetComponentFormAsync(
+        Task<IReadOnlyList<Parameter>> GetComponentFormAsync(
             string componentName,
             CancellationToken ct = default);
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicMaps.Domain.DTO
+namespace ElectronicMaps.Application.DTOs.Domain
 {
     /// <summary>
     /// Represents a single component entry loaded from an external source. (XML, Excel ...)

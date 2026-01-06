@@ -1,5 +1,4 @@
-﻿using ElectronicMaps.Domain.Securirty;
-using ElectronicMaps.Domain.Security;
+﻿using ElectronicMaps.Domain.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;

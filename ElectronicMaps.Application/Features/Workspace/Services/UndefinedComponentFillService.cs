@@ -77,7 +77,7 @@ namespace ElectronicMaps.Application.Features.Workspace.Services
                 );
 
             // Сохраняем в БД
-            var result = await _saveComponent.ExecuteAsync(request, ct);
+            var result = await _saveComponent.SaveAsync(request, ct);
 
             // Обновляем Store
             var savedForm = await _formTypes.GetByCodeAsync(request.ComponentFormTypeCode, ct);

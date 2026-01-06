@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicMaps.Domain.Shared
+namespace ElectronicMaps.Domain.Common
 {
     public class DomainObject
     {

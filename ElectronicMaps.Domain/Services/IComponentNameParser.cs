@@ -1,4 +1,4 @@
-﻿using ElectronicMaps.Domain.DTO;
+﻿using ElectronicMaps.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;

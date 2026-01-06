@@ -1,9 +1,4 @@
-﻿using ElectronicMaps.Domain.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ElectronicMaps.Application.DTOs.Domain;
 
 namespace ElectronicMaps.Application.Features.Import.Services
 {
