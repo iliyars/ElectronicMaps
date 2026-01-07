@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronicMaps.WPF.Features.Welcome;
-using ElectronicMaps.WPF.Infrastructure.Commands;
 using ElectronicMaps.WPF.Infrastructure.ViewModels;
 using Navigation.Core.Abstractions;
 using Navigation.Core.Models;
@@ -14,7 +13,6 @@ namespace ElectronicMaps.WPF.Main
     public class MainViewModel : ObservableObject
     {
         private readonly INavigationService _navigation;
-        private readonly IAppCommands _commands;
         
         private bool _disposed = false;
 
@@ -25,7 +23,6 @@ namespace ElectronicMaps.WPF.Main
         public bool CanGoBack => _navigation.CanGoBack;
         public bool CanGoForward => _navigation.CanGoForward;
 
-        public IAsyncRelayCommand OpenXmlCommand => _commands.Xml.OpenXml;
         public ICommand GoBackCommand { get; }
         public ICommand GoForwardCommand { get; }
         private string _currentScreenText;
@@ -37,10 +34,9 @@ namespace ElectronicMaps.WPF.Main
                 SetProperty(ref _currentScreenText, value);
             }
         }
-        public MainViewModel( INavigationService navigationService, IAppCommands appCommands)
+        public MainViewModel( INavigationService navigationService)
         {
             _navigation = navigationService;
-            _commands = appCommands;
             //SwitchTheme(true);
             _navigation.CurrentScreenChanged += OnCurrentScreenChanged;
         }

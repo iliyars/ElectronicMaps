@@ -136,7 +136,7 @@
 
                 <StackPanel>
                     <!-- Open XML -->
-                    <Button Command="{Binding OpenXmlCommand}"
+                    <Button Command="{Binding ImportXmlCommand}"
                             Style="{StaticResource WelcomeLinkButton}">
                         <StackPanel Orientation="Horizontal">
                             <Border Background="{DynamicResource AccentBrush}"

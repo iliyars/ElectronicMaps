@@ -1,15 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using ElectronicMaps.Application;
-using ElectronicMaps.Domain.Services;
 using ElectronicMaps.Infrastructure;
 using ElectronicMaps.Infrastructure.Persistence.Initialization;
-using ElectronicMaps.Infrastructure.Services;
-using ElectronicMaps.WPF.Features.Welcome;
-using ElectronicMaps.WPF.Features.Workspace;
-using ElectronicMaps.WPF.Infrastructure.Commands;
-using ElectronicMaps.WPF.Infrastructure.Commands.XmlCommands;
 using ElectronicMaps.WPF.Main;
-using ElectronicMaps.WPF.Services.Dialogs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,35 +35,27 @@ namespace ElectronicMaps.WPF
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 base.OnStartup(e);
 
-                _host = Host.CreateDefaultBuilder().UseSerilog()
+                _host = Host.CreateDefaultBuilder()
+                    .UseSerilog()
                     .ConfigureAppConfiguration((context, config) =>
                     {
                         config.SetBasePath(AppContext.BaseDirectory)
-                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                        .AddJsonFile($"appsettings.local.json", optional: true, reloadOnChange: true)
-                        .AddEnvironmentVariables();
+                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                            .AddJsonFile($"appsettings.local.json", optional: true, reloadOnChange: true)
+                            .AddEnvironmentVariables();
                     })
                     .ConfigureServices((context, services) =>
                     {
                         var configuration = context.Configuration;
 
+                        // Common Services
                         services.AddSingleton<IMessenger, WeakReferenceMessenger>();
-
-                        services.AddMapsInfrastructure(configuration);
-                        services.AddApplication(configuration);
-
                         services.AddSingleton<INavigationService, NavigationService>();
 
-                        // ViewModels
-                        services.AddTransient<MainViewModel>();
-                        services.AddTransient<WelcomeViewModel>();
-                        services.AddTransient<WorkspaceViewModel>();
-
-                        services.AddScoped<IComponentNameParser, ComponentNameParser>();
-                        services.AddSingleton<IXmlCommands, XmlCommands>();
-                        services.AddSingleton<IAppCommands, AppCommands>();
-
-                        services.AddSingleton<IDialogService, DialogService>();
+                        // Layers registration
+                        services.AddMapsInfrastructure(configuration);
+                        services.AddApplication(configuration);
+                        services.AddPresentation();
                     })
                     .Build();
 

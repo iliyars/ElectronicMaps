@@ -265,8 +265,11 @@ namespace ElectronicMaps.Application.Stores
         /// Метод пересобирает <see cref="WorkspaceProject.WorkingComponents"/> "с нуля".
         /// Параметры не подгружаются здесь и инициализируются пустыми — их загрузка выполняется отдельным шагом.
         /// </summary>
-        public void InitializeWorkingDrafts()
+        public void InitializeWorking(IReadOnlyList<ImportedRow> analyzedRows)
         {
+            if (analyzedRows == null)
+                throw new ArgumentNullException(nameof(analyzedRows));
+
             StoreChangedEventArgs args;
 
             _lock.EnterWriteLock();
@@ -275,12 +278,11 @@ namespace ElectronicMaps.Application.Stores
             {
                 var sw = Stopwatch.StartNew();
 
-                var imported = _current.ImportedRows;
                 var working = new Dictionary<Guid, ComponentDraft>();
 
-                if(imported is not null && imported.Count > 0)
+                if(analyzedRows.Count > 0)
                 {
-                    var familyGroups = imported
+                    var familyGroups = analyzedRows
                         .Where(r => r is not null)
                         .Where(r => !string.IsNullOrWhiteSpace(r.Family) || r.DatabaseFamilyId.HasValue)
                         .GroupBy(GetFamilyGroupKey, StringComparer.OrdinalIgnoreCase);
@@ -290,15 +292,15 @@ namespace ElectronicMaps.Application.Stores
                         var rows = g.ToList();
                         if (rows.Count == 0) continue;
 
-                        var draft = CreateFamilyDraftFromGroup(rows);
-                        working[draft.Id] = draft;
+                        var familyDraft = CreateFamilyDraftFromGroup(rows);
+                        working[familyDraft.Id] = familyDraft;
                     }
 
-                    foreach (var row in imported)
+                    foreach (var row in analyzedRows)
                     {
                         //Draft типа компонента
-                        var draf = CreateDraftFromImportedRow(row);
-                        working[draf.Id] = draf;
+                        var componentDraft = CreateDraftFromImportedRow(row);
+                        working[componentDraft.Id] = componentDraft;
                     }
                 }
                 _current = _current with { WorkingComponents = working };

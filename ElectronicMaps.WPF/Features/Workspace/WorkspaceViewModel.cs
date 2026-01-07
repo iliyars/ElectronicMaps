@@ -5,6 +5,7 @@ using ElectronicMaps.Application.Stores;
 using ElectronicMaps.WPF.Features.Workspace.FormCards;
 using ElectronicMaps.WPF.Features.Workspace.GridRows;
 using ElectronicMaps.WPF.Infrastructure.ViewModels;
+using ElectronicMaps.WPF.Services.Factories;
 using Navigation.Core.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace ElectronicMaps.WPF.Features.Workspace
     public partial class WorkspaceViewModel : BaseScreenViewModel, INavigatedTo, INavigatedFrom
     {
         private readonly IComponentStore _componentStore;
+        private readonly ICardViewModelFactory _cardfactory;
         private bool _subscribed;
         private bool _isInitializing;
 
@@ -59,10 +61,15 @@ namespace ElectronicMaps.WPF.Features.Workspace
         }
 
         public IRelayCommand<Guid> ToggleDetailsCommand { get; }
-        public WorkspaceViewModel(IComponentStore componentStore)
+        public WorkspaceViewModel(
+            IComponentStore componentStore,
+            ICardViewModelFactory cardViewModelFactory)
         {
             _componentStore = componentStore;
+            _cardfactory = cardViewModelFactory;
+
             ToggleDetailsCommand = new RelayCommand<Guid>(ToggleDetails);
+
             // ОПТИМИЗАЦИЯ: Отключаем уведомления об изменениях коллекции во время массовых операций
             EnableCollectionSynchronization(ItemCards);
         }
@@ -169,7 +176,7 @@ namespace ElectronicMaps.WPF.Features.Workspace
             var number = 1;
 
             foreach (var draft in drafts)
-                newCards.Add(CreateCardViewModel(draft, number++));
+                newCards.Add(_cardfactory.CreateCardViewModel(draft, number++));
             vmSw.Stop();
 
             var collSw = Stopwatch.StartNew();
@@ -251,7 +258,7 @@ namespace ElectronicMaps.WPF.Features.Workspace
 
             // Если карточки ещё нет — добавляем
             var number = ItemCards.Count + 1;
-            var newCard = CreateCardViewModel(draft, number);
+            var newCard = _cardfactory.CreateCardViewModel(draft, number);
             ItemCards.Add(newCard);
         }
 
@@ -334,18 +341,6 @@ namespace ElectronicMaps.WPF.Features.Workspace
                 return $"Форма {n}";
 
             return key; // Fallback на сам ключ если не удалось распарсить
-        }
-
-        private CardViewModelBase CreateCardViewModel(ComponentDraft draft, int number)
-        {
-            // FORM_4 vs остальные
-            if (string.Equals(draft.FormCode, "FORM_4", StringComparison.OrdinalIgnoreCase))
-                return new FamilyCardsViewModel(draft.FormCode, "Форма 4", number, draft);
-
-            if (string.Equals(draft.FormCode, WorkspaceViewKeys.UndefinedForm, StringComparison.OrdinalIgnoreCase))
-                return new UndefinedCardViewModel(draft.FormCode, ToTitle(draft.FormCode), number, draft);
-
-            return new ComponentCardViewModel(draft.FormCode, draft.FormName, number, draft);
         }
 
         private static void ReplaceCollection<T>(ObservableCollection<T> collection, List<T> newItems)

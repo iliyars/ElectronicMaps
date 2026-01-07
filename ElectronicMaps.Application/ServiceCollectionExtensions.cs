@@ -1,17 +1,13 @@
-﻿using ElectronicMaps.Application.Features.Components.Services;
+﻿using ElectronicMaps.Application.Abstractions.Services;
+using ElectronicMaps.Application.Features.Components.Services;
 using ElectronicMaps.Application.Features.Import.Services;
 using ElectronicMaps.Application.Features.Workspace.Serialization;
 using ElectronicMaps.Application.Features.Workspace.Services;
 using ElectronicMaps.Application.Stores;
 using ElectronicMaps.Documents.DI;
-using ElectronicMaps.Domain.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ElectronicMaps.Application
 {
@@ -21,17 +17,34 @@ namespace ElectronicMaps.Application
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddScoped<IFileImportService, FileImportService>();
-            services.AddScoped<IComponentAnalysisService, ComponentAnalysisService>();
+
+            // Mediator
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssembly(typeof(ServiceCollectionExtensions).Assembly);
+            });
+
+            // Services
+            services.AddScoped<IComponentFormBatchService, ComponentFormBatchService>();
+            services.AddScoped<IFileImportService, FileImportService>(); 
+            services.AddScoped<IComponentAnalysisService, ComponentAnalysisService>(); 
+            services.AddScoped<IComponentCreationService, ComponentCreationService>();
+
+            // Commands
+
+            // Stores
             services.AddSingleton<IComponentStore, ComponentStore>();
+
+            //Serialization
             services.AddSingleton<IComponentStoreSerializer, JsonComponentStoreSerializer>();
-            services.AddSingleton<IProjectSaveService, ProjectSaveService>(); // TODO: Move to Infrastructure>
-            services.AddScoped<IWorkspaceProjectSerializer, ZipWorkspaceProjectSerializer>(); // TODO: Move to Infrastructure>
+            services.AddScoped<IWorkspaceProjectSerializer, ZipWorkspaceProjectSerializer>();
 
-            //services.AddScoped<IDocumentAdapter, DocumentAdapter>(); // TODO: Move to Infrastructure>
-            //services.AddScoped<IDocumentGenerationService, DocumentGenerationService>(); // TODO: Move to Infrastructure>
+            // Project Management
+            services.AddSingleton<IProjectSaveService, ProjectSaveService>();
 
+            //Documents
             services.AddDocumentRendering(configuration);
+
             return services;
         }
     }

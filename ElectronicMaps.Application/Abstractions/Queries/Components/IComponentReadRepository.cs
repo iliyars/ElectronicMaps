@@ -3,18 +3,39 @@
 
 namespace ElectronicMaps.Application.Abstractions.Queries.Components
 {
+    /// <summary>
+    /// Репозиторий для чтения данных о компонентах
+    /// </summary>
     public interface IComponentReadRepository
     {
-        Task<ComponentLookUpDto?> GetByIdAsync(int id, CancellationToken ct);
-        Task<ComponentLookUpDto?> GetByNameAsync(string name, CancellationToken ct);
-        // TODO: Create DTO
-        Task<IReadOnlyList<ComponentLookUpDto>> GetAllAsync(CancellationToken ct);
+        /// <summary>
+        /// Получить компонент по ID
+        /// </summary>
+        Task<ComponentLookupDto?> GetByIdAsync(int id, CancellationToken ct);
 
-        Task<IReadOnlyList<ComponentLookUpDto>> GetByFormCodeAsync(string formCode, CancellationToken ct);
-        Task<IReadOnlyList<ComponentLookUpDto>> GetLookupByNamesAsync(IEnumerable<string> names, CancellationToken ct);
+        Task<ComponentLookupDto?> FindByNameAsync(string name, CancellationToken ct);
+        /// <summary>
+        /// Проверить существует ли компонент с указанным именем
+        /// </summary>
+        Task<bool> ExistsAsync(string name, CancellationToken ct = default);
 
-        Task<bool> ExistsAsync(string name, CancellationToken ct);
+        /// <summary>
+        /// Получить все компоненты семейства
+        /// </summary>
+        Task<IReadOnlyList<ComponentLookupDto>> GetByFamilyIdAsync(
+            int familyId,
+            CancellationToken ct = default);
 
+        /// <summary>
+        /// Получить все компоненты
+        /// </summary>
+        Task<IReadOnlyList<ComponentLookupDto>> GetAllAsync(CancellationToken ct = default);
 
+        /// <summary>
+        /// Получить компоненты по списку имён
+        /// </summary>
+        Task<IReadOnlyList<ComponentLookupDto>> GetByNamesAsync(
+            IEnumerable<string> names,
+            CancellationToken ct = default);
     }
 }

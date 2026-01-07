@@ -1,36 +1,43 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using ElectronicMaps.Application.Stores;
 using ElectronicMaps.WPF.Infrastructure.Commands;
 using ElectronicMaps.WPF.Infrastructure.ViewModels;
+using ElectronicMaps.WPF.Services.Dialogs;
+using MediatR;
+using Microsoft.Extensions.Logging;
 using Navigation.Core.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ElectronicMaps.WPF.Features.Welcome
 {
-    public class WelcomeViewModel : BaseScreenViewModel
+    public partial class WelcomeViewModel : BaseScreenViewModel
     {
-        private readonly IComponentStore _componentStore;
-        private readonly IAppCommands _commands;
+        private readonly IApplicationCommands _appCommands;
 
-        public WelcomeViewModel(IAppCommands commands)
+        [ObservableProperty]
+        private bool _isBusy;
+
+        [ObservableProperty]
+        private string? _statusMessage;
+
+        public WelcomeViewModel(IApplicationCommands appCommands)
         {
-            _commands = commands;
+            _appCommands = appCommands ?? throw new ArgumentNullException(nameof(appCommands));
         }
+
+
+
 
         // private readonly IRecentFilesService _recentFiles; // если понадобится
         // private readonly IOpenFileDialogService _openFileDialog; // если делаешь абстракцию поверх диалогов
-        public IAsyncRelayCommand OpenXmlCommand => _commands.Xml.OpenXml;
 
-        public ICommand ImportXmlCommand { get; }
+        /// <summary>
+        /// Команда: Импортировать XML
+        /// </summary>
+        public ICommand ImportXmlCommand => _appCommands.ImportXmlCommand;
         public ICommand OpenComponentsCommand { get; }
         public ICommand OpenFormsCommand { get; }
         public ICommand OpenSettingsCommand { get; }
 
-        public bool HasComponents => _componentStore.GetAllImported().Any(); // или Count > 0
     }
 }

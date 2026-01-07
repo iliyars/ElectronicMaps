@@ -73,7 +73,7 @@ namespace ElectronicMaps.Application.Stores
         /// Метод используется при первичной инициализации Workspace
         /// после импорта XML и не выполняет дробление компонентов.
         /// </summary>
-        void InitializeWorkingDrafts();
+        void InitializeWorking(IReadOnlyList<ImportedRow> analyzedRows);
         IReadOnlyList<ComponentDraft> GetAllWorking();
         ComponentDraft? TryGetWorking(Guid draftId);
         bool UpdateWorking(Guid draftId, Func<ComponentDraft, ComponentDraft> update);

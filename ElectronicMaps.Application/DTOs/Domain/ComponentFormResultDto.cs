@@ -6,30 +6,63 @@ using System.Threading.Tasks;
 
 namespace ElectronicMaps.Application.DTOs.Domain
 {
-    public class ComponentFormResultDto
+    public record ComponentFormResultDto
     {
-
-        public int? ComponentId { get; set; }
+        /// <summary>
+        /// Имя компонента
+        /// </summary>
+        public required string ComponentName { get; init; }
 
         /// <summary>
-        /// Name of component as provided by source
+        /// ID компонента в БД (если найден)
         /// </summary>
-        public string ComponentName { get; set; } = default!;
-
-        public string? FormCode { get; set; }
+        public int? ComponentId { get; init; }
 
         /// <summary>
-        /// Indicates whether the component was found in the database.
+        /// Код формы компонента (FORM_4, FORM_5 и т.д.)
         /// </summary>
-        public bool Found { get; set; }
+        public string? ComponentFormCode { get; init; }
 
         /// <summary>
-        /// Parameters resolved for this component.
-        /// Empty if the component was not found or the form could not be built.
+        /// Название формы компонента
         /// </summary>
-        public IReadOnlyList<ParameterDto> Parameters { get; set; } = Array.Empty<ParameterDto>();
+        public string? ComponentFormName { get; init; }
 
+        /// <summary>
+        /// ID семейства (если найдено)
+        /// </summary>
+        public int? FamilyId { get; init; }
 
+        /// <summary>
+        /// Имя семейства
+        /// </summary>
+        public string? FamilyName { get; init; }
 
+        /// <summary>
+        /// Код формы семейства
+        /// </summary>
+        public string? FamilyFormCode { get; init; }
+
+        /// <summary>
+        /// Название формы семейства
+        /// </summary>
+        public string? FamilyFormName { get; init; }
+
+        /// <summary>
+        /// Есть ли определённая форма (компонента или семейства)
+        /// </summary>
+        public bool HasDefinedForm =>
+            !string.IsNullOrWhiteSpace(ComponentFormCode) ||
+            !string.IsNullOrWhiteSpace(FamilyFormCode);
+
+        /// <summary>
+        /// Приоритетный код формы (сначала компонента, потом семейства)
+        /// </summary>
+        public string? PrimaryFormCode => ComponentFormCode ?? FamilyFormCode;
+
+        /// <summary>
+        /// Приоритетное название формы
+        /// </summary>
+        public string? PrimaryFormName => ComponentFormName ?? FamilyFormName;
     }
 }
