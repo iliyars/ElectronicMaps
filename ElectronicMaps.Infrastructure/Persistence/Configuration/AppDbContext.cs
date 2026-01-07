@@ -95,9 +95,6 @@ namespace ElectronicMaps.Infrastructure.Persistence.Configuration
 
             b.Property(x => x.CreatedAt).IsRequired();
 
-            b.Property(x => x.VerificationNote).IsRequired()
-                .HasMaxLength(500);
-
             b.Property(x =>x.Version)
                 .IsRequired().HasDefaultValue(1);
 

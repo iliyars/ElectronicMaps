@@ -8,5 +8,8 @@
     <converters:IndexToNumberConverter x:Key="IndexToNumberConverter" />
     <converters:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
     <converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+    <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+    <converters:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter" />
+    <converters:InverseBooleanToVisibilityConverter  x:Key="InverseBooleanToVisibilityConverter" />
 
 </ResourceDictionary>

@@ -1,4 +1,5 @@
-﻿using ElectronicMaps.WPF.Features.Workspace.Components.ViewModels;
+﻿using ElectronicMaps.Application.Features.Workspace.Models;
+using ElectronicMaps.WPF.Features.Workspace.Components.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,24 +19,28 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components
     /// </summary>
     public partial class CreateComponentDialog : Window
     {
-        public CreateComponentDialog()
+
+        private readonly CreateComponentViewModel _viewModel;
+        public CreateComponentDialog(CreateComponentViewModel viewModel)
         {
             InitializeComponent();
 
-            DataContextChanged += OnDataContextChanged;
+            _viewModel = viewModel;
+            DataContext = _viewModel;
+
+
+            _viewModel.CloseAction = () => Close();
         }
 
-        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        public bool? ShowDialogWithDraft(ComponentDraft draft)
         {
-            if (e.NewValue is CreateComponentViewModel viewModel)
+            // ✅ Вызов ПОСЛЕ Loaded
+            Loaded += async (s, e) =>
             {
-                // Установить action для закрытия окна
-                viewModel.CloseAction = () =>
-                {
-                    DialogResult = viewModel.DialogResult;
-                    Close();
-                };
-            }
+                await _viewModel.InitializeAsync(draft);
+            };
+
+            return ShowDialog();
         }
     }
 }

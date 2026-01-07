@@ -1,4 +1,6 @@
-﻿using ElectronicMaps.WPF.Features.Workspace.Components;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using ElectronicMaps.WPF.Features.Workspace.Components;
+using ElectronicMaps.WPF.Features.Workspace.Components.ViewModels;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System;
@@ -177,7 +179,7 @@ namespace ElectronicMaps.WPF.Services.Dialogs
 
         #region Custom Dialogs
 
-        public Task<bool> ShowDialogAsync<TViewModel> (TViewModel viewModel) where TViewModel : class
+        public Task<bool> ShowDialogAsync<TViewModel>(TViewModel viewModel) where TViewModel : class
         {
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
@@ -220,29 +222,45 @@ namespace ElectronicMaps.WPF.Services.Dialogs
             });
         }
 
+        public bool? ShowDialogWithInitialization<TViewModel>(
+            TViewModel viewModel,
+            Func<TViewModel, Task> initializeAsync) where TViewModel : class
+        {
+            var dialog = CreateDialogForViewModel(viewModel);
+
+            if (dialog == null)
+                throw new InvalidOperationException($"Диалог для {typeof(TViewModel).Name} не найден");
+
+            // ✅ Инициализация после загрузки окна
+            dialog.Loaded += async (s, e) =>
+            {
+                await initializeAsync(viewModel);
+            };
+
+            return dialog.ShowDialog();
+        }
+
+
         /// <summary>
         /// Создать окно для ViewModel
         /// Маппинг ViewModel → View
         /// </summary>
         private Window? CreateDialogForViewModel<TViewModel>(TViewModel viewModel)
         {
-            var viewModelTypeName = typeof(TViewModel).Name;
-
-            return viewModelTypeName switch
+            return viewModel switch
             {
-                "CreateComponentViewModel" => new CreateComponentDialog(),
-                // Добавьте другие маппинги здесь:
-                // "EditComponentViewModel" => new EditComponentDialog(),
-                // "SettingsViewModel" => new SettingsDialog(),
+                CreateComponentViewModel createVm => new CreateComponentDialog(createVm),
+
+                // TODO: Добавьте другие ViewModels:
+                // EditComponentViewModel editVm => new EditComponentDialog(editVm),
+                // SettingsViewModel settingsVm => new SettingsDialog(settingsVm),
+
                 _ => null
             };
         }
 
+        
 
         #endregion
-
-
-       
-       
     }
 }

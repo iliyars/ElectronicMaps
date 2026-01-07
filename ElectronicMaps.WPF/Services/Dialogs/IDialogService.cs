@@ -78,6 +78,13 @@ namespace ElectronicMaps.WPF.Services.Dialogs
         /// <returns>true если пользователь подтвердил (Yes), false если отменил (No)</returns>
         Task<bool> ShowConfirmationAsync(string message, string caption = "Подтверждение");
 
+        /// <summary>
+        /// Показать кастомный диалог с асинхронной инициализацией
+        /// </summary>
+        bool? ShowDialogWithInitialization<TViewModel>(
+            TViewModel viewModel,
+            Func<TViewModel, Task> initializeAsync) where TViewModel : class;
+
         #endregion
     }
 

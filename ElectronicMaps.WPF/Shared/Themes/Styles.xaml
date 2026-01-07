@@ -76,7 +76,7 @@
         <Setter Property="BorderThickness"
                 Value="1" />
         <Setter Property="Padding"
-                Value="8,6" />
+                Value="4,3" />
         <Setter Property="FontSize"
                 Value="14" />
         <Setter Property="Template">
@@ -137,7 +137,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
-                        <!-- КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: ToggleButton для клика -->
+                        <!-- ToggleButton для клика -->
                         <ToggleButton x:Name="ToggleButton"
                                       Focusable="False"
                                       IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
@@ -786,6 +786,85 @@
                         Value="{StaticResource MinimalHorizontalScrollBar}" />
             </Trigger>
         </Style.Triggers>
+    </Style>
+    
+    <!-- Стиль для Group Box -->
+    <Style TargetType="GroupBox">
+        <Setter Property="Margin"
+                Value="0,0,0,15" />
+        <Setter Property="Padding"
+                Value="15" />
+        <Setter Property="Background"
+                Value="{DynamicResource PanelBackground}" />
+        <Setter Property="BorderBrush"
+                Value="{DynamicResource CardBorder}" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GroupBox">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <!--Header-->
+                        <Border Grid.Row="0"
+                                Background="{DynamicResource DataGridHeaderBackground}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1,1,1,0"
+                                CornerRadius="4,4,0,0"
+                                Padding="12,8">
+                            <ContentPresenter ContentSource="Header"
+                                              TextBlock.FontWeight="SemiBold"
+                                              TextBlock.FontSize="14"
+                                              TextBlock.Foreground="{DynamicResource TextPrimary}" />
+                        </Border>
+
+                        <!-- Content -->
+                        <Border Grid.Row="1"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,4,4"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter />
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Стиль для меток параметров -->
+    <Style x:Key="ParameterLabel"
+           TargetType="TextBlock">
+        <Setter Property="Foreground"
+                Value="{DynamicResource TextPrimary}" />
+        <Setter Property="VerticalAlignment"
+                Value="Center" />
+        <Setter Property="FontSize"
+                Value="13" />
+        <Setter Property="TextWrapping"
+                Value="Wrap" />
+        <Setter Property="Margin"
+                Value="0,0,10,0" />
+    </Style>
+
+    <!-- Стиль для единиц измерения -->
+    <Style x:Key="UnitLabel"
+           TargetType="TextBlock">
+        <Setter Property="Foreground"
+                Value="{DynamicResource TextSecondary}" />
+        <Setter Property="VerticalAlignment"
+                Value="Center" />
+        <Setter Property="FontSize"
+                Value="13" />
+        <Setter Property="Margin"
+                Value="10,0,0,0" />
+        <Setter Property="MinWidth"
+                Value="40" />
     </Style>
 
 

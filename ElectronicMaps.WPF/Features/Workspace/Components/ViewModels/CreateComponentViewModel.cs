@@ -35,21 +35,20 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components.ViewModels
         #region Properties
 
         [ObservableProperty]
+        private int _currentStep = 0;
+
+        [ObservableProperty]
         private string _componentName = "";
-
-        [ObservableProperty]
-        private bool _isNewFamily = true;
-
-        [ObservableProperty]
-        private bool _isExistingFamily = false;
 
         [ObservableProperty]
         private string _newFamilyName = "";
 
         [ObservableProperty]
-        private ComponentFamilyLookupDto? _selectedFamily;
+        private bool _isFamilyExists = false;
 
-        public ObservableCollection<ComponentFamilyLookupDto> AvailableFamilies { get; } = new();
+        [ObservableProperty]
+        private ComponentFamilyLookupDto? _existingFamily;
+
 
         public ObservableCollection<ParameterDefinitionDto> FamilyParameterDefinitions { get; } = new();
         public ObservableCollection<ParameterInput> FamilyParameters { get; } = new();
@@ -90,28 +89,35 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components.ViewModels
                 ComponentName = draft.Name;
 
                 // 2. Если у draft есть FamilyKey - попробовать найти семейство
-                if (!string.IsNullOrWhiteSpace(draft.FamilyKey))
+                if (!string.IsNullOrWhiteSpace(draft.Family))
                 {
-                    NewFamilyName = draft.FamilyKey;
+                    NewFamilyName = draft.Family;
 
                     // Проверить существует ли семейство
-                    var existingFamily = await _creationService.FindFamilyByNameAsync(draft.FamilyKey);
+                    var existingFamily = await _creationService.FindFamilyByNameAsync(draft.Family);
                     if (existingFamily != null)
                     {
                         // Семейство существует - переключить на режим UseExisting
-                        IsNewFamily = false;
-                        IsExistingFamily = true;
-                        SelectedFamily = existingFamily;
+                        IsFamilyExists = true;
+                        ExistingFamily = existingFamily;
+                    }
+                    else
+                    {
+                        // Семейство не существует - нужно создать
+                        IsFamilyExists = false;
                     }
                 }
 
-                // 3. Загрузить параметры семейства
-                var familyParams = await _creationService.GetFamilyParameterDefinitionsAsync();
-                FamilyParameterDefinitions.Clear();
-                foreach (var param in familyParams)
+                // 3. Загрузить параметры семейства (если нужно создать)
+                if (!IsFamilyExists)
                 {
-                    FamilyParameterDefinitions.Add(param);
-                    FamilyParameters.Add(new ParameterInput(param));
+                    var familyParams = await _creationService.GetFamilyParameterDefinitionsAsync();
+                    FamilyParameterDefinitions.Clear();
+                    foreach(var param in familyParams)
+                    {
+                        FamilyParameterDefinitions.Add(param);
+                        FamilyParameters.Add(new ParameterInput(param));
+                    }
                 }
 
                 // 4. Загрузить формы компонента
@@ -121,16 +127,10 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components.ViewModels
                 {
                     AvailableComponentForms.Add(form);
                 }
-
-                // 5. Загрузить список семейств
-                var families = await _creationService.GetAllFamiliesAsync();
-                AvailableFamilies.Clear();
-                foreach (var family in families)
-                {
-                    AvailableFamilies.Add(family);
-                }
-
-                StatusMessage = "Готово к заполнению";
+                
+                StatusMessage = IsFamilyExists
+                ? $"Семейство '{ExistingFamily!.Name}' найдено в БД"
+                : "Готово";
             }
             catch (Exception ex)
             {
@@ -142,6 +142,61 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        #endregion
+
+        #region Step Navigation
+
+        [RelayCommand(CanExecute = nameof(CanGoNext))]
+        private void NextStep()
+        {
+            if (CurrentStep == 0 && IsFamilyExists)
+            {
+                CurrentStep = 2;
+            }
+            else if(CurrentStep < 2)
+            {
+                CurrentStep++;
+            }
+            NextStepCommand.NotifyCanExecuteChanged();
+            PreviousStepCommand.NotifyCanExecuteChanged();
+            SaveCommand.NotifyCanExecuteChanged();
+        }
+
+        private bool CanGoNext()
+        {
+            return CurrentStep switch
+            {
+                0 => !string.IsNullOrWhiteSpace(ComponentName), // Шаг 1: Имя заполнено
+                1 => !string.IsNullOrWhiteSpace(NewFamilyName), // Шаг 2: Семейство заполнено
+                _ => false
+            };
+        }
+
+        [RelayCommand(CanExecute = nameof(CanGoPrevious))]
+        private void PreviousStep()
+        {
+            if (CurrentStep == 2 && IsFamilyExists)
+            {
+                // Возврат с шага компонента сразу на имя (пропускаем семейство)
+                CurrentStep = 0;
+                _logger.LogDebug("Возврат на шаг имени (семейство пропущено)");
+            }
+            else if (CurrentStep > 0)
+            {
+                CurrentStep--;
+                _logger.LogDebug("Возврат на шаг {Step}", CurrentStep + 1);
+            }
+
+            NextStepCommand.NotifyCanExecuteChanged();
+            PreviousStepCommand.NotifyCanExecuteChanged();
+            SaveCommand.NotifyCanExecuteChanged();
+        }
+
+        private bool CanGoPrevious()
+        {
+            return CurrentStep > 0;
         }
 
         #endregion
@@ -186,25 +241,7 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components.ViewModels
         }
         #endregion
 
-        #region Family Mode
-        [RelayCommand]
-        private void SelectNewFamily()
-        {
-            IsNewFamily = true;
-            IsExistingFamily = false;
-            SelectedFamily = null;
-        }
-
-        [RelayCommand]
-        private void SelectExistingFamily()
-        {
-            IsNewFamily = false;
-            IsExistingFamily = true;
-            NewFamilyName = "";
-        }
-
-        #endregion
-
+  
         #region Save Command
 
         [RelayCommand(CanExecute = nameof(CanSave))]
@@ -256,31 +293,42 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components.ViewModels
         private bool CanSave()
         {
             return !IsBusy
+                && CurrentStep == 2  // Только на последнем шаге
                 && !string.IsNullOrWhiteSpace(ComponentName)
-                && SelectedComponentForm != null
-                && (IsNewFamily ? !string.IsNullOrWhiteSpace(NewFamilyName) : SelectedFamily != null);
+                && (IsFamilyExists || !string.IsNullOrWhiteSpace(NewFamilyName))  // Семейство есть или имя заполнено
+                && SelectedComponentForm != null;
         }
 
         private CreateComponentRequest CreateRequest()
         {
-            return new CreateComponentRequest()
+            if (IsFamilyExists)
             {
-                ComponentName = ComponentName,
-
-                FamilyMode = IsNewFamily
-                    ? FamilySelectionMode.CreateNew
-                    : FamilySelectionMode.UseExisting,
-
-                NewFamilyName = IsNewFamily ? NewFamilyName : null,
-                ExistingFamilyId = IsExistingFamily ? SelectedFamily?.Id : null,
-
-                FamilyParameters = IsNewFamily
-                    ? FamilyParameters.Select(p => p.ToParameterValueInput()).ToList()
-                    : null,
-
-                ComponentFormTypeCode = SelectedComponentForm!.Code,
-                ComponentParameters = ComponentParameters.Select(p => p.ToParameterValueInput()).ToList()
-            };
+                // Используем существующее семейство
+                return new CreateComponentRequest
+                {
+                    ComponentName = ComponentName,
+                    FamilyMode = FamilySelectionMode.UseExisting,
+                    NewFamilyName = null,
+                    ExistingFamilyId = ExistingFamily!.Id,
+                    FamilyParameters = null,
+                    ComponentFormTypeCode = SelectedComponentForm!.Code,
+                    ComponentParameters = ComponentParameters.Select(p => p.ToParameterValueInput()).ToList()
+                };
+            }
+            else
+            {
+                // Создаём новое семейство
+                return new CreateComponentRequest
+                {
+                    ComponentName = ComponentName,
+                    FamilyMode = FamilySelectionMode.CreateNew,
+                    NewFamilyName = NewFamilyName,
+                    ExistingFamilyId = null,
+                    FamilyParameters = FamilyParameters.Select(p => p.ToParameterValueInput()).ToList(),
+                    ComponentFormTypeCode = SelectedComponentForm!.Code,
+                    ComponentParameters = ComponentParameters.Select(p => p.ToParameterValueInput()).ToList()
+                };
+            }
         }
 
         #endregion
