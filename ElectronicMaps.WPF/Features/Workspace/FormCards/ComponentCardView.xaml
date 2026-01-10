@@ -73,7 +73,7 @@
                        VerticalAlignment="Center"
                        FontSize="13"
                        Foreground="{DynamicResource TextSecondary}">
-                <Run Text="{Binding Quantity}"
+                <Run Text="{Binding Quantity, Mode=OneWay}"
                      FontWeight="Medium"
                      Foreground="{DynamicResource TextPrimary}" />
                 <Run Text=" шт." />

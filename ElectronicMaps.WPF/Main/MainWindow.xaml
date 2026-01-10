@@ -25,7 +25,7 @@
             <Button Content="Save Project"
                     Style="{StaticResource ToolBarButtonStyle}"
                     Command="{Binding SaveProjectCommand}" />
-           
+
 
 
             <Separator />
@@ -36,23 +36,10 @@
                        Margin="12,0,0,0"
                        VerticalAlignment="Center" />
         </ToolBar>
-
-
-        <!-- Main area: left nav | content | details (collapsed by default) -->
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="180" />
-                <!-- left nav -->
-                <ColumnDefinition Width="*" />
-                <!-- content -->
-                <ColumnDefinition Width="0"
-                                  x:Name="DetailsColumn" />
-                <!-- details -->
-            </Grid.ColumnDefinitions>
-            <!-- Content area: ContentControl показывает текущую страницу (ViewModel -> View mapping) -->
-            <ContentControl Grid.Column="1"
-                            Content="{Binding CurrentScreen}" />
-        </Grid>
+        
+        <!-- Content area: ContentControl показывает текущую страницу (ViewModel -> View mapping) -->
+        <ContentControl Grid.Row="1"
+                        Content="{Binding CurrentScreen}" />
         
         <!-- Status bar -->
         <StatusBar Grid.Row="2">

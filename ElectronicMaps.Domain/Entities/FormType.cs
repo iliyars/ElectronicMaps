@@ -8,7 +8,7 @@ namespace ElectronicMaps.Domain.Entities
        
         public string Code { get; set; } = "";
         public string DisplayName { get; set; } = "";
-        public string? TemplateKey { get; set; }
+        public string Description { get; set; } = "";
 
         public ICollection<ParameterDefinition> Parameters { get; set; } = new List<ParameterDefinition>();
 

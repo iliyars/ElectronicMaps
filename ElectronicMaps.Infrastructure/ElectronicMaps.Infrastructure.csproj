@@ -31,4 +31,8 @@
     <ProjectReference Include="..\ElectronicMaps.Domain\ElectronicMaps.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Persistence\Repositories\Queries\Remarks\" />
+  </ItemGroup>
+
 </Project>

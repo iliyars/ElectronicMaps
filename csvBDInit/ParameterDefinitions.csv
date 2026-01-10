@@ -1,0 +1,1220 @@
+﻿FormCode;ParameterCode;DisplayName;Unit;ValueKind;Order
+FORM_4;InListTTZ;Наличие в перечнях при утверждении ТТЗ;;String;1
+FORM_4;LastEditions;Наличие в перечнх последних редакций;;String;2
+FORM_4;ResourceHours;Показатель ресурса;ч;Int;3
+FORM_4;LifeTimeYears;Показатель срока службы;лет;Int;4
+FORM_4;PreservationYears;Показатель сохраняемости;лет;Int;5
+FORM_4;FrequencyRange;Диапазон частот;Гц;String;6
+FORM_4;SoundPressure;Уровень звукового давления;дБ;Int;7
+FORM_4;LineAcceleration;Линейное ускорение;М.С.Е-2 (G);String;8
+FORM_4;LowPressure;Пониженное давление окр. среды;мм рт. ст.;String;9
+FORM_4;HighPressure;Повышенное давление окр. Среды;атм;String;10
+FORM_4;LowTemperature;Пониженная предельная температура;°C;String;11
+FORM_4;HighTemperature;Повышенная предельная температура;°C;String;12
+FORM_4;HumidityPercent;Относительная влажность %;;Int;13
+FORM_4;HumidityCelcius;Относительная влажность °C;;String;14
+FORM_4;Dew;Роса, иней;;String;15
+FORM_4;SpecialFactors;Стойкость к СВВФ;;String;16
+FORM_5;VibrationAcceleration;Вибрация. ускорение;М.С.Е.-2(G);String;1
+FORM_5;VibrationFreqRange;Вибрация. Диапазон частот;Гц;String;2
+FORM_5;SingleImpactAcceleration;Механический удар единичный. Ускорение;М.С.Е.-2(G);String;3
+FORM_5;SingleImpactDuration;Механический удар единичный. Длительность;мс;String;4
+FORM_5;MultiImpactAcceleration;Механический удар многократный. Ускорение;М.С.Е.-2(G);String;5
+FORM_5;MultiImpactDuration;Механический удар многократный. Длительность;мс;String;6
+FORM_5;ApprovalMark;Отметка о согласовании;;String;7
+FORM_6;FilamentStartupVoltage;Накал. Напряжение в режиме запуска;В макс/мин;String;1
+FORM_6;FilamentOperVoltage;Накал. Напряжение в рабочем режиме;В макс/мин;String;2
+FORM_6;CurrentSurge;Бросок тока;%;String;3
+FORM_6;HVDelayTime;Время задержки включения высокого напряжения;мин.;String;4
+FORM_6;AnodeVoltage;Анод. Напряжение постоянное(импульсное);кВ макс/мин;String;5
+FORM_6;VoltageRipple;Анод. Пульсация напряжения;% (В);String;6
+FORM_6;AnodeCurrent;Анод. Ток средний (импульсный);мА (А) макс/мин;String;7
+FORM_6;PulseRiseTime;Длительность фронта;нс;String;8
+FORM_6;PulseTopOvershoot;Выброс на вершине;%;String;9
+FORM_6;PulseTopDroop;Скос плоской части;%;String;10
+FORM_6;PulseTopFluctuation;Колебания на плоской части;%;String;11
+FORM_6;PulseTailUndershoot;Отрицательный выброс напр. после импульса;%;String;12
+FORM_6;PulseFallTime;Длительность спада;нс;String;13
+FORM_6;PulseDuration;Длительность;мкс;String;14
+FORM_6;AvgDutyCycle;Скважность средняя;;String;15
+FORM_6;InBurstDutyCycle;Скважность в пакете;;String;16
+FORM_6;BurstRepPeriod;Период следования пакетов;мс(мкс);String;17
+FORM_6;LoadVSWR;КСВН нагрузки;;String;18
+FORM_6;MagneticFieldStrength;Напряженность магнитного поля;Э;String;19
+FORM_6;ExternalMagneticFieldStrength;Напряженность стороннего магнитного поля;Э;String;20
+FORM_6;FerroMaterialDistance;Расстояние до ферромагнитных материалов;мм;String;21
+FORM_6;IonPumpVoltage;Напряжение электроразрядного насоса;кВ;String;22
+FORM_6;AnodeBlockTemp;Температура анодного блока (корпуса);°С;String;23
+FORM_6;CoolantInletTemp;Температура охлаждающей жидкости на входе;°С;String;24
+FORM_6;CoolantFlowRate;Расход охлаждающей жидкости;л/мин.;String;25
+FORM_6;AmbientTemp;Температура окружающей среды;°С;String;26
+FORM_6;LoadFactor;Коэффициент нагрузки;;String;27
+FORM_7;FilamentVoltage;Напряжение накала;В;String;1
+FORM_7;FilamentSurgeCurrent;Бросок тока накала;А;String;2
+FORM_7;HVDelayTime;Время задержки включения высокого напряжения;мин;String;3
+FORM_7;AnodeVoltage;Напряжение на аноде постоянное импульсное;кВ мин/макс;String;4
+FORM_7;AnodeVoltageRipple;Напряжение на аноде пульсация;%;String;5
+FORM_7;AnodeCurrent;Ток анода средний (импульсный);мА (А) мин/макс;String;6
+FORM_7;RFInputPulseDuration;Параметры входного СВЧ импульса длительность;мкс;String;7
+FORM_7;AvgDutyCycle;Параметры входного СВЧ импульса скважность (средняя);;String;8
+FORM_7;InBurstDutyCycle;Параметры входного СВЧ импульса скважность в пакете;;String;9
+FORM_7;BurstRepPeriod;Параметры входного СВЧ импульса период следования пакетов;мс/с;String;10
+FORM_7;RFInputPulseRiseTime;Параметры входного СВЧ импульса длительность фронта;мкс;String;11
+FORM_7;RFInputPulseTopDroop;Параметры входного СВЧ импульса скос плоской части;%;String;12
+FORM_7;RFInputPulseTopFluctuation;Параметры входного СВЧ импульса колебания на плоской части;%;String;13
+FORM_7;ModVoltPosOvershoot;Параметры импульса поделирующего напряжения положительный выброс напряжения;%;String;14
+FORM_7;ModVoltNegOvershoot;Параметры импульса поделирующего напряжения отрицательный выброс напряжения;%;String;15
+FORM_7;ModVoltPulseFallTime;Параметры импульса поделирующего напряжения длительность спада;мкс;String;16
+FORM_7;ModVoltPulseDuration;Параметры импульса поделирующего напряжения длительность импульса;мкс;String;17
+FORM_7;ModVoltRepPeriod;Параметры импульса поделирующего напряжения период следования;мкс;String;18
+FORM_7;InputPower;Параметры импульса поделирующего напряжения входная мощность;Вт(импульсная мВт);String;19
+FORM_7;InputVSWRInBand;КСВН на входе в рабочей полосе;;String;20
+FORM_7;InputVSWROutBand;КСВН на входе за рабочей полосой;;String;21
+FORM_7;OutputVSWRInBand;КСВН на выходе в рабочей полосе;;String;22
+FORM_7;OutputVSWROutBand;КСВН на выходе за рабочей полосой;;String;23
+FORM_7;MagneticFieldStrength;Напряженность магнитного поля;Э;String;24
+FORM_7;ExternalMagneticFieldStrength;Напряженность стороннего магнитного поля;Э;String;25
+FORM_7;FerroMaterialDistance;Расстояние до ферромагнитных материалов;мм;String;26
+FORM_7;IonPumpVoltage;Напряжение электроразрядного насоса;кВ;String;27
+FORM_7;CoolantInletTemp;Температура охлаждающей жидкости на входе;°С;String;28
+FORM_7;CoolantFlowRate;Расход охлаждающей жидкости;л/мин.;String;29
+FORM_7;AmbientTemp;Температура окружающей среды (корпуса);°С;String;30
+FORM_7;LoadFactor;Коэффициент нагрузки;;String;31
+FORM_8;FilamentVoltageMin;Напряжение накала мин.;В;String;1
+FORM_8;FilamentVoltageMax;Напряжение накала макс.;В;String;2
+FORM_8;Anode1VoltageMin;Напряжение анода (первого) мин.;В;String;3
+FORM_8;Anode1VoltageMax;Напряжение анода (первого) макс.;В;String;4
+FORM_8;AnodeNegElectrodeVoltage;Напряжение между анодом и отрицательным электродом;В;String;5
+FORM_8;ControlElectrodeVoltage;Напряжение управляющего (фокусирующего) электрода;В;String;6
+FORM_8;NegElectrodeVoltage;Напряжение отрицательного электрода (замедляющей системы);В;String;7
+FORM_8;AnodeVoltageStability;Стабильность напряжения анода ;%;String;8
+FORM_8;ControlElectrodeVoltageStability;Стабильность напряжения управляющего электрода ;%;String;9
+FORM_8;AnodeVoltageRipple;Пульсация напряжения анода ;%;String;10
+FORM_8;ControlElectrodeVoltageRipple;Пульсация напряжения управляющего электрода напряжения;%;String;11
+FORM_8;FilamentSurgeCurrent;Бросок тока накала при включении;А;String;12
+FORM_8;HVDelayTime;Время задержки включения высокого напряжения;мин.;String;13
+FORM_8;LoadVSWR;КСВН нагрузки;;String;14
+FORM_8;MagneticFieldStrength;Напряженность магнитного поля;Э;String;15
+FORM_8;ExternalMagneticFieldStrength;Напряженность стороннего магнитного поля;Э;String;16
+FORM_8;FerroMaterialDistance;Расстояние до ферромагнитных материалов;мм;String;17
+FORM_8;CoolantFlowRate;Расход охлаждающей жидкости;л/мин.;String;18
+FORM_8;AmbientTemp;Температура окружающей среды (корпуса);°С;String;19
+FORM_8;LoadFactor;Коэффициент нагрузки;;String;20
+FORM_9;FilamentVoltageMin;Накал напряжение мин.;В;String;1
+FORM_9;FilamentVoltageMax;Накал напряжение макс.;В;String;2
+FORM_9;FilamentSurgeCurrent;Накал бросок тока;А;String;3
+FORM_9;HVDelayTime;Время задержки включения высокого напряжения;мин.;String;4
+FORM_9;CathodeHeaterVoltage;Напряжение между катодом и подогревателем;В;String;5
+FORM_9;ResonatorVoltage;Резонатор напряжение;В;String;6
+FORM_9;ResonatorVoltageStability;Резонатор стабильность напряжения;%;String;7
+FORM_9;ResonatorVoltageRipple;Резонатор пульсация напряжения;%;String;8
+FORM_9;ReflectorVoltageMin;Отражатель напряжение мин.;В;String;9
+FORM_9;ReflectorVoltageMax;Отражатель напряжение макс.;В;String;10
+FORM_9;ReflectorVoltageRipple;Отражатель пульсация напряжения;мВ;String;11
+FORM_9;ReflectorCircuitResistance;Отражатель сопротивление в цепи отражателя;МОм;String;12
+FORM_9;CaseTemp;Температура корпуса;°С;String;13
+FORM_9;LoadVSWR;КСВН нагрузки;;String;14
+FORM_10;FilamentVoltageMinMax;Накал напряжение мин/макс;В;String;1
+FORM_10;FilamentSurgeCurrent;Накал бросок тока;%;String;2
+FORM_10;HVDelayTime;Время задержки включения высокого напряжения;мин.;String;3
+FORM_10;SolenoidVoltageInput;Напряжение магнитного поля соленоида в области ввода энергии;В;String;4
+FORM_10;SolenoidVoltageOutput;Напряжение магнитного поля соленоида в области вывода энергии;В;String;5
+FORM_10;SolenoidVoltageMid;Напряжение магнитного поля соленоида в области средней части ЗС;В;String;6
+FORM_10;IonPumpAnodeVoltage;Электроразрядный насос напряжение анода (сетки);В;String;7
+FORM_10;IonPumpFilamentVoltage;Электроразрядный насос напряжение накала;В;String;8
+FORM_10;InputPower;Входная мощность;Вт;String;9
+FORM_10;ModPulseDuration;Параметры модулирующего импульса длительность;мкс;String;10
+FORM_10;ModPulseDutyCycle;Параметры модулирующего импульса скважность;;String;11
+FORM_10;ModPulseRiseTime;Параметры модулирующего импульса длительность фронта;мкс;String;12
+FORM_10;ModPulseFallTime;Параметры модулирующего импульса длительность спада;мкс;String;13
+FORM_10;ModPulseTopDroop;Параметры модулирующего импульса снос плоской части;%;String;14
+FORM_10;ModPulseTopFluctuation;Параметры модулирующего импульса колебания на плоской части;%;String;15
+FORM_10;OutputVSWR;КСВН выходного тракта;;String;16
+FORM_10;AmbientTemp;Температура окружающей среды (корпуса);°С;String;17
+FORM_10;LoadFactor;Коэффициент нагрузки;;String;18
+FORM_10;CoolantInletTemp;Температура охлаждающей жидкости на входе;°С;String;19
+FORM_10;CoolantFlowRate;Расход охлаждающей жидкости;л/мин;String;20
+FORM_10;ExternalMagneticFieldStrength;Напряженность стороннего магнитного поля;Э;String;21
+FORM_10;FerroMaterialDistance;Расстояние до ферромагнитных материалов;мм;String;22
+FORM_10;PowerSupplyVoltage;Параметры источника питания напряжение;В;String;23
+FORM_10;PowerSupplyStability;Параметры источника питания стабильность;%;String;24
+FORM_10;PowerSupplyRipple;Параметры источника питания пульсация;%;String;25
+FORM_11;FilamentSurgeCurrent;Бросок тока накала;А;String;1
+FORM_11;HVDelayTime;Время задержки включения высокого напряжения;мин.;String;2
+FORM_11;SolenoidCurrentMagField;Ток соленоида (напряженность маг. поля) макс/мин;А (Э);String;3
+FORM_11;IonPumpVoltage;Напряжение электропроводного насоса;кВ;String;4
+FORM_11;InputPowerCW;Входная мощность непрерывная (импульсн.) макс/мин;Вт;String;5
+FORM_11;LoadVSWR;КСВН нагрузки;;String;6
+FORM_11;ExternalMagneticFieldStrength;Напряженность стороннего магнитного поля;Э;String;7
+FORM_11;ModulationVoltage;Параметры модуляции напряжение;В макс/мин;String;8
+FORM_11;ModulationFrequency;Параметры модуляции частота;МГц;String;9
+FORM_11;ModulationDutyCycle;Параметры модуляции скважность;;String;10
+FORM_11;ModPulseDuration;Параметры модулирующего импульса длительность;мкс;String;11
+FORM_11;ModPulseRiseTime;Параметры модулирующего импульса длительность фронта;мкс;String;12
+FORM_11;ModPulseTopDroop;Параметры модулирующего импульса скою плоской части;%;String;13
+FORM_11;ModPulseTopFluctuation;Параметры модулирующего импульса колебания на плоской части;%;String;14
+FORM_11;ModPulseFallTime;Параметры модулирующего импульса длительность спада;мкс;String;15
+FORM_11;CoolantInletTemp;Температура охлаждающей жидкости на входе;°С;String;16
+FORM_11;CoolantFlowRate;Расход охлаждающей жидкости;л/мин;String;17
+FORM_11;CollectorTemp;Температура коллектора;°С;String;18
+FORM_11;AmbientTemp;Температура окружающей среды (корпуса);°С;String;19
+FORM_11;FerroMaterialDistance;Расстояние до ферромагнитных материалов;мм;String;20
+FORM_11;LoadFactor;Коэффициент нагрузки;;String;21
+FORM_11;PowerSupplyVoltage;Параметры источника питания напряжение;В макс/мин;String;22
+FORM_11;PowerSupplyStability;Параметры источника питания стабильность;%;String;23
+FORM_11;PowerSupplyRipple;Параметры источника питания пульсация;%;String;24
+FORM_12;FilamentVoltageMinMax;Накал напряжение мин/макс;В;String;1
+FORM_12;FilamentSurgeCurrent;Накал бросок тока;%;String;2
+FORM_12;HVDelayTime;Время задержки включения высокого напряжения;мин.;String;3
+FORM_12;SolenoidCurrent;Соленоид ток;А;String;4
+FORM_12;SolenoidCurrentStability;Соленоид стабильность тока;%;String;5
+FORM_12;PumpGenPower;Генератор накачки мощность;МВт;String;6
+FORM_12;PumpGenPowerStability;Генератор накачки стабильность мощности;%;String;7
+FORM_12;PumpGenFrequency;Генератор накачки частота колебаний;МГц;String;8
+FORM_12;PumpGenFreqStability;Генератор накачки стабильность частоты;%;String;9
+FORM_12;AmbientTemp;Температура окружающей среды (корпуса);°С;String;10
+FORM_12;InputLoadVSWR;КСВН входного тракта и нагрузки;;String;11
+FORM_12;PowerSupplyVoltage;Параметры источника питания напряжение;В;String;12
+FORM_12;PowerSupplyStability;Параметры источника питания стабильность;%;String;13
+FORM_12;PowerSupplyRipple;Параметры источника питания пульсация;%;String;14
+FORM_13;FrequencyRangeCompliance;Соответствие диапазону частот (да, нет);;String;1
+FORM_13;IncidentPulsePowerMin;Падающая мощность импульсная мин.;кВт;String;2
+FORM_13;IncidentPulsePowerMax;Падающая мощность импульсная макс.;кВт;String;3
+FORM_13;DutyCycle;Скважность;;String;4
+FORM_13;TransmitterPulseWidthMin;Длительность импульса передатчика мин.;мкс;String;5
+FORM_13;TransmitterPulseWidthMax;Длительность импульса передатчика макс.;мкс;String;6
+FORM_13;DCControlVoltage;Параметры режима управления от источника постоянного напряжения напряжение;В;String;7
+FORM_13;DCControlCurrent;Параметры режима управления от источника постоянного напряжения ток;мкА;String;8
+FORM_13;PulseControlAmplitude;Параметры режима управления от источника постоянного напряжения амплитуда импульса;В;String;9
+FORM_13;PulseControlWidth;Параметры режима управления от источника постоянного напряжения длительность импульса;мкс;String;10
+FORM_13;PulseControlDelay;Параметры режима управления от источника постоянного напряжения опережение управляющего импульса относительно импульса передатчика;мкс;String;11
+FORM_13;AmbientTemp;Температура окружающей среды (корпуса);°С;String;12
+FORM_13;LoadFactor;Коэффициент нагрузки;;String;13
+FORM_14;PulseWidth;Параметры импульса. Длительность;мкс;String;1
+FORM_14;PulseRepRate;Параметры импульса. Частота следования;Гц;String;2
+FORM_14;ReverseBiasVoltage;Постоянное обратное напряжение;В;String;3
+FORM_14;ForwardBiasCurrent;Ток прямой положительного смещения;А;String;4
+FORM_14;ReverseCurrent;Ток постоянный обратный;А;String;5
+FORM_14;RectifiedCurrent;Ток выпрямленный;А;String;6
+FORM_14;DissipatedPower;Мощность рассеиваемая;Вт;String;7
+FORM_14;SwitchingPower;Мощность коммутируемая;Вт;String;8
+FORM_14;LeakagePulsePeakEnergy;Энергия пика просачивающегося импульса;Дж;String;9
+FORM_14;FrequencyRangeCompliance;Соответствие диапазону частот (да, нет);;String;10
+FORM_14;AmbientTemp;Температура окружающей среды;°С;String;11
+FORM_14;LoadFactor;Коэффициент нагрузки;;String;12
+FORM_15;DCCEVoltage;постоянное напр.коллектор-эмиттер (коллектор-база);В;String;1
+FORM_15;DCEBVoltage;постоянное напряжение эмиттер-база;В;String;2
+FORM_15;DCCollectorCurrent;постоянный ток коллектора;А;String;3
+FORM_15;DCDissipatedPower;постоянная рассеиваемая мощность;Вт;String;4
+FORM_15;BaseResistance;сопротивление в цепи базы;Ом;String;5
+FORM_15;AmbientTempCW;температура окружающей среды (корпуса);°С;String;6
+FORM_15;LowerOutputFreq;нижняя рабочая частота выходного сигнала;МГц;String;7
+FORM_15;PeakCEVoltage;пиковое значение напр.колл.-эмит.(колл.-база);В;String;8
+FORM_15;DCAvgCollectorCurrent;постоянная составляющая коллекторного тока;А;String;9
+FORM_15;InputRFPower;входная ВЧ (СВЧ) мощность;Вт;String;10
+FORM_15;RFDissipatedPower;рассеиваемая мощность;Вт;String;11
+FORM_15;AmbientTempPulse;температура окружающей среды (корпуса);°С;String;12
+FORM_15;LoadFactor;коэффициент нагрузки;;String;13
+FORM_16;BiasVoltageMin;Напряжение смещения минимальное;В;String;1
+FORM_16;BiasVoltageMax;Напряжение смещения максимальное;В;String;2
+FORM_16;LeakagePowerLevel;Вход усилителя уровень просачивающейся мощности;мкВт;String;3
+FORM_16;InputVSWR;Вход усилителя КСВН;;String;4
+FORM_16;OutputVSWR;КСВН на выходе усилителя;;String;5
+FORM_16;ThermostatVoltage;Напряжение питания термостата;В;String;6
+FORM_16;PumpGenVoltage;Питание генератора накачки напряжение;В;String;7
+FORM_16;PumpGenRipple;Питание генератора накачки пульсация;%;String;8
+FORM_16;PumpGenStability;Питание генератора накачки стабильность;%;String;9
+FORM_16;AmbientTemp;Температура окружающей среды (корпуса);°С;String;10
+FORM_16;LoadFactor;Коэффициент нагрузки;;String;11
+FORM_17;SupplyVoltageMin;Напряжение минимальное питания;В;String;1
+FORM_17;SupplyVoltageMax;Напряжение максимальное питания;В;String;2
+FORM_17;OperatingCurrent;Рабочий ток;мА;String;3
+FORM_17;DiodePowerConsumption;Мощность, потребляемая диодом;Вт;String;4
+FORM_17;MaxLoadVSWR;Максимальный КСВН нагрузки;;String;5
+FORM_17;AmbientTemp;Температура окружающей среды (корпуса);°С;String;6
+FORM_17;LoadFactor;Коэффициент нагрузки;;String;7
+FORM_18;SupplyVoltage;Напряжение питания;В;String;1
+FORM_18;OperatingCurrentMin;Рабочий ток минимальное;мА;String;2
+FORM_18;OperatingCurrentMax;Рабочий ток максимальное;мА;String;3
+FORM_18;LoadVSWR;КСВН нагрузки;;String;4
+FORM_18;AmbientTemp;Температура окружающей среды (корпуса);°C;String;5
+FORM_18;LoadFactor;Коэффициент нагрузки;;String;6
+FORM_19;MinInputPower;Минимальная входная мощность;Вт;String;1
+FORM_19;MaxInputPower;Максимальная входная мощность;Вт;String;2
+FORM_19;LoadVSWR;КСВН нагрузки;;String;3
+FORM_19;SupplyVoltageMin;Напряжение питания минимальное;В;String;4
+FORM_19;SupplyVoltageMax;Напряжение питания максимальное;В;String;5
+FORM_19;SupplyRipple;Напряжение питания пульсация;%;String;6
+FORM_19;AmbientTemp;Температура окружающей среды (корпуса);°C;String;7
+FORM_19;LoadFactor;Коэффициент нагрузки;;String;8
+FORM_20;FrequencyRangeCompliance;Соответствие диапазону частот (да, нет);;String;1
+FORM_20;MaxInputPulsePower;Максимальная мощность на входе импульсная;кВт;String;2
+FORM_20;MaxInputAvgPower;Максимальная мощность на входе средняя;Вт;String;3
+FORM_20;ControlCurrentMin;Ток управления минимальное;мА;String;4
+FORM_20;ControlCurrentMax;Ток управления максимальное;мА;String;5
+FORM_20;ReverseVoltageMin;Обратное напряжение минимальное;В;String;6
+FORM_20;ReverseVoltageMax;Обратное напряжение максимальное;В;String;7
+FORM_20;ControlPower;Мощность управления;Вт;String;8
+FORM_20;PulseWidth;Длительность импульса;мкс;String;9
+FORM_20;AmbientTemp;Температура окружающей среды (корпуса);°С;String;10
+FORM_20;LoadFactor;Коэффициент нагрузки;;String;11
+FORM_21;FrequencyRangeCompliance;Соответствие диапазону частот (да, нет);;String;1
+FORM_21;MaxInputPulsePower;Максимальная мощность на входе импульсная;кВт;String;2
+FORM_21;MaxInputAvgPower;Максимальная мощность на входе средняя;Вт;String;3
+FORM_21;PulseDutyCycle;Скважиость импульсов;;String;4
+FORM_21;FerroMaterialDistance;Расстояние до ферромагнитных материалов;мм;String;5
+FORM_21;ExternalMagFieldStrength;Напряженность внешнего магнитного поля на месте установки прибора;Э;String;6
+FORM_21;LoadVSWR;КСВН нагрузки;;String;7
+FORM_21;AmbientTemp;Температура окружающей среды (корпуса);°С;String;8
+FORM_21;LoadFactor;Коэффициент нагрузки;;String;9
+FORM_22;MaxCurrent;Максимальный ток;мА;String;1
+FORM_22;MinCurrent;Минимальный ток;мА;String;2
+FORM_22;ReverseVoltage;Обратное напряжение;В;String;3
+FORM_22;LoadCapacitance;Емкость нагрузки;пФ;String;4
+FORM_22;AmbientTemp;Температура окружающей среды (корпуса);°С;String;5
+FORM_22;LoadFactor;Коэффициент нагрузки;;String;6
+FORM_23;FilamentVoltageMinMax;Накал напряжение мин/макс;В;String;1
+FORM_23;FilamentSurgeCurrent;Накал бросок тока при включении;А;String;2
+FORM_23;HVDelayTime;Время задержки включения высокого напряжения;мин.;String;3
+FORM_23;CathodeHeaterVoltage;Катод напряжение между катодом и подогревателем;В;String;4
+FORM_23;CathodeCurrentAvg;Катод ток средний;А;String;5
+FORM_23;CathodeCurrentPulse;Катод ток импульсный;А;String;6
+FORM_23;Grid1VoltageCutoff;Сетка первая напряжение отсечное;В;String;7
+FORM_23;Grid1VoltagePulse;Сетка первая напряжение амплитудное (импульсное);В;String;8
+FORM_23;Grid1CurrentAvg;Сетка первая ток средний;мА;String;9
+FORM_23;Grid1CurrentPulse;Сетка первая ток импульсный;мА;String;10
+FORM_23;Grid1InputPower;Сетка первая входная СВЧ-мощность;Вт;String;11
+FORM_23;Grid1DissipatedPower;Сетка первая рассеиваемая мощность;Вт;String;12
+FORM_23;Grid2Voltage;Сетка вторая напряжение постоянное (импульсное);В;String;13
+FORM_23;Grid2Current;Сетка вторая ток средний (импульсный);мА;String;14
+FORM_23;Grid2DissipatedPower;Сетка вторая рассеиваемая мощность;Вт;String;15
+FORM_23;AnodeVoltageDC;Анод напряжение постоянное;кВ;String;16
+FORM_23;AnodeVoltageAC;Анод напряжение переменное (импульсное);кВ;String;17
+FORM_23;AnodeCurrentAvg;Анод ток средний;А;String;18
+FORM_23;AnodeCurrentPulse;Анод ток импульсный;А;String;19
+FORM_23;ReservoirCapacitance;Анод значение накопительной емкости;мкФ;String;20
+FORM_23;ProtectiveResistance;Анод значение защитного сопротивления;Ом;String;21
+FORM_23;AnodeDissipatedPower;Анод рассеиваемя мощность;Вт;String;22
+FORM_23;PulseWidth;Параметры импульсов длительность;мкс;String;23
+FORM_23;PulseRepRate;Параметры импульсов частота следования;Гц;String;24
+FORM_23;FrequencyRangeCompliance;Соответствие диапазону частот (да,нет);;String;25
+FORM_23;ModulationFactor;Коэффициент модуляции;;String;26
+FORM_23;AmbientTemp;Температура окружающей среды (корпуса);°С;String;27
+FORM_23;LoadFactor;Коэффициент нагрузки;;String;28
+FORM_24;FilamentVoltageMinMax;Напряжение накала мин/макс;В;String;1
+FORM_24;HVDelayTime;Время задержки включения высокого напряжения;с;String;2
+FORM_24;CathodeCurrent;Ток катода;А;String;3
+FORM_24;CathodeResistance;Величина сопротивления в цепи катода;Ом;String;4
+FORM_24;GridVoltage;Напряжение сетки;В;String;5
+FORM_24;InputRFMPower;Входная СВЧ мощность;мВт;String;6
+FORM_24;AnodeVoltage;Напряжение анода;В;String;7
+FORM_24;AnodeCurrent;Ток анода;мА;String;8
+FORM_24;AnodeInputPower;Мощность, подводимая к аноду;мВт;String;9
+FORM_24;LoadVSWR;Коэффициент стоячей волны по направлению нагрузки;;String;10
+FORM_24;FrequencyRangeCompliance;Соответствие диапазону частот (да, нет);;String;11
+FORM_24;AmbientTemp;Температура окружающей среды (корпуса);°С;String;12
+FORM_24;LoadFactor;Коэффициент нагрузки;;String;13
+FORM_25;FilamentVoltageMinMax;Напряжение накала мин/макс;В;String;1
+FORM_25;HVDelayTime;Время задержки включения высокого напряжения;с;String;2
+FORM_25;CathodeCurrentAvg;Ток катода средний;А;String;3
+FORM_25;CathodeCurrentPulse;Ток катода импульсный;А;String;4
+FORM_25;CathodeResistance;Значение сопротивления в цепи катода;Ом;String;5
+FORM_25;GridVoltage;Напряжение сетки;В;String;6
+FORM_25;InputRFMPower;Входная СВЧ-мощность;Вт;String;7
+FORM_25;AnodeVoltageDC;Напряжение анода постоянное;кВ;String;8
+FORM_25;AnodeVoltagePulse;Напряжение анода импульсное;кВ;String;9
+FORM_25;AnodeCurrentAvg;Ток анода средний;А;String;10
+FORM_25;AnodeCurrentPulse;Ток анода импульсный;А;String;11
+FORM_25;AnodeInputPower;Мощность, подводимая к аноду;Вт;String;12
+FORM_25;ModPulseRepRate;Параметры моделирующих импульсов частота следования;Гц;String;13
+FORM_25;ModPulseWidth;Параметры моделирующих импульсов длительность;мкс;String;14
+FORM_25;ModulationType;Вид модуляции;;String;15
+FORM_25;AmbientTemp;Температура окружающей среды (корпуса);°С;String;16
+FORM_25;LoadVSWR;Коэффициент стоячей волны по напряжению нагрузки;;String;17
+FORM_25;LoadFactor;Коэффициент нагрузки;;String;18
+FORM_26;MinSupplyVoltage;Минимальное напряжение источника питания;В;String;1
+FORM_26;MaxStabilizationCurrent;Ток стабилизации максимальный;мА;String;2
+FORM_26;MinStabilizationCurrent;Ток стабилизации минимальный;мА;String;3
+FORM_26;AmbientTemp;Температура окружающей среды (корпуса);°С;String;4
+FORM_26;LoadFactor;Коэффициент нагрузки;;String;5
+ORM_27;FilamentVoltage;Напряжение накала;В;String;1
+FORM_27;HydrogenGenVoltage;Напряжение генератора водорода;В;String;2
+FORM_27;GasGetterVoltage;Напряжение газопоглотителя;В;String;3
+FORM_27;HVDelayTime;Время задержки включения высокого напряжения;мин.;String;4
+FORM_27;BiasVoltage;Сетка (экран). Напряжение смещения;;String;5
+FORM_27;ControlPulseAmplitude;Сетка (экран).Амплитуда напряжения управляющего импульса;;String;6
+FORM_27;GridResistance;Сопротивление в цепи сетки;кОм;String;7
+FORM_27;CouplingCapacitance;Емкость разделительного конденсатора;мкФ;String;8
+FORM_27;ControlPulseRiseTime;Крутизна фронта управляющего импульса;В/мкс;String;9
+FORM_27;ControlPulseWidth;Длительность управляющего импульса;мкс;String;10
+FORM_27;ForwardVoltageAmplitude;Амплитуда прямого напряжения;кВ;String;11
+FORM_27;ReverseVoltageAmplitude;Амплитуда обратного напряжения;кВ;String;12
+FORM_27;PulseCurrentAmplitude;Амплитуда импульса тока;А;String;13
+FORM_27;SparkCurrentAmplitude;Амплитуда импульса тока искрения;А;String;14
+FORM_27;AverageCurrent;Среднее значение тока;А;String;15
+FORM_27;PulseRepRate;Частота повторения импульсов;имп/с;String;16
+FORM_27;CurrentPulseRiseTime;Крутизна фронта тока;А/мкс;String;17
+FORM_27;CurrentPulseWidth;Длительность импульса тока;мкс;String;18
+FORM_27;AmbientTemp;Температура окружающей среды (корпуса);°С;String;19
+FORM_27;LoadFactor;Коэффициент нагрузки;;String;20
+FORM_28;FilamentVoltageMin;Напряжение накала мин.;В;String;1
+FORM_28;FilamentVoltageMax;Напряжение накала макс.;В;String;2
+FORM_28;FilamentSurgeCurrent;Бросок тока накала;А;String;3
+FORM_28;HVDelayTime;Время задержки включения высокого напряжения;мин.;String;4
+FORM_28;CathodeHeaterVoltage;Напряжение между катодом и подогревателем;В;String;5
+FORM_28;AnodePeakInverseVoltage;Анод амплитуда обратного напряжения;кВ;String;6
+FORM_28;AnodeInversePulseWidth;Анод длительность импульса обратного напряжения;мкс;String;7
+FORM_28;AnodeRectCurrentAmplitude;Анод амплитуда тока в режиме выпрямления;А;String;8
+FORM_28;AnodePulseCurrentAmplitude;Анод амплитуда тока в импульсном режиме;А;String;9
+FORM_28;AnodeAvgRectCurrent;Анод средний (выпрямленный) ток;мА;String;10
+FORM_28;AnodeDissipatedPower;Анод рассеиваемая мощность;Вт;String;11
+FORM_28;AnodeChargePerPulse;Анод количество электричества в импульсе;А·мкс;String;12
+FORM_28;CurrentPulseRepRate;Параметры импульса тока частота следования;Гц;String;13
+FORM_28;CurrentPulseWidth;Параметры импульса тока длительность;мкс;String;14
+FORM_28;AmbientTemp;Температура окружающей среды (корпуса);°C;String;15
+FORM_28;LoadFactor;Коэффициент нагрузки;;String;16
+FORM_29;AnodeAvgCurrent;Анод средний ток;мА;String;1
+FORM_29;AnodePulseCurrentAmplitude;Анод амплитуда импульса тока;А;String;2
+FORM_29;AnodePulseCurrentWidth;Анод длительность импульса тока;мкс;String;3
+FORM_29;AnodeVoltageMin;Напряжение на аноде минимальное;кВ;String;4
+FORM_29;AnodeVoltageMax;Напряжение на аноде максимальное;кВ;String;5
+FORM_29;AnodeVoltageAmplitude;Напряжение на аноде амплитуда;кВ;String;6
+FORM_29;IgnitionPulseRiseTime;Параметры поджигающего импульса длительность фронта;мкс;String;7
+FORM_29;IgnitionPulseWidth;Параметры поджигающего импульса длительность;мкс;String;8
+FORM_29;IgnitionPulseEnergyMin;Параметры поджигающего импульса энергия минимальное;Дж;String;9
+FORM_29;IgnitionPulseEnergyMax;Параметры поджигающего импульса энергия максимальное;Дж;String;10
+FORM_29;PulseRepRate;Частота повторения импульсов;имп/с;String;11
+FORM_29;ChargingResistance;Значение зарядного сопротивления;кОм;String;12
+FORM_29;CapacitorMin;Емкость накопительного конденсатора минимальное;мкФ;String;13
+FORM_29;CapacitorMax;Емкость накопительного конденсатора максимальное;мкФ;String;14
+FORM_29;LoadResistance;Значение сопротивления нагрузки;Ом;String;15
+FORM_29;IgnitionCapacitance;Емкость поджиг. конденсатора поджигающей цепи;мкФ;String;16
+FORM_29;DividerResistanceR1;Значение сопротивления делителя R1;МОм;String;17
+FORM_29;DividerResistanceR2;Значение сопротивления делителя R2;МОм;String;18
+FORM_29;AmbientTemp;Температура окружающей среды (корпуса);°С;String;19
+FORM_29;LoadFactor;Коэффициент нагрузки;;String;20
+FORM_30;FilamentVoltage;Напряжение накала;В;String;1
+FORM_30;ModulatorCutoffVoltage;Напряжение модулятора запирающее;В;String;2
+FORM_30;AcceleratingElectrodeVoltage;Напряжение ускоряющего электрода;В;String;3
+FORM_30;FocusingElectrodeVoltage;Напряжение фокусирующего электрода;В;String;4
+FORM_30;AnodeVoltage;Напряжение анода;В;String;5
+FORM_30;CathodeHeaterVoltage;Напряжение между катодом и подогревателем;В;String;6
+FORM_30;MaxVideoSignalAmplitude;Максимальная амплитуда видеосигнала;В;String;7
+FORM_30;TotalAnodeCurrent;Суммарный ток анода;мкА;String;8
+FORM_30;OtherElectrodesVoltage;Напряжение других электродов;В;String;9
+FORM_30;SecondAnodeVoltage;Напряжение второго анода;В;String;10
+FORM_30;CorrectingElectrodeVoltage;Напряжение корректирующего электрода;В;String;11
+FORM_30;GridVoltage;Напряжение сетки;В;String;12
+FORM_31;ElementVoltageDC;Напряжение элементов постоянное;В;String;1
+FORM_31;ElementVoltagePulse;Напряжение элементов импульсное;В;String;2
+FORM_31;GridVoltageDC;Напряжение сетки постоянное;В;String;3
+FORM_31;GridVoltagePulse;Напряжение сетки импульсное;В;String;4
+FORM_31;AnodeVoltageACMin;Напряжение начала переменное минимальное;В;String;5
+FORM_31;AnodeVoltageACMax;Напряжение начала переменное максимальное;В;String;6
+FORM_31;AmbientTemp;Температура окружающей среды (корпуса);°С;String;7
+FORM_31;LoadFactor;Коэффициент нагрузки;;String;8
+FORM_32;IndicatorVoltageMin;Напряжение на индикаторе минимальное;Гц;String;1
+FORM_32;IndicatorVoltageMax;Напряжение на индикаторе максимальное;Гц;String;2
+FORM_32;IndicatorFrequencyMin;Частота напряжения на индикаторе минимальное;Гц;String;3
+FORM_32;IndicatorFrequencyMax;Частота напряжения на индикаторе максимальное;Гц;String;4
+FORM_32;MaxDCOffsetVoltage;Максимальная величина постоянной составляющей напряжения на индикаторе;В;String;5
+FORM_32;LogicSupplyVoltageMin;Напряжение питания логической части схемы управления минимальное;В;String;6
+FORM_32;LogicSupplyVoltageMax;Напряжение питания логической части схемы управления максимальное;В;String;7
+FORM_32;OutputStageSupplyVoltage;Напряжение питания выходных каскадов схемы управления;В;String;8
+FORM_32;AmbientTempMin;Температура окружающей среды (корпуса) минимальное;°С;String;9
+FORM_32;AmbientTempMax;Температура окружающей среды (корпуса) максимальное;°С;String;10
+FORM_32;LoadFactor;Коэффициент нагрузки;;String;11
+FORM_33;AnodeSupplyVoltageMin;Напряжение питания на аноде минимальное;В;String;1
+FORM_33;AnodeSupplyVoltageMax;Напряжение питания на аноде максимальное;В;String;2
+FORM_33;MaxPulseRiseTime;Максимальная длительность фронта импульсов;мкс;String;3
+FORM_33;AnodePulseWidth;Длительность импульсов напряжения анодов;мкс;String;4
+FORM_33;ScanCycleFrequency;Частота повторения циклов сканирования;Гц;String;5
+FORM_33;AmbientTempMin;Температура окружающей среды (корпуса) минимальное;°С;String;6
+FORM_33;AmbientTempMax;Температура окружающей среды (корпуса) максимальное;°С;String;7
+FORM_33;LoadFactor;Коэффициент нагрузки;;String;8
+FORM_34;ReferenceVoltageMin;Опорное напряжение индикации минимальное;В;String;1
+FORM_34;ReferenceVoltageMax;Опорное напряжение индикации максимальное;В;String;2
+FORM_34;RefPulseFreqMin;Частота повторения импульсов опорного напряжения минимальное;кГц;String;3
+FORM_34;RefPulseFreqMax;Частота повторения импульсов опорного напряжения максимальное;кГц;String;4
+FORM_34;RefPulseWidthMin;Длительность импульсов опорного напряжения индикации минимальное;мкс;String;5
+FORM_34;RefPulseWidthMax;Длительность импульсов опорного напряжения индикации максимальное;мкс;String;6
+FORM_34;WriteOverRefMin;Превышение напряжения записи над опорным напряжением минимальное;В;String;7
+FORM_34;WriteOverRefMax;Превышение напряжения записи над опорным напряжением максимальное;В;String;8
+FORM_34;WritePulseWidthMin;Длительность импульсов напряжения записи минимальное;мкс;String;9
+FORM_34;WritePulseWidthMax;Длительность импульсов напряжения записи максимальное;мкс;String;10
+FORM_34;EraseVoltageMin;Напряжение стирания минимальное;В;String;11
+FORM_34;EraseVoltageMax;Напряжение стирания максимальное;В;String;12
+FORM_34;ErasePulseWidthMin;Длительность импульсов напряжения стирания минимальное;мкс;String;13
+FORM_34;ErasePulseWidthMax;Длительность импульсов напряжения стирания максимальное;мкс;String;14
+FORM_34;AuxDischargeVoltageMin;Напряжение вспомогательного разряда минимальное;В;String;15
+FORM_34;AuxDischargeVoltageMax;Напряжение вспомогательного разряда максимальное;В;String;16
+FORM_35;DCAvgCurrent;Постоянный (средний) ток;мА;String;1
+FORM_35;PulseForwardCurrent;Импульсный прямой ток;мА;String;2
+FORM_35;DCReverseVoltage;Постоянное обратное напряжение;В;String;3
+FORM_35;PulseReverseVoltage;Импульсное обратное напряжение;В;String;4
+FORM_35;ControlSupplyVoltage;Напряжение питания схемы управления;В;String;5
+FORM_35;DCAvgDissipatedPower;Постоянная (средняя) рассеиваемая мощность;мВт;String;6
+FORM_35;PulseWidth;Длительность импульса;мкс;String;7
+FORM_35;PulseRepRate;Частота следования импульсов;Гц;String;8
+FORM_35;AmbientTemp;Температура окружающей среды (корпуса);°С;String;9
+FORM_35;LoadFactor;Коэффициент нагрузки (4,5);;String;10
+FORM_36;SpectralSensitivityRange;Область спектральной чувствительности;мкм;String;1
+FORM_36;OperatingIlluminance;Рабочая освещенность;лк;String;2
+FORM_36;SupplyVoltage;Питание общее напряжение;В;String;3
+FORM_36;SupplyStability;Питание общее нестабильность;%;String;4
+FORM_36;SupplyRipple;Питание общее пульсация;%;String;5
+FORM_36;AcceleratingElectrodeVoltage;Напряжение ускоряющего электрода;В;String;6
+FORM_36;FirstDynodeVoltage;Напряжение первого динода;В;String;7
+FORM_36;DividerType;Делитель напряжения тип делителя;;String;8
+FORM_36;DividerResistance;Делитель напряжения сопротивление;Ом;String;9
+FORM_36;FocusCoilCurrent;Ток фокусирующей катушки;мА;String;10
+FORM_36;AmbientTemp;Температура окружающей среды;°С;String;11
+FORM_36;LowAtmPressure;Пониженное атмосферное давление;мм рт.ст.;String;12
+FORM_36;LoadFactor;Коэффициент нагрузки;;String;13
+FORM_37;SpectralSensitivityRange;Область спектральной чувствительности;мкм;String;1
+FORM_37;OperatingIlluminance;Рабочая освещенность;лк;String;2
+FORM_37;FilamentVoltage;Накал напряжение;В;String;3
+FORM_37;FilamentCurrent;Накал ток;мА;String;4
+FORM_37;FirstAnodeVoltage;Напряжение постоянное первого анода;В;String;5
+FORM_37;SecondAnodeVoltage;Напряжение постоянное второго анода;В;String;6
+FORM_37;GridVoltage;Напряжение постоянное сетки;В;String;7
+FORM_37;CathodeHeaterVoltage;Напряжение постоянное катод-подогреватель;В;String;8
+FORM_37;DeflectionPlateVoltage;Напряжение постоянное отклоняющих пластин;В;String;9
+FORM_37;SignalPlateVoltage;Напряжение постоянное сигнальной пластины;В;String;10
+FORM_37;ModulatorVoltage;Напряжение постоянное модулятора;В;String;11
+FORM_37;DCStability;Напряжение постоянное стабильность;%;String;12
+FORM_37;DCRipple;Напряжение постоянное пульсация;%;String;13
+FORM_37;ACDeflectionVoltage;Переменное напряжение отклоняющих пластин;;String;14
+FORM_37;HVDelayTime;Время задержки включения высокого напряжения;с;String;15
+FORM_37;AmbientTemp;Температура окружающей среды;°С;String;16
+FORM_37;LowAtmPressure;Пониженное атмосферное давление;мм рт.ст.;String;17
+FORM_37;LoadFactor;Коэффициент нагрузки;;String;18
+FORM_38;SpectralSensitivityRange;Область спектральной чувствительности;мкм;String;1
+FORM_38;OperatingIlluminance;Рабочая освещенность;лк;String;2
+FORM_38;FilamentVoltage;Напряжение накала;В;String;3
+FORM_38;PhotocathodeVoltage;Напряжение постоянное фотокатода;В;String;4
+FORM_38;AcceleratingElectrodeVoltage;Напряжение постоянное ускоряющего электрода;В;String;5
+FORM_38;FirstAnodeVoltage;Напряжение постоянное первого анода;В;String;6
+FORM_38;SecondAnodeVoltage;Напряжение постоянное второго анода;В;String;7
+FORM_38;ProtectiveGridVoltage;Напряжение постоянное защитной сетки;В;String;8
+FORM_38;EqualizingGridVoltage;Напряжение постоянное выравнивающей сетки;В;String;9
+FORM_38;CathodeHeaterVoltage;Напряжение постоянное катод-подогреватель;В;String;10
+FORM_38;SignalPlateVoltage;Напряжение постоянное сигнальной пластины;В;String;11
+FORM_38;ModulatorVoltage;Напряжение постоянное модулятора;В;String;12
+FORM_38;DCStability;Напряжение постоянное стабильность;%;String;13
+FORM_38;DCRipple;Напряжение постоянное пульсация;%;String;14
+FORM_38;HVDelayTime;Время задержки включения высокого напряжения;с;String;15
+FORM_38;AmbientTemp;Температура окружающей среды;°С;String;16
+FORM_38;LowAtmPressure;Пониженное атмосферное давление;мм рт.ст.;String;17
+FORM_38;LoadFactor;Коэффициент нагрузки;;String;18
+FORM_39;SpectralSensitivityRange;Область спектральной чувствительности;мкм;String;1
+FORM_39;OperatingIlluminance;Рабочая освещенность;лк;String;2
+FORM_39;FilamentVoltage;Напряжение накала;В;String;3
+FORM_39;PhotocathodeVoltage;Напряжение постоянное фотокатода;В;String;4
+FORM_39;AcceleratingElectrodeVoltage;Напряжение постоянное ускоряющего электрода;В;String;5
+FORM_39;TargetGridVoltage;Напряжение постоянное сетки мишени;В;String;6
+FORM_39;RetardingElectrodeVoltage;Напряжение постоянное тормозящего электрода;В;String;7
+FORM_39;FocusingElectrodeVoltage;Напряжение постоянное фокусирующего электрода;В;String;8
+FORM_39;MultiplierCylinderVoltage;Напряжение постоянное цилиндра умножителя;В;String;9
+FORM_39;MultiplierStageVoltage;Напряжение постоянное между каскадами умножителя;В;String;10
+FORM_39;AnodeVoltage;Напряжение постоянное анода;В;String;11
+FORM_39;CollectorVoltage;Напряжение постоянное коллектора;В;String;12
+FORM_39;ModulatorVoltage;Напряжение постоянное модулятора;В;String;13
+FORM_39;DCStability;Напряжение постоянное стабильность;%;String;14
+FORM_39;DCRipple;Напряжение постоянное пульсация;%;String;15
+FORM_39;HVDelayTime;Время задержки включения высокого напряжения;с;String;16
+FORM_39;AmbientTemp;Температура окружающей среды;°С;String;17
+FORM_39;LowAtmPressure;Пониженное атмосферное давление;мм рт.ст.;String;18
+FORM_39;LoadFactor;Коэффициент нагрузки;;String;19
+FORM_40;SpectralSensitivityRange;Область спектральной чувствительности;мкм;String;1
+FORM_40;SupplyVoltage;Питание напряжение;В;String;2
+FORM_40;SupplyStability;Питание стабильность;%;String;3
+FORM_40;SupplyRipple;Питание пульсация;%;String;4
+FORM_40;DividerType;Делитель напряжения тип делителя;;String;5
+FORM_40;DividerResistance;Делитель напряжения сопротивление;Ом;String;6
+FORM_40;AnodeCurrent;Анодный ток;А;String;7
+FORM_40;LoadResistance;Нагрузка сопротивление;Ом;String;8
+FORM_40;LoadCapacitance;Нагрузка емкость;мкФ;String;9
+FORM_40;MagneticFieldStrength;Напряженность магнитного поля;Э;String;10
+FORM_40;AmbientTemp;Температура окружающей среды;°С;String;11
+FORM_40;LowAtmPressure;Пониженное атмосферное давление;мм рт.ст.;String;12
+FORM_40;LoadFactor;Коэффициент нагрузки;;String;13
+FORM_41;SpectralSensitivityRange;Область спектральной чувствительности;мкм;String;1
+FORM_41;OperatingIlluminance;Рабочая освещенность;лк;String;2
+FORM_41;SupplyVoltageTotal;Питание напряжение общее;В;String;3
+FORM_41;SupplyVoltagePerStage;Питание напряжение на 1 камере;В;String;4
+FORM_41;ProtectionIlluminance;Параметры схемы защиты от засветок уровень освещенности;лк;String;5
+FORM_41;ProtectionResponseTime;Параметры схемы защиты от засветок время срабатывания;с;String;6
+FORM_41;AmbientTemp;Температура окружающей среды;°С;String;7
+FORM_41;LowAtmPressure;Пониженное атмосферное давление;мм рт.ст.;String;8
+FORM_41;LoadFactor;Коэффициент нагрузки;;String;9
+FORM_42;SpectralSensitivityRange;Область спектральной чувствительности;мкм;String;1
+FORM_42;OperatingIlluminance;Рабочая освещенность;лк;String;2
+FORM_42;DCVoltageSubstrate;Постоянное напряжение подложка;В;String;3
+FORM_42;DCVoltageInputElectrodes;Постоянное напряжение вход. электроды;В;String;4
+FORM_42;DCVoltageSeparatingElectrodes;Постоянное напряжение регистр разделительные электроды;В;String;5
+FORM_42;DCVoltageDrain;Постоянное напряжение регистр сток;В;String;6
+FORM_42;AccumulationLevel;Уровень накопления;В;String;7
+FORM_42;EnrichmentLevel;Уровень обогащения;В;String;8
+FORM_42;ResetPulseAmplitudeHigh;Амплитуда управляющих импульсов сброса и выброса верхний уровень;В;String;9
+FORM_42;ResetPulseAmplitudeLow;Амплитуда управляющих импульсов сброса и выброса нижний уровень;В;String;10
+FORM_42;VerticalTransferPulseAmplitudeHigh;Амплитуда управляющих импульсов вертикальным переносом верхний уровень;В;String;11
+FORM_42;VerticalTransferPulseAmplitudeLow;Амплитуда управляющих импульсов вертикальным переносом нижний уровень;В;String;12
+FORM_42;RegisterPulseAmplitudeHigh;Амплитуда управляющих импульсов регистр верхний уровень;В;String;13
+FORM_42;RegisterPulseAmplitudeLow;Амплитуда управляющих импульсов регистр нижний уровень;В;String;14
+FORM_42;TimingDiagramsComplianceAccum;Соответствие временным диаграммам импульсов управления секция накопления и памяти;;String;15
+FORM_42;TimingDiagramsComplianceOutput;Соответствие временным диаграммам импульсов управления выходной регистр и сбросовой транзистор;;String;16
+FORM_42;OutputTransistorCurrent;Ток выходного транзистора;А;String;17
+FORM_42;ThermoBatteryCurrent;Ток питания термоэлектрической батареи;А;String;18
+FORM_42;AmbientTemp;Температура окружающей среды (корпуса);°С;String;19
+FORM_42;LoadFactor;Коэффициент нагрузки;;String;20
+FORM_43;SpectralSensitivityRange;Область спектральной чувствительности;мкм;String;1
+FORM_43;OperatingIlluminance;Рабочая освещенность;лк;String;2
+FORM_43;HighVoltageTotal;Питание высокое напряжение общее;В;String;3
+FORM_43;HighVoltagePerStage;Питание высокое напряжение на 1 камере;В;String;4
+FORM_43;LowDCVoltageSubstrate;Постоянное напряжение низкое подложка;В;String;5
+FORM_43;LowDCVoltageInputElectrodes;Постоянное напряжение низкое вход. электроды;В;String;6
+FORM_43;LowDCVoltageSeparatingElectrodes;Постоянное напряжение низкое регистр разделительные электроды;В;String;7
+FORM_43;LowDCVoltageDrain;Постоянное напряжение низкое регистр сток;В;String;8
+FORM_43;AccumulationLevel;Уровень накопления;В;String;9
+FORM_43;EnrichmentLevel;Уровень обогащения;В;String;10
+FORM_43;ResetPulseAmplitudeHigh;Амплитуда управляющих импульсов сброса и авброса верхний уровень;В;String;11
+FORM_43;ResetPulseAmplitudeLow;Амплитуда управляющих импульсов сброса и авброса нижний уровень;В;String;12
+FORM_43;VerticalTransferPulseAmplitudeHigh;Амплитуда управляющих импульсов вертикалным переносом верхний уровень;В;String;13
+FORM_43;VerticalTransferPulseAmplitudeLow;Амплитуда управляющих импульсов вертикальным переносом нижний уровень;В;String;14
+FORM_43;RegisterPulseAmplitudeHigh;Амплитуда управляющих импульсов регистр верхний уровень;В;String;15
+FORM_43;RegisterPulseAmplitudeLow;Амплитуда управляющих импульсов регистр нижний уровень;В;String;16
+FORM_43;TimingDiagramsComplianceAccum;Соответствие временным диаграммам импульсов управления секция накопления и памяти;;String;17
+FORM_43;TimingDiagramsComplianceOutput;Соответствие временным диаграммам импульсов управления выходной регистр и сбросовый транзистор;;String;18
+FORM_43;OutputTransistorCurrent;Ток выходного транзистора;А;String;19
+FORM_43;LowAtmPressure;Пониженное атмосферное давление;мм.рт.ст.;String;20
+FORM_43;AmbientTemp;Температура окружающей среды (корпуса);°С;String;21
+FORM_43;LoadFactor;Коэффициент нагрузки;;String;22
+FORM_44;SpectralSensitivityRange;Область спектральной чувствительности;мкм;String;1
+FORM_44;OperatingIlluminance;Рабочая освещенность;лк;String;2
+FORM_44;OpticalPower;Мощность оптического излучения;Вт;String;3
+FORM_44;SupplyVoltage;Питание. Напряжение;В;String;4
+FORM_44;SupplyStability;Питание. Стабильность;%;String;5
+FORM_44;SupplyRipple;Питание. Пульсации;%;String;6
+FORM_44;DissipatedPower;Мощность рассеиваемая;Вт;String;7
+FORM_44;LoadCapacitance;Емкость нагрузки;Вт;String;8
+FORM_44;SensorOperatingTemp;Рабочая температура чувствительного элемента;°K;String;9
+FORM_44;CryoWorkingPressure;Рабочее давление хладогена;мПа;String;10
+FORM_44;AmbientTemp;Температура окружающей среды;°С;String;11
+FORM_44;LoadFactor;Коэффициент нагрузки;;String;12
+FORM_45;SpectralSensitivityRange;Область спектральной чувствительности;мкм;String;1
+FORM_45;OpticalIlluminance;Параметры оптического излучения освещенность;лк;String;2
+FORM_45;OpticalPower;Параметры оптического излучения мощность;Вт;String;3
+FORM_45;ModulationFrequency;Параметры оптического излучения частота модуляции;Гц;String;4
+FORM_45;SupplyVoltageSensor;Напряжжение питания чувствительность элемента;;String;5
+FORM_45;AmpSupplyVoltage;Напряжение питания усилителя;В;String;6
+FORM_45;SupplyStability;Напряжение питания стабильность;%;String;7
+FORM_45;SupplyRipple;Напряжение питания пульсация;%;String;8
+FORM_45;ConsumptionCurrent;Ток потребления;А;String;9
+FORM_45;DissipatedPower;Мощность рассеивания;Вт;String;10
+FORM_45;LoadResistance;Нагрузка сопротивление;Ом;String;11
+FORM_45;LoadCapacitance;Нагрузка емкость;пФ;String;12
+FORM_45;SensorOperatingTemp;Рабочая температура чувствительного элемента;°К;String;13
+FORM_45;CryoWorkingPressure;Рабочее давление хладогена;мПа;String;14
+FORM_45;AmbientTemp;Температура окружающей среды;°С;String;15
+FORM_45;LoadFactor;Коэффициент нагрузки;;String;16
+FORM_46;OpticalWavelength;Параметры оптического излучения длина волны;мкм;String;1
+FORM_46;AvgPulsePower;Параметры оптического излучения средняя мощность импульса;Вт;String;2
+FORM_46;DutyCycle;Параметры оптического излучения скважность относит.ед.;;String;3
+FORM_46;PulseRepRate;Параметры оптического излучения частота следования;Гц;String;4
+FORM_46;PulseWidth;Параметры оптического излучения длительность импульса;нс;String;5
+FORM_46;PulseRiseTime;Параметры оптического излучения длительность импульса фронта;нс;String;6
+FORM_46;PulseFallTime;Параметры оптического излучения длительность импульса среза;нс;String;7
+FORM_46;PulseTopNonuniformity;Параметры оптического излучения неравномерность вершины имп.;%;String;8
+FORM_46;ConsumptionCurrent;Ток потребления;А;String;9
+FORM_46;SupplyVoltage;Питание напряжение;В;String;10
+FORM_46;SupplyStability;Питание стабильность;%;String;11
+FORM_46;SupplyRipple;Питание пульсация;%;String;12
+FORM_46;OutputCurrentHigh;Выходной ток высокого уровня;А;String;13
+FORM_46;OutputCurrentLow;Выходной ток низкого уровня;А;String;14
+FORM_46;LoadResistance;Нагрузка сопротивление;Ом;String;15
+FORM_46;LoadCapacitance;Нагрузка емкость;пФ;String;16
+FORM_46;AmbientTemp;Температура окружающей среды (корпуса);°С;String;17
+FORM_46;LoadFactor;Коэффициент нагрузки;;String;18
+FORM_47;DCAvgCurrent;Средний (постоянный) ток;мА;String;1
+FORM_47;PulseCurrent;Импульсный ток;мА;String;2
+FORM_47;PulseWidth;Длительность импульса;мкс;String;3
+FORM_47;DutyCycle;Скважность;;String;4
+FORM_47;MaxReverseVoltageInput;Максимальное обратное напряжение вход;В;String;5
+FORM_47;MaxReverseVoltageOutput;Максимальное обратное напряжение выход;В;String;6
+FORM_47;MaxCurrent;Максимальный ток;мА;String;7
+FORM_47;MaxForwardVoltage;Максимальное прямое напряжение;В;String;8
+FORM_47;DissipatedPower;Мощность рассеивания;мВт;String;9
+FORM_47;IsolationVoltage;Напряжение развязки;кВ;String;10
+FORM_47;AmbientTemp;Температура окружающей среды (корпуса);°С;String;11
+FORM_47;LoadFactor;Коэффициент нагрузки;;String;12
+FORM_48;DCAvgCurrent;Средний (постоянный) ток;мА;String;1
+FORM_48;PulseCurrent;Импульсный ток;мА;String;2
+FORM_48;PulseWidth;Длительность импульса;мкс;String;3
+FORM_48;DutyCycle;Скважность;;String;4
+FORM_48;MaxReverseVoltage;Максимальное обратное напряжение;В;String;5
+FORM_48;MaxLogicZeroCurrent;Макс. ток логического нуля;мА;String;6
+FORM_48;MaxLogicOneCurrent;Макс.ток логической единицы;мА;String;7
+FORM_48;MaxLoadCapacitance;Макс.емкость нагрузки;пФ;String;8
+FORM_48;SlewRate;Скорость нарастания напряжения между входом и выходом;в/мкс;String;9
+FORM_48;IsolationVoltage;Напряжение развязки;кВ;String;10
+FORM_48;SupplyVoltage;Напряжение источника питания;В;String;11
+FORM_48;AmbientTemp;Температура окружающей среды (корпуса);°С;String;12
+FORM_48;LoadFactor;Коэффициент нагрузки;;String;13
+FORM_49;PumpVoltageMinMax;Напряжение накачки мин/макс;В;String;1
+FORM_49;PulseRepRateMinMax;Частота повторения импульсов излучения мин/макс;Гц;String;2
+FORM_49;DischargeCurrentMinMax;Ток разряда активного элемента мин/макс;мА;String;3
+FORM_49;PulseDischargeCurrentMinMax;Ток разряда импульсный мин/макс;А;String;4
+FORM_49;CWOutputPower;Мощность излучения;Вт;String;5
+FORM_49;AvgOutputPower;Средняя мощность излучения;Вт;String;6
+FORM_49;PulseOutputPower;Мощность импульса излучения;Вт;String;7
+FORM_49;BeamAxisStability;Нестабильность оси диаграммы направленности;рад;String;8
+FORM_49;CoolantInletPressure;Давление охлаждающей жидкости на входе системы охлажд.;кгс/см²;String;9
+FORM_49;CoolantFlowRate;Расход охлаждающей жидкости;л/мин;String;10
+FORM_49;CoolantTemp;Температура охлаждающей жидкости;°С;String;11
+FORM_49;AmbientTemp;Температура окружающей среды;°С;String;12
+FORM_49;LoadFactor;Коэффициент нагрузки;;String;13
+FORM_50;OutputPower;Мощность излучения;Вт;String;1
+FORM_50;PumpPower;Мощность накачки;Вт;String;2
+FORM_50;PulseEnergy;Энергия импульса излучения;мДж;String;3
+FORM_50;PulseWidth;Длительность импульса излучения;мкс;String;4
+FORM_50;PulseRepRate;Частота повторения импульсов излучения;Гц;String;5
+FORM_50;PumpEnergy;Энергия накачки;мДж;String;6
+FORM_50;LampOperatingVoltage;Рабочее напряжение лампы накачки;В;String;7
+FORM_50;CoolantInletPressure;Давление охлаждающей жидкости на входе системы охлажд.;кгс/см²;String;8
+FORM_50;CoolantFlowRate;Расход охлаждающей жидкости;л/мин;String;9
+FORM_50;CoolantTemp;Температура охлаждающей жидкости;°С;String;10
+FORM_50;AmbientTemp;Температура окружающей среды;°С;String;11
+FORM_50;LoadFactor;Коэффициент нагрузки;;String;12
+FORM_51;AvgOutputPower;Средняя мощность излучения;Вт;String;1
+FORM_51;AvgPumpPower;Средняя мощность накачки;Вт;String;2
+FORM_51;PulseWidth;Длительность импульса излучения;мкс;String;3
+FORM_51;Wavelength;Длина волны излучения;мкм;String;4
+FORM_51;PumpCurrent;Ток накачки излучателя (амплитуда импульсов тока накачки);А;String;5
+FORM_51;PumpPulseRepRate;Частота повторения импульсов тока накачки;Гц;String;6
+FORM_51;WattAmpereLinearity;Линейность ватт-амперной характеристики;отн. ед.;String;7
+FORM_51;AmbientTemp;Температура окружающей среды;°С;String;8
+FORM_52;DCForwardCurrent;Прямой ток постоянный;мА;String;1
+FORM_52;PulseForwardCurrent;Прямой ток импульсный;мА;String;2
+FORM_52;AvgPulseForwardCurrent;Прямой ток среднее значение импульсного тока;мА;String;3
+FORM_52;ReverseVoltage;Обратное напряжение;В;String;4
+FORM_52;PulseWidth;Длительность импульса;мкс;String;5
+FORM_52;PulseRepRate;Частота следования импульсов;Гц;String;6
+FORM_52;AmbientTemp;Температура окружающей среды (корпуса);°С;String;7
+FORM_52;LoadFactor;Коэффициент нагрузки;;String;8
+FORM_53;AnodeCathodeVoltageDC;Анод, катод напряжение постоянное;В;String;1
+FORM_53;AnodeCathodeVoltagePulse;Анод, катод напряжение импульсное;В;String;2
+FORM_53;AnodeCathodeCurrentDC;Анод, катод ток постоянный;А;String;3
+FORM_53;AnodeCathodeCurrentPulse;Анод, катод ток импульсный;А;String;4
+FORM_53;AnodeCathodePulseWidth;Анод, катод длительность импульса;мкс;String;5
+FORM_53;HoldElectrodeVoltageDC;Электрод удержания напряжение постоянное;В;String;6
+FORM_53;HoldElectrodeVoltagePulse;Электрод удержания напряжение импульсное;В;String;7
+FORM_53;HoldElectrodeCurrentDC;Электрод удержания ток постоянный;А;String;8
+FORM_53;HoldElectrodeCurrentPulse;Электрод удержания ток импульсный;А;String;9
+FORM_54;TriggerElectrodePulseWidth;Электрод запуска длительность импульса;мкс;String;10
+FORM_53;TriggerElectrodeReverseVoltagePulse;Электрод запуска импульсное обратное напряжение;В;String;11
+FORM_53;TriggerElectrodePulseCurrent;Электрод запуска импульсный ток;А;String;12
+FORM_53;OperatingFrequency;Рабочая частота;Гц;String;13
+FORM_53;DissipatedPower;Рассеиваемая мощность;Вт;String;14
+FORM_53;AmbientTemp;Температура окружающей среды (корпуса);°С;String;15
+FORM_53;LoadFactor;Коэффициент нагрузки;;String;16
+FORM_54;MaxReverseVoltagePulseDC;Режим при отсутствии импульсов перегрузки. Максимальное постоянное импульсное обратное напряжение;В;String;1
+FORM_54;MaxReverseVoltagePulse;Режим при отсутствии импульсов перегрузки. Максимальный постоянный обратный ток (а режиме пробоя);А;String;2
+FORM_54;MaxForwardPulseDC;Режим при отсутствии импульсов перегрузки. максимальное постоянное импульсное прямое напряжение;В;String;3
+FORM_54;MaxForwarPulseCurrent;Режим во время воздействия импульсов перегрузки. Максимальный импульсный ток ограничения;А;String;4
+FORM_54;OverloadPulseWidth;Режим во время воздействия импульсов перегрузки. Длительность импульсов;мкс;String;5
+FORM_54;OverloadDutyCycle;Режим во время воздействия импульсов перегрузки. Скважность;;String;6
+FORM_54;OverloadPulseCount;Режим во время воздействия импульсов перегрузки. Число импульсов перегрузки;;String;7
+FORM_54;AvgDissipatedPower;Режим во время воздействия импульсов перегрузки. Постоянная (средняя) рассеиваемая мощность;Вт;String;8
+FORM_54;MaxPulseDissipatedPower;Режим во время воздействия импульсов перегрузки. Максимальная импульсная рассеиваемая мощность;Вт;String;9
+FORM_54;AmbientTemp;Температура окружающей среды;°С;String;10
+FORM_54;LoadFactor;Коэффициент нагрузки;;String;13
+FORM_55;RectifiedCurrent;Выпрямительный режим. Постоянный или средний выпрямленный ток;мА;String;1
+FORM_55;TurnOnSurgeCurrent;Выпрямительный режим. Максимальный импульс тока при включении;А;String;2
+FORM_55;OverloadDuration;Выпрямительный режим длительность режима перегрузки;мс;String;3
+FORM_55;MaxPulseForwardCurrent;Импульсный режим максимальный импульсный прямой ток;А;String;4
+FORM_55;PulseWidth;Импульсный режим длительность импульса;мкс;String;5
+FORM_55;MaxReverseVoltage;Максимальное обратное напряжение;В;String;6
+FORM_55;Frequency;Частота выпрямленного тока (частота следования импульсов);Гц;String;7
+FORM_55;DissipatedPower;Рассеиваемая мощность;мВт;String;8
+FORM_55;AmbientTemp;Температура окружающей среды (корпуса);°С;String;9
+FORM_55;LoadFactor;Коэффициент нагрузки;;String;10
+FORM_56;MinStabilizationCurrentDC;Ток стабилизации минимальный постоянный;мА;String;1
+FORM_56;MaxStabilizationCurrentDC;Ток стабилизации максимальный постоянный;мА;String;2
+FORM_56;StabilizationCurrentPulse;Ток стабилизации импульсный;мА;String;3
+FORM_56;PulseWidth;Длительность импульса;мкс;String;4
+FORM_56;PulseRepRate;Частота следования;Гц;String;5
+FORM_56;ForwardCurrentDC;Прямой постоянный или средний ток;мА;String;6
+FORM_56;ForwardCurrentPulse;Импульсный прямой ток;мА;String;7
+FORM_56;ReverseVoltage;Обратное напряжение;В;String;8
+FORM_56;DissipatedPower;Рассеиваемая мощность;мВт;String;9
+FORM_56;AmbientTemp;Температура окружающей среды (корпуса);°С;String;10
+FORM_56;LoadFactor;Коэффициент нагрузки;;String;11
+FORM_57;ForwardCurrentDC;Прямой ток постоянный;мА;String;1
+FORM_57;ForwardCurrentPulse;Прямой ток импульсный;мА;String;2
+FORM_57;ReverseCurrentDC;Обратный ток постоянный;мА;String;3
+FORM_57;ReverseCurrentPulse;Обратный ток импульсный;мА;String;4
+FORM_57;ForwardVoltage;Прямое напряжение;В;String;5
+FORM_57;AmbientTemperature;Температура окружающей среды (корпуса);°С;String;6
+FORM_57;LoadFactor;Коэффициент нагрузки;;String;7
+FORM_58;StaticCEVoltage;Статический режим напряжение коллектор-эмиттер;В;String;1
+FORM_58;StaticCBVoltage;Статический режим напряжение коллектор-база;В;String;2
+FORM_58;StaticEBVoltage;Статический режим напряжение эмиттер-база;В;String;3
+FORM_58;StaticCollectorCurrent;Статический режим ток коллектора;А;String;4
+FORM_58;StaticBaseCurrent;Статический режим ток базы;А;String;5
+FORM_58;DynamicCEVoltage;Динамический режим напряжение коллектор-эмиттер;В;String;6
+FORM_58;DynamicCBVoltage;Динамический режим напряжение коллектор-база;В;String;7
+FORM_58;DynamicEBVoltage;Динамический режим напряжение эмиттер-база;В;String;8
+FORM_58;DynamicCollectorCurrent;Динамический режим ток коллектора;А;String;9
+FORM_58;DynamicBaseCurrent;Динамический режим ток базы;А;String;10
+FORM_58;PulseDuration;Длительность импульса;мкс;String;11
+FORM_58;PulseFrequency;Частота следования;Гц;String;12
+FORM_58;BaseResistance;Сопротивление в цепи базы;Ом;String;13
+FORM_58;SwitchingCEVoltage;Режим при включении и выключении напряжение коллектор-эмиттер;В;String;14
+FORM_58;SwitchingMaxCollectorCurrent;Режим при включении и выключении максимальный ток коллектора;А;String;15
+FORM_58;SwitchingRiseFallTime;Режим при включении и выключении длительность фронта (спада);мкс;String;16
+FORM_58;AveragePower;Средняя мощность;Вт;String;17
+FORM_58;PulsePower;Импульсная мощность;Вт;String;18
+FORM_58;AmbientTemperature;Температура окружающей среды (корпуса);°С;String;19
+FORM_58;LoadFactor;Коэффициент нагрузки;;String;20
+FORM_59;InterbaseVoltage;Межбазовое напряжение;В;String;1
+FORM_59;ReverseVoltageEB2;Обратное напряжение между эмиттером и базой-2;В;String;2
+FORM_59;EmitterCurrentDC;Постоянный ток эмиттера в открытом состоянии;мА;String;3
+FORM_59;EmitterCurrentPulseOn;Импульсный ток эмиттера в открытом состоянии;мА;String;4
+FORM_59;EmitterCurrentPulse;Импульсный ток эмиттера;мА;String;5
+FORM_59;PulseWidth;Длительность импульса;мкс;String;6
+FORM_59;DissipatedPower;Рассеиваемая мощность;мВт;String;7
+FORM_59;AmbientTemp;Температура окружающей среды (корпуса);°С;String;8
+FORM_59;LoadFactor;Коэффициент нагрузки;;String;9
+FORM_60;GSVoltageStatic;Статический режим напряжение затвор (затвор-1) – исток;В;String;1
+FORM_60;DGVoltageStatic;Статический режим напряжение сток – затвор;В;String;2
+FORM_60;GSSVoltageStatic;Статический режим напряжение затвор – исток (прямое смещение);В;String;3
+FORM_60;DSVoltageStatic;Статический режим напряжение сток - исток;В;String;4
+FORM_60;SubstrateVoltageStatic;Статический режим напряжение подложка (затвор-2)- исток;В;String;5
+FORM_60;DrainCurrentStatic;Статический режим ток стока;А;String;6
+FORM_60;GateCurrentStatic;Статический режим ток затвора;А;String;7
+FORM_60;GSVoltageDynamic;Динамический режим напряжение затвор (затвор-1) – исток;В;String;8
+FORM_60;DGVoltageDynamic;Динамический режим напряжение сток – затвор;В;String;9
+FORM_60;GSSVoltageDynamic;Динамический режим напряжение затвор – исток (прямое смещение);В;String;10
+FORM_60;DSVoltageDynamic;Динамический режим напряжение сток - исток;В;String;11
+FORM_60;SubstrateVoltageDynamic;Динамический режим напряжение подложка (затвор-2)- исток;В;String;12
+FORM_60;DrainCurrentDynamic;Динамический режим ток стока;А;String;13
+FORM_60;GateCurrentDynamic;Динамический режим ток затвора;А;String;14
+FORM_60;PulseWidth;Длительность импульса;мкс;String;15
+FORM_60;PulseRepRate;Частота следования;Гц;String;16
+FORM_60;AvgPower;Средняя мощность;Вт;String;17
+FORM_60;PulsePower;Импульсная мощность;Вт;String;18
+FORM_60;AmbientTemp;Температура окружающей среды (корпуса);°С;String;19
+FORM_60;LoadFactor;Коэффициент нагрузки;;String;20
+FORM_61;SupplyVoltageMin;источника питания минимальное;В;String;1
+FORM_61;SupplyVoltageMax;источника питания максимальное;В;String;2
+FORM_61;SupplyRipple;источника питания пульсация;%;String;3
+FORM_61;InputLeakagePower;источника питания уровень мощности, просачивающейся на вход;Вт;String;4
+FORM_61;InputVSWR;источника питания КСВН входа;;String;5
+FORM_61;OutputVSWR;КСВН выхода;;String;6
+FORM_61;AmbientTemp;Температура окружающей среды (корпуса);°С;String;7
+FORM_61;LoadFactor;Коэффициент нагрузки;;String;8
+FORM_62;AKVoltagePulseForward;Анод-катод импульсное прямое (повторяющееся);В;String;1
+FORM_62;AKVoltagePulseReverse;Анод-катод импульсное обратное (повторяющееся);В;String;2
+FORM_62;AKVoltageDC;Анод-катод постоянное (в ждущем режиме);В;String;3
+FORM_62;AKVoltageNonRepForward;Анод-катод неповторяющееся прямое;В;String;4
+FORM_62;AKVoltageNonRepReverse;Анод-катод неповторяющееся обратное;В;String;5
+FORM_62;AKdVdt;Анод-катод скорость нарастания;В/мкс;String;6
+FORM_62;AKTurnOffTime;Анод-катод время выключения;мкс;String;7
+FORM_62;AKCurrentDCAvg;Анод-катод постоянный (средний);А;String;8
+FORM_62;AKCurrentPulse;Анод-катод импульсный;А;String;9
+FORM_62;AKdi/dt;Анод-катод скорость нарастания;А/мкс;String;10
+FORM_62;AKPulseWidth;Анод-катод длительность импульсов;мкс;String;11
+FORM_62;AKPulseRepRate;Анод-катод частота следования импульсов;Гц;String;12
+FORM_62;AKOverloadCurrent;Анод-катод рабочей перегрузки;А;String;13
+FORM_62;AKOverloadDuration;Анод-катод длительность тока раб.перегрузки;мкс;String;14
+FORM_62;AKOverloadCycles;Анод-катод количество циклов рабочей перегрузки;;String;15
+FORM_62;GateVoltage;Электрод управления напряжение;В;String;16
+FORM_62;GateNoiseVoltage;Электрод управления неотпирающее напряжение (напр.помехи);В;String;17
+FORM_62;GateReverseVoltage;Электрод управления обратное напряжение;В;String;18
+FORM_62;GateReverseCurrent;Электрод управления обратный ток;А;String;19
+FORM_62;GateNoiseCurrent;Электрод управления неотпирающий ток (ток помехи);А;String;20
+FORM_62;GateCurrent;Электрод управления импульсный (постоянный) ток;А;String;21
+FORM_62;GatePulseWidth;Электрод управления длительность импульса тока;мкс;String;22
+FORM_62;Gatedi/dt;Электрод управления скорость нарастания тока;А/мкс;String;23
+FORM_62;GateDissipatedPower;Электрод управления импульсная (средняя) рассеиваемая мощность;Вт;String;24
+FORM_62;ThyristorDissipatedPower;Мощность, рассеиваемая тиристором;Вт;String;25
+FORM_62;AmbientTemp;Температура окружающей среды (корпуса);°С;String;26
+FORM_62;LoadFactor;Коэффициент нагрузки;;String;27
+FORM_63;SupplyVoltage;Цепи питания напряжение питания;В;String;1
+FORM_63;PowerSignalSequence;Цепи питания порядок подачи напряжения питания и входных сигналов;;String;2
+FORM_63;InputDiffVoltage;Входные цепи входное (дифференциальное) напряжение;В;String;3
+FORM_63;InputCommonModeVoltage;Входные цепи входное синфазное напряжение;В;String;4
+FORM_63;InputVoltage;Входные цепи входное напряжение;В;String;5
+FORM_63;LoadResistance;Выходные цепи сопротивление нагрузки;кОм;String;6
+FORM_63;LoadCapacitance;Выходные цепи емкость нагрузки;пФ;String;7
+FORM_63;OutputCurrent;Выходные цепи выходной ток;мА;String;8
+FORM_63;DissipatedPower;Мощность рассеивания;мВт;String;9
+FORM_63;AmbientTemp;Температура окружающей среды (корпуса);°С;String;10
+FORM_63;LoadComponents;Позиционное обозначение, тип и номера входных выводов схемных нагрузок;;String;11
+FORM_63;LoadFactor;Коэффициент нагрузки;;String;12
+FORM_64;SupplyVoltage1;Цепи питания напряжение питания (1 группа выводов);В;WithPins;1
+FORM_64;SupplyVoltage2;Цепи питания напряжение питания(2 группав выводов);В;WithPins;2
+FORM_64;PowerSignalSequence;Цепи питания порядок подачи напряжения питания и входных сигналов;;WithPins;3
+FORM_64;InputLowVoltage;Входные цепи напряжение низкого уровня;В;WithPins;4
+FORM_64;InputHighVoltage;Входные цепи напряжение высокого уровня;В;WithPins;5
+FORM_64;PulseWidth;Входные цепи длительность импульса;нс;WithPins;6
+FORM_64;RiseTime;Входные цепи время перехода при включении;нс;WithPins;7
+FORM_64;FallTime;Входные цепи время перехода при выключении;нс;WithPins;8
+FORM_64;Frequency;Входные цепи частота;МГц;WithPins;9
+FORM_64;TimingT1;Входные цепи время t₁;нс;WithPins;10
+FORM_64;TimingT2;Входные цепи время t₂;нс;WithPins;11
+FORM_64;OutputLowCurrent;Выходные цепи выходной ток низкого уровня;мА;WithPins;12
+FORM_64;OutputHighCurrent;Выходные цепи выходной ток высокого уровня;мА;WithPins;13
+FORM_64;LoadCapacitance;Выходные цепи емкость нагрузки;пФ;WithPins;14
+FORM_64;DissipatedPower;Мощность рассеивания;мВт;WithPins;15
+FORM_64;AmbientTemp;Температура окружающей среды (корпуса);°С;WithPins;16
+FORM_64;LoadComponents;Позиционное обозначение, тип и номера входных выводов схемных нагрузок;;WithPins;17
+FORM_64;LoadFactor;Коэффициент нагрузки;;WithPins;18
+FORM_65;SupplyVoltage1;Цепи питания. Напряжение питания(1 группа выводов);В;WithPins;1
+FORM_65;SupplyVoltage2;Цепи питания. Напряжение питания(2 группа выводов);В;WithPins;2
+FORM_65;PowerSignalSequence;Цепи питания. Порядок подачи напряжения питания и входных сигналов;;WithPins;3
+FORM_65;InputLowVoltage;Входные цепи. Напряжение низкого уровня;В;WithPins;4
+FORM_65;InputHighVoltage;Входные цепи. Напряжение высокого уровня;В;WithPins;5
+FORM_65;PulseWidth;Входные цепи. Длительность импульса;нс;WithPins;5
+FORM_65;RiseTime;Входные цепи. Время перехода при включении;нс;WithPins;6
+FORM_65;FallTime;Входные цепи. Время перехода при выключении;нс;WithPins;7
+FORM_65;Frequency;Входные цепи. Частота;МГц;WithPins;8
+FORM_65;TimingT1;Входные цепи. Время t₁;нс;WithPins;9
+FORM_65;TimingT2;Входные цепи. Время t₂;нс;WithPins;10
+FORM_65;OutputLowCurrent;Выходные цепи. Выходной ток низкого уровня;мА;WithPins;11
+FORM_65;OutputHighCurrent;Выходные цепи. Выходной ток высокого уровня;мА;WithPins;12
+FORM_65;LoadCapacitance;Выходные цепи. Емкость нагрузки;пФ;WithPins;13
+FORM_65;DissipatedPower;Мощность рассеивания;мВт;WithPins;14
+FORM_65;AmbientTemp;Температура окружающей среды (корпуса);°С;WithPins;15
+FORM_65;LoadComponents;Позиционное обозначение, тип и номера входных выводов схемных нагрузок;;WithPins;16
+FORM_65;LoadFactor;Коэффициент нагрузки;;WithPins;17
+FORM_65A;TerminalNumber;номер вывода;;String;1
+FORM_65A;TerminalDesignation;обозначение вывода;;String;2
+FORM_65A;SignalDuration;длительность сигнала;нс;String;3
+FORM_65A;SignalRiseTime;фронт сигнала (время нарастания);нс;String;4
+FORM_65A;SignalEdge;фронт сигнала;;String;5
+FORM_65A;MeasuredSignalParams1;временные параметры измеряемого сигнала 1;;String;6
+FORM_65A;MeasuredSignalParams2;временные параметры измеряемого сигнала 2;;String;7
+FORM_65A;MeasuredSignalParams3;временные параметры измеряемого сигнала 2;;String;8
+FORM_65A;MeasuredSignalParams4;временные параметры измеряемого сигнала 3;нс;String;9
+FORM_65A;MeasuredSignalParams5;временные параметры измеряемого сигнала 4;нс;String;10
+FORM_65A;MeasuredSignalParams6;временные параметры измеряемого сигнала 5;нс;String;11
+FORM_65A;MeasuredSignalParams7;временные параметры измеряемого сигнала 6;нс;String;12
+FORM_66;SupplyVoltage1;Цепи питания. Напряжение питания (1 группа выводов);В;String;1
+FORM_66;SupplyVoltage2;Цепи питания. Напряжение питания (2 группа выводов);В;String;2
+FORM_66;PowerSequence;Цепи питания. Порядок подачи напряжения питания и входных сигналов;;String;3
+FORM_66;InputDiffVoltage;Входные цепи. Входное (дифференциальное) напряжение;В;String;4
+FORM_66;InputCommonModeVoltage;Входные цепи. Входное синфазное напряжение;В;String;5
+FORM_66;InputVoltage;Входные цепи. Входное напряжение;В;String;6
+FORM_66;LoadResistance;Выходные цепи сопротивление нагрузки;кОм;String;7
+FORM_66;LoadCapacitance;Выходные цепи емкость нагрузки;пФ;String;8
+FORM_66;OutputCurrent;Выходные цепи выходной ток;мА;String;9
+FORM_66;DissipatedPower;Мощность рассеивания;мВт;String;10
+FORM_66;AmbientTemp;Температура окружающей среды (корпуса);°С;String;11
+FORM_66;LoadInfo;Позиционное обозначение, тип и номера входных выводов схемных нагрузок;;String;12
+FORM_66;LoadFactor;Коэффициент нагрузки;;String;15
+FORM_67;DcVoltage;Напряжение постоянное;В;String;1
+FORM_67;AcVoltage;Напряжение переменное (амплитудное);В;String;2
+FORM_67;PulseVoltage;Напряжение импульсное;В;String;3
+FORM_67;TotalVoltage;Напряжение суммарное;В;String;4
+FORM_67;AcCurrent;Максимальный ток переменный;А;String;5
+FORM_67;PassCurrent;Максимальный ток проходной;А;String;6
+FORM_67;DischargeCurrent;Максимальный ток разрядный;А;String;7
+FORM_67;ChargeDuration;Длительность зарядки;с;String;8
+FORM_67;ReactivePower;Реактивная мощность;Вар;String;9
+FORM_67;MaxFrequency;Частота максимальная;Гц;String;10
+FORM_67;PulseDuration;Длительность импульса;мкс;String;11
+FORM_67;AmbientTemp;Температура окружающей среды;°С;String;12
+FORM_67;OverheatTemp;Температура перегрева;°С;String;13
+FORM_67;LoadFactor;Коэффициент нагрузки;;String;14
+FORM_68;DcVoltage;Напряжение постоянное;В;String;1
+FORM_68;AcVoltage;Напряжение переменное (амплитудное);В;String;2
+FORM_68;PulseVoltage;Напряжение импульсное;В;String;3
+FORM_68;TotalVoltage;Напряжение суммарное;В;String;4
+FORM_68;PulseFrequency;Импульсный режим частота;Гц;String;5
+FORM_68;PulseWidth;Импульсный режим длительность импульса;мкс;String;6
+FORM_68;PulsePower;Импульсный режим мощность импульсная;Вт;String;7
+FORM_68;AvgPower;Импульсный режим мощность средняя;Вт;String;8
+FORM_68;LoadFactor;Импульсный режим коэффициент нагрузки;;String;9
+FORM_68;WiperCurrent;Ток через подвижный контакт переменного резистора;мА;String;10
+FORM_68;AmbientTemp1;Температура окружающей среды;°С;String;11
+FORM_68;OverheatTemp;Температура перегрева;°С;String;12
+FORM_68;TotalPower;Суммарная мощность;Вт;String;13
+FORM_68;AmbientTemp;Температура окружающей среды;°С;String;14
+FORM_68;LoadFactor;Коэффициент нагрузки;;String;15
+FORM_69;ResonatorPower;Мощность, рассеиваемая на резонаторе;мВт;String;1
+FORM_69;LoadCapacitance;Нагрузочная емкость;пФ;String;2
+FORM_69;ParallelResonance;Резонанс параллельный;;String;3
+FORM_69;SeriesResonance;Резонанс последовательный;;String;4
+FORM_69;SupplyVoltage;Напряжение питания;В;String;5
+FORM_69;InputVoltage;Напряжение на входе;В;String;6
+FORM_69;InputResistance;Нагрузка на входе активная;кОм;String;7
+FORM_69;InputCapacitance;Нагрузка на входе реактивная;пФ;String;8
+FORM_69;OutputResistance;Нагрузка на выходе активная;кОм;String;9
+FORM_69;OutputCapacitance;Нагрузка на выходе реактивная;пФ;String;10
+FORM_69;AmbientTemp;Температура окружающей среды (корпуса);°С;String;11
+FORM_69;LoadFactor;Коэффициент нагрузки;;String;12
+FORM_70;ExcitationMinVoltage;Напряжение питания обмотки возбуждения минимальное;В;String;1
+FORM_70;ExcitationMaxVoltage;Напряжение питания обмотки возбуждения максимальное;В;String;2
+FORM_70;ControlMinVoltage;Напряжение питания обмотки управления минимальное;В;String;3
+FORM_70;ControlMaxVoltage;Напряжение питания обмотки управления максимальное;В;String;4
+FORM_70;SupplyMinFrequency;Частота напряжения питания минимальная;Гц;String;5
+FORM_70;SupplyMaxFrequency;Частота напряжения питания максимальная;Гц;String;6
+FORM_70;ExcitationMinCurrent;Ток, потребляемый обмоткой возбуждения минимальный;А;String;7
+FORM_70;ExcitationMaxCurrent;Ток, потребляемый обмоткой возбуждения максимальный;А;String;8
+FORM_70;ControlMinCurrent;Ток, потребляемый обмоткой управления минимальный;А;String;9
+FORM_70;ControlMaxCurrent;Ток, потребляемый обмоткой управления максимальный;А;String;10
+FORM_70;AmbientTemp;Температура окружающей среды;°С;String;11
+FORM_70;WindingTemp;Температура обмотки (корпуса);°С;String;12
+FORM_70;RegimeType;Характер режима работы;;String;13
+FORM_70;LoadFactor;Коэффициент нагрузки;;String;14
+FORM_71;Function;Выполняемая функция;;String;1
+FORM_71;ControlMinVoltage;Напряжение питания обмотки управления минимальное;В;String;2
+FORM_71;ControlMaxVoltage;Напряжение питания обмотки управления максимальное;В;String;3
+FORM_71;HoldingCurrent;Ток, потребляемый в режиме фиксированной стоянки;А;String;4
+FORM_71;PulseFrequency;Частота следования импульсов;шаг/с;String;5
+FORM_71;AmbientTemp;Температура окружающей среды;°С;String;6
+FORM_71;WindingTemp;Температура обмотки (корпуса);°С;String;7
+FORM_71;RegimeType;Характер режима работы;;String;7
+FORM_71;LoadFactor;Коэффициент нагрузки;;String;8
+FORM_72;Function;Выполняемая функция;;String;1
+FORM_72;MotorExcitationMinVoltage;Напряжение питания обмотки возбуждения двигателя до срабатывания минимальное;В;String;2
+FORM_72;MotorExcitationMaxVoltage;Напряжение питания обмотки возбуждения двигателя до срабатывания максимальное;В;String;3
+FORM_72;MotorControlMinVoltage;Напряжение питания обмотки управления двигателя минимальное;В;String;4
+FORM_72;MotorControlMaxVoltage;Напряжение питания обмотки управления двигателя максимальное;В;String;5
+FORM_72;GeneratorExcitationMinVoltage;Напряжение питания обмотки возбуждения генератора минимальное;В;String;6
+FORM_72;GeneratorExcitationMaxVoltage;Напряжение питания обмотки возбуждения генератора максимальное;В;String;7
+FORM_72;SupplyMinFrequency;Частота напряжения питания минимальная;Гц;String;8
+FORM_72;SupplyMaxFrequency;Частота напряжения питания максимальная;Гц;String;9
+FORM_72;MotorExcitationCurrent;Ток, потребляемый обмоткой возбуждения двигателя;А;String;10
+FORM_72;MotorControlCurrent;Ток, потребляемый обмоткой управления двигателя;А;String;11
+FORM_72;GeneratorExcitationCurrent;Ток, потребляемый обмоткой возбуждения генератора;А;String;12
+FORM_72;RotationSpeed;Частота вращения;об/мин;String;13
+FORM_72;LoadResistance;Сопротивление нагрузки;кОм;String;14
+FORM_72;AmbientTemp;Температура окружающей среды;°С;String;15
+FORM_72;WindingTemp;Температура обмотки (корпуса);°С;String;16
+FORM_72;RegimeType;Характер режима работы;;String;17
+FORM_72;LoadFactor;Коэффициент нагрузки;;String;18
+FORM_73;Function;Выполняемая функция;;String;1
+FORM_73;ExcitationMinVoltage;Напряжение питания обмотки возбуждения минимальное;В;String;2
+FORM_73;ExcitationMaxVoltage;Напряжение питания обмотки возбуждения максимальное;В;String;3
+FORM_73;ExcitationCurrent;Ток, потребляемый обмоткой возбуждения;А;String;4
+FORM_73;RotationSpeed;Частота вращения;об/мин;String;5
+FORM_73;ReceiverCount;Количество приемников, подключаемых к датчику;шт.;String;6
+FORM_73;LoadResistance;Сопротивление нагрузки;Ом;String;7
+FORM_73;AmbientTemp;Температура окружающей среды;°С;String;8
+FORM_73;WindingTemp;Температура обмотки (корпуса);°С;String;9
+FORM_73;RegimeType;Характер режима работы;;String;10
+FORM_73;LoadFactor;Коэффициент нагрузки;;String;11
+FORM_74;SupplyMinVoltage;Напряжение питания минимальное;В;String;1
+FORM_74;SupplyMaxVoltage;Напряжение питания максимальное;В;String;2
+FORM_74;ConsumedCurrent;Потребляемый ток;мА;String;3
+FORM_74;PollingVoltageAmp;Параметры управляющих сигналов опроса амплитуда напряжения;В;String;4
+FORM_74;PollingCurrentAmp;Параметры управляющих сигналов опроса амплитуда тока;мА;String;5
+FORM_74;PollingFrequency;Параметры управляющих сигналов опроса частота следования;Гц;String;6
+FORM_74;PulseWidth;Параметры управляющих сигналов длительность импульса;мкс;String;7
+FORM_74;PulseRiseTime;Параметры управляющих сигналов длительность фронта импульса;мкс;String;8
+FORM_74;LogicZeroVoltage;Напряжение логического нуля;В;String;9
+FORM_74;LogicOneVoltage;Напряжение логической единицы;В;String;10
+FORM_74;LoadResistance;Параметры нагрузки активная;Ом;String;11
+FORM_74;LoadCapacitance;Параметры нагрузки емкостная;мкФ;String;12
+FORM_74;RotationSpeed;Частота вращения;об/мин;String;13
+FORM_74;AmbientTemp;Температура окружающей среды;°С;String;14
+FORM_75;CurrentType;Род тока;;String;1
+FORM_75;NominalCurrent;Величина тока;мА;String;2
+FORM_75;NominalVoltage;Величина напряжения;мВ;String;3
+FORM_75;MaxOperatingCurrent;Максимальный ток при работе;мА;String;4
+FORM_75;MaxOperatingVoltage;Максимальное напряжение при работе;мВ;String;5
+FORM_75;CurrentFrequency;Частота тока;МГц;String;6
+FORM_75;RfPower;ВЧ цепей мощность;кВт;String;7
+FORM_75;WaveImpedance;ВЧ цепей волновое сопротивление;Ом;String;8
+FORM_75;PulseDuration;Длительность импульса;мс;String;9
+FORM_75;SingleImpactDuration;Длительность фронта;мс;String;10
+FORM_75;PulseRepetitionFrequency;Частота повторения импульсов;Гц;String;11
+FORM_75;PressureDifferential;Герметичность перепад давления;Атм;String;12
+FORM_75;LeakageRate;Герметичность утечка воздуха или др.газа;л/час;String;13
+FORM_75;ConnectionState;Количество сочленений в обесточенном состоянии;;String;14
+FORM_75;InsertionExtractionCount;Количество вставлений-извлечений контакта;;String;15
+FORM_75;PositionCount;Количество положений взаимосочлененных частей;;String;16
+FORM_75;AxialLoad;Осевая нагрузка;кгс;String;17
+FORM_75;ConnectionOffset;Смещение (перекос) при сочленении;мм (град);String;18
+FORM_75;UnderConnection;Недосочленение вилки с розеткой;мм;String;19
+FORM_75;MountingMethod;Монтаж хвостовиков контактов способ монтажа;;String;20
+FORM_75;ConnectionCount;Монтаж хвостовиков контактов количество соединений;;String;21
+FORM_75;AmbientTemp;Температура окружающей среды;°С;String;22
+FORM_75;TotalOperatingTime;Суммарное время эксплуатации под нагрузкой;тыс.ч;String;23
+FORM_75;LoadFactor;Коэффициент нагрузки;;String;24
+FORM_76;TerminalNumbers;Номера выводов;;String;1
+FORM_76;CurrentType;Род тока;;String;2
+FORM_76;CurrentFrequency;Частота тока;Гц;String;3
+FORM_76;OperatingVoltage;Рабочее напряжение;В;String;4
+FORM_76;RatedCurrent;Номинальный ток;А;String;5
+FORM_76;MakingCurrent;Включаемы ток;А;String;6
+FORM_76;BreakingCurrent;Отключаемый ток;А;String;7
+FORM_76;CycleCount;Количество циклов вкл.-выкл;;String;8
+FORM_76;LoadParameter;параметр нагрузки;;String;9
+FORM_76;OverloadCurrentLimit;Допустимое значение по току;Ином.;String;10
+FORM_76;OverloadDuration;Длительность протекания тока перегрузки;;String;11
+FORM_76;OverloadTripSetting;Установка по току срабатывания в зоне токов перегрузки;Ином.;String;12
+FORM_76;ShortCircuitTripSetting;Установка по току сраб. в зоне токов к.з., Ином.;;String;13
+FORM_76;MaxShortCircuitCurrent;Предельный ток короткого замыкания;кА;String;14
+FORM_76;AuxTerminalNumbers;Номера выводов;;String;15
+FORM_76;AuxCurrentType;Род тока;;String;16
+FORM_76;AuxCurrentFrequency;частота тока;Гц;String;17
+FORM_76;AuxOperatingVoltage;Рабочее напряжение;В;String;18
+FORM_76;AuxMakingCurrent;Включаемый ток;А;String;19
+FORM_76;AuxBreakingCurrent;Отключаемый ток;А;String;20
+FORM_76;AuxLoadParameters;Параметры нагрузки (вспом.);;String;21
+FORM_76;AuxCycleCount;количество циклов включено-отключено;;String;22
+FORM_76;RemoteDriveVoltage;Рабочее напряжение дистанционного привода;;String;23
+FORM_76;MinRemoteDriveVoltage;Допустимое минимальное напряжение дистан. привода;В;String;24
+FORM_76;AmbientTemp;Температура окружающей среды (корпуса);°С;String;25
+FORM_76;LoadFactor;Коэффициент нагрузки;;String;26
+FORM_77;OperatingVoltage;Рабочее напряжение;В;String;1
+FORM_77;OperatingCurrent;Рабочий ток;А;String;2
+FORM_77;MinSwitchedVoltage;Коммутируемое напряжение минимальное;В;String;3
+FORM_77;MaxSwitchedVoltage;Коммутируемое напряжение максимальное;В;String;4
+FORM_77;MinSwitchedCurrent;Коммутируемый ток минимальный;А;String;5
+FORM_77;MaxSwitchedCurrent;Коммутируемый ток максимальный;А;String;6
+FORM_77;MinPassingCurrent;Пропускаемый ток минимальный;А;String;7
+FORM_77;MaxPassingCurrent;Пропускаемый ток максимальный;А;String;8
+FORM_77;MaxSwitchedPower;Максимальная коммутируемая (пропускаемая) мощность;;String;9
+FORM_77;CurrentType;Род тока (постоянный, переменный);;String;10
+FORM_77;OverloadDuration;Длительность протекания тока перегрузки;с;String;11
+FORM_77;LoadCharacter;Параметр (характер) нагрузки;;String;12
+FORM_77;SwitchingFrequency;Частота коммутации;Гц;String;13
+FORM_77;CycleCount;Число коммутационных циклов;String;;14
+FORM_77;ContinuousEnergizedTime;Время непр. нахождения обмотки под напряжением;ч;String;15
+FORM_77;TotalEnergizedTime;Время суммарного нахождения обмотки под напряжен.;ч;String;16
+FORM_77;AmbientTemp;Температура окружающей среды;°С;String;17
+FORM_77;LoadFactor;Коэффициент нагрузки;;String;18
+FORM_78;MainRatedVoltage;Главная цепь. Номинальное напряжение;В;String;1
+FORM_78;MainCurrentFrequency;Главная цепь. Частота тока;Гц;String;2
+FORM_78;MainRatedCurrent;Главная цепь. Номинальный ток;А;String;3
+FORM_78;MainCurrentSetting;Главная цепь. Установка номинального тока;А;String;4
+FORM_78;TripCurrentSetting;Главная цепь. Установка тока срабатывания, I/Inом.;;String;5
+FORM_78;OverloadCurrent;Главная цепь. Перегрузка по току, I/Inом.;;String;6
+FORM_78;OverloadDuration;Главная цепь. Длительность перегрузки по току;с;String;7
+FORM_78;ContactTerminalNumbers;Контакты. Номера выводов;;String;8
+FORM_78;ContactCurrentFrequency;Контакты. Частота тока (контакты);Гц;String;9
+FORM_78;ContactRatedVoltage;Контакты. Номинальное напряжение (контакты);В;String;10
+FORM_78;ContactSwitchedCurrent;Контакты. Коммутируемый ток (контакты);А;String;11
+FORM_78;ContactLoadCharacter;Контакты. Параметр (характер) нагрузки (контакты);;String;12
+FORM_78;OperationCount;Контакты. Количество срабатывания;;String;13
+FORM_78;AmbientTemp;Температура окружающей среды;°С;String;14
+FORM_78;LoadFactor;Коэффициент нагрузки;;String;15
+FORM_79;OperatingVoltage;Рабочее напряжение;В;String;1
+FORM_79;PreOperationCurrent;Потребляемый ток до срабатывания;мА;String;2
+FORM_79;PostOperationCurrent;Потребляемый ток после срабатывания;мА;String;3
+FORM_79;OperationTime;Время срабатывания;с;String;4
+FORM_79;RecoveryTime;Время восстановления;с;String;5
+FORM_79;PreparationTime;Время подготовки;с;String;6
+FORM_79;MinSwitchedVoltage;Коммутируемое напряжение минимальное;В;String;7
+FORM_79;MaxSwitchedVoltage;Коммутируемое напряжение максимальное;В;String;8
+FORM_79;MinSwitchedCurrent;Коммутируемый ток минимальный;А;String;9
+FORM_79;MaxSwitchedCurrent;Коммутируемый ток максимальный;А;String;10
+FORM_79;MaxSwitchedPower;Максимальная коммутируемая мощность;Вт (ВА);String;11
+FORM_79;CurrentType;Род тока (постоянный, переменный);;String;12
+FORM_79;LoadCharacter;Параметр (характер) нагрузки;;String;13
+FORM_79;CycleCount;Число коммутационных циклов;;String;14
+FORM_79;SwitchingFrequency;Частота коммутации;;String;15
+FORM_79;ContinuousOnTime;Непрерывное пребывание под рабочим напряжением во включенном состоянии;ч;String;16
+FORM_79;TotalOnTime;Суммарное пребывание под рабочим напряжением во включенном состоянии;ч;String;17
+FORM_79;AmbientTemp;Температура окружающей среды;°С;String;18
+FORM_79;LoadFactor;Коэффициент нагрузки;;String;19
+FORM_80;SupplyVoltage;Напряжение питания мин/макс;В;String;1
+FORM_80;ControlSignalVoltage;Напряжение сигнала управления мин/макс;В;String;2
+FORM_80;ControlSignalCurrent;Ток сигнала управления мин/макс;А;String;3
+FORM_80;ControlPulseDuration;Длительность импульса управления;мкс;String;4
+FORM_80;SwitchedVoltage;Коммутируемое напряжение мин/макс;В;String;5
+FORM_80;SwitchedCurrent;Коммутируемый ток мин/макс;А;String;6
+FORM_80;CurrentType;Род тока (постоянный, переменный);;String;7
+FORM_80;LoadParameters;Параметры (характер) нагрузки;;String;8
+FORM_80;LoadCurrent;Ток нагрузки;А;String;9
+FORM_80;OverloadCurrentDuration;Длительность протекания тока перегрузки;с;String;10
+FORM_80;ShortCircuitTripCurrent;Ток срабатывания схемы защиты от к.з.;А;String;11
+FORM_80;ShortCircuitTripTime;Время срабатывания схемы защиты от к.з.;с;String;12
+FORM_80;DissipatedPower;Рассеиваемая мощность;Вт (ВА);String;13
+FORM_80;AmbientTemp;Температура окружающей среды;°С;String;14
+FORM_80;CaseTemp;Температура корпуса;°С;String;15
+FORM_80;LoadFactor;Коэффициент нагрузки;;String;16
+FORM_81;TerminalNumbers;Номера выводов;;String;1
+FORM_81;CurrentType;Род тока (постоянный, переменный);;String;2
+FORM_81;MinSwitchedVoltage;Коммутируемое напряжение минимальное;В;String;3
+FORM_81;MaxSwitchedVoltage;Коммутируемое напряжение максимальное;В;String;4
+FORM_81;MinSwitchedCurrent;Коммутируемый ток минимальный;А;String;5
+FORM_81;MaxSwitchedCurrent;Коммутируемый ток максимальный;А;String;6
+FORM_81;MaxSwitchedPower;Максимальная коммутируемая мощность;Вт (ВА);String;7
+FORM_81;LoadCharacter;Параметр (характер) нагрузки;;String;8
+FORM_81;OverloadCurrent;Ток перегрузки;А;String;9
+FORM_81;OverloadDuration;Время протекания тока перегрузки;с;String;10
+FORM_81;ActuatorTravel;Полный ход приводного элемента;мм;String;11
+FORM_81;OperationFrequency;Частота срабатывания;Гц;String;12
+FORM_81;CycleCount;Число коммутационных циклов;;String;13
+FORM_81;AmbientTemp;Температура окружающей среды;°С;String;14
+FORM_81;LoadFactor;Коэффициент нагрузки;;String;15
+FORM_82;FirstInputMinVoltage;Входное напряжение на первом входе минимальное;В;String;1
+FORM_82;FirstInputMaxVoltage;Входное напряжение на первом входе максимальное;В;String;2
+FORM_82;SecondInputMinVoltage;Входное напряжение на втором входе минимальное;В;String;3
+FORM_82;SecondInputMaxVoltage;Входное напряжение на втором входе максимальное;В;String;4
+FORM_82;ControlSupplyVoltage;Напряжение питания схемы управления;В;String;5
+FORM_82;FirstOutputMinVoltage;Выходное напряжение на первом выходе минимальное;В;String;6
+FORM_82;FirstOutputMaxVoltage;Выходное напряжение на первом выходе максимальное;В;String;7
+FORM_82;SecondOutputMinVoltage;Выходное напряжение на втором выходе минимальное;В;String;8
+FORM_82;SecondOutputMaxVoltage;Выходное напряжение на втором выходе максимальное;В;String;9
+FORM_82;FirstLoadCurrent;Ток нагрузки на первом выходе;А;String;10
+FORM_82;SecondLoadCurrent;Ток нагрузки на втором выходе;А;String;11
+FORM_82;MinDividerCurrent;Минимальный ток делителя;мА;String;12
+FORM_82;DissipatedPower;Рассеиваемая мощность;Вт;String;13
+FORM_82;AmbientTemp;Температура окружающей среды (корпуса);°С;String;14
+FORM_82;LoadFactor;Коэффициент нагрузки;;String;15
+FORM_83;TerminalNumbers;Номера выводов;;String;1
+FORM_83;MinInputVoltage;Входное напряжение минимальное;В;String;2
+FORM_83;MaxInputVoltage;Входное напряжение максимальное;В;String;3
+FORM_83;MinOutputVoltage;Выходное напряжение минимальное;В;String;4
+FORM_83;MaxOutputVoltage;Выходное напряжение максимальное;В;String;5
+FORM_83;MinLoadCurrent;Ток нагрузки минимальный;А;String;6
+FORM_83;MaxLoadCurrent;Ток нагрузки максимальный;А;String;7
+FORM_83;CurrentType;Род тока (постоянный, переменный);;String;8
+FORM_83;LoadParameters;Параметры (характер) нагрузки;;String;9
+FORM_83;ShortCircuitTripCurrent;Ток срабатывания защиты от к.з.;;String;10
+FORM_83;MaxOverloadCurrent;Максимальный ток перегрузки;А;String;11
+FORM_83;ShortCircuitTripTime;Время срабатывания защиты от к.з.;;String;12
+FORM_83;RippleVoltage;Напряжение пульсации;мВ;String;13
+FORM_83;DissipatedPower;Рассеиваемая мощность;Вт;String;14
+FORM_83;AmbientTemp;Температура окружающей среды;°С;String;15
+FORM_83;CaseTemp;Температура корпуса;°С;String;16
+FORM_83;LoadFactor;Коэффициент нагрузки;;String;17
+FORM_84;WindingTerminalNumbers;Номера выводов обмоток;;String;1
+FORM_84;SupplyFrequency;Частота питающего напряжения;Гц;String;2
+FORM_84;PrimaryVoltage;Напряжение на первичной обмотке;В;String;3
+FORM_84;WindingWorkingPotential;Рабочий потенциал обмотки;В;String;4
+FORM_84;WindingCurrent;Ток обмотки;А;String;5
+FORM_84;AmbientTemp;Температура окружающей среды (обмоток);°С;String;6
+FORM_84;LoadFactor;Коэффициент нагрузки;;String;7
+FORM_85;WindingTerminalNumbers;Номера выводов обмоток;;String;1
+FORM_85;PulseCurrent;Импульсный ток;мА;String;2
+FORM_85;PulseFrequency;Параметры импульса на первичной обмотке частота;Гц;String;3
+FORM_85;PulseDuration;Параметры импульса на первичной обмотке длительность;мкс;String;4
+FORM_85;PulseVoltageAmplitude;Параметры импульса на первичной обмотке амплитуда напряжения;В;String;5
+FORM_85;VoltTimeProduct;Параметры импульса на первичной обмотке Uн·tи;В·мкс;String;6
+FORM_85;AmbientTemp;Температура окружающей среды (обмоток);°С;String;7
+FORM_85;LoadFactor;Коэффициент нагрузки;;String;8
+FORM_86;WindingTerminalNumbers;Номера выводов обмоток;;String;1
+FORM_86;CurrentFrequency;Частота тока;Гц;String;2
+FORM_86;BiasCurrent;Ток подмагничивания;А;String;3
+FORM_86;MaxCurrent;Максимальный ток;А;String;4
+FORM_86;WindingWorkingPotential;Рабочий потенциал обмотки;В;String;5
+FORM_86;AcComponent;Переменная составляющая;В;String;6
+FORM_86;AmbientTemp;Температура окружающей среды (обмотки);°С;String;7
+FORM_86;LoadFactor;Коэффициент нагрузки;;String;8
+FORM_87;CurrentType;Род тока (постоянный, переменный);;String;1
+FORM_87;MaxWorkingVoltage;Максимальное рабочее напряжение;В;String;2
+FORM_87;RatedCurrent;Номинальный ток;А;String;3
+FORM_87;OverloadCurrent;Ток перегрузки;А;String;4
+FORM_87;OverloadTripTime;Время срабатывания при протекании тока перегрузки;с;String;5
+FORM_87;MaxOverloadOrShortCircuitCurrent;Наибольший ток перегрузки или короткого замыкания;А;String;6
+FORM_87;TotalCurrentOnTime;Суммарное время нахождения под током;ч;String;7
+FORM_87;AmbientTemp;Температура окружающей среды;°С;String;8
+FORM_87;LoadFactor;Коэффициент нагрузки;;String;9

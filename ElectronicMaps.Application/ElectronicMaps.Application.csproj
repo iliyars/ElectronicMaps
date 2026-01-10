@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Abstractions\Queries\Remarks\" />
     <Folder Include="Features\Projects\" />
   </ItemGroup>
 

@@ -26,5 +26,7 @@ namespace ElectronicMaps.Domain.Entities
         public DateTimeOffset? UpdatedAt { get; set; }
         public int? UpdatedByUserId { get; set; }
 
+        public ICollection<ParameterValueRemark> Remarks { get; set; } = new List<ParameterValueRemark>();
+
     }
 }

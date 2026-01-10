@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.1.11312.151 d18.0
+VisualStudioVersion = 18.1.11312.151
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicMaps.Domain", "ElectronicMaps.Domain\ElectronicMaps.Domain.csproj", "{D65C4ECB-E398-4A02-BB5D-8986C14E8A08}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicMaps.ConsoleTest", "ElectronicMaps.ConsoleTest\ElectronicMaps.ConsoleTest.csproj", "{F872A772-5F0D-418F-82D7-3F2FBEA262A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicMaps.Application", "ElectronicMaps.Application\ElectronicMaps.Application.csproj", "{E185B6A6-3BC9-4447-87A9-17A8E3431824}"
 EndProject
@@ -17,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navigation.Core", "Navigati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicMaps.Documents", "ElectronicMaps.Documents\ElectronicMaps.Documents.csproj", "{7DA5F480-BA66-45B2-B6ED-1DC257F44544}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicMaps.DataSeeder", "ElectronicMaps.DataSeeder\ElectronicMaps.DataSeeder.csproj", "{4C52A11C-E86B-9FDF-C7DD-08FBAB354231}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,10 +27,6 @@ Global
 		{D65C4ECB-E398-4A02-BB5D-8986C14E8A08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D65C4ECB-E398-4A02-BB5D-8986C14E8A08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D65C4ECB-E398-4A02-BB5D-8986C14E8A08}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F872A772-5F0D-418F-82D7-3F2FBEA262A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F872A772-5F0D-418F-82D7-3F2FBEA262A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F872A772-5F0D-418F-82D7-3F2FBEA262A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F872A772-5F0D-418F-82D7-3F2FBEA262A5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E185B6A6-3BC9-4447-87A9-17A8E3431824}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E185B6A6-3BC9-4447-87A9-17A8E3431824}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E185B6A6-3BC9-4447-87A9-17A8E3431824}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,6 +47,10 @@ Global
 		{7DA5F480-BA66-45B2-B6ED-1DC257F44544}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DA5F480-BA66-45B2-B6ED-1DC257F44544}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DA5F480-BA66-45B2-B6ED-1DC257F44544}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C52A11C-E86B-9FDF-C7DD-08FBAB354231}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C52A11C-E86B-9FDF-C7DD-08FBAB354231}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C52A11C-E86B-9FDF-C7DD-08FBAB354231}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C52A11C-E86B-9FDF-C7DD-08FBAB354231}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

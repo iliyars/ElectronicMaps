@@ -19,6 +19,7 @@ using ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Forms;
 using ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Parameters;
 using ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Workspace;
 using ElectronicMaps.Infrastructure.Services;
+using ElectronicMaps.Infrastructure.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -76,7 +77,7 @@ namespace ElectronicMaps.Infrastructure
 
             // Services
             services.AddSingleton<IComponentNameParser, ComponentNameParser>();
-            services.AddScoped<IComponentSourceReader, AvsXmlComponentSourceReader>(); 
+            services.AddScoped<IComponentSourceReader, AvsXmlComponentSourceReader>();
             
             return services;
         }

@@ -125,7 +125,7 @@
             </ScrollViewer.Resources>
 
             <!-- Список карточек -->
-            <ItemsControl ItemsSource="{Binding ItemCards}">
+           <ItemsControl ItemsSource="{Binding ItemCards}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel  />

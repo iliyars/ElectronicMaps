@@ -1,4 +1,5 @@
 ﻿using ElectronicMaps.Infrastructure.Persistence.Configuration;
+using ElectronicMaps.Infrastructure.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -24,6 +25,8 @@ namespace ElectronicMaps.Infrastructure.Persistence.Initialization
         public async Task InitializeAsync(CancellationToken ct = default)
         {
             await _db.Database.MigrateAsync(ct);
+
+            //await DatabaseCsvImport.ClearTableAsync(_db, "FormTable");
 
             if (DbConfig.GetProvider(_config).Equals("Sqlite", StringComparison.OrdinalIgnoreCase))
             {

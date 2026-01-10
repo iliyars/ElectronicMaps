@@ -23,7 +23,6 @@ namespace ElectronicMaps.Domain.Entities
         // Конкурентность (универсально для SQLite + SQL Server)
         public int Version { get; set; } = 1;
 
-
         public int ComponentFamilyId { get; set; }
         public ComponentFamily ComponentFamily { get; set; } = null!;
 
