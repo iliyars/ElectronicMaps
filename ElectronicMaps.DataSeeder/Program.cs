@@ -1,4 +1,5 @@
 ﻿
+using DocumentFormat.OpenXml.Wordprocessing;
 using ElectronicMaps.Infrastructure.Persistence.Configuration;
 using ElectronicMaps.Infrastructure.Utilities;
 using Microsoft.EntityFrameworkCore;
@@ -9,8 +10,8 @@ using System.Text;
 
 var services = new ServiceCollection();
 
-var csvFileFormTypes = @"A:\dev\ElectronicMaps\ElectronicMaps.DataSeeder\Data\FormTypes.csv";
-var csvFileParameterDefinitions = @"A:\dev\ElectronicMaps\ElectronicMaps.DataSeeder\Data\ParameterDefinitions.csv";
+var csvFileFormTypes = @"D:\dev\csharp\ElectronicMaps\ElectronicMaps.DataSeeder\Data\FormTypes.csv";
+var csvFileParameterDefinitions = @"D:\dev\csharp\ElectronicMaps\ElectronicMaps.DataSeeder\Data\ParameterDefinitions.csv";
 
 Console.OutputEncoding = Encoding.UTF8;
 Console.InputEncoding = Encoding.UTF8;
@@ -23,7 +24,7 @@ services.AddLogging(builder => builder.AddConsole());
 
 // DbContext
 services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=A:\\dev\\databases\\electronicmaps.db"));
+    options.UseSqlite("Data Source=D:\\dev\\databases\\electronicmaps.db"));
 //Importer
 services.AddScoped<DatabaseCsvImport>();
 

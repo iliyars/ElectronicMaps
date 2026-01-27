@@ -241,7 +241,6 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components.ViewModels
         }
         #endregion
 
-  
         #region Save Command
 
         [RelayCommand(CanExecute = nameof(CanSave))]
