@@ -34,7 +34,6 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components
 
         public bool? ShowDialogWithDraft(ComponentDraft draft)
         {
-            // ✅ Вызов ПОСЛЕ Loaded
             Loaded += async (s, e) =>
             {
                 await _viewModel.InitializeAsync(draft);

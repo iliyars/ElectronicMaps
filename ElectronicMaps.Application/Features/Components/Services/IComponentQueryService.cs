@@ -8,7 +8,7 @@ namespace ElectronicMaps.Application.Features.Components.Services
 {
     public interface IComponentQueryService
     {
-        Task<IReadOnlyList<ParameterDefinitionDto>> GetFamilyParameterDefinitionsAsync(CancellationToken ct);
+        Task<IReadOnlyList<ParameterDefinitionDto>> GetFamilyParameterDefinitionsAsync(CancellationToken ct =default);
         Task<IReadOnlyList<FormTypeDto>> GetAvailableComponentFormsAsync(CancellationToken ct = default);
 
         Task<IReadOnlyList<ParameterDefinitionDto>> GetComponentParameterDefinitionsAsync(

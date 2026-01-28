@@ -29,6 +29,8 @@ namespace ElectronicMaps.Application
             services.AddScoped<IFileImportService, FileImportService>(); 
             services.AddScoped<IComponentAnalysisService, ComponentAnalysisService>(); 
             services.AddScoped<IComponentCreationService, ComponentCreationService>();
+            services.AddScoped<IComponentQueryService, ComponentQueryService>();
+            services.AddScoped<IComponentFamilyQueryService, ComponentFamilyQueryService>();
 
             // Commands
 

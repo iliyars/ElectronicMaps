@@ -1,5 +1,6 @@
 ﻿using ElectronicMaps.Application.Abstractions.Queries.Forms;
 using ElectronicMaps.Application.Abstractions.Queries.Parameters;
+using ElectronicMaps.Application.DTOs.Forms;
 using ElectronicMaps.Application.DTOs.Parameters;
 using ElectronicMaps.Application.Features.Workspace.Models;
 using Microsoft.Extensions.Logging;
@@ -27,8 +28,10 @@ namespace ElectronicMaps.Application.Features.Components.Services
             _parameterDefinitions = parameterDefinitions ?? throw new ArgumentNullException(nameof(parameterDefinitions));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-        // Получение параметров семейства для заполнения
-        public async Task<IReadOnlyList<ParameterDefinitionDto>> GetFamilyParameterDefinitionsAsync(CancellationToken ct)
+        /// <summary>
+        /// Получение параметров семейства для заполнения
+        /// </summary>
+        public async Task<IReadOnlyList<ParameterDefinitionDto>> GetFamilyParameterDefinitionsAsync(CancellationToken ct = default)
         {
             _logger.LogDebug("Получение параметров семейства для FormType: {FormTypeCode}", FamilyFormTypeCode);
 
@@ -50,6 +53,63 @@ namespace ElectronicMaps.Application.Features.Components.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Получить список доступных форм компонента
+        /// </summary>
+        public async Task<IReadOnlyList<FormTypeDto>> GetAvailableComponentFormsAsync(CancellationToken ct = default)
+        {
+            _logger.LogDebug("Получение списка доступных форм компонента");
 
+            try
+            {
+                var formTypes = await _formTypes.GetAllAsync(ct);
+
+                _logger.LogInformation(
+                    "Получено {Count} форм компонента",
+                    formTypes.Count);
+
+                return formTypes;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка при получении списка форм компонента");
+                throw;
+            }
+        }
+
+        public async Task<IReadOnlyList<ParameterDefinitionDto>> GetComponentParameterDefinitionsAsync(
+            string formTypeCode,
+            CancellationToken ct = default)
+        {
+            if(string.IsNullOrWhiteSpace(formTypeCode))
+            {
+                throw new ArgumentException("Код формы не может быть пустым", nameof(formTypeCode));
+            }
+
+            _logger.LogDebug(
+                "Получение параметров компонента для FormType: {FormTypeCode}",
+                formTypeCode);
+
+            try
+            {
+                var componentFormType = await _formTypes.GetByCodeAsync(formTypeCode, ct);
+                var parameters = await _parameterDefinitions.GetByFormTypeIdAsync(componentFormType.Id, ct);
+
+                _logger.LogInformation(
+                    "Получено {Count} параметров для формы {FormTypeCode}",
+                    parameters.Count,
+                    formTypeCode);
+
+                return parameters;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Ошибка при получении параметров для FormType: {FormTypeCode}",
+                    formTypeCode);
+                throw;
+            }
+        }
     }
 }

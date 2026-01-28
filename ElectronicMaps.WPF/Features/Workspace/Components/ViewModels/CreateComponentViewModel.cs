@@ -13,24 +13,35 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Windows;
 
 namespace ElectronicMaps.WPF.Features.Workspace.Components.ViewModels
 {
     public partial class CreateComponentViewModel : ObservableObject
     {
         private readonly IComponentCreationService _creationService;
+        private readonly IComponentQueryService _componentQuery;
+        private readonly IComponentFamilyQueryService _familyQuery;
         private readonly IDialogService _dialogService;
         private readonly ILogger<CreateComponentViewModel> _logger;
 
+        private Window? _window;
+
+
         public CreateComponentViewModel(
-       IComponentCreationService creationService,
-       IDialogService dialogService,
-       ILogger<CreateComponentViewModel> logger)
+            IComponentCreationService creationService,
+            IComponentQueryService componentQuery,
+            IComponentFamilyQueryService familyQuery,
+            IDialogService dialogService,
+            ILogger<CreateComponentViewModel> logger)
         {
-            _creationService = creationService ?? throw new ArgumentNullException(nameof(creationService));
-            _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _creationService = creationService;
+            _componentQuery = componentQuery;
+            _familyQuery = familyQuery;
+            _dialogService = dialogService;
+            _logger = logger;
         }
+
 
         #region Properties
 
@@ -67,6 +78,8 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components.ViewModels
         [ObservableProperty]
         private string? _statusMessage;
 
+
+
         // Для закрытия окна
         public Action? CloseAction { get; set; }
         public bool? DialogResult { get; private set; }
@@ -74,6 +87,11 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components.ViewModels
         #endregion
 
         #region Initialization
+
+        public void SetWindow(Window window)
+        {
+            _window = window;
+        }
 
         /// <summary>
         /// Инициализация с данными из ComponentDraft
@@ -94,40 +112,61 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components.ViewModels
                     NewFamilyName = draft.Family;
 
                     // Проверить существует ли семейство
-                    var existingFamily = await _creationService.FindFamilyByNameAsync(draft.Family);
+                    var existingFamily = await _familyQuery.FindFamilyByNameAsync(draft.Family);
                     if (existingFamily != null)
                     {
                         // Семейство существует - переключить на режим UseExisting
                         IsFamilyExists = true;
                         ExistingFamily = existingFamily;
+
+                        _logger.LogInformation(
+                            "Найдено существующее семейство: {FamilyName} (ID={FamilyId})",
+                            existingFamily.Name,
+                            existingFamily.Id);
                     }
                     else
                     {
                         // Семейство не существует - нужно создать
                         IsFamilyExists = false;
+
+                        _logger.LogInformation(
+                            "Семейство '{FamilyName}' не найдено, будет создано новое",
+                            draft.Family);
                     }
                 }
 
                 // 3. Загрузить параметры семейства (если нужно создать)
                 if (!IsFamilyExists)
                 {
-                    var familyParams = await _creationService.GetFamilyParameterDefinitionsAsync();
+                    var familyParams = await _componentQuery.GetFamilyParameterDefinitionsAsync();
+
                     FamilyParameterDefinitions.Clear();
-                    foreach(var param in familyParams)
+                    FamilyParameters.Clear();
+
+                    foreach (var param in familyParams)
                     {
                         FamilyParameterDefinitions.Add(param);
                         FamilyParameters.Add(new ParameterInput(param));
                     }
+
+                    _logger.LogDebug(
+                        "Загружено {Count} параметров семейства",
+                        familyParams.Count);
                 }
 
                 // 4. Загрузить формы компонента
-                var componentForms = await _creationService.GetAvailableComponentFormsAsync();
+                var componentForms = await _componentQuery.GetAvailableComponentFormsAsync();
+
                 AvailableComponentForms.Clear();
                 foreach (var form in componentForms)
                 {
                     AvailableComponentForms.Add(form);
                 }
-                
+
+                _logger.LogDebug(
+                    "Загружено {Count} форм компонента",
+                    componentForms.Count);
+
                 StatusMessage = IsFamilyExists
                 ? $"Семейство '{ExistingFamily!.Name}' найдено в БД"
                 : "Готово";
@@ -205,8 +244,15 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components.ViewModels
 
         partial void OnSelectedComponentFormChanged(FormTypeDto? value)
         {
-            if (value == null) return;
+            if(value == null)
+            {
+                _logger.LogDebug("Форма компонента сброшена");
+                return;
+            }
+
+            _logger.LogDebug("Выбрана форма компонента: {FormName} ({FormCode})", value.Name, value.Code);
             _ = LoadComponentParametersAsync(value.Code);
+            SaveCommand.NotifyCanExecuteChanged();
         }
 
         private async Task LoadComponentParametersAsync(string formTypeCode)
@@ -216,7 +262,7 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components.ViewModels
 
             try
             {
-                var parameters = await _creationService.GetComponentParameterDefinitionsAsync(formTypeCode);
+                var parameters = await _componentQuery.GetComponentParameterDefinitionsAsync(formTypeCode);
 
                 ComponentParameterDefinitions.Clear();
                 ComponentParameters.Clear();
@@ -231,8 +277,15 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components.ViewModels
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ошибка загрузки параметров");
+                _logger.LogError(
+                    ex,
+                    "Ошибка загрузки параметров для формы '{FormCode}'",
+                    formTypeCode);
+
                 StatusMessage = $"Ошибка: {ex.Message}";
+                await _dialogService.ShowErrorAsync(
+                    "Ошибка загрузки параметров",
+                    $"Не удалось загрузить параметры для формы '{formTypeCode}':\n{ex.Message}");
             }
             finally
             {
@@ -258,6 +311,12 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components.ViewModels
                 if (!validationResult.IsValid)
                 {
                     var errors = string.Join("\n", validationResult.Errors);
+
+                    _logger.LogWarning(
+                        "Валидация не пройдена для компонента '{ComponentName}': {Errors}",
+                        ComponentName,
+                        errors);
+
                     StatusMessage = $"Ошибка валидации";
                     await _dialogService.ShowErrorAsync("Ошибка валидации", errors);
                     return;
@@ -293,7 +352,6 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components.ViewModels
         {
             return !IsBusy
                 && CurrentStep == 2  // Только на последнем шаге
-                && !string.IsNullOrWhiteSpace(ComponentName)
                 && (IsFamilyExists || !string.IsNullOrWhiteSpace(NewFamilyName))  // Семейство есть или имя заполнено
                 && SelectedComponentForm != null;
         }
@@ -311,7 +369,9 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components.ViewModels
                     ExistingFamilyId = ExistingFamily!.Id,
                     FamilyParameters = null,
                     ComponentFormTypeCode = SelectedComponentForm!.Code,
-                    ComponentParameters = ComponentParameters.Select(p => p.ToParameterValueInput()).ToList()
+                    ComponentParameters = ComponentParameters
+                        .Select(p => p.ToParameterValueInput())
+                        .ToList()
                 };
             }
             else

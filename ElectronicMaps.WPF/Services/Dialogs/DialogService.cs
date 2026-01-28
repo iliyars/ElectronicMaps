@@ -186,7 +186,7 @@ namespace ElectronicMaps.WPF.Services.Dialogs
 
             _logger.LogDebug("Открытие диалога для ViewModel: {ViewModelType}", typeof(TViewModel).Name);
 
-            return System.Windows.Application.Current.Dispatcher.Invoke(() =>
+            var result = System.Windows.Application.Current.Dispatcher.Invoke<bool>(() =>
             {
                 try
                 {
@@ -195,7 +195,7 @@ namespace ElectronicMaps.WPF.Services.Dialogs
                     if (dialog == null)
                     {
                         _logger.LogWarning("Не удалось создать диалог для {ViewModelType}", typeof(TViewModel).Name);
-                        return Task.FromResult(false);
+                        return false;
                     }
 
                     // Устанавливаем DataContext
@@ -208,11 +208,14 @@ namespace ElectronicMaps.WPF.Services.Dialogs
                     }
 
                     // Показываем модально
-                    var result = dialog.ShowDialog();
+                    var dialogResult = dialog.ShowDialog();
 
-                    _logger.LogDebug("Диалог закрыт с результатом: {Result}", result);
+                    _logger.LogDebug(
+                        "Диалог {ViewModelType} закрыт с результатом: {Result}",
+                        typeof(TViewModel).Name,
+                        dialogResult);
 
-                    return Task.FromResult(result == true);
+                    return dialogResult == true;
                 }
                 catch (Exception ex)
                 {
@@ -220,6 +223,8 @@ namespace ElectronicMaps.WPF.Services.Dialogs
                     throw;
                 }
             });
+
+            return Task.FromResult(result);
         }
 
         public bool? ShowDialogWithInitialization<TViewModel>(
@@ -257,6 +262,7 @@ namespace ElectronicMaps.WPF.Services.Dialogs
 
                 _ => null
             };
+
         }
 
         
