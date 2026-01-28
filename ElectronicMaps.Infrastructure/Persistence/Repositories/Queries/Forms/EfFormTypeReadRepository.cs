@@ -15,13 +15,14 @@ namespace ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Forms
             _db = db;
         }
 
-        public Task<IReadOnlyList<FormTypeDto>> GetAllAsync(CancellationToken ct)
+        public async Task<IReadOnlyList<FormTypeDto>> GetAllAsync(CancellationToken ct)
         {
-            return _db.Set<FormType>().AsNoTracking()
+            var list = await _db.Set<FormType>().AsNoTracking()
                 .OrderBy(x => x.Code)
                 .Select(x => new FormTypeDto(x.Id, x.Code, x.DisplayName))
-                .ToListAsync(ct)
-                .ContinueWith(t => (IReadOnlyList<FormTypeDto>)t.Result, ct);
+                .ToListAsync();
+
+            return list;
         }
 
         public Task<FormTypeDto?> GetByCodeAsync(string code, CancellationToken ct)

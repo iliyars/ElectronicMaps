@@ -22,7 +22,7 @@ namespace ElectronicMaps.WPF
     {
         private IHost _host = null!;
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             ConfigureSerialog();
 
@@ -63,12 +63,12 @@ namespace ElectronicMaps.WPF
 
                 // Инициализация БД
                 Log.Information("Initializing database...");
-                InitializeDatabaseAsync().GetAwaiter().GetResult();
+                await InitializeDatabaseAsync();
                 Log.Information("Database initialized successfully");
 
                 // Запуск главного окна
                 Log.Information("Showing main window...");
-                ShowMainWindowAsync().GetAwaiter().GetResult();
+                await ShowMainWindowAsync();
                 Log.Information("Main window shown successfully");
             }catch(Exception ex)
             {

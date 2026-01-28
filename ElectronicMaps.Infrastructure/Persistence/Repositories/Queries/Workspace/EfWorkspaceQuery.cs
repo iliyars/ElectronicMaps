@@ -27,22 +27,23 @@ namespace ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Workspa
 
         public EfWorkspaceQuery(AppDbContext db) => _db = db;
 
-        public Task<IReadOnlyList<ComponentListItemDto>> GetAllComponentsAsync(CancellationToken ct)
+        public async Task<IReadOnlyList<ComponentListItemDto>> GetAllComponentsAsync(CancellationToken ct)
         {
-            return _db.Components.AsNoTracking()
+            var list = await _db.Components.AsNoTracking()
                 .OrderBy(x => x.Id)
                 .Select(c => new ComponentListItemDto(
                     c.Id,
                     c.Name,
                     c.FormType.Code,
                     c.ComponentFamily != null ? c.ComponentFamily.Name : null))
-                .ToListAsync(ct)
-                .ContinueWith(t => (IReadOnlyList<ComponentListItemDto>)t.Result, ct);
+                .ToListAsync(ct);
+
+            return list;
         }
 
-        public Task<IReadOnlyList<ComponentListItemDto>> GetComponentsByFormAsync(string formCode, CancellationToken ct)
+        public async Task<IReadOnlyList<ComponentListItemDto>> GetComponentsByFormAsync(string formCode, CancellationToken ct)
         {
-            return _db.Components.AsNoTracking()
+            var list = await _db.Components.AsNoTracking()
                 .Where(c => c.FormType.Code == formCode)
                 .OrderBy(c => c.Id)
                 .Select(c => new ComponentListItemDto(
@@ -51,8 +52,9 @@ namespace ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Workspa
                     c.FormType.Code,
                     c.ComponentFamily != null ? c.ComponentFamily.Name : null
                     ))
-                .ToListAsync(ct)
-                .ContinueWith(t => (IReadOnlyList<ComponentListItemDto>)t.Result, ct);
+                .ToListAsync(ct);
+
+            return list;
         }
     }
 }

@@ -19,9 +19,9 @@ namespace ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Paramet
         public EfParameterValueReadRepository(AppDbContext db) => _db = db;
 
 
-        public Task<IReadOnlyList<ParameterValueDto>> GetComponentValuesAsync(int componentId, CancellationToken ct)
+        public async Task<IReadOnlyList<ParameterValueDto>> GetComponentValuesAsync(int componentId, CancellationToken ct)
         {
-            return _db.Set<ParameterValue>().AsNoTracking()
+            var list =  await _db.Set<ParameterValue>().AsNoTracking()
                 .Where(v => v.ComponentId == componentId)
                 .Select(v => new ParameterValueDto(
                     v.ParameterDefinitionId,
@@ -31,13 +31,14 @@ namespace ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Paramet
                     v.IntValue,
                     v.Pins
                     ))
-                .ToListAsync(ct)
-                .ContinueWith(t => (IReadOnlyList<ParameterValueDto>)t.Result, ct);
+                .ToListAsync(ct);
+
+            return list;
         }
 
-        public Task<IReadOnlyList<ParameterValueDto>> GetFamilyValuesAsync(int familyId, CancellationToken ct)
+        public async Task<IReadOnlyList<ParameterValueDto>> GetFamilyValuesAsync(int familyId, CancellationToken ct)
         {
-            return _db.Set<ParameterValue>().AsNoTracking()
+            var list = await _db.Set<ParameterValue>().AsNoTracking()
                 .Where(v => v.ComponentFamilyId == familyId)
                 .Select(v => new ParameterValueDto(
                     v.ParameterDefinitionId,
@@ -47,8 +48,9 @@ namespace ElectronicMaps.Infrastructure.Persistence.Repositories.Queries.Paramet
                     v.IntValue,
                     v.Pins
                     ))
-                .ToListAsync(ct)
-                .ContinueWith(t => (IReadOnlyList<ParameterValueDto>)t.Result, ct);
+                .ToListAsync(ct);
+
+            return list;
         }
     }
 }
