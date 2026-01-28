@@ -111,8 +111,10 @@ namespace ElectronicMaps.Infrastructure.Persistence.Configuration
 
             b.Property(x => x.CreatedAt).IsRequired();
 
-            b.Property(x =>x.Version)
-                .IsRequired().HasDefaultValue(1);
+            b.Property(x => x.Version)
+                .IsRequired()
+                .HasDefaultValue(1)
+                .IsConcurrencyToken();
 
             b.HasIndex(x => x.VerificationStatus);
             b.HasIndex(x => x.Name);
@@ -150,12 +152,15 @@ namespace ElectronicMaps.Infrastructure.Persistence.Configuration
             b.Property(x => x.VerificationNote).HasMaxLength(500);
 
             b.Property(x => x.Version)
-                .IsRequired().HasDefaultValue(1);
+                .IsRequired()
+                .HasDefaultValue(1)
+                .IsConcurrencyToken();
+                
 
             b.HasOne<AppUser>()
-            .WithMany()
-            .HasForeignKey(x => x.VerifiedByUserId)
-            .OnDelete(DeleteBehavior.SetNull);
+                .WithMany()
+                .HasForeignKey(x => x.VerifiedByUserId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             // Индексы (без NormalizedName)
             b.HasIndex(x => x.ComponentFamilyId);       // быстро выводить компоненты семейства

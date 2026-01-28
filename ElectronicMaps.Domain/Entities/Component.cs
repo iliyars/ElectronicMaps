@@ -32,5 +32,31 @@ namespace ElectronicMaps.Domain.Entities
         public ICollection<ParameterValue> ParameterValues { get; set; } = new List<ParameterValue>();
 
 
+        public void MarkAsModified(int? userId = null)
+        {
+            UpdatedAt = DateTimeOffset.UtcNow;
+            UpdatedByUserId = userId;
+            Version++; // Инкремент версии при каждом изменении
+        }
+
+        public void Verify(int userId, string? note = null)
+        {
+            VerificationStatus = VerificationStatus.Verified;
+            VerifiedAt = DateTimeOffset.UtcNow;
+            VerifiedByUserId = userId;
+            VerificationNote = note;
+            MarkAsModified(userId);
+        }
+
+        public void Reject(int userId, string reason)
+        {
+            VerificationStatus = VerificationStatus.Rejected;
+            VerifiedAt = DateTimeOffset.UtcNow;
+            VerifiedByUserId = userId;
+            VerificationNote = reason;
+            MarkAsModified(userId);
+        }
+
+
     }
 }

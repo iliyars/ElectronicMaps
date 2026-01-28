@@ -331,6 +331,11 @@ namespace ElectronicMaps.Infrastructure.Persistence.Repositories.Commands
             ComponentFamily family,
             FormType formType)
         {
+            _logger.LogDebug(
+                "Создание компонента '{ComponentName}' в семействе Id={FamilyId}",
+                request.ComponentName,
+                family.Id);
+
             var component = new Component
             {
                 Name = request.ComponentName,
