@@ -12,6 +12,6 @@ namespace ElectronicMaps.Application.Abstractions.Persistence
            Func<CancellationToken, Task> action,
            CancellationToken ct);
 
-        Task SaveChangesAsync(CancellationToken ct);
+        Task<int> SaveChangesAsync(CancellationToken ct);
     }
 }
