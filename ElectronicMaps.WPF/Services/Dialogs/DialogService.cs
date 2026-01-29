@@ -265,7 +265,7 @@ namespace ElectronicMaps.WPF.Services.Dialogs
 
         }
 
-        
+
 
         #endregion
     }

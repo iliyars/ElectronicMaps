@@ -1,0 +1,130 @@
+{
+  "templateCode": "FORM_4",
+  "displayName": "Форма 4",
+  "fileName": "FORM_4.docx",
+  "hasRepeatingColumns": true,
+  "componentsPerTable": 4,
+  "columnOffset": 1,
+  "fieldMappings": [
+    {
+      "fieldCode": "ComponentName",
+      "displayName": "Наименование ЭРИ",
+      "row": 1,
+      "column": 1
+    },
+    {
+      "fieldCode": "ComponentDesignation",
+      "displayName": "Обозначение",
+      "row": 2,
+      "column": 1
+    },
+    {
+      "fieldCode": "Quantity",
+      "displayName": "Количество",
+      "row": 3,
+      "column": 1
+    },
+    {
+      "fieldCode": "InListTTZ",
+      "displayName": "Наличие в перечнях при утверждении ТТЗ",
+      "row": 4,
+      "column": 2
+    },
+    {
+      "fieldCode": "LastEditions",
+      "displayName": "Наличие в перечнх последних редакций",
+      "row": 5,
+      "column": 2
+    },
+    {
+      "fieldCode": "ResourceHours",
+      "displayName": "Показатель ресурса",
+      "row": 6,
+      "column": 6
+    },
+    {
+      "fieldCode": "LifeTimeYears",
+      "displayName": "Показатель срока службы",
+      "row": 7,
+      "column": 6
+    },
+    {
+      "fieldCode": "PreservationYearss",
+      "displayName": "Показатель сохраняемости",
+      "row": 8,
+      "column": 5
+    },
+    {
+      "fieldCode": "FrequencyRange",
+      "displayName": "Диапазон частот",
+      "row": 9,
+      "column": 6
+    },
+    {
+      "fieldCode": "SoundPressure",
+      "displayName": "Уровень звукового давления",
+      "row": 10,
+      "column": 6
+    },
+    {
+      "fieldCode": "LineAcceleration",
+      "displayName": "Линейное ускорение",
+      "row": 11,
+      "column": 5
+    },
+    {
+      "fieldCode": "LowPressure",
+      "displayName": "Пониженное давление окр. среды",
+      "row": 12,
+      "column": 6
+    },
+    {
+      "fieldCode": "HighPressure",
+      "displayName": "Повышенное давление окр. Среды",
+      "row": 13,
+      "column": 6
+    },
+    {
+      "fieldCode": "LowTemperature",
+      "displayName": "Пониженная предельная температура",
+      "row": 14,
+      "column": 6
+    },
+    {
+      "fieldCode": "HighTemperature",
+      "displayName": "Повышенная предельная температура",
+      "row": 15,
+      "column": 6
+    },
+    {
+      "fieldCode": "HumidityPercent",
+      "displayName": "Относительная влажность %",
+      "row": 16,
+      "column": 6
+    },
+    {
+      "fieldCode": "HumidityCelcius",
+      "displayName": "Относительная влажность °C",
+      "row": 17,
+      "column": 6
+    },
+    {
+      "fieldCode": "Dew",
+      "displayName": "Роса, иней",
+      "row": 18,
+      "column": 2
+    },
+    {
+      "fieldCode": "SpecialFactors",
+      "displayName": "Cтойкость к СВВФ",
+      "row": 19,
+      "column": 2
+    },
+    {
+      "fieldCode": "Remark",
+      "displayName": "Примечание",
+      "row": 20,
+      "column": 2
+    }
+  ]
+}

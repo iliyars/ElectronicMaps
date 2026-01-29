@@ -28,7 +28,6 @@ namespace ElectronicMaps.WPF.Features.Workspace.Components
       _viewModel = viewModel;
       DataContext = _viewModel;
 
-
       _viewModel.CloseAction = () =>
       {
         this.DialogResult = _viewModel.DialogResult;

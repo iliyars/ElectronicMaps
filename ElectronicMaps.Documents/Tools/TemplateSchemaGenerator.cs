@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ElectronicMaps.Documents.DI
+namespace ElectronicMaps.Documents.Tools
 {
-    public class ServiceCollectionExtentions
+    public class TemplateSchemaGenerator
     {
         
     }

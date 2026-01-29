@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ElectronicMaps.Documents.DI
+namespace ElectronicMaps.Documents.Abstractions
 {
-    public class ServiceCollectionExtentions
+    public interface ITemplateReader
     {
         
     }
