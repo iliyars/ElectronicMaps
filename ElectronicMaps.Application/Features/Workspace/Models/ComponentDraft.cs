@@ -11,7 +11,7 @@ namespace ElectronicMaps.Application.Features.Workspace.Models
         Component = 0,
         FamilyAgregate = 1,
         Undefined = 2,
-    }   
+    }
     public enum LocalFillStatus { Missing, Filled }
     public enum ApprovalStatus
     {
@@ -28,7 +28,6 @@ namespace ElectronicMaps.Application.Features.Workspace.Models
         Guid? ApprovedSetId,
         string? RejectReason = null
     );
-
 
     public record ComponentDraft(
     Guid Id,
@@ -59,6 +58,6 @@ namespace ElectronicMaps.Application.Features.Workspace.Models
 
     IReadOnlyDictionary<int, ParameterValueDraft> SchematicParameters,
     LocalFillStatus LocalFillStatus
-        );
+  );
 
 }
