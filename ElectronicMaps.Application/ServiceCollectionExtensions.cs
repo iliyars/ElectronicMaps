@@ -4,7 +4,6 @@ using ElectronicMaps.Application.Features.Import.Services;
 using ElectronicMaps.Application.Features.Workspace.Serialization;
 using ElectronicMaps.Application.Features.Workspace.Services;
 using ElectronicMaps.Application.Stores;
-using ElectronicMaps.Documents.DI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,8 +25,8 @@ namespace ElectronicMaps.Application
 
             // Services
             services.AddScoped<IComponentFormBatchService, ComponentFormBatchService>();
-            services.AddScoped<IFileImportService, FileImportService>(); 
-            services.AddScoped<IComponentAnalysisService, ComponentAnalysisService>(); 
+            services.AddScoped<IFileImportService, FileImportService>();
+            services.AddScoped<IComponentAnalysisService, ComponentAnalysisService>();
             services.AddScoped<IComponentCreationService, ComponentCreationService>();
             services.AddScoped<IComponentQueryService, ComponentQueryService>();
             services.AddScoped<IComponentFamilyQueryService, ComponentFamilyQueryService>();
@@ -44,8 +43,7 @@ namespace ElectronicMaps.Application
             // Project Management
             services.AddSingleton<IProjectSaveService, ProjectSaveService>();
 
-            //Documents
-            services.AddDocumentRendering(configuration);
+
 
             return services;
         }
