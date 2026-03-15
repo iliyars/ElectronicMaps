@@ -53,7 +53,7 @@ namespace ElectronicMaps.Application.Features.Workspace.Models
 
     IReadOnlyList<int> SelectedRemarksIds,
 
-    IReadOnlyDictionary<int, ParameterValueDraft> NdtParametersOverrides,   // локальный переобределения параметров по НДТ
+    IReadOnlyDictionary<int, ParameterValueDraft> NdtParametersOverrides,   // локальный переопределения параметров по НДТ
     ApprovalRef ApprovalRef,
 
     IReadOnlyDictionary<int, ParameterValueDraft> SchematicParameters,

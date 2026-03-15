@@ -65,6 +65,18 @@
                 Value="{DynamicResource AccentBrush}" />
     </Style>
 
+    <!-- Secondary Button Style -->
+    <Style x:Key="SecondaryButton"
+       TargetType="Button"
+       BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Background"
+            Value="Transparent" />
+        <Setter Property="Foreground"
+            Value="{DynamicResource TextPrimary}" />
+        <Setter Property="BorderBrush"
+            Value="{DynamicResource DataGridBorder}" />
+    </Style>
+
     <!-- Modern TextBox Style -->
     <Style TargetType="TextBox">
         <Setter Property="Background"

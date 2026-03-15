@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using ElectronicMaps.Application.Features.Workspace.Models;
 using ElectronicMaps.Application.Stores;
+using ElectronicMaps.WPF.Features.Workspace.Details;
 using ElectronicMaps.WPF.Features.Workspace.FormCards;
 using ElectronicMaps.WPF.Features.Workspace.GridRows;
 using ElectronicMaps.WPF.Infrastructure.ViewModels;
@@ -39,6 +40,11 @@ namespace ElectronicMaps.WPF.Features.Workspace
         /// </summary>
         public ObservableCollection<ImportedRowViewModel> ImportedComponents { get; } = new();
 
+        /// <summary>
+        /// ViewModel панель деталей. Привязывается в XAML на прямую.
+        /// </summary>
+        public DetailsViewModel Details { get; }
+
         [ObservableProperty]
         private bool isDetailsOpen;
 
@@ -57,16 +63,18 @@ namespace ElectronicMaps.WPF.Features.Workspace
                 return;
 
             RebuildItemCards();
-            //MessageBox.Show("OnSelectedViewKeyChanged");
         }
 
         public IRelayCommand<Guid> ToggleDetailsCommand { get; }
+
         public WorkspaceViewModel(
             IComponentStore componentStore,
-            ICardViewModelFactory cardViewModelFactory)
+            ICardViewModelFactory cardViewModelFactory,
+            DetailsViewModel detailsViewModel)
         {
             _componentStore = componentStore;
             _cardfactory = cardViewModelFactory;
+            Details = detailsViewModel ?? throw new ArgumentNullException(nameof(detailsViewModel));
 
             ToggleDetailsCommand = new RelayCommand<Guid>(ToggleDetails);
 
@@ -94,6 +102,9 @@ namespace ElectronicMaps.WPF.Features.Workspace
                 _componentStore.Changed -= OnStoreChanged;
                 _subscribed = false;
             }
+
+            Details.Clear();
+
             return Task.CompletedTask;
         }
 
@@ -105,6 +116,7 @@ namespace ElectronicMaps.WPF.Features.Workspace
                 OpenDetailsDraftId = null;
                 SelectedCard = null;
                 IsDetailsOpen = false;
+                Details.Clear();
             }
             else
             {
@@ -112,8 +124,15 @@ namespace ElectronicMaps.WPF.Features.Workspace
                 OpenDetailsDraftId = draftId;
                 SelectedCard = ItemCards.FirstOrDefault(c => c.Item.Id == draftId);
                 IsDetailsOpen = true;
+
+                // Загружаем детали — fire-and-forget, ошибки обрабатываются внутри LoadAsync
+                var draft = _componentStore.TryGetWorking(draftId);
+                if (draft != null)
+                {
+                    _ = Details.LoadAsync(draft);
+                }
             }
-            SyncDetailsState();
+                SyncDetailsState();
         }
 
         private void OnStoreChanged(object? sender, StoreChangedEventArgs e)
@@ -128,19 +147,28 @@ namespace ElectronicMaps.WPF.Features.Workspace
 
             switch (e.Kind)
             {
-                // Эти случаи проще пересобрать целиком (редко происходят)
                 case StoreChangeKind.ProjectLoaded:
                 case StoreChangeKind.WorkingInitialized:
                 case StoreChangeKind.WorkingReplaced:
                 case StoreChangeKind.ViewsRebuilt:
                     RebuildCards();
                     SyncDetailsState();
+                    // При полной пересборке — перезагружаем детали если панель открыта
+                    RefreshDetailsIfOpen();
                     break;
 
                 case StoreChangeKind.WorkingUpserted:
+                case StoreChangeKind.WorkingUpdated:
                     foreach (var id in e.DraftIds)
                         UpsertCard(id);
                     SyncDetailsState();
+                    // Обновляем детали если изменился открытый компонент
+                    if (OpenDetailsDraftId.HasValue && e.DraftIds.Contains(OpenDetailsDraftId.Value))
+                    {
+                        var draft = _componentStore.TryGetWorking(OpenDetailsDraftId.Value);
+                        if (draft != null)
+                            Details.RefreshFromDraft(draft);
+                    }
                     break;
 
                 case StoreChangeKind.WorkingRemoved:
@@ -157,6 +185,28 @@ namespace ElectronicMaps.WPF.Features.Workspace
             {
                 card.IsDetailsOpen = OpenDetailsDraftId.HasValue && card.Item.Id == OpenDetailsDraftId.Value;
             }
+        }
+        /// <summary>
+        /// Перезагружает панель деталей если она открыта.
+        /// Используется после полной пересборки карточек.
+        /// </summary>
+        private void RefreshDetailsIfOpen()
+        {
+            if (!OpenDetailsDraftId.HasValue) return;
+
+            var draft = _componentStore.TryGetWorking(OpenDetailsDraftId.Value);
+            if (draft == null)
+            {
+                // Компонент исчез после пересборки — закрываем панель
+                OpenDetailsDraftId = null;
+                SelectedCard = null;
+                IsDetailsOpen = false;
+                Details.Clear();
+                return;
+            }
+
+            // Перезагружаем с нуля (смена проекта / реимпорт)
+            _ = Details.LoadAsync(draft);
         }
 
         private void RebuildItemCards()
@@ -176,7 +226,7 @@ namespace ElectronicMaps.WPF.Features.Workspace
             var number = 1;
 
             foreach (var draft in drafts)
-                newCards.Add(_cardfactory.CreateCardViewModel(draft, number++));
+                newCards.Add(_cardfactory.CreateCardViewModel(draft, number++, ToggleDetailsCommand));
             vmSw.Stop();
 
             var collSw = Stopwatch.StartNew();
@@ -201,7 +251,7 @@ namespace ElectronicMaps.WPF.Features.Workspace
                 Debug.WriteLine($"[PERF] UI Render:  {uiSw.ElapsedMilliseconds}ms");
             }), DispatcherPriority.Background);
 
-            // Если была открыта панель деталей, но компонент исчез - закрываем
+            // Если открытый компонент исчез из текущего view — закрываем панель
             if (OpenDetailsDraftId.HasValue)
             {
                 var stillExists = ItemCards.Any(c => c.Item.Id == OpenDetailsDraftId.Value);
@@ -210,6 +260,7 @@ namespace ElectronicMaps.WPF.Features.Workspace
                     OpenDetailsDraftId = null;
                     SelectedCard = null;
                     IsDetailsOpen = false;
+                    Details.Clear();
                 }
             }
         }
@@ -258,7 +309,7 @@ namespace ElectronicMaps.WPF.Features.Workspace
 
             // Если карточки ещё нет — добавляем
             var number = ItemCards.Count + 1;
-            var newCard = _cardfactory.CreateCardViewModel(draft, number);
+            var newCard = _cardfactory.CreateCardViewModel(draft, number, ToggleDetailsCommand);
             ItemCards.Add(newCard);
         }
 
@@ -303,9 +354,7 @@ namespace ElectronicMaps.WPF.Features.Workspace
                 .ThenBy(k => k, StringComparer.OrdinalIgnoreCase);
 
             foreach (var key in ordered)
-            {
                 ViewOptions.Add(new ViewOption(key, ToTitle(key)));
-            }
 
             // Восстанавливаем выбор, если он ещё валиден
             if (!string.IsNullOrWhiteSpace(currentKey))

@@ -101,5 +101,14 @@ namespace ElectronicMaps.WPF.Features.Workspace.Parameters
             !string.IsNullOrWhiteSpace(StringValue)
             || DoubleValue.HasValue
             || IntValue.HasValue;
+
+        public void ClearValue()
+        {
+            StringValue = null;
+            DoubleValue = null;
+            IntValue = null;
+            Pins = null;
+
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ElectronicMaps.WPF.Features.Welcome;
 using ElectronicMaps.WPF.Features.Workspace;
 using ElectronicMaps.WPF.Features.Workspace.Components.ViewModels;
+using ElectronicMaps.WPF.Features.Workspace.Details;
 using ElectronicMaps.WPF.Infrastructure.Commands;
 using ElectronicMaps.WPF.Main;
 using ElectronicMaps.WPF.Services.Dialogs;
@@ -33,6 +34,7 @@ namespace ElectronicMaps.WPF
             services.AddTransient<WelcomeViewModel>();
             services.AddTransient<WorkspaceViewModel>();
             services.AddTransient<CreateComponentViewModel>();
+            services.AddTransient<DetailsViewModel>();
 
             return services; 
         }

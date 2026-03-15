@@ -29,11 +29,6 @@ namespace ElectronicMaps.WPF.Features.Workspace.FormCards
         /// </summary>
         public Guid Id => Item.Id;
 
-
-        public IAsyncRelayCommand FillCommand { get; } //TODO: Разобраться кгде должна быть эта команда
-
-
-        //TODO: form enum
         public bool IsFamilyForm => string.Equals(FormCode, "FORM_4", StringComparison.OrdinalIgnoreCase);
 
         /// <summary>
@@ -41,13 +36,33 @@ namespace ElectronicMaps.WPF.Features.Workspace.FormCards
         /// </summary>
         public abstract string CardType { get; }
 
+        /// <summary>
+        /// Команда открытия/закрытия панели деталей.
+        /// Передаётся из WorkspaceViewModel через фабрику.
+        /// </summary>
+        public IRelayCommand<Guid> ToggleDetailsCommand { get; }
 
-        protected CardViewModelBase(string formCode, string formName, int number, ComponentDraft item)
+
+        public IAsyncRelayCommand FillCommand { get; } //TODO: Разобраться кгде должна быть эта команда
+
+
+        //TODO: form enum
+
+
+
+
+        protected CardViewModelBase(
+            string formCode,
+            string formName,
+            int number,
+            ComponentDraft item,
+            IRelayCommand<Guid> toggleDetailsCommand)
         {
             FormCode = formCode ?? throw new ArgumentNullException(nameof(formCode));
             FormName = formName ?? throw new ArgumentNullException(nameof(formName));
             Number = number;
             Item = item;
+            ToggleDetailsCommand = toggleDetailsCommand ?? throw new ArgumentException(nameof(toggleDetailsCommand));
 
 
             //FillCommand = new AsyncRelayCommand(async () =>

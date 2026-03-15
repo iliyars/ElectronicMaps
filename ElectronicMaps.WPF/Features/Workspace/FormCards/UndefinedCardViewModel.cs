@@ -28,10 +28,11 @@ namespace ElectronicMaps.WPF.Features.Workspace.FormCards
             string formName,
             int number,
             ComponentDraft item,
+            IRelayCommand<Guid> toggleDetailsCommand,
             IDialogService dialogService,
             IViewModelFactory viewModelFactory,
             ILogger<UndefinedCardViewModel> logger)
-            : base(formCode, formName, number, item)
+            : base(formCode, formName, number, item, toggleDetailsCommand)
         {
             _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
             _viewModelFactory = viewModelFactory ?? throw new ArgumentNullException(nameof(viewModelFactory));

@@ -1,4 +1,5 @@
-﻿using ElectronicMaps.Application.Features.Workspace.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using ElectronicMaps.Application.Features.Workspace.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,8 +8,8 @@ namespace ElectronicMaps.WPF.Features.Workspace.FormCards
 {
     public partial class ComponentCardViewModel : CardViewModelBase
     {
-        public ComponentCardViewModel(string formCode, string formName, int number, ComponentDraft item)
-           : base(formCode, formName, number, item)
+        public ComponentCardViewModel(string formCode, string formName, int number, ComponentDraft item, IRelayCommand<Guid> toggleDetailsCommand)
+           : base(formCode, formName, number, item, toggleDetailsCommand)
         {
 
         }

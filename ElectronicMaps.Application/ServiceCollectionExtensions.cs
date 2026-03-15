@@ -30,6 +30,7 @@ namespace ElectronicMaps.Application
             services.AddScoped<IComponentCreationService, ComponentCreationService>();
             services.AddScoped<IComponentQueryService, ComponentQueryService>();
             services.AddScoped<IComponentFamilyQueryService, ComponentFamilyQueryService>();
+            services.AddTransient<IWorkspaceActions,  WorkspaceActions>();
 
             // Commands
 

@@ -1,6 +1,8 @@
-﻿using ElectronicMaps.Application.Features.Workspace.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using ElectronicMaps.Application.Features.Workspace.Models;
 using ElectronicMaps.WPF.Features.Workspace.FormCards;
 using ElectronicMaps.WPF.Services.Dialogs;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -22,7 +24,10 @@ namespace ElectronicMaps.WPF.Services.Factories
         /// <summary>
         /// Создать CardViewModel в зависимости от FormCode
         /// </summary>
-        public CardViewModelBase CreateCardViewModel(ComponentDraft draft, int number)
+        public CardViewModelBase CreateCardViewModel(
+            ComponentDraft draft,
+            int number,
+            IRelayCommand<Guid> toggleCommand)
         {
             // Определяем формат названия для всех форм
             var formTitle = GetFormTitle(draft.FormCode, draft.FormName);
@@ -34,7 +39,8 @@ namespace ElectronicMaps.WPF.Services.Factories
                     draft.FormCode,
                     formTitle,
                     number,
-                    draft);
+                    draft,
+                    toggleCommand);
             }
 
             // Неопределённая форма - с зависимостями
@@ -49,6 +55,7 @@ namespace ElectronicMaps.WPF.Services.Factories
                     formTitle,
                     number,
                     draft,
+                    toggleCommand,
                     dialogService,
                     viewModelFactory,
                     logger);
@@ -58,7 +65,8 @@ namespace ElectronicMaps.WPF.Services.Factories
                 draft.FormCode,
                 formTitle,
                 number,
-                draft);
+                draft,
+                toggleCommand);
         }
 
         /// <summary>
